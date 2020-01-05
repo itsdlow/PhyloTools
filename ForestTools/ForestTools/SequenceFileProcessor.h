@@ -26,7 +26,7 @@ namespace distanceMeasure
 
 
 		//helper functions
-		void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir) override;
+		void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
 
 	private:
 

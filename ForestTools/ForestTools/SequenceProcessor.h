@@ -29,7 +29,7 @@ namespace distanceMeasure
 		~SequenceProcessor() = default;
 
 		//helper functions
-		virtual void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir) = 0;
+		virtual void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) = 0;
 
 	private:
 

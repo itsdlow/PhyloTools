@@ -27,7 +27,8 @@ int main()
     std::string sequence_dir;
     std::string tree_sequences_list;
 
-    //receive relative path of directory for sequences to analyze
+    //receive relative path of file or directory of sequences to analyze
+        //TODO:: REASLISTICALLy --  Use absolute path of directory
     printf("Path to Sequences: ");
     std::cin >> sequence_dir;
 
@@ -44,7 +45,7 @@ int main()
   
     //intializes / prepares all file objects (sequences)
         //for generic distance measure method to work --> must supply distance calc (w/ normalize func!!!)
-    distanceMeasure::DistanceMatrixObject dmo(sequence_dir, sequenceCount, new distanceMeasure::PValueDistanceCalculator());
+    distanceMeasure::DistanceMatrixObject dmo(sequence_dir, distanceMeasure::SequenceProcessorType::FileProcessor, sequenceCount, new distanceMeasure::PValueDistanceCalculator());
     
     /******************************************/
     printf("Path to Sequence List File: ");

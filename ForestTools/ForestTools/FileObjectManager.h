@@ -1,3 +1,9 @@
+/******************************************************************************
+DeAngelo Wilson
+January 3 2020*
+
+						FileObjectManager
+******************************************************************************/
 
 
 #ifndef _FileObjectManager
@@ -5,6 +11,7 @@
 
 	//#include "SequenceProcessor.h"
 	#include <string>
+	#include "SequenceProcessorType.h"
 
 	namespace distanceMeasure
 	{
@@ -23,10 +30,10 @@
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
-			FileObjectManager(int fileCount, std::string path);
+			FileObjectManager(int fileCount, std::string path, SequenceProcessorType path_type);
 
 			//helper functions
-			void fillFileObjectsBuffer(std::string path);
+			//void fillFileObjectsBuffer(std::string path);
 
 			//accessor functions
 			const FileObject* getFileObjectsAddr() const;
@@ -44,8 +51,8 @@
 
 			//input and output files
 
-			//object that interacts with windows directory
-			//SequenceProcessor* sp;
+			//object that interacts with windows directory || given file -- of sequences
+			SequenceProcessor* sp;
 		};
 
 	}

@@ -1,3 +1,9 @@
+/******************************************************************************
+DeAngelo Wilson
+January 3 2020*
+
+						SequenceDirectoryProcessor (main)
+******************************************************************************/
 
 
 #include <windows.h>
@@ -10,7 +16,7 @@ namespace distanceMeasure
 {
 
 
-	void SequenceDirectoryProcessor::CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir)
+	void SequenceDirectoryProcessor::CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount)
 	{
 		//windows.h get path_directory files impl
 		WIN32_FIND_DATAA data2;
@@ -25,9 +31,10 @@ namespace distanceMeasure
 	    if (hFind != INVALID_HANDLE_VALUE) 
 	    {
 			FindNextFileA( hFind, &data2 );//ignore second entry -- reference to parent dir ("..")
-			
+
+			int count = 0;
 			//PREVENT ERROR --> Only go fileCount number files************
-			while( FindNextFileA( hFind, &data2) )
+			while( FindNextFileA( hFind, &data2) && count < sequenceCount )
 			{
 				printf("%s\n", data2.cFileName);			
 				std::string fileNameWithExtension = std::string(data2.cFileName);
@@ -42,6 +49,7 @@ namespace distanceMeasure
 				filePath.append(fileNameWithExtension);
 				//place new fileObject into buffer
 				FileObject* tmp = new(pCurrentFileObject++) FileObject(filePath, fileName);
+				count++;
 			}
 	        FindClose( hFind );
 	    }

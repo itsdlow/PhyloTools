@@ -21,12 +21,13 @@ namespace distanceMeasure
 
 	DistanceMatrixObject::~DistanceMatrixObject()
 	{
-		//do nothing
 		this->writeResults();
+		
+		delete this->distanceMeasureFunc;
 	}
 
-	DistanceMatrixObject::DistanceMatrixObject(std::string dir, int sequenceCount, DistanceMeasureCalculator* dmc):
-	fileObjectManager(sequenceCount, dir),
+	DistanceMatrixObject::DistanceMatrixObject(std::string dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc):
+	fileObjectManager(sequenceCount, dir, dir_type),
 	results(std::to_string(sequenceCount).append("\n")),
 	distanceMeasureFunc(dmc)
 	{

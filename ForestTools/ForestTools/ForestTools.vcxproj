@@ -171,6 +171,7 @@
     <ClInclude Include="SequenceDirectoryProcessor.h" />
     <ClInclude Include="SequenceFileProcessor.h" />
     <ClInclude Include="SequenceProcessor.h" />
+    <ClInclude Include="SequenceProcessorType.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

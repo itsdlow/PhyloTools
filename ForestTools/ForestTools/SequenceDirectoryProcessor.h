@@ -1,8 +1,8 @@
 /******************************************************************************
 DeAngelo Wilson
-January 3 2020
+January 3 2020*
 
-						SequenceDirectoryProcessor (strategy -- derived)
+						SequenceDirectoryProcessor
 ******************************************************************************/
 
 #ifndef _SequenceDirectoryProcessor
@@ -24,7 +24,7 @@ namespace distanceMeasure
 		~SequenceDirectoryProcessor() = default;
 
 		//helper functions
-		void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir) override;
+		void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
 
 		//accessor functions
 

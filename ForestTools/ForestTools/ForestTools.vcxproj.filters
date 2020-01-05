@@ -95,5 +95,8 @@
     <ClInclude Include="LcsDistanceCalculator.h">
       <Filter>Source Files\DistanceCalculator</Filter>
     </ClInclude>
+    <ClInclude Include="SequenceProcessorType.h">
+      <Filter>Source Files\Matrix</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

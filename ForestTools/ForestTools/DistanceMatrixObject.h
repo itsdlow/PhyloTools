@@ -24,11 +24,6 @@ January 3 2020*
 
 namespace distanceMeasure
 {
-	//enum to determine processing strategy -- 
-		//File Processing -- all sequences within the 1, given file
-		//Directory Processing -- all sequences ins seperate files within the same, given directory
-	enum class SequenceProcessorType { FileProcessor, DirectoryProcessor};
-
 	//typedef std::function<float (const FileObject& file1, const FileObject& file2)> DistanceMeasureCalculator;
 
 	class DistanceMatrixObject
@@ -44,7 +39,7 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(std::string dir, int sequenceCount, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(std::string dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc);
 		
 		//helper functions
 			//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
