@@ -6,23 +6,29 @@ January 3 2020*
 ******************************************************************************/
 
 
-#include <windows.h>
+#include "SequenceDirectoryProcessor.h"
 
 #include "FileObject.h"
+#include "FileObjectManager.h"
 
-#include "SequenceDirectoryProcessor.h"
+#include <windows.h>
+#include <fstream>
+
 
 namespace distanceMeasure
 {
 
 
-	void SequenceDirectoryProcessor::CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount)
+	void SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//windows.h get path_directory files impl
 		WIN32_FIND_DATAA data2;
 		HANDLE hFind;
 
-		std::string dirPath = std::string(dir);
+		FileObject* pCurrentFileObject = pFileObjectsBuffer;
+
+		const int sequenceCount = pFOM->getFileCount();
+		std::string dirPath = pFOM->GetPathToSequences();
 		//get all files in dir
 		dirPath.append("\\*");
 		hFind = FindFirstFileA(dirPath.c_str(), &data2);//ignore first entry -- reference to self dir (".")
@@ -33,7 +39,7 @@ namespace distanceMeasure
 			FindNextFileA( hFind, &data2 );//ignore second entry -- reference to parent dir ("..")
 
 			int count = 0;
-			//PREVENT ERROR --> Only go fileCount number files************
+			//While -- more files in directory + fileObjects created < sequenceCount
 			while( FindNextFileA( hFind, &data2) && count < sequenceCount )
 			{
 				printf("%s\n", data2.cFileName);			
@@ -44,11 +50,15 @@ namespace distanceMeasure
 				std::string fileName = fileNameWithExtension.substr(0, extIndex);
 
 				//create string -- full path of FileObject, file
-				std::string filePath = std::string(dir);
+				std::string filePath = pFOM->GetPathToSequences();
 				filePath.append("\\");
 				filePath.append(fileNameWithExtension);
+
+
+				
+
 				//place new fileObject into buffer
-				FileObject* tmp = new(pCurrentFileObject++) FileObject(filePath, fileName);
+				FileObject* tmp = new(pCurrentFileObject++) FileObject(this->GetFileSequence(filePath), fileName);
 				count++;
 			}
 	        FindClose( hFind );
@@ -60,4 +70,20 @@ namespace distanceMeasure
 		//***UNDER 1 second to create FILE OBJECTS < ~.008s***
 	}
 
+
+	const std::string SequenceDirectoryProcessor::GetFileSequence(const std::string& filepath)
+	{
+		//open file
+		std::ifstream fastaInput(filepath);
+
+		if (!fastaInput.is_open())
+		{
+			printf("File at path: %s - could not be opened\nFile Objects not to be created\n", filepath.c_str());
+		}
+		else
+		{
+			//read file and return sequence string
+		}
+		return std::string();
+	}
 }

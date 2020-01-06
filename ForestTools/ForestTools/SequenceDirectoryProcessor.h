@@ -24,13 +24,14 @@ namespace distanceMeasure
 		~SequenceDirectoryProcessor() = default;
 
 		//helper functions
-		void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
+		//void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
+		void CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pCurrentFileObject) override;
 
 		//accessor functions
 
 
 	private:
-
+		const std::string GetFileSequence(const std::string& filepath);
 
 	};
 }

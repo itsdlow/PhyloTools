@@ -21,7 +21,7 @@ namespace distanceMeasure
 		~DistanceMeasureCalculator() = default;
 
 		virtual float operator()(const FileObject& file1, const FileObject& file2) const = 0;
-		virtual float normalize(int differenceCount, long sequencesize) const = 0;
+		virtual float normalize(int differenceCount, int sequencesize) const = 0;
 
 	private:
 

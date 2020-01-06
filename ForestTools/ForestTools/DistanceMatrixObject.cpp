@@ -26,22 +26,27 @@ namespace distanceMeasure
 		delete this->distanceMeasureFunc;
 	}
 
-	DistanceMatrixObject::DistanceMatrixObject(std::string dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc):
-	fileObjectManager(sequenceCount, dir, dir_type),
+	DistanceMatrixObject::DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc):
+	fileObjectManager(sequenceCount, sequence_names_dir, sequences_dir, dir_type),
 	results(std::to_string(sequenceCount).append("\n")),
 	distanceMeasureFunc(dmc)
 	{
+		//open output files ***************************************************************moved to func
 		fopen_s(&this->pResults, "output.txt", "w");
 		fopen_s(&this->pQuartetResults, "quartets.txt", "w");
 		//this->pResults = fopen("output.txt", "w");
 		//this->pQuartetResults = fopen("quartets.txt", "w");
 
+
+		size_t un_sequenceCount = sequenceCount;
+		size_t matrix_res = un_sequenceCount * un_sequenceCount;
+		size_t results_res = matrix_res * 4u;
 		//RESERVE "results (string)" SPACE BASED ON NUMBER OF SEQUENCES AND "MAX_LINE_SIZE"
 			//reserve space for sequenceCount (4-digit) floats and sequenceCount lines
-		results.reserve(sequenceCount*(sequenceCount*4));
+		results.reserve(results_res);
 		//reserve room for sequenceCount choose 4 distance Matrixes
 		//quartetResults.reserve(sequenceCount);
-		lamdaMatrix.reserve(sequenceCount*sequenceCount);
+		lamdaMatrix.reserve(matrix_res);
 		printf("dmo constructed\n");
 	}
 
@@ -146,7 +151,7 @@ namespace distanceMeasure
 		for (int row = 0; row < quartetSize; row++)
 		{
 			//taxon name of current fileObject
-			this->quartetResults.append(pFileObjects[indexV.at(row)].fileName);
+			this->quartetResults.append(pFileObjects[indexV.at(row)].GetFileName());
 			//distance measures
 			this->quartetResults.append(" ");
 			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(this->getArrayIndex(indexV.at(row), i, fileCount))));
@@ -185,7 +190,7 @@ namespace distanceMeasure
 
 		for (int i = 0; i < fileCount; i++)
 		{
-			this->results.append(pCurrentFileObject->fileName);
+			this->results.append(pCurrentFileObject->GetFileName());
 			
 			for (int j = 0; j < fileCount; j++)
 			{
@@ -264,7 +269,7 @@ namespace distanceMeasure
 		return -1;
 	}
 
-	inline long DistanceMatrixObject::maxSequenceLength(long sequencesize1, long sequencesize2) const
+	inline int DistanceMatrixObject::maxSequenceLength(int sequencesize1, int sequencesize2) const
 	{
 		return sequencesize1 > sequencesize2 ? sequencesize1 : sequencesize2;
 	}

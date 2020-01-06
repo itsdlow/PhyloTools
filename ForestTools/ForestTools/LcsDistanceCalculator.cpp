@@ -11,8 +11,8 @@ namespace distanceMeasure
 	float LcsDistanceCalculator::operator()(const FileObject& file1, const FileObject& file2) const
 	{
 
-		const int m = file1.sequencesize;
-		const int n = file2.sequencesize;
+		const int m = file1.GetSequenceSize();
+		const int n = file2.GetSequenceSize();
 		const int totalsize = m * n;
 
 		/*
@@ -45,16 +45,18 @@ namespace distanceMeasure
 		*/
 
 
-		int* c = new int[totalsize];
+		int* c = new int[totalsize] {0};
 
-		for (int i = 0; i < totalsize; i += n)
-		{
-			c[i] = 0;
-		}
-		for (int j = 0; j < n; j++)
-		{
-			c[j] = 0;
-		}
+		//**************     NEEDED????????????       **********
+		//for (int i = 0; i < totalsize; i += n)
+		//{
+		//	c[i] = 0;
+		//}
+		//for (int j = 0; j < n; j++)
+		//{
+		//	c[j] = 0;
+		//}
+		
 		//~.04 seconds to initalize values to 0
 		for (int i = 1; i < m; i++)
 		{
@@ -62,7 +64,7 @@ namespace distanceMeasure
 			{
 				// buffer[i-1] "-1" to account for Epsilon
 				//if char at index is
-				if (file1.sequenceBuffer[i - 1] == file2.sequenceBuffer[j - 1])
+				if (file1.GetSequenceCharAt(i - 1) == file2.GetSequenceCharAt(j - 1))
 				{
 					c[getArrayIndex(i, j, n)] = c[getArrayIndex(i - 1, j - 1, n)] + 1;
 				}
@@ -81,7 +83,7 @@ namespace distanceMeasure
 		//int* resAddr = &c[getArrayIndex(m - 1, n - 1, n)];
 		delete[] c;
 		//return last index of array
-		return normalize(result, maxSequenceLength(file1.sequencesize, file2.sequencesize));
+		return normalize(result, maxSequenceLength(file1.GetSequenceSize(), file2.GetSequenceSize()));
 
 	}
 
@@ -90,7 +92,7 @@ namespace distanceMeasure
 		return (i * n) + j;
 	}
 
-	float LcsDistanceCalculator::normalize(int lcs, long maxSequenceSize) const
+	float LcsDistanceCalculator::normalize(int lcs, int maxSequenceSize) const
 	{
 
 		//cheaty + 1 to set LCS to correct value???**************LCS CALC OFF BY 1********
@@ -101,9 +103,65 @@ namespace distanceMeasure
 		return normalizedDistance;
 	}
 
-	long LcsDistanceCalculator::maxSequenceLength(long sequencesize1, long sequencesize2) const
+	int LcsDistanceCalculator::maxSequenceLength(int sequencesize1, int sequencesize2) const
 	{
 		return sequencesize1 > sequencesize2 ? sequencesize1 : sequencesize2;
 	}
 
 }
+
+
+//TODO::: FIX/UPDATE/REFACTOR LCS CODE********************************************************************************
+/*
+int lcs( char *X, char *Y, int m, int n )  
+{  
+    int L[m + 1][n + 1];  
+    int i, j;  
+      
+     //Following steps build L[m+1][n+1] in  
+     //  bottom up fashion. Note that L[i][j]  
+     //  contains length of LCS of X[0..i-1] 
+     //  and Y[0..j-1] 
+    for (i = 0; i <= m; i++)  
+    {  
+        for (j = 0; j <= n; j++)  
+        {  
+        if (i == 0 || j == 0)  
+            L[i][j] = 0;  
+      
+        else if (X[i - 1] == Y[j - 1])  
+            L[i][j] = L[i - 1][j - 1] + 1;  
+      
+        else
+            L[i][j] = max(L[i - 1][j], L[i][j - 1]);  
+        }  
+    }  
+          
+    // L[m][n] contains length of LCS  
+   // for X[0..n-1] and Y[0..m-1] 
+    return L[m][n];  
+}  
+  
+//Utility function to get max of 2 integers 
+int max(int a, int b)  
+{  
+    return (a > b)? a : b;  
+}  
+  
+// Driver Code 
+int main()  
+{  
+    char X[] = "AGGTAB";  
+    char Y[] = "GXTXAYB";  
+      
+    int m = strlen(X);  
+    int n = strlen(Y);  
+      
+    cout << "Length of LCS is " 
+         << lcs( X, Y, m, n );  
+      
+    return 0;  
+}  
+
+
+*/

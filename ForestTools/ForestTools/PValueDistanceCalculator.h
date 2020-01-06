@@ -21,7 +21,7 @@ namespace distanceMeasure
 		~PValueDistanceCalculator() = default;
 
 		float operator()(const FileObject& file1, const FileObject& file2) const override;
-		float normalize(int differenceCount, long sequencesize) const override;
+		float normalize(int differenceCount, int sequencesize) const override;
 
 	private:
 

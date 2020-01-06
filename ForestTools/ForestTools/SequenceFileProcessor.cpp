@@ -9,6 +9,7 @@ January 3 2020*
 #include "SequenceFileProcessor.h"
 
 #include "FileObject.h"
+#include "FileObjectManager.h"
 
 #include <fstream>
 
@@ -16,23 +17,24 @@ namespace distanceMeasure
 {
 
 	//given a single Fasta File as input -- containing "fileCount" many sequences
-	void SequenceFileProcessor::CreateFileObjects(FileObject* pFileObjectsBuffer, const std::string& path, const int sequenceCount)
+	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//open file
 		//read line 1 --> get file name
 		//read line 2 pass sequence (line) to FileObject()
 
 		//open file
-		std::ifstream fastaInput(path);
+		std::ifstream fastaInput(pFOM->GetPathToSequences());
 
 		if (!fastaInput.is_open())
 		{
-			printf("File at path: %s - could not be opened\nFile Object not created\n", path.c_str());
+			printf("File at path: %s - could not be opened\nFile Objects not to be created\n", pFOM->GetPathToSequences().c_str());
 		}
 		else
 		{
 			//start = 4 end = 22/23
 			// Allivibrio fischeri 
+			const int sequenceCount = pFOM->getFileCount();
 
 			int count = 0;
 			//read file
@@ -43,20 +45,20 @@ namespace distanceMeasure
 				//get filename (species name) MUST BE 2 WORDS TO BE SET PROPERLY
 					//1st whitespace -- 3rd
 				//start of species name
-				int species_start_index = line.find_first_of(" ", 0) + 1;
+				size_t species_start_index = line.find_first_of(" ", 0u) + 1u;
 				//printf("start:: %d\n", species_start_index);
 
 				//middle of species name (space index)
-				int species_mid_index = line.find_first_of(" ", species_start_index);
+				size_t species_mid_index = line.find_first_of(" ", species_start_index);
 				//printf("mid:: %d\n", species_mid_index);
 
 				//index of last letter of species name
-				int species_end_index = line.find_first_of(" ", species_mid_index + 1) - 1;
+				size_t species_end_index = line.find_first_of(" ", species_mid_index + 1u) - 1u;
 				//printf("end:: %d\n", species_end_index);
 
 
 
-				std::string speciesName = line.substr(species_start_index, species_mid_index - species_start_index) + "_" + line.substr(species_mid_index + 1, species_end_index - species_mid_index);
+				std::string speciesName = line.substr(species_start_index, species_mid_index - species_start_index) + "_" + line.substr(species_mid_index + 1u, species_end_index - species_mid_index);
 
 				/*************************************************/
 				//HARD CODE RETRIEVAL OF 3rd word (seperated by space) FOR..
@@ -64,12 +66,12 @@ namespace distanceMeasure
 				//Ovis_orientalis_ophion
 
 				//if sepecies is either ^^ --> retrieve 3rd word_name
-				if (speciesName.substr(0, 3) == "Ovi" || speciesName.substr(0, 3) == "Eul")
+				if (speciesName.substr(0u, 3u) == "Ovi" || speciesName.substr(0u, 3u) == "Eul")
 				{
-					int third_word_start = species_end_index + 2;
+					size_t third_word_start = species_end_index + 2u;
 					//get 3rd spaced word and append
-					int species_end_end_index = line.find_first_of(" ", third_word_start) - 1;
-					speciesName += ("_" + line.substr(third_word_start, species_end_end_index - (species_end_index + 1)));
+					size_t species_end_end_index = line.find_first_of(" ", third_word_start) - 1u;
+					speciesName += ("_" + line.substr(third_word_start, species_end_end_index - (species_end_index + 1u)));
 				}
 				/*************************************************/
 

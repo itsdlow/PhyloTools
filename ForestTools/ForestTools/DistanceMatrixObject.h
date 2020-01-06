@@ -39,7 +39,7 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(std::string dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc);
 		
 		//helper functions
 			//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
@@ -83,7 +83,7 @@ namespace distanceMeasure
 				//sets miinPairwiseSum to min
 		int fourPointConditionCheck(float sum1, float sum2, float sum3, float& minPairwiseSum) const;
 
-		inline long maxSequenceLength(long sequencesize1, long sequencesize2) const;
+		inline int maxSequenceLength(int sequencesize1, int sequencesize2) const;
 		inline const int getArrayIndex(int row, int col, int rowCount) const;
 		inline void writeQuartetMatrix(int i, int j, int k, int l);
 	};

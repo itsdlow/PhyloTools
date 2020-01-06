@@ -15,6 +15,7 @@ January 3 2020
 
 
 #include <fstream>
+#include <iostream>
 
 namespace distanceMeasure
 { 
@@ -31,12 +32,13 @@ namespace distanceMeasure
 
 
 
-	FileObjectManager::FileObjectManager(int sequenceCount, std::string path, SequenceProcessorType path_type):
+	FileObjectManager::FileObjectManager(int sequenceCount, std::string sequence_names_path, std::string path, SequenceProcessorType path_type):
 	fileCount(sequenceCount),
 	pFileObjectsBuffer(new FileObject[sequenceCount]),
-	sp(nullptr)
+	sp(nullptr),
+	sequencesPath(path)
 	{
-		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
+		
 		switch (path_type)
 		{
 			case SequenceProcessorType::FileProcessor:
@@ -46,12 +48,72 @@ namespace distanceMeasure
 				this->sp = new SequenceDirectoryProcessor();
 				break;
 		}
+		//get all sequence names
+		this->FillSequenceNamesVector(sequence_names_path);
+
+		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
 		//creates Sequence_File_Objects and fills array
-		this->sp->CreateFileObjects(this->pFileObjectsBuffer, path, this->fileCount);
+		//this->sp->CreateFileObjects(this->pFileObjectsBuffer, path, this->fileCount);
+		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
 
 
 		//this->fillFileObjectsBuffer(path);
 	}
+
+	void FileObjectManager::FillSequenceNamesVector(const std::string& sequence_names_path)
+	{
+		//open names file
+		std::ifstream sequenceNamesInput(sequence_names_path);
+
+		if (!sequenceNamesInput.is_open())
+		{
+			printf("File at path: %s - could not be opened\nSequence names could not be retrieved\n", sequence_names_path.c_str());
+			int res;
+			printf("If you would like to try the default Sequence Name retrieval type: '0'\n");
+			std::cin >> res;
+			//use default streagy...
+			if (!res)
+			{
+				printf("default name retrieval inactive... WIP\n");
+			}
+		}
+		//fill sequenceNames vector with file names
+		else
+		{
+			int count = 0;
+			//read file
+			std::string line;
+			FileObject* pCurrentFileObject = this->pFileObjectsBuffer;
+			while (std::getline(sequenceNamesInput, line) && count < this->fileCount)
+			{
+				//replace "space" with "_"
+					// Get the first occurrence
+				size_t pos = line.find(" ");
+
+				// Repeat till end is reached
+				while (pos != std::string::npos)
+				{
+					// replace "pos" with "_"
+					line.replace(pos, 1u, "_");
+
+					// Get the next occurrence from the current position
+					pos = line.find(" ", pos + 1u);
+				}
+
+				//add name ("line") to vector
+				this->sequenceNames.push_back(line);
+			}
+		}
+	}
+
+
+	const std::string distanceMeasure::FileObjectManager::CheckForSequenceName(const std::string& line) const
+	{
+		//check if any given sequence names are within "line" -- return one_word_name
+
+		return std::string();
+	}
+
 
 	////given a single Fasta File as input -- containing "fileCount" many sequences
 	//void distanceMeasure::FileObjectManager::fillFileObjectsBuffer(std::string path)
@@ -61,9 +123,9 @@ namespace distanceMeasure
 	//	//read line 2 pass sequence (line) to FileObject()
 
 	//	//open file
-	//	std::ifstream fastaInput(path);
+	//	std::ifstream sequenceNamesInput(path);
 
-	//	if (!fastaInput.is_open())
+	//	if (!sequenceNamesInput.is_open())
 	//	{
 	//		printf("File at path: %s - could not be opened\nFile Object not created\n", path.c_str());
 	//	}
@@ -76,7 +138,7 @@ namespace distanceMeasure
 	//		//read file
 	//		std::string line;
 	//		FileObject* pCurrentFileObject = this->pFileObjectsBuffer;
-	//		while (std::getline(fastaInput, line) && count < this->fileCount)
+	//		while (std::getline(sequenceNamesInput, line) && count < this->fileCount)
 	//		{
 	//			//get filename (species name) MUST BE 2 WORDS TO BE SET PROPERLY
 	//				//1st whitespace -- 3rd
@@ -114,7 +176,7 @@ namespace distanceMeasure
 	//			printf("SpeciesName::%s-\n",speciesName.c_str());
 	//			
 	//			//get sequence (line 2)
-	//			std::getline(fastaInput, line);
+	//			std::getline(sequenceNamesInput, line);
 	//			//create file object with file name and sequence string
 	//			FileObject* tmp = new(pCurrentFileObject++) FileObject(line, speciesName);
 	//			printf("created FileObject\n");
@@ -125,7 +187,7 @@ namespace distanceMeasure
 
 	//		}
 	//		printf("finsihed processing file\n");
-	//		fastaInput.close();
+	//		sequenceNamesInput.close();
 	//	}
 
 	//}
@@ -139,7 +201,10 @@ namespace distanceMeasure
 	{
 		return this->fileCount;
 	}
-
+	const std::string distanceMeasure::FileObjectManager::GetPathToSequences() const
+	{
+		return this->sequencesPath;
+	}
 
 	FileObjectManager::~FileObjectManager()
 	{

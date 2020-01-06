@@ -8,8 +8,8 @@ namespace distanceMeasure
 	float PValueDistanceCalculator::operator()(const FileObject& file1, const FileObject& file2) const
 	{
 		//assumes aligned sequences
-		const int m = file1.sequencesize;
-		const int n = file2.sequencesize;
+		const int m = file1.GetSequenceSize();
+		const int n = file2.GetSequenceSize();
 		if (m != n)
 		{
 			return 0;
@@ -20,7 +20,7 @@ namespace distanceMeasure
 		for (int i = 0; i < m; i++)
 		{
 			//compare sequences[i] --
-			if (file1.sequenceBuffer[i] != file2.sequenceBuffer[i])
+			if (file1.GetSequenceCharAt(i) != file2.GetSequenceCharAt(i))
 			{
 				differenceCount++;
 			}
@@ -32,7 +32,7 @@ namespace distanceMeasure
 		return this->normalize(differenceCount, m);
 	}
 
-	float PValueDistanceCalculator::normalize(int differenceCount, long sequencesize) const
+	float PValueDistanceCalculator::normalize(int differenceCount, int sequencesize) const
 	{
 		return static_cast<float>(differenceCount) / sequencesize;
 	}

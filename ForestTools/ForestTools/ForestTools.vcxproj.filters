@@ -13,14 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Matrix">
+    <Filter Include="Source Files\To-Matrix">
       <UniqueIdentifier>{2e8f3bdc-a115-47e8-a782-8605b291417d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Tree">
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator">
+      <UniqueIdentifier>{8657bd5e-f55e-4aaf-9eba-f40c27a8971e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree-Analysis">
       <UniqueIdentifier>{5153b0bc-e722-4905-941a-e9117fb02593}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\DistanceCalculator">
-      <UniqueIdentifier>{8657bd5e-f55e-4aaf-9eba-f40c27a8971e}</UniqueIdentifier>
+    <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing">
+      <UniqueIdentifier>{4b4a6321-059d-42b4-b495-4530573764d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,75 +31,75 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClCompile>
     <ClCompile Include="PhyloTools.cpp">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClCompile>
     <ClCompile Include="PhyloAnalysis.cpp">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClCompile>
     <ClCompile Include="DistanceMatrixObject.cpp">
-      <Filter>Source Files\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="FileObject.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\To-Matrix</Filter>
     </ClCompile>
     <ClCompile Include="FileObjectManager.cpp">
-      <Filter>Source Files\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="SequenceDirectoryProcessor.cpp">
-      <Filter>Source Files\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="SequenceFileProcessor.cpp">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\To-Matrix</Filter>
     </ClCompile>
     <ClCompile Include="PValueDistanceCalculator.cpp">
-      <Filter>Source Files\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
     </ClCompile>
     <ClCompile Include="LcsDistanceCalculator.cpp">
-      <Filter>Source Files\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceFileProcessor.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceDirectoryProcessor.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="FileObject.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClInclude>
     <ClInclude Include="PhyloTools.h">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClInclude>
     <ClInclude Include="PhyloAnalysis.h">
-      <Filter>Source Files\Tree</Filter>
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClInclude>
     <ClInclude Include="DistanceMatrixObject.h">
-      <Filter>Source Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="FileObject.h">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\To-Matrix</Filter>
     </ClInclude>
     <ClInclude Include="FileObjectManager.h">
-      <Filter>Source Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="SequenceDirectoryProcessor.h">
-      <Filter>Source Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="SequenceFileProcessor.h">
-      <Filter>Source Files\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="SequenceProcessor.h">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\To-Matrix</Filter>
     </ClInclude>
     <ClInclude Include="DistanceMeasureCalculator.h">
-      <Filter>Source Files\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
     </ClInclude>
     <ClInclude Include="PValueDistanceCalculator.h">
-      <Filter>Source Files\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
     </ClInclude>
     <ClInclude Include="LcsDistanceCalculator.h">
-      <Filter>Source Files\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
     </ClInclude>
     <ClInclude Include="SequenceProcessorType.h">
-      <Filter>Source Files\Matrix</Filter>
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceProcessor.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceFileProcessor.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceDirectoryProcessor.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="FileObject.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,9 +9,10 @@ January 3 2020*
 #ifndef _FileObjectManager
 #define _FileObjectManager
 
-	//#include "SequenceProcessor.h"
-	#include <string>
 	#include "SequenceProcessorType.h"
+
+	#include <string>
+	#include <vector>
 
 	namespace distanceMeasure
 	{
@@ -30,7 +31,7 @@ January 3 2020*
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
-			FileObjectManager(int fileCount, std::string path, SequenceProcessorType path_type);
+			FileObjectManager(int fileCount, std::string sequence_names_path, std::string path, SequenceProcessorType path_type);
 
 			//helper functions
 			//void fillFileObjectsBuffer(std::string path);
@@ -38,21 +39,23 @@ January 3 2020*
 			//accessor functions
 			const FileObject* getFileObjectsAddr() const;
 			const int getFileCount() const;
+			const std::string GetPathToSequences() const;
 
-
+		
+			const std::string CheckForSequenceName(const std::string& line) const;
 		private:
 			const int fileCount;
-			//const????
 			FileObject* const pFileObjectsBuffer;
-
-			//buffer to write into output file
-			//std::string results;
-			//char* results;
-
-			//input and output files
 
 			//object that interacts with windows directory || given file -- of sequences
 			SequenceProcessor* sp;
+
+			//path to sequence file/directory
+			std::string sequencesPath;
+			std::vector<std::string> sequenceNames;
+
+			//private helpers
+			void FillSequenceNamesVector(const std::string& sequence_names_path);
 		};
 
 	}

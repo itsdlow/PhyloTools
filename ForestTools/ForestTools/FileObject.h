@@ -24,22 +24,26 @@ namespace distanceMeasure
 
 		~FileObject();
 
-		void readArgumentFile();
-		void readSequencesFile();
-	//REDEFINE AS PRIVATE???
-	//private:
+		const std::string GetFileName() const;
+		const int GetSequenceSize() const;
+		const std::string GetSequenceString() const;
+		const char GetSequenceCharAt(const int pos) const;
 
-		std::string filePath;
+		//void readArgumentFile();
+		//void readSequencesFile();
+	private:
+		int sequencesize;
+
+		//std::string filePath;
 		std::string fileName;
 		
-		//std::string sequenceString;
-		long sequencesize;
+		std::string sequenceString;
 
-		char* line;
+		//char* line;
 
 		//pointing to same memory block
-		char* fileBufferAddr;
-		char* sequenceBuffer;
+		//char* fileBufferAddr;
+		//char* sequenceBuffer;
 		
 
 
