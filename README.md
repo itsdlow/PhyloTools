@@ -1,5 +1,5 @@
 # PhyloTools
-A software package for analyzing phylogenetic trees, given newick sequences
+A software package for analyzing phylogenetic trees, given DNA sequences
 
 
 DeAngelo Wilson & John Rogers
