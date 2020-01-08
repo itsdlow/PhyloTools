@@ -27,7 +27,7 @@ namespace distanceMeasure
 
 		FileObject* pCurrentFileObject = pFileObjectsBuffer;
 
-		const int sequenceCount = pFOM->getFileCount();
+		const int sequenceCount = pFOM->get_file_count();
 		std::string dirPath = pFOM->GetPathToSequences();
 		//get all files in dir
 		dirPath.append("\\*");
@@ -55,7 +55,7 @@ namespace distanceMeasure
 				filePath.append(fileNameWithExtension);
 
 
-				
+				//TODO
 
 				//place new fileObject into buffer
 				FileObject* tmp = new(pCurrentFileObject++) FileObject(this->GetFileSequence(filePath), fileName);
@@ -82,6 +82,7 @@ namespace distanceMeasure
 		}
 		else
 		{
+			//TODO
 			//read file and return sequence string
 		}
 		return std::string();

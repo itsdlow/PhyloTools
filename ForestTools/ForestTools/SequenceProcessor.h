@@ -26,7 +26,7 @@ namespace distanceMeasure
 		SequenceProcessor() = default;
 		SequenceProcessor(const SequenceProcessor&) = delete;
 		SequenceProcessor& operator=(const SequenceProcessor&) = delete;
-		~SequenceProcessor() = default;
+		virtual ~SequenceProcessor() = default;
 
 		//helper functions
 		//virtual void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) = 0;

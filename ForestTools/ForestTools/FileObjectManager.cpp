@@ -197,7 +197,7 @@ namespace distanceMeasure
 		return this->pFileObjectsBuffer;
 	}
 
-	const int FileObjectManager::getFileCount() const
+	const int FileObjectManager::get_file_count() const
 	{
 		return this->fileCount;
 	}

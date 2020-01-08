@@ -38,7 +38,7 @@ January 3 2020*
 
 			//accessor functions
 			const FileObject* getFileObjectsAddr() const;
-			const int getFileCount() const;
+			const int get_file_count() const;
 			const std::string GetPathToSequences() const;
 
 		

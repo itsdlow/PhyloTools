@@ -80,8 +80,8 @@ int main()
     //quartets.txt (QuartetsTree-Matrix)
     dmo.calculateAllQuartetsDistanceMatrix();
     //results written to "output.txt" + "quartets.txt" upon DistanceMAtrix destructions (writeResults() called)
-
-    //TODO
+   
+    //TODO::
         // 0) Refactor LcsCalculator code*
         // 1) Naming convention????
         //      1.5) Processing of sequence list??? --> matrix -> tree (fastme) 
@@ -91,7 +91,7 @@ int main()
         //          - Checking (when required) for aligned sequences
         // 5) GUARDS!!!
                 //safe-failing/execption safe
-        // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequence
+        // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
 
 
 

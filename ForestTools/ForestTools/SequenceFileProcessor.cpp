@@ -15,6 +15,7 @@ January 3 2020*
 
 namespace distanceMeasure
 {
+	//TODO
 
 	//given a single Fasta File as input -- containing "fileCount" many sequences
 	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
@@ -34,7 +35,7 @@ namespace distanceMeasure
 		{
 			//start = 4 end = 22/23
 			// Allivibrio fischeri 
-			const int sequenceCount = pFOM->getFileCount();
+			const int sequenceCount = pFOM->get_file_count();
 
 			int count = 0;
 			//read file
@@ -60,6 +61,7 @@ namespace distanceMeasure
 
 				std::string speciesName = line.substr(species_start_index, species_mid_index - species_start_index) + "_" + line.substr(species_mid_index + 1u, species_end_index - species_mid_index);
 
+				//BUG: cheat implementation -- replace using sequence_names_list
 				/*************************************************/
 				//HARD CODE RETRIEVAL OF 3rd word (seperated by space) FOR..
 				//Eulemur_macaco_macaco

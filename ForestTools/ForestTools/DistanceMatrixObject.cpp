@@ -71,7 +71,7 @@ namespace distanceMeasure
 	{
 		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
 		const FileObject* pCurrentFileObject = pFileObjects;
-		const int fileCount = this->getFileObjectManager().getFileCount();
+		const int fileCount = this->getFileObjectManager().get_file_count();
 		
 		if (fileCount == 4) 
 		{
@@ -134,15 +134,15 @@ namespace distanceMeasure
 	void DistanceMatrixObject::writeQuartetMatrix(int i, int j, int k, int l)
 	{
 		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
-		const int fileCount = this->getFileObjectManager().getFileCount();
+		const int fileCount = this->getFileObjectManager().get_file_count();
 
 		//vector of quartet indicies
-		//std::vector<int> indexV {i,j,k,l};//removed for MAC build
-		std::vector<int> indexV;
-		indexV.push_back(i);
-		indexV.push_back(j);
-		indexV.push_back(k);
-		indexV.push_back(l);
+		std::vector<int> indexV {i,j,k,l};//removed for MAC build
+		//std::vector<int> indexV;
+		//indexV.push_back(i);
+		//indexV.push_back(j);
+		//indexV.push_back(k);
+		//indexV.push_back(l);
 
 
 		int quartetSize = 4;
@@ -168,7 +168,7 @@ namespace distanceMeasure
 	//function for testing to statically set lamda vector
 	void DistanceMatrixObject::setCalculateDistanceMeasureTEST(float* array)
 	{
-		const int fileCount = this->getFileObjectManager().getFileCount();
+		const int fileCount = this->getFileObjectManager().get_file_count();
 		for (int i = 0; i < fileCount; ++i)
 		{
 			for (int j = 0; j < fileCount; ++j)
@@ -181,12 +181,13 @@ namespace distanceMeasure
 		delete[] array;
 	}
 
+	//TODO: BATCH Measure calcs -- must create new file and ensure that only needed fileobjects are included in each matrix
 	//calculate LargeTree (w/o quartets) Distance Matrix
 	void DistanceMatrixObject::calculateDistanceMeasures()
 	{
 		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
 		const FileObject* pCurrentFileObject = pFileObjects;
-		const int fileCount = this->getFileObjectManager().getFileCount();
+		const int fileCount = this->getFileObjectManager().get_file_count();
 
 		for (int i = 0; i < fileCount; i++)
 		{

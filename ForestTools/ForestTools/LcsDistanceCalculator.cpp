@@ -118,9 +118,9 @@ int lcs( char *X, char *Y, int m, int n )
     int L[m + 1][n + 1];  
     int i, j;  
       
-     //Following steps build L[m+1][n+1] in  
-     //  bottom up fashion. Note that L[i][j]  
-     //  contains length of LCS of X[0..i-1] 
+     //Following steps build L[m+1][n+1] in bottom up fashion.
+
+     //Note: L[i][j]  contains length of LCS of X[0..i-1] 
      //  and Y[0..j-1] 
     for (i = 0; i <= m; i++)  
     {  
