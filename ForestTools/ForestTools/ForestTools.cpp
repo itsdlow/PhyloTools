@@ -33,34 +33,30 @@ int main()
         /*NOTE:: MRBayes --> uses .nex format
               "Single_Word_Sequence_Name      (whitespace)        ATTAGCCGATGCAGTC...(SEQUENCE)"
         */
-    printf("Path to sequence names file: ");
-    std::cin >> sequence_names_dir;
-        //if no sequence names provided...
-            //default processing?
 
-    //receive relative/absolute path of file or directory of sequences to analyze
+	//receive relative/absolute path of file or directory of sequences to analyze
         //TODO:: REASLISTICALLy --  Use absolute path of directory
     printf("Path to Sequences: ");
     std::cin >> sequence_dir;
 
 
+    printf("Path to sequence names file: ");
+    std::cin >> sequence_names_dir;
+        //if no sequence names provided...
+            //default processing?
     //recieve Number of sequences to read
     printf("Number of Sequences: ");
     std::cin >> sequenceCount;
+
     //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
     printf("LCS (0), P_Value (1), MrBayes (2), NCD (3)\n");
     printf("Matrix Calculation Method Number: ");
-    std::cin >> method;
-        //enum class Matrix_Calculator_Type{}
-    //SequenceProcessorType --> determined by method 
-        //FILEPROCESSOR (aligned):: MRBayes, P_Value
-        //DIRECTORYPROCESSOR (non-aligned):: NCD, LCS
-            //OR (request) Number of files > 1 --> DIRECTORY PROCESSOR?
+	//std::cin >> method;
+    printf("\n");
 
-  
     //intializes / prepares all file objects (sequences)
         //for generic distance measure method to work --> must supply distance calc (w/ normalize func!!!)
-    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, distanceMeasure::SequenceProcessorType::FileProcessor, sequenceCount, new distanceMeasure::PValueDistanceCalculator());
+    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, sequenceCount, new distanceMeasure::PValueDistanceCalculator());
     
     /******************************************/
     printf("Path to Sequence List File: ");
@@ -68,19 +64,23 @@ int main()
     std::cin >> tree_sequences_list;
 
 
+    dmo.batch_matrix_calculation(tree_sequences_list);
+	
           /*********************************************************************************************
                 for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix
           *********************************************************************************************/
     //Output.txt (LargeTree-Matrix)
-    dmo.calculateDistanceMeasures();
+    //dmo.calculateDistanceMeasures();
 
     //FOR TESTING PURPOSES ONLY -- sets a static distance Measure array for caulcating quartets
     //dmo.setCalculateDistanceMeasureTEST(getStaticDistanceMeasureArray());
 
     //quartets.txt (QuartetsTree-Matrix)
-    dmo.calculateAllQuartetsDistanceMatrix();
+    //dmo.calculateAllQuartetsDistanceMatrix();
     //results written to "output.txt" + "quartets.txt" upon DistanceMAtrix destructions (writeResults() called)
-   
+
+
+	
     //TODO::
         // 0) Refactor LcsCalculator code*
         // 1) Naming convention????

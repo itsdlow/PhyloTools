@@ -39,16 +39,18 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, int sequenceCount, DistanceMeasureCalculator* dmc);
 		
 		//helper functions
+		//
+		void batch_matrix_calculation(const std::string& sequences_list_dir);
 			//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
-		void calculateDistanceMeasures();		
+		void CalculateLargeTreeDistanceMeasures();		
 
 		//TESTING FUNCTION!!!! sets lamda vector with array values (UNSAFE)
 		void setCalculateDistanceMeasureTEST(float* array);
 
-		void calculateAllQuartetsDistanceMatrix();
+		void CalculateAllQuartetsDistanceMeasures();
 			//write results buffer to output FILE, closes FILE
 		void writeResults();
 		

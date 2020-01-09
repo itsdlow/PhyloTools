@@ -31,7 +31,7 @@ January 3 2020*
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
-			FileObjectManager(int fileCount, std::string sequence_names_path, std::string path, SequenceProcessorType path_type);
+			FileObjectManager(int fileCount, const std::string& sequence_names_path, const std::string& path);
 
 			//helper functions
 			//void fillFileObjectsBuffer(std::string path);
@@ -42,7 +42,7 @@ January 3 2020*
 			const std::string GetPathToSequences() const;
 
 		
-			const std::string CheckForSequenceName(const std::string& line) const;
+			std::string CheckForSequenceName(const std::string& line) const;
 		private:
 			const int fileCount;
 			FileObject* const pFileObjectsBuffer;

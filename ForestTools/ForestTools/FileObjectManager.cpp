@@ -32,22 +32,23 @@ namespace distanceMeasure
 
 
 
-	FileObjectManager::FileObjectManager(int sequenceCount, std::string sequence_names_path, std::string path, SequenceProcessorType path_type):
+	FileObjectManager::FileObjectManager(int sequenceCount, const std::string& sequence_names_path, const std::string& path):
 	fileCount(sequenceCount),
 	pFileObjectsBuffer(new FileObject[sequenceCount]),
 	sp(nullptr),
 	sequencesPath(path)
 	{
 		
-		switch (path_type)
-		{
-			case SequenceProcessorType::FileProcessor:
-				this->sp = new SequenceFileProcessor();
-				break;
-			case SequenceProcessorType::DirectoryProcessor:
-				this->sp = new SequenceDirectoryProcessor();
-				break;
-		}
+		//switch (path_type)
+		//{
+		//	case SequenceProcessorType::FileProcessor:
+		//		this->sp = new SequenceFileProcessor();
+		//		break;
+		//	case SequenceProcessorType::DirectoryProcessor:
+		//		this->sp = new SequenceDirectoryProcessor();
+		//		break;
+		//}
+		this->sp = new SequenceFileProcessor();
 		//get all sequence names
 		this->FillSequenceNamesVector(sequence_names_path);
 
@@ -77,40 +78,49 @@ namespace distanceMeasure
 				printf("default name retrieval inactive... WIP\n");
 			}
 		}
-		//fill sequenceNames vector with file names
+		//fill sequenceNames vector with organisms names
 		else
 		{
 			int count = 0;
 			//read file
 			std::string line;
-			FileObject* pCurrentFileObject = this->pFileObjectsBuffer;
-			while (std::getline(sequenceNamesInput, line) && count < this->fileCount)
+			while (std::getline(sequenceNamesInput, line))
 			{
-				//replace "space" with "_"
-					// Get the first occurrence
-				size_t pos = line.find(" ");
-
-				// Repeat till end is reached
-				while (pos != std::string::npos)
-				{
-					// replace "pos" with "_"
-					line.replace(pos, 1u, "_");
-
-					// Get the next occurrence from the current position
-					pos = line.find(" ", pos + 1u);
-				}
-
 				//add name ("line") to vector
 				this->sequenceNames.push_back(line);
+				count++;
 			}
 		}
+		//NOT IMPLEMENTED
+		//SET FILE COUNT BASED OFF sequence names count
+		//this->fileCount = count;
 	}
 
-
-	const std::string distanceMeasure::FileObjectManager::CheckForSequenceName(const std::string& line) const
+	//BUG --> DOES NOT REPLACE SPACE correctly ****
+	std::string distanceMeasure::FileObjectManager::CheckForSequenceName(const std::string& line) const
 	{
 		//check if any given sequence names are within "line" -- return one_word_name
+		for(auto it = this->sequenceNames.begin(); it != this->sequenceNames.end(); it++)
+		{
+			//if name (it) in current_sequence_line
+			if(line.find(*it) != std::string::npos)
+			{
+				std::string name(*it);
 
+				//replace all spaces w/ "__underscores__"
+				for(auto i = 0u; i < name.size(); i++)
+				{
+					if( isspace(name.at(i)) )
+					{
+						name.replace(i, 1u, 1u, '_');
+					}
+				}//--> create_one_word_species_name
+
+				return name;
+			}
+		}
+
+		printf("Sequence (Organism) name not found in Fasta File Sequences\n");
 		return std::string();
 	}
 

@@ -18,7 +18,9 @@ January 3 2020*
 namespace distanceMeasure
 {
 
+	//WINDOWS SPECIFIC --> LEGACY -- RETIRED...
 
+	
 	void SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//windows.h get path_directory files impl
@@ -84,6 +86,7 @@ namespace distanceMeasure
 		{
 			//TODO
 			//read file and return sequence string
+			//		READ SEQUENCE until --> EOF || '>' new 'annotation' (organism) line
 		}
 		return std::string();
 	}

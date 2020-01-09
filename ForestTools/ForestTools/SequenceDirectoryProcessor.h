@@ -27,11 +27,12 @@ namespace distanceMeasure
 		//void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
 		void CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pCurrentFileObject) override;
 
+		const std::string GetFileSequence(const std::string& filepath);
+
 		//accessor functions
 
 
 	private:
-		const std::string GetFileSequence(const std::string& filepath);
 
 	};
 }

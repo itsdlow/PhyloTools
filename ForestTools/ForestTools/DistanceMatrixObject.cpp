@@ -7,6 +7,7 @@ January 3 2020*
 
 #include "DistanceMatrixObject.h"
 #include "FileObject.h"
+#include <fstream>
 
 //debugging timer
 //#include <time.h>
@@ -26,8 +27,8 @@ namespace distanceMeasure
 		delete this->distanceMeasureFunc;
 	}
 
-	DistanceMatrixObject::DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, SequenceProcessorType dir_type, int sequenceCount, DistanceMeasureCalculator* dmc):
-	fileObjectManager(sequenceCount, sequence_names_dir, sequences_dir, dir_type),
+	DistanceMatrixObject::DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, int sequenceCount, DistanceMeasureCalculator* dmc):
+	fileObjectManager(sequenceCount, sequence_names_dir, sequences_dir),
 	results(std::to_string(sequenceCount).append("\n")),
 	distanceMeasureFunc(dmc)
 	{
@@ -50,24 +51,78 @@ namespace distanceMeasure
 		printf("dmo constructed\n");
 	}
 
-	//write results buffer to output FILE, closes FILE
-	void DistanceMatrixObject::writeResults()
-	{	
-		size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);
-		printf("output.txt written...\n");
-		fclose(this->pResults);
+	void DistanceMatrixObject::batch_matrix_calculation(const std::string& sequences_list_dir)
+	{
+		//open file
+		std::ifstream fastaInput(sequences_list_dir);
 
-		size_t numBytesWritten2 = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
-		printf("quartets.txt written...\n");
-		fclose(this->pQuartetResults);
+		if (!fastaInput.is_open())
+		{
+			printf("File at path: %s - could not be opened\nBatch matrix creation can not be executed\n", sequences_list_dir.c_str());
+		}
+		else
+		{
+			//TODO
+			//read file and create matrixes
+			std::string line;
+			
+			//while more matrix/tree - sets
+			while(std::getline(fastaInput, line))
+			{
+				int sequence_count = line.front();
+				//find first sequence_name
+				for(auto i = 1; i < line.size(); i++)
+				{
+					if (!isspace(line.at(i)))
+					{
+						//store sequence
+					}
+				}
+			}
+			
+		}
+		
 	}
 
 
+//TODO: BATCH Measure calcs -- must create new file and ensure that only needed fileobjects are included in each matrix
+	//calculate LargeTree (w/o quartets) Distance Matrix
+	void DistanceMatrixObject::CalculateLargeTreeDistanceMeasures()
+	{
+		const FileObject* const pFileObjects = this->getFileObjectManager().getFileObjectsAddr();
+		const FileObject* pCurrentFileObject = pFileObjects;
+		const int fileCount = this->getFileObjectManager().get_file_count();
 
+		for (int i = 0; i < fileCount; i++)
+		{
+			this->results.append(pCurrentFileObject->GetFileName());
+			
+			for (int j = 0; j < fileCount; j++)
+			{
+				//takes 2 file Objects and computes distance measure (default is Longest common subsequece measure)
+				//int lcs = this->distanceMeasureFunc(*pCurrentFileObject, pFileObjects[j]);
+				//float normalizedDistance = this->normalize(lcs, maxSequenceLength(pCurrentFileObject->sequencesize, pFileObjects[j].sequencesize));
+				
+				//generic / pvalue
+				float normalizedDistance = this->distanceMeasureFunc->operator()(*pCurrentFileObject, pFileObjects[j]);
 
+				//float normalizedDistance =diffCount / pCurrentFileObject->sequencesize;// this->normalize(diffCount, pCurrentFileObject->sequencesize);
 
+				//append to distance matrix for quartet calcs
+				this->lamdaMatrix.push_back(normalizedDistance);
+
+				//write lcs to results
+				this->results.append(" ");
+				this->results.append(std::to_string(normalizedDistance));
+			}
+
+			this->results.append("\n");
+			printf("\t%d LCS calculations performed -- %d calculations remaining...\n", fileCount, (fileCount*fileCount) - (fileCount + (i * fileCount)));
+			pCurrentFileObject++;
+		}
+	}
 	//4 POINT CONDITION CHECK --> FIND ALL QUARTETS "TREE (T)" INDUCES
-	void DistanceMatrixObject::calculateAllQuartetsDistanceMatrix()
+	void DistanceMatrixObject::CalculateAllQuartetsDistanceMeasures()
 	{
 		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
 		const FileObject* pCurrentFileObject = pFileObjects;
@@ -131,6 +186,18 @@ namespace distanceMeasure
 
 	}
 
+	
+	//write results buffer to output FILE, closes FILE
+	void DistanceMatrixObject::writeResults()
+	{
+		size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);
+		printf("output.txt written...\n");
+		fclose(this->pResults);
+
+		size_t numBytesWritten2 = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
+		printf("quartets.txt written...\n");
+		fclose(this->pQuartetResults);
+	}
 	void DistanceMatrixObject::writeQuartetMatrix(int i, int j, int k, int l)
 	{
 		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
@@ -181,42 +248,7 @@ namespace distanceMeasure
 		delete[] array;
 	}
 
-	//TODO: BATCH Measure calcs -- must create new file and ensure that only needed fileobjects are included in each matrix
-	//calculate LargeTree (w/o quartets) Distance Matrix
-	void DistanceMatrixObject::calculateDistanceMeasures()
-	{
-		const FileObject* const pFileObjects = reinterpret_cast<const FileObject*>(this->getFileObjectManager().getFileObjectsAddr());
-		const FileObject* pCurrentFileObject = pFileObjects;
-		const int fileCount = this->getFileObjectManager().get_file_count();
-
-		for (int i = 0; i < fileCount; i++)
-		{
-			this->results.append(pCurrentFileObject->GetFileName());
-			
-			for (int j = 0; j < fileCount; j++)
-			{
-				//takes 2 file Objects and computes distance measure (default is Longest common subsequece measure)
-				//int lcs = this->distanceMeasureFunc(*pCurrentFileObject, pFileObjects[j]);
-				//float normalizedDistance = this->normalize(lcs, maxSequenceLength(pCurrentFileObject->sequencesize, pFileObjects[j].sequencesize));
-				
-				//generic / pvalue
-				float normalizedDistance = this->distanceMeasureFunc->operator()(*pCurrentFileObject, pFileObjects[j]);
-
-				//float normalizedDistance =diffCount / pCurrentFileObject->sequencesize;// this->normalize(diffCount, pCurrentFileObject->sequencesize);
-
-				//append to distance matrix for quartet calcs
-				this->lamdaMatrix.push_back(normalizedDistance);
-
-				//write lcs to results
-				this->results.append(" ");
-				this->results.append(std::to_string(normalizedDistance));
-			}
-
-			this->results.append("\n");
-			printf("\t%d LCS calculations performed -- %d calculations remaining...\n", fileCount, (fileCount*fileCount) - (fileCount + (i * fileCount)));
-			pCurrentFileObject++;
-		}
-	}
+	
 	/*
 	const float DistanceMatrixObject::normalize(int lcs, long maxSequenceSize) const
 	{
