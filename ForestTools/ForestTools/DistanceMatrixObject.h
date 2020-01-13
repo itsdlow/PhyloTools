@@ -45,14 +45,15 @@ namespace distanceMeasure
 		//
 		void batch_matrix_calculation(const std::string& sequences_list_dir);
 			//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
-		void CalculateLargeTreeDistanceMeasures();		
+		void CalculateLargeTreeDistanceMeasures(const std::vector<std::string>& sequence_set_names);
+		void CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names);
 
 		//TESTING FUNCTION!!!! sets lamda vector with array values (UNSAFE)
 		void setCalculateDistanceMeasureTEST(float* array);
 
-		void CalculateAllQuartetsDistanceMeasures();
-			//write results buffer to output FILE, closes FILE
-		void writeResults();
+		
+		//write results buffer to output FILE, closes FILE
+		void write_batch_results(const int batch_number, const size_t sequence_count);
 		
 
 		//accessor methods
@@ -73,6 +74,10 @@ namespace distanceMeasure
 
 		//2D array (distanceMATRIX) of floats
 		std::vector<float> lamdaMatrix;
+
+		//private helper
+		//process a line of "sequenceList" file --> batch matrix_creation
+		const std::vector<std::string> ProcessSequenceSet(const std::string& sequence_set) const;
 		
 		//called in distanceMeasure calculation to noramlize lcs value for results matrix
 		//const float normalize(int lcs, long maxSequenceSize) const;
@@ -87,7 +92,7 @@ namespace distanceMeasure
 
 		inline int maxSequenceLength(int sequencesize1, int sequencesize2) const;
 		inline const int getArrayIndex(int row, int col, int rowCount) const;
-		inline void writeQuartetMatrix(int i, int j, int k, int l);
+		inline void writeQuartetMatrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount);
 	};
 
 	//struct pvalueCalculator

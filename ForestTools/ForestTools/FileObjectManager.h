@@ -36,12 +36,14 @@ January 3 2020*
 			//helper functions
 			//void fillFileObjectsBuffer(std::string path);
 
+			
 			//accessor functions
 			const FileObject* getFileObjectsAddr() const;
 			const int get_file_count() const;
 			const std::string GetPathToSequences() const;
 
-		
+			const FileObject* const GetFileObject(const std::string& name) const;
+			
 			std::string CheckForSequenceName(const std::string& line) const;
 		private:
 			const int fileCount;

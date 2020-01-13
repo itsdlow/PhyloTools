@@ -63,42 +63,18 @@ int main()
     //file:: string of all sequence combinations --> matrixes to create
     std::cin >> tree_sequences_list;
 
-
+  /*********************************************************************************************
+        for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix
+  *********************************************************************************************/
     dmo.batch_matrix_calculation(tree_sequences_list);
-	
-          /*********************************************************************************************
-                for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix
-          *********************************************************************************************/
-    //Output.txt (LargeTree-Matrix)
-    //dmo.calculateDistanceMeasures();
 
-    //FOR TESTING PURPOSES ONLY -- sets a static distance Measure array for caulcating quartets
-    //dmo.setCalculateDistanceMeasureTEST(getStaticDistanceMeasureArray());
-
-    //quartets.txt (QuartetsTree-Matrix)
-    //dmo.calculateAllQuartetsDistanceMatrix();
-    //results written to "output.txt" + "quartets.txt" upon DistanceMAtrix destructions (writeResults() called)
-
-
-	
-    //TODO::
-        // 0) Refactor LcsCalculator code*
-        // 1) Naming convention????
-        //      1.5) Processing of sequence list??? --> matrix -> tree (fastme) 
-        // 2) Fastme itegration ( CreateProcessA || system() )
-        // 3) How to get amino acid sequences
-        // 4) How to align sequences using... Muscle?
-        //          - Checking (when required) for aligned sequences
-        // 5) GUARDS!!!
-                //safe-failing/execption safe
-        // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
+	//NOT IMPLEMENTED
+	/********           Create Trees... fastme           ***************/
 
 
 
-
-
-
-    /******    ANALYZE CREATED TREES!!!!     *******/
+	//NOT IMPLEMENTED
+    /******   (batch) ANALYZE CREATED TREES!!!!     *******/
 
     //std::string fileDir1 = std::string(argv[1]);
     //std::string fileDir2 = std::string(argv[2]);
@@ -112,4 +88,23 @@ int main()
     //phylo::computeQuartetAgreement(fileDir1, fileDir2);
     //phylo::computeSymmetricDifference(fileDir1, fileDir2);
     //phylo::computeInducedQuartetAgreement(fileDir1, fileDir2);
+
+	
+    //TODO::
+        // 0) Refactor LcsCalculator code*
+        // 1) Naming convention????
+        //      1.5) Processing of sequence list??? --> matrix -> tree (fastme) 
+        // 2) Fastme itegration ( CreateProcessA || system() )
+        // 3) How to get amino acid sequences
+        // 4) How to align sequences using... Muscle?
+        //          - Checking (when required) for aligned sequences
+        // 5) GUARDS!!!
+                //safe-failing/execption safe
+                //Matrixes not created...
+					//Bad file names?
+					//failed alignment?
+				//Trees not created...
+					//failed fastme?
+        // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
+
 }

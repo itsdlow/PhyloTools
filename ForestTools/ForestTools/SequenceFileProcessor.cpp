@@ -107,7 +107,6 @@ namespace distanceMeasure
 
 				std::string speciesName = line.substr(species_start_index, species_mid_index - species_start_index) + "_" + line.substr(species_mid_index + 1u, species_end_index - species_mid_index);
 
-				//BUG: cheat implementation -- replace using sequence_names_list
 				//HARD CODE RETRIEVAL OF 3rd word (seperated by space) FOR..
 				//Eulemur_macaco_macaco
 				//Ovis_orientalis_ophion

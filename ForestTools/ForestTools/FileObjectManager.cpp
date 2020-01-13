@@ -96,7 +96,6 @@ namespace distanceMeasure
 		//this->fileCount = count;
 	}
 
-	//BUG --> DOES NOT REPLACE SPACE correctly ****
 	std::string distanceMeasure::FileObjectManager::CheckForSequenceName(const std::string& line) const
 	{
 		//check if any given sequence names are within "line" -- return one_word_name
@@ -202,6 +201,20 @@ namespace distanceMeasure
 
 	//}
 
+	const FileObject* const FileObjectManager::GetFileObject(const std::string& name) const
+	{
+		//find fileobject w. "name" filename
+		for(int i = 0; i < this->fileCount; i++)
+		{
+			if(this->pFileObjectsBuffer[i].GetFileName() == name)
+			{
+				return &this->pFileObjectsBuffer[i];
+			}
+		}
+		
+		return nullptr;
+	}
+	
 	const FileObject* FileObjectManager::getFileObjectsAddr() const
 	{
 		return this->pFileObjectsBuffer;
