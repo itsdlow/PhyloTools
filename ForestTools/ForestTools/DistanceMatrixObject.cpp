@@ -6,10 +6,12 @@ January 3 2020*
 ******************************************************************************/
 
 #include "DistanceMatrixObject.h"
-#include "FileObject.h"
+
+//#include "FileObject.h"
+#include "DistanceMeasureCalculator.h"
+
 #include <fstream>
-#include <sys/stat.h>
-#include <sys/types.h>
+
 //debugging timer
 //#include <time.h>
 

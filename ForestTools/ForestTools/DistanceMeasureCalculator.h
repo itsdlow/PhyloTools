@@ -9,6 +9,7 @@ January 3 2020
 
 #include "FileObject.h"
 
+
 namespace distanceMeasure
 {
 	class DistanceMeasureCalculator

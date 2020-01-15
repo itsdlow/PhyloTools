@@ -12,18 +12,17 @@ January 3 2020*
 //forward declarations
 	//#include DMOfwd.h;
 #include "FileObjectManager.h"
-#include "DistanceMeasureCalculator.h"
+
+//#include "DistanceMeasureCalculator.h"
 //all calc's need to be available...************************************
 	//#include "FileObject.h"
 
-
 #include <vector>
 #include <string>
-#include <functional>
-#include <stdio.h>
 
 namespace distanceMeasure
 {
+	class DistanceMeasureCalculator;
 	//typedef std::function<float (const FileObject& file1, const FileObject& file2)> DistanceMeasureCalculator;
 
 	class DistanceMatrixObject

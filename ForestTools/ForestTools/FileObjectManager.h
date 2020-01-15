@@ -9,7 +9,7 @@ January 3 2020*
 #ifndef _FileObjectManager
 #define _FileObjectManager
 
-	#include "SequenceProcessorType.h"
+	//#include "SequenceProcessorType.h"
 
 	#include <string>
 	#include <vector>
