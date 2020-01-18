@@ -7,11 +7,11 @@ January 3 2020
 #ifndef _LcsDistanceCalculator
 #define _LcsDistanceCalculator
 
-#include "DistanceMeasureCalculator.h"
+#include "InternalDistanceMeasureCalculator.h"
 
 namespace distanceMeasure
 {
-	class LcsDistanceCalculator: public DistanceMeasureCalculator
+	class LcsDistanceCalculator: public InternalDistanceMeasureCalculator
 	{
 	public:
 		//BIG 4
@@ -20,12 +20,12 @@ namespace distanceMeasure
 		LcsDistanceCalculator& operator=(const LcsDistanceCalculator&) = delete;
 		~LcsDistanceCalculator() = default;
 
-		float operator()(const FileObject& file1, const FileObject& file2) const override;
+		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
 		float normalize(int differenceCount, int sequencesize) const override;
 
 	private:
 		//helper funcs
-		const int getArrayIndex(int i, int j, int n) const;
+		//const int getArrayIndex(int i, int j, int n) const;
 
 		inline int maxSequenceLength(int sequencesize1, int sequencesize2) const;
 	};

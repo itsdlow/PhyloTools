@@ -8,7 +8,7 @@
 
 namespace distanceMeasure
 {
-	float LcsDistanceCalculator::operator()(const FileObject& file1, const FileObject& file2) const
+	float LcsDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{
 
 		const int m = file1.GetSequenceSize();
@@ -87,10 +87,10 @@ namespace distanceMeasure
 
 	}
 
-	const int LcsDistanceCalculator::getArrayIndex(int i, int j, int n) const
-	{
-		return (i * n) + j;
-	}
+	//const int LcsDistanceCalculator::getArrayIndex(int i, int j, int n) const
+	//{
+	//	return (i * n) + j;
+	//}
 
 	float LcsDistanceCalculator::normalize(int lcs, int maxSequenceSize) const
 	{

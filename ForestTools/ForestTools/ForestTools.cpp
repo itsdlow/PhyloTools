@@ -22,7 +22,7 @@ int main()
 
     //distanceMeasure::SequenceProcessor sequenceProcessorType = distanceMeasure::SequenceProcessor::FileProcessing;
     int method = 0;
-    int sequenceCount;
+    //int sequenceCount;
     std::string sequence_names_dir;
     std::string sequence_dir;
     std::string tree_sequences_list;
@@ -45,8 +45,8 @@ int main()
         //if no sequence names provided...
             //default processing?
     //recieve Number of sequences to read
-    printf("Number of Sequences: ");
-    std::cin >> sequenceCount;
+    //printf("Number of Sequences: ");
+    //std::cin >> sequenceCount;
 
     //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
     printf("LCS (0), P_Value (1), MrBayes (2), NCD (3)\n");
@@ -56,9 +56,9 @@ int main()
 
     //intializes / prepares all file objects (sequences)
         //for generic distance measure method to work --> must supply distance calc (w/ normalize func!!!)
-    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, sequenceCount, new distanceMeasure::PValueDistanceCalculator());
+    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, new distanceMeasure::PValueDistanceCalculator());
     
-    /******************************************/
+    /*******************   TODO:: Batch run (OPTIONAL)   ***********************/
     printf("Path to Sequence List File: ");
     //file:: string of all sequence combinations --> matrixes to create
     std::cin >> tree_sequences_list;
@@ -69,8 +69,9 @@ int main()
     dmo.batch_matrix_calculation(tree_sequences_list);
 
 	//NOT IMPLEMENTED
-	/********           Create Trees... fastme           ***************/
-
+	/********           Create/extract(MrBayes) Trees... fastme           ***************/
+    //tree for each matrix file created
+    dmo.batch_tree_creation();
 
 
 	//NOT IMPLEMENTED

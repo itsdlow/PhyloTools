@@ -31,33 +31,48 @@ January 3 2020*
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
-			FileObjectManager(int fileCount, const std::string& sequence_names_path, const std::string& path);
+			FileObjectManager(const std::string& sequence_names_path, const std::string& path);
 
 			//helper functions
-			//void fillFileObjectsBuffer(std::string path);
+			std::string CheckForSequenceName(const std::string& line) const;
+
+			//
+			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string& new_sequences_path);
 
 			
 			//accessor functions
-			const FileObject* getFileObjectsAddr() const;
+			const FileObject* get_file_objects_addr() const;
+
+			const FileObject* get_sequence_set_file_objects_addr() const;
 			const int get_file_count() const;
-			const std::string GetPathToSequences() const;
+			const int get_sequence_set_count() const;
+			const std::string get_original_sequences_path() const;
+			const std::string get_sequence_set_path() const;
 
 			const FileObject* const GetFileObject(const std::string& name) const;
 			
-			std::string CheckForSequenceName(const std::string& line) const;
 		private:
-			const int fileCount;
-			FileObject* const pFileObjectsBuffer;
+			int fileCount;
 
+			FileObject* pFileObjectsBuffer;
+
+			FileObject* pSequenceSetFileObjectBuffer;
 			//object that interacts with windows directory || given file -- of sequences
 			SequenceProcessor* sp;
 
-			//path to sequence file/directory
+			int sequenceSetCount;
+			//path to sequence file/directory (original)
+			std::string filePath;
+			//path to current sequences
 			std::string sequencesPath;
 			std::vector<std::string> sequenceNames;
+			std::vector<std::string> currentSequenceNames;
 
+			
 			//private helpers
-			void FillSequenceNamesVector(const std::string& sequence_names_path);
+			const std::vector<std::string> FillSequenceNamesVector(const std::string& sequence_names_path);
+			void SetSequencesPath();
+			void SetSequenceSetCount();
 		};
 
 	}

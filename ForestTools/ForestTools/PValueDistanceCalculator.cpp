@@ -1,11 +1,31 @@
+/********************************************************************************************************
+DeAngelo Wilson
+January 3 2020
+
+					PValueDistanceMeasureCalculator -- derived dmc -- njp
+********************************************************************************************************/
 
 
 #include "PValueDistanceCalculator.h"
 
 namespace distanceMeasure
 {
+	////main driver
+	//void distanceMeasure::PValueDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string> sequence_set_names, const int batch_id)
+	//{
+	//	//align seqeunces...
+	//		//create fasta file on sequence_set
+	//	//CalculatorAligner::CreateAligned
+	//		//where to store aligned seqeunces.... (need orignal FileObjects for lifetime...)
 
-	float PValueDistanceCalculator::operator()(const FileObject& file1, const FileObject& file2) const
+
+	//	
+	//	//pass FOM forward...
+	//	InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, batch_id);
+	//}
+
+	
+	float PValueDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{
 		//assumes aligned sequences
 		const int m = file1.GetSequenceSize();

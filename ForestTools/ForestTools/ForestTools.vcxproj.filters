@@ -60,6 +60,15 @@
     <ClCompile Include="FileObject.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClCompile>
+    <ClCompile Include="InternalDistanceMeasureCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClCompile>
+    <ClCompile Include="Aligned_InternalDMCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculatorAligner.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -100,6 +109,18 @@
     </ClInclude>
     <ClInclude Include="FileObject.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="InternalDistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalDistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorAligner.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    </ClInclude>
+    <ClInclude Include="Aligned_InternalDMCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

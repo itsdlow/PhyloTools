@@ -38,41 +38,42 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, int sequenceCount, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, DistanceMeasureCalculator* dmc);
 		
 		//helper functions
 		//
-		void batch_matrix_calculation(const std::string& sequences_list_dir);
 			//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
-		void CalculateLargeTreeDistanceMeasures(const std::vector<std::string>& sequence_set_names);
-		void CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names);
+		//void CalculateLargeTreeDistanceMeasures(const std::vector<std::string>& sequence_set_names);
+		//void CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names);
 
 		//TESTING FUNCTION!!!! sets lamda vector with array values (UNSAFE)
-		void setCalculateDistanceMeasureTEST(float* array);
+		//void setCalculateDistanceMeasureTEST(float* array);
 
 		
 		//write results buffer to output FILE, closes FILE
-		void write_batch_results(const int batch_number, const size_t sequence_count);
-		
+		//void write_batch_results(const int batch_number, const size_t sequence_count);
+		//batch DistanceMEasure_CAlculator funcs
+		void batch_matrix_calculation(const std::string& sequences_list_dir);
+		void batch_tree_creation();
 
 		//accessor methods
 		DistanceMeasureCalculator* getDistanceMeasureFunc() const;
 		const FileObjectManager& getFileObjectManager() const;
-		FILE* getFILEPtr() const;
+		//FILE* getFILEPtr() const;
 
 	private:
-		FILE* pResults;
-		FILE* pQuartetResults;
+		//FILE* pResults;
+		//FILE* pQuartetResults;
 
 		FileObjectManager fileObjectManager;
 
-		std::string results;
-		std::string quartetResults;
+		//std::string results;
+		//std::string quartetResults;
 
 		DistanceMeasureCalculator* distanceMeasureFunc;
 
 		//2D array (distanceMATRIX) of floats
-		std::vector<float> lamdaMatrix;
+		//std::vector<float> lamdaMatrix;
 
 		//private helper
 		//process a line of "sequenceList" file --> batch matrix_creation
@@ -87,11 +88,11 @@ namespace distanceMeasure
 		//given 3 pairwise sum float values -->
 			//checks 4PointCondition (returns 0 on sucess) --> 
 				//sets miinPairwiseSum to min
-		int fourPointConditionCheck(float sum1, float sum2, float sum3, float& minPairwiseSum) const;
+		//int fourPointConditionCheck(float sum1, float sum2, float sum3, float& minPairwiseSum) const;
 
-		inline int maxSequenceLength(int sequencesize1, int sequencesize2) const;
-		inline const int getArrayIndex(int row, int col, int rowCount) const;
-		inline void writeQuartetMatrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount);
+		//inline int maxSequenceLength(int sequencesize1, int sequencesize2) const;
+		//inline const int getArrayIndex(int row, int col, int rowCount) const;
+		//inline void writeQuartetMatrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount);
 	};
 
 	//struct pvalueCalculator

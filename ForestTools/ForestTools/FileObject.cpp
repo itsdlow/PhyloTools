@@ -46,7 +46,7 @@ namespace distanceMeasure
 	*/
 
 	FileObject::FileObject(const std::string & sequence, const std::string & filename):
-		sequencesize(sequence.size()),
+		sequencesize(static_cast<int>(sequence.size())),
 		fileName(filename),
 		sequenceString(sequence)
 	{

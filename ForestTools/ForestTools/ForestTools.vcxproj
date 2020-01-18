@@ -147,10 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Aligned_InternalDMCalculator.cpp" />
+    <ClCompile Include="CalculatorAligner.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
     <ClCompile Include="ForestTools.cpp" />
+    <ClCompile Include="InternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
     <ClCompile Include="PhyloAnalysis.cpp" />
     <ClCompile Include="PhyloTools.cpp" />
@@ -160,10 +163,14 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Aligned_InternalDMCalculator.h" />
+    <ClInclude Include="CalculatorAligner.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
     <ClInclude Include="DistanceMeasureCalculator.h" />
+    <ClInclude Include="ExternalDistanceMeasureCalculator.h" />
     <ClInclude Include="FileObject.h" />
     <ClInclude Include="FileObjectManager.h" />
+    <ClInclude Include="InternalDistanceMeasureCalculator.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />

@@ -30,7 +30,7 @@ namespace distanceMeasure
 		FileObject* pCurrentFileObject = pFileObjectsBuffer;
 
 		const int sequenceCount = pFOM->get_file_count();
-		std::string dirPath = pFOM->GetPathToSequences();
+		std::string dirPath = pFOM->get_original_sequences_path();
 		//get all files in dir
 		dirPath.append("\\*");
 		hFind = FindFirstFileA(dirPath.c_str(), &data2);//ignore first entry -- reference to self dir (".")
@@ -52,7 +52,7 @@ namespace distanceMeasure
 				std::string fileName = fileNameWithExtension.substr(0, extIndex);
 
 				//create string -- full path of FileObject, file
-				std::string filePath = pFOM->GetPathToSequences();
+				std::string filePath = pFOM->get_original_sequences_path();
 				filePath.append("\\");
 				filePath.append(fileNameWithExtension);
 

@@ -7,11 +7,11 @@ January 3 2020
 #ifndef _PValueDistanceCalculator
 #define _PValueDistanceCalculator
 
-#include "DistanceMeasureCalculator.h"
+#include "Aligned_InternalDMCalculator.h"
 
 namespace distanceMeasure
 {
-	class PValueDistanceCalculator: public DistanceMeasureCalculator
+	class PValueDistanceCalculator: public Aligned_InternalDMCalculator
 	{
 	public:
 		//BIG 4
@@ -20,8 +20,10 @@ namespace distanceMeasure
 		PValueDistanceCalculator& operator=(const PValueDistanceCalculator&) = delete;
 		~PValueDistanceCalculator() = default;
 
-		float operator()(const FileObject& file1, const FileObject& file2) const override;
+		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
 		float normalize(int differenceCount, int sequencesize) const override;
+
+		//void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string> sequence_set_names, const int batch_id) override;
 
 	private:
 

@@ -15,29 +15,32 @@ January 3 2020*
 
 namespace distanceMeasure
 {
-	//TODO
-
-	//given a single Fasta File as input -- containing "fileCount" many sequences
+	//given a single Fasta File as "fastaInput" -- containing "fileCount" many sequences --> writes to FileObjectsBuffer
 	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
+		//uses FOM
+			//fileCount + CheckForName() + sequences_path
+
 		//open file
 		//read line 1 --> get file name
 		//read line 2 pass sequence (line) to FileObject()
 
 		//open file
-		std::ifstream fastaInput(pFOM->GetPathToSequences());
+		std::ifstream fastaInput(pFOM->get_sequence_set_path());
 
 		if (!fastaInput.is_open())
 		{
-			printf("File at path: %s - could not be opened\nFile Objects not to be created\n", pFOM->GetPathToSequences().c_str());
+			printf("File at path: %s - could not be opened\nFile Objects not to be created\n", pFOM->get_sequence_set_path().c_str());
 		}
 		else
 		{
-			const int sequenceCount = pFOM->get_file_count();
+			const int sequenceCount = pFOM->get_sequence_set_count();
 
 			int count = 0;
 			//read file
 			std::string line;
+			//clear FileObjectBuffer
+			memset(pFileObjectsBuffer, 0, sizeof(FileObject) * pFOM->get_file_count());
 			FileObject* pCurrentFileObject = pFileObjectsBuffer;
 			
 			std::getline(fastaInput, line);
