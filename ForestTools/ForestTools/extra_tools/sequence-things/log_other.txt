@@ -1,0 +1,98 @@
+Started Wed Jan 08 23:06:23 2020
+muscle.exe -in mito_sequence_other_30(1).fasta -out mito_sequence_other_30(1).afa -log log_other.txt -verbose 
+Alphabet DNA
+
+MUSCLE v3.8.31 by Robert C. Edgar
+http://www.drive5.com/muscle
+
+Profile-profile score    SPN
+Max iterations           8
+Max trees                1
+Max time                 (No limit)
+Max MB                   1717
+Gap open                 -400
+Gap extend (dimer)       0
+Gap ambig factor         0
+Gap ambig penalty        -0
+Center (LE)              0
+Term gaps                Half
+Smooth window length     7
+Refine window length     200
+Min anchor spacing       32
+Min diag length (lambda) 24
+Diag margin (mu)         5
+Min diag break           1
+Hydrophobic window       5
+Hydrophobic gap factor   1.2
+Smooth score ceiling     999
+Min best col score       90
+Min anchor score         90
+SUEFF                    0.1
+Brenner root MSA         False
+Normalize counts         False
+Diagonals (1)            False
+Diagonals (2)            False
+Anchors                  True
+MSF output format        False
+Phylip interleaved       False
+Phylip sequential        False
+ClustalW output format   False
+Catch exceptions         True
+Quiet                    False
+Refine                   False
+ProdfDB                  False
+Low complexity profiles  True
+Objective score          SPM
+Distance method (1)      Kmer4_6
+Clustering method (1)    UPGMB
+Root method (1)          Pseudo
+Sequence weighting (1)   ClustalW
+Distance method (2)      PctIdKimura
+Clustering method (2)    UPGMB
+Root method (2)          Pseudo
+Sequence weighting (2)   ClustalW
+
+28 seqs, max length 17447, avg  length 16709
+Elapsed time 00:00:00  Peak memory use     7 MB(0%)  Iteration   1 K-mer dist pass 1
+Elapsed time 00:00:00  Peak memory use     7 MB(0%)  Iteration   1 K-mer dist pass 2
+Align: (X93334.1 Homo sapiens mitochondrial DNA, complete genome) (X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome)
+Align: (X97707.1 Pongo abelii mitochondrial genome) (X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome)
+Align: (X99256.1 Hylobates lar complete mitochondrial DNA sequence) (X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome)
+Align: (Y18001.1 Papio hamadryas mitochondrial DNA, complete genome) (X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome)
+Align: (AJ428849.1 Cynocephalus variegatus complete mitochondrial genome) (Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome)
+Align: (AJ428578.2 Eumetopias jubatus complete mitochondrial genome) (X72004.1 Halichoerus grypus complete mitochondrial genome)
+Align: (U20753.1 Felis catus mitochondrion, complete genome) (AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome)
+Align: (AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome) (U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome)
+Align: (AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark)) (J01420.1 Mouse mitochondrion, complete genome)
+Align: (X79547.1 Equus caballus mitochondrial DNA complete sequence) (X97337.1 Equus asinus complete mitochondrial genome)
+Align: (X97336.1 Rhinoceros unicornis complete mitochondrial genome) (Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence)
+Align: (X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome) (X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence)
+Align: (V00654.1 Bos taurus complete mitochondrial genome) (Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (Y10524.1 Macropus robustus complete mitochondrial genome) (V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (X61145.1 Balaenoptera physalus mitochondrial complete genome) (Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence) (X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome) (X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome) (AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (Y18475.1 Orycteropus afer complete mitochondrial genome) (AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (Y19192.1 Talpa europaea complete mitochondrial genome) (Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (U96639.2 Canis familiaris mitochondrion, complete genome) (Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (Y19184.1 Lama pacos complete mitochondrial genome) (U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (AJ428849.1 Cynocephalus variegatus complete mitochondrial genome,Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome) (Y19184.1 Lama pacos complete mitochondrial genome,U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (Z29573.1 Didelphis virginiana complete mitochondrial genome) (AJ428849.1 Cynocephalus variegatus complete mitochondrial genome,Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome,Y19184.1 Lama pacos complete mitochondrial genome,U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (AJ428577.1 Ursus maritimus complete mitochondrial genome) (Z29573.1 Didelphis virginiana complete mitochondrial genome,AJ428849.1 Cynocephalus variegatus complete mitochondrial genome,Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome,Y19184.1 Lama pacos complete mitochondrial genome,U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (X83427.1 Ornithorhynchus anatinus mitochondrial DNA, complete genome) (AJ428577.1 Ursus maritimus complete mitochondrial genome,Z29573.1 Didelphis virginiana complete mitochondrial genome,AJ428849.1 Cynocephalus variegatus complete mitochondrial genome,Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome,Y19184.1 Lama pacos complete mitochondrial genome,U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Align: (X88898.2 Erinaceus europaeus complete mitochondrial DNA sequence) (X83427.1 Ornithorhynchus anatinus mitochondrial DNA, complete genome,AJ428577.1 Ursus maritimus complete mitochondrial genome,Z29573.1 Didelphis virginiana complete mitochondrial genome,AJ428849.1 Cynocephalus variegatus complete mitochondrial genome,Y18001.1 Papio hamadryas mitochondrial DNA, complete genome,X99256.1 Hylobates lar complete mitochondrial DNA sequence,X97707.1 Pongo abelii mitochondrial genome,X93334.1 Homo sapiens mitochondrial DNA, complete genome,X93347.1 Gorilla gorilla gorilla mitochondrial DNA. complete genome,Y19184.1 Lama pacos complete mitochondrial genome,U96639.2 Canis familiaris mitochondrion, complete genome,Y19192.1 Talpa europaea complete mitochondrial genome,Y18475.1 Orycteropus afer complete mitochondrial genome,AJ428576.2 Odobenus rosmarus rosmarus complete mitochondrial genome,U20753.1 Felis catus mitochondrion, complete genome,AJ428578.2 Eumetopias jubatus complete mitochondrial genome,X72004.1 Halichoerus grypus complete mitochondrial genome,AJ428514.1 Rattus norvegicus complete mitochondrial genome, wild-caught animal (Copenhagen, Denmark),J01420.1 Mouse mitochondrion, complete genome,X79547.1 Equus caballus mitochondrial DNA complete sequence,X97337.1 Equus asinus complete mitochondrial genome,X97336.1 Rhinoceros unicornis complete mitochondrial genome,Y07726.1 Ceratotherium simum complete mitochondrial DNA sequence,X61145.1 Balaenoptera physalus mitochondrial complete genome,Y10524.1 Macropus robustus complete mitochondrial genome,V00654.1 Bos taurus complete mitochondrial genome,Y11832.1 Dasypus novemcinctus complete mitochondrial genome)
+Elapsed time 00:04:28  Peak memory use  642 MB(30%)  Iteration   1 Align node
+Elapsed time 00:04:28  Peak memory use  642 MB(30%)  Iteration   1 Root alignment
+Elapsed time 00:07:53  Peak memory use  642 MB(30%)  Iteration   2 Refine tree
+Elapsed time 00:07:53  Peak memory use  642 MB(30%)  Iteration   2 Root alignment
+Elapsed time 00:07:53  Peak memory use  642 MB(30%)  Iteration   2 Root alignment
+Anchor columns found       0
+DP area saved by anchors   0.0 %
+Elapsed time 00:19:39  Peak memory use  642 MB(30%)  Iteration   3 Refine biparts
+Elapsed time 00:30:40  Peak memory use  642 MB(30%)  Iteration   4 Refine biparts
+Elapsed time 00:40:36  Peak memory use  642 MB(30%)  Iteration   5 Refine biparts
+Elapsed time 00:48:52  Peak memory use  642 MB(30%)  Iteration   6 Refine biparts
+Elapsed time 01:00:33  Peak memory use  642 MB(30%)  Iteration   7 Refine biparts
+Elapsed time 01:08:10  Peak memory use  642 MB(30%)  Iteration   8 Refine biparts
+Finished Thu Jan 09 00:14:33 2020
