@@ -24,8 +24,8 @@ namespace distanceMeasure
 		InternalDistanceMeasureCalculator& operator=(const InternalDistanceMeasureCalculator&) = delete;
 		~InternalDistanceMeasureCalculator() = default;
 
-		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override = 0;
-		float normalize(int differenceCount, int sequencesize) const override = 0;
+		virtual float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const = 0;
+		virtual float normalize(int differenceCount, int sequencesize) const = 0;
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override;
 
 		//internal calc specific funcs
@@ -37,7 +37,9 @@ namespace distanceMeasure
 		
 		//write results buffer to output FILE, closes FILE
 		void write_batch_results(const int batch_number, const size_t sequence_count);
-		
+	protected:
+		const int getArrayIndex(int row, int col, int rowCount) const { return (row * rowCount) + col; }
+
 	private:
 		FILE* pResults;
 		FILE* pQuartetResults;

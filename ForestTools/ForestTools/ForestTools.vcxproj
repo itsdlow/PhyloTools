@@ -147,14 +147,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Aligned_ExternalDMCalculator.cpp" />
     <ClCompile Include="Aligned_InternalDMCalculator.cpp" />
     <ClCompile Include="CalculatorAligner.cpp" />
+    <ClCompile Include="CalculatorFastaFormatter.cpp" />
+    <ClCompile Include="CalculatorNexusFormatter.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
+    <ClCompile Include="ExternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
     <ClCompile Include="ForestTools.cpp" />
     <ClCompile Include="InternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
+    <ClCompile Include="MrBayesDistanceCalculator.cpp" />
     <ClCompile Include="PhyloAnalysis.cpp" />
     <ClCompile Include="PhyloTools.cpp" />
     <ClCompile Include="PValueDistanceCalculator.cpp" />
@@ -163,8 +168,11 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Aligned_ExternalDMCalculator.h" />
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
     <ClInclude Include="CalculatorAligner.h" />
+    <ClInclude Include="CalculatorFastaFormatter.h" />
+    <ClInclude Include="CalculatorNexusFormatter.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
     <ClInclude Include="DistanceMeasureCalculator.h" />
     <ClInclude Include="ExternalDistanceMeasureCalculator.h" />
@@ -172,6 +180,7 @@
     <ClInclude Include="FileObjectManager.h" />
     <ClInclude Include="InternalDistanceMeasureCalculator.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
+    <ClInclude Include="MrBayesDistanceCalculator.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />
     <ClInclude Include="PValueDistanceCalculator.h" />
@@ -179,7 +188,11 @@
     <ClInclude Include="SequenceFileProcessor.h" />
     <ClInclude Include="SequenceProcessor.h" />
     <ClInclude Include="SequenceProcessorType.h" />
+    <ClInclude Include="SystemParameters.h" />
     <ClInclude Include="Tree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

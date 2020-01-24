@@ -25,6 +25,15 @@
     <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing">
       <UniqueIdentifier>{4b4a6321-059d-42b4-b495-4530573764d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\CalculatorTools">
+      <UniqueIdentifier>{89eee04b-4c25-40d9-8a79-06c86be217c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\DerivedCalculators">
+      <UniqueIdentifier>{7c6cd731-c389-44ad-b6cd-8677ea174188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\BaseCalculators">
+      <UniqueIdentifier>{a5da8a1c-4e0f-448a-9360-ef244077719b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -45,12 +54,6 @@
     <ClCompile Include="FileObjectManager.cpp">
       <Filter>Source Files\To-Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="PValueDistanceCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClCompile>
-    <ClCompile Include="LcsDistanceCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClCompile>
     <ClCompile Include="SequenceFileProcessor.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClCompile>
@@ -60,14 +63,35 @@
     <ClCompile Include="FileObject.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClCompile>
-    <ClCompile Include="InternalDistanceMeasureCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClCompile>
-    <ClCompile Include="Aligned_InternalDMCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    <ClCompile Include="CalculatorNexusFormatter.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
     <ClCompile Include="CalculatorAligner.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClCompile>
+    <ClCompile Include="PValueDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="MrBayesDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="LcsDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="Aligned_ExternalDMCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="Aligned_InternalDMCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalDistanceMeasureCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalDistanceMeasureCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculatorFastaFormatter.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,15 +110,6 @@
     <ClInclude Include="FileObjectManager.h">
       <Filter>Source Files\To-Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceMeasureCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClInclude>
-    <ClInclude Include="PValueDistanceCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClInclude>
-    <ClInclude Include="LcsDistanceCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClInclude>
     <ClInclude Include="SequenceProcessorType.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClInclude>
@@ -110,17 +125,46 @@
     <ClInclude Include="FileObject.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClInclude>
-    <ClInclude Include="InternalDistanceMeasureCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
-    </ClInclude>
-    <ClInclude Include="ExternalDistanceMeasureCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+    <ClInclude Include="CalculatorNexusFormatter.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
     <ClInclude Include="CalculatorAligner.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="PValueDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="MrBayesDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="LcsDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="Aligned_ExternalDMCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
     <ClInclude Include="Aligned_InternalDMCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
+    <ClInclude Include="DistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalDistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="InternalDistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorFastaFormatter.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemParameters.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

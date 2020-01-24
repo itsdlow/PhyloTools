@@ -2,7 +2,7 @@
 DeAngelo Wilson
 January 18 2020
 
-								Aligned_ExternalDistanceMeasureCalculator
+								Aligned_InternalDistanceMeasureCalculator
 					"has-a" calculatoraligner -- aligns sequence set 
 ********************************************************************************************************/
 
@@ -28,7 +28,6 @@ namespace distanceMeasure
 
 		//align --> forward to InternalDistanceMEasureCalc
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override final;
-
 	};
 }
 

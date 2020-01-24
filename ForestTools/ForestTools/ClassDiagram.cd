@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="distanceMeasure::DistanceMeasureCalculator">
+    <Position X="13" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>MAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>DistanceMeasureCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::DistanceMatrixObject">
+    <Position X="7" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAgAAAAAAAgAAAAAAAAIQICAAAAgCAIAAAA=</HashCode>
+      <FileName>DistanceMatrixObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::PValueDistanceCalculator">
+    <Position X="10" Y="12.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAACAAAAAAAAAAAAAAAAAAgAACAAEA=</HashCode>
+      <FileName>PValueDistanceCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::InternalDistanceMeasureCalculator">
+    <Position X="10.5" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AgAIAAAAAAAQAASAAgAAAAAAAAAAAAgAIgAgIICAAEI=</HashCode>
+      <FileName>InternalDistanceMeasureCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::LcsDistanceCalculator">
+    <Position X="6.25" Y="12.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAgAAAAAAAAAAAAABAAAkAACAAAA=</HashCode>
+      <FileName>LcsDistanceCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::CalculatorAligner">
+    <Position X="14.75" Y="11.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAIBAAACAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>CalculatorAligner.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::Aligned_InternalDMCalculator">
+    <Position X="10" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAgAAAAAAEAAAAAAAAAAgQACAAAA=</HashCode>
+      <FileName>Aligned_InternalDMCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::ExternalDistanceMeasureCalculator">
+    <Position X="16.25" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAoAAAAAAA=</HashCode>
+      <FileName>ExternalDistanceMeasureCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SystemParameters">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAQAACAAAAAAA=</HashCode>
+      <FileName>SystemParameters.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::MrBayesDistanceCalculator">
+    <Position X="16.5" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAgAAAAAAAAgAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>MrBayesDistanceCalculator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::CalculatorFastaFormatter">
+    <Position X="21.75" Y="11.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAEBAAgAAACAAA=</HashCode>
+      <FileName>CalculatorFastaFormatter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::CalculatorNexusFormatter">
+    <Position X="18.25" Y="11.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAABAAAAAAAAAAACAAAAAAAAAAAEAAAgAAAAAAA=</HashCode>
+      <FileName>CalculatorNexusFormatter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::SequenceProcessor">
+    <Position X="0.5" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAQAAAAgAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>SequenceProcessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::FileObject">
+    <Position X="3.5" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAEIAAAAgAACAAAAAAAQAAEAAAAAEAgAAAgAAA=</HashCode>
+      <FileName>FileObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::FileObjectManager">
+    <Position X="3.5" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAACgQCAAAACBAQBAAgAAIgAAAAAUAgAAAkhAgAQgA=</HashCode>
+      <FileName>FileObjectManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="distanceMeasure::SequenceFileProcessor">
+    <Position X="0.75" Y="6.75" Width="2.25" />
+    <NestedTypes>
+      <Enum Name="distanceMeasure::SequenceFileProcessor::SequencesProcessingStatus" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SequenceFileProcessor.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAACCAgAAAEAAA=</HashCode>
+      <FileName>SequenceFileProcessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

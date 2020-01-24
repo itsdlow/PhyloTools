@@ -14,13 +14,23 @@ January 18 2020
 #ifndef _CalculatorAligner
 #define _CalculatorAligner
 
+#include <string>
+
 namespace distanceMeasure
 {
 	class CalculatorAligner
 	{
-		
+	public:
+		CalculatorAligner() = default;
+		~CalculatorAligner() = default;
+		CalculatorAligner(const CalculatorAligner& ca) = delete;
+		CalculatorAligner& operator=(const CalculatorAligner& ca) = delete;
+
+		const std::string create_sequence_set_aligned_file();
+	private:
+		std::string path;
 	};
-}
+} 
 
 #endif
 

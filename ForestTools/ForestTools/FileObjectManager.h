@@ -37,7 +37,7 @@ January 3 2020*
 			std::string CheckForSequenceName(const std::string& line) const;
 
 			//
-			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string& new_sequences_path);
+			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string new_sequences_path);
 
 			
 			//accessor functions

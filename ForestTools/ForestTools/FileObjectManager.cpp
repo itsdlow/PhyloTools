@@ -64,7 +64,9 @@ namespace distanceMeasure
 		size_t buffer_size = sizeof(FileObject) * this->fileCount;
 		memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
 	}
-	void FileObjectManager::RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string& new_sequences_path)
+	
+	//used to create sub-fileObject_sets (sequence Set file objects -- for batch run)
+	void FileObjectManager::RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string new_sequences_path)
 	{
 		this->sequencesPath = new_sequences_path;
 		this->sequenceSetCount = static_cast<int>(sequence_set_names.size());
