@@ -7,6 +7,7 @@ January 3 2020
 
 
 #include "PValueDistanceCalculator.h"
+#include "FileObject.h"
 
 namespace distanceMeasure
 {

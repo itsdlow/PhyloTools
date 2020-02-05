@@ -7,7 +7,7 @@ January 3 2020
 #ifndef _DistanceMeasureCalculator
 #define _DistanceMeasureCalculator
 
-#include "FileObject.h"
+//#include "FileObject.h"
 
 #include <string>
 #include <vector>
@@ -16,6 +16,7 @@ namespace distanceMeasure
 {
 	//forward declarations
 	class FileObjectManager;
+	class FileObject;
 	
 	class DistanceMeasureCalculator
 	{

@@ -25,7 +25,7 @@ namespace distanceMeasure
 		//create new :aligned_sequence_set
 			//on sequnece set --> refill FileObjectManager with new file		
 		//CalculatorAligner::create_aligned_sequence_set_file();
-		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file());//aligned_sequence_set_path);
+		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(fileObjectManager, sequence_set_names));//aligned_sequence_set_path);
 		
 		//pass it forward
 		InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, batch_id);

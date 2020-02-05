@@ -11,9 +11,13 @@ January 18 2020
 #define _CalculatorFastaFormatter
 
 #include <string>
+#include <vector>
+
 
 namespace distanceMeasure
 {
+	class FileObjectManager;
+
 	class CalculatorFastaFormatter
 	{
 	public:
@@ -22,9 +26,8 @@ namespace distanceMeasure
 		CalculatorFastaFormatter(const CalculatorFastaFormatter& ca) = delete;
 		CalculatorFastaFormatter& operator=(const CalculatorFastaFormatter& ca) = delete;
 
-		const std::string create_sequence_set_fasta_file();
+		const std::string create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 	private:
-		std::string path;
 	};
 }
 

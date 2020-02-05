@@ -5,7 +5,7 @@ January 3 2020*
 						SequenceDirectoryProcessor (main)
 ******************************************************************************/
 
-
+//LEGACY -- out of order -- doesnt create fileobjects
 #include "SequenceDirectoryProcessor.h"
 
 #include "FileObject.h"
@@ -21,7 +21,7 @@ namespace distanceMeasure
 	//WINDOWS SPECIFIC --> LEGACY -- RETIRED...
 
 	
-	void SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	int SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//windows.h get path_directory files impl
 		WIN32_FIND_DATAA data2;
@@ -60,7 +60,7 @@ namespace distanceMeasure
 				//TODO
 
 				//place new fileObject into buffer
-				FileObject* tmp = new(pCurrentFileObject++) FileObject(this->GetFileSequence(filePath), fileName);
+				//FileObject* tmp = new(pCurrentFileObject++) FileObject(this->GetFileSequence(filePath), fileName);
 				count++;
 			}
 	        FindClose( hFind );
@@ -70,6 +70,7 @@ namespace distanceMeasure
 			printf("SDP:: directory path not found -- invalid handle");
 		}
 		//***UNDER 1 second to create FILE OBJECTS < ~.008s***
+		return 0;
 	}
 
 

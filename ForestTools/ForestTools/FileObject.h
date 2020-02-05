@@ -17,7 +17,7 @@ namespace distanceMeasure
 		FileObject();
 
 		//FileObject(const std::string& path, const std::string& filename);
-		FileObject(const std::string& sequence, const std::string& filename);
+		FileObject(const std::string& description, const std::string& sequence, const std::string& filename);
 
 		FileObject(const FileObject&) = delete;
 		FileObject& operator=(const FileObject&) = delete;
@@ -26,6 +26,7 @@ namespace distanceMeasure
 
 		const std::string GetFileName() const;
 		const int GetSequenceSize() const;
+		const std::string GetFastaDescriptionString() const;
 		const std::string GetSequenceString() const;
 		const char GetSequenceCharAt(const int pos) const;
 
@@ -36,7 +37,7 @@ namespace distanceMeasure
 
 		//std::string filePath;
 		std::string fileName;
-		
+		std::string fastaDescription;
 		std::string sequenceString;
 
 		//char* line;

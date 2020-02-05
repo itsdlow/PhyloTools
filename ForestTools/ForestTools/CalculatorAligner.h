@@ -15,10 +15,13 @@ January 18 2020
 #define _CalculatorAligner
 
 #include <string>
+#include "CalculatorFastaFormatter.h"
 
 namespace distanceMeasure
 {
-	class CalculatorAligner
+	class FileObjectManager;
+	
+	class CalculatorAligner : private CalculatorFastaFormatter
 	{
 	public:
 		CalculatorAligner() = default;
@@ -26,9 +29,8 @@ namespace distanceMeasure
 		CalculatorAligner(const CalculatorAligner& ca) = delete;
 		CalculatorAligner& operator=(const CalculatorAligner& ca) = delete;
 
-		const std::string create_sequence_set_aligned_file();
+		const std::string create_sequence_set_aligned_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 	private:
-		std::string path;
 	};
 } 
 

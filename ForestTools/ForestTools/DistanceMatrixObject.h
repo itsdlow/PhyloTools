@@ -78,6 +78,7 @@ namespace distanceMeasure
 		//private helper
 		//process a line of "sequenceList" file --> batch matrix_creation
 		const std::vector<std::string> ProcessSequenceSet(const std::string& sequence_set) const;
+		const std::string swap_underscores(const std::string& str) const;
 		
 		//called in distanceMeasure calculation to noramlize lcs value for results matrix
 		//const float normalize(int lcs, long maxSequenceSize) const;

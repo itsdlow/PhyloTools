@@ -40,7 +40,7 @@ namespace distanceMeasure
 				//Pvalue, LCS,...
 				//NOT IMPLEMENTED:: Guard against not found FileObject (nullptr)
 				//pass current (i) fileobject + next (j) fileobject to Distance_Calculator
-				float normalizedDistance = this->calculate_normalized_distance(*fileObjectManager.GetFileObject(sequence_set_names.at(i)), *fileObjectManager.GetFileObject(sequence_set_names.at(j)));
+				float normalizedDistance = this->calculate_normalized_distance(*fileObjectManager.GetSequenceSetFileObject(sequence_set_names.at(i)), *fileObjectManager.GetSequenceSetFileObject(sequence_set_names.at(j)));
 
 				//append to distance matrix for quartet calcs
 				this->lamdaMatrix.push_back(normalizedDistance);
@@ -164,12 +164,13 @@ namespace distanceMeasure
 		//WINDOWS DEPENDENCE --  '\\'
 		//open output files
 		////TODO include Distance calculator tag (id string)
-		/////TODO -- create singleton for filename format strings...  
+		/////TODO -- create singleton for filename format strings...  ******
 		//sprintf(largetree_filename, "ForestFiles\\LargeListMatrix_%d.txt", batch_number);
 		//sprintf(quartettrees_filename, "ForestFiles\\QuartetMatrixes_%d.txt", batch_number);
 		sprintf_s(largelist_filename, "ForestFiles\\LargeListMatrix_%zu_%d.txt", sequence_count, batch_number);
 		sprintf_s(quartets_filename, "ForestFiles\\QuartetMatrixes_%zu_%d.txt", sequence_count, batch_number);
 
+		//WINDOWS DEPENDENCE -- "_s" functions
 		fopen_s(&this->pResults, largelist_filename, "w");
 		fopen_s(&this->pQuartetResults, quartets_filename, "w");
 		//this->pResults = fopen(largetree_filename, "w");

@@ -1,7 +1,11 @@
+/******************************************************************************
+DeAngelo Wilson
+January 3* 2020
 
+						FileObject -- NCBI Fasta Sequences, Object
+******************************************************************************/
 #include "FileObject.h"
 
-#include <iostream>
 #include <fstream>
 
 namespace distanceMeasure
@@ -45,9 +49,10 @@ namespace distanceMeasure
 	}
 	*/
 
-	FileObject::FileObject(const std::string & sequence, const std::string & filename):
+	FileObject::FileObject(const std::string& description, const std::string & sequence, const std::string & filename):
 		sequencesize(static_cast<int>(sequence.size())),
 		fileName(filename),
+		fastaDescription(description),
 		sequenceString(sequence)
 	{
 		//this->sequencesize = sequence.size();
@@ -67,6 +72,10 @@ namespace distanceMeasure
 	const int distanceMeasure::FileObject::GetSequenceSize() const
 	{
 		return this->sequencesize;
+	}
+	const std::string distanceMeasure::FileObject::GetFastaDescriptionString() const
+	{
+		return this->fastaDescription;
 	}
 	const std::string distanceMeasure::FileObject::GetSequenceString() const
 	{

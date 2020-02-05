@@ -10,10 +10,11 @@ January 18 2020
 #define _CalculatorNexusFormatter
 
 #include <string>
+#include "CalculatorAligner.h"
 
 namespace distanceMeasure
 {
-	class CalculatorNexusFormatter
+	class CalculatorNexusFormatter: private CalculatorAligner
 	{
 	public:
 		CalculatorNexusFormatter() = default;
@@ -21,9 +22,9 @@ namespace distanceMeasure
 		CalculatorNexusFormatter(const CalculatorNexusFormatter& ca) = delete;
 		CalculatorNexusFormatter& operator=(const CalculatorNexusFormatter& ca) = delete;
 
-		const std::string create_sequence_set_nexus_file();
+		const std::string create_sequence_set_nexus_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 	private:
-		std::string path;
+		void swap_space_with_underscores(std::string& description_string);
 	};
 }
 

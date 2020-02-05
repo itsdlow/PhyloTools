@@ -49,8 +49,10 @@ January 3 2020*
 			const std::string get_original_sequences_path() const;
 			const std::string get_sequence_set_path() const;
 
-			const FileObject* const GetFileObject(const std::string& name) const;
-			
+			const FileObject* const GetFileObject(const std::string name) const;
+			const FileObject* const GetSequenceSetFileObject(const std::string name) const;
+
+			int GetMax_SS_SequenceLength() const;
 		private:
 			int fileCount;
 
@@ -61,6 +63,7 @@ January 3 2020*
 			SequenceProcessor* sp;
 
 			int sequenceSetCount;
+			int maxSequenceSetSequenceLength;
 			//path to sequence file/directory (original)
 			std::string filePath;
 			//path to current sequences

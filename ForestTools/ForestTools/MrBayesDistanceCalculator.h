@@ -8,13 +8,11 @@ January 3 2020
 #define _MrBayesDistanceCalculator
 
 #include "ExternalDistanceMeasureCalculator.h"
-#include "CalculatorAligner.h"
-#include "CalculatorFastaFormatter.h"
 #include "CalculatorNexusFormatter.h"
 
 namespace distanceMeasure
 {
-	class MrBayesDistanceCalculator : public ExternalDistanceMeasureCalculator, private CalculatorAligner, private CalculatorFastaFormatter, private CalculatorNexusFormatter
+	class MrBayesDistanceCalculator : public ExternalDistanceMeasureCalculator, private CalculatorNexusFormatter
 	{
 	public:
 		//BIG 4

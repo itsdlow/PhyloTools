@@ -16,10 +16,12 @@ January 3 2020*
 namespace distanceMeasure
 {
 	//given a single Fasta File as "fastaInput" -- containing "fileCount" many sequences --> writes to FileObjectsBuffer
-	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	int SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//uses FOM
 			//fileCount + CheckForName() + sequences_path
+		//return value
+		int maxSequenceLength = 0;
 
 		//open file
 		//read line 1 --> get file name
@@ -35,7 +37,6 @@ namespace distanceMeasure
 		else
 		{
 			const int sequenceCount = pFOM->get_sequence_set_count();
-
 			int count = 0;
 			//read file
 			std::string line;
@@ -47,15 +48,16 @@ namespace distanceMeasure
 			do
 			{
 				count++;
-			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++) && count < sequenceCount);
+			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++, maxSequenceLength) && count < sequenceCount);
 			
 
 			printf("finished processing file\n");
 			fastaInput.close();
 		}
+		return maxSequenceLength;
 	}
 
-	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject) const
+	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject, int& maxSequence_ref) const
 	{
 		SequencesProcessingStatus more_sequences_status = SequencesProcessingStatus::MORE_SEQUENCES;
 		std::string line(annotation_line);
@@ -64,9 +66,12 @@ namespace distanceMeasure
 
 		//get species name from File_Object_Manager
 		const std::string speciesName(pFOM->CheckForSequenceName(line));
+		//get first line of fasta sequence (">Species_Name....")
+		const std::string fastaIDLine(line);
+		//note:: could change this to just accension number
 		
 		//put together species_sequence --- 1 - ??? lines long
-		while (std::getline(fasta_input, line) && line.front() != '>')
+		while (std::getline(fasta_input, line) && (line.empty() || line.front() != '>') )//if empty line -- dont check for new org line ( '>' )
 		{
 			speciesSequence.append(line);	
 		}
@@ -80,10 +85,15 @@ namespace distanceMeasure
 			//pass-back next_organism name
 			annotation_line = line;
 		}
+		//check max sequence length
+		if(maxSequence_ref < speciesSequence.length())
+		{
+			maxSequence_ref = speciesSequence.length();
+		}
 
 		printf("SpeciesName::%s-\n", speciesName.c_str());
 		//create file object with file name and sequence string
-		FileObject* tmp = new(pFileObject) FileObject(speciesSequence, speciesName);//...not really const function... FileObjectManager:: unsafe pointer 
+		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesName);//...not really const function... FileObjectManager:: unsafe pointer 
 		printf("created FileObject\n");
 
 		return more_sequences_status;

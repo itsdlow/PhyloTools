@@ -73,7 +73,9 @@ namespace distanceMeasure
 				//pass aligned sequence to MRBAYES app
 				//OR
 				//PASS ALIGNED/Unaligned SEQUENCE lis
-				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, batch_count++);				
+				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, batch_count++);
+					//note::multithreaded -- thread pool on function/functor^
+					//	//output associated with thread_id
 					//calculate LargeTree giving sequence_names_list
 					//this->CalculateLargeTreeDistanceMeasures(sequence_set_names);
 					//this->CalculateAllQuartetsDistanceMeasures(sequence_set_names);
@@ -90,6 +92,7 @@ namespace distanceMeasure
 	{
 	}
 
+	//TODO -- REMOVE UNDERSCORES " _ " sequence_set_name used to search fasta description line****
 	const std::vector<std::string> distanceMeasure::DistanceMatrixObject::ProcessSequenceSet(const std::string& sequence_set) const
 	{
 		//get number of sequences
@@ -106,12 +109,12 @@ namespace distanceMeasure
 		//add sequences to vector - return
 		while(std::string::npos != (next = sequence_set.find_first_of(' ', start)) )
 		{
-			sequence_names.push_back(sequence_set.substr(start, next-start));
+			sequence_names.push_back(swap_underscores(sequence_set.substr(start, next-start)) );
 			start = next + 1;
 			count++;
 		}
 		//add last sequence_name
-		sequence_names.push_back(sequence_set.substr(start)); count++;
+		sequence_names.push_back(swap_underscores(sequence_set.substr(start)) ); count++;
 
 		if(count != sequence_count)
 		{
@@ -119,6 +122,21 @@ namespace distanceMeasure
 		}
 		
 		return sequence_names;
+	}
+	//given line with 0 - N underscores -- swap underscore with spaces
+	const std::string DistanceMatrixObject::swap_underscores(const std::string& str) const
+	{
+		std::string res = str;
+		for(auto it = res.begin(); it != res.end(); it++)
+		{
+			//swap underscore for space
+			if(*it == '_')
+			{
+				*it = ' ';
+			}
+		}
+		
+		return res;
 	}
 
 //calculate LargeTree (w/o quartets) Distance Matrix

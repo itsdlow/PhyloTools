@@ -1,10 +1,12 @@
+/******************************************************************************
+DeAngelo Wilson
+January 3 2020
 
-
-
-
-
+						LCSDistanceMeasureCalculator (strategy -- derived)
+******************************************************************************/
 
 #include "LcsDistanceCalculator.h"
+#include "FileObject.h"
 
 namespace distanceMeasure
 {

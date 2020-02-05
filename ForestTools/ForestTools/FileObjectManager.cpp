@@ -15,7 +15,7 @@ January 3 2020
 
 
 #include <fstream>
-#include <iostream>
+//#include <iostream>
 
 namespace distanceMeasure
 { 
@@ -42,7 +42,6 @@ namespace distanceMeasure
 	filePath(path),
 	sequencesPath(path)
 	{
-		
 		//switch (path_type)
 		//{
 		//	case SequenceProcessorType::FileProcessor:
@@ -59,7 +58,7 @@ namespace distanceMeasure
 		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
 		//creates Sequence_File_Objects and fills array
 		//this->sp->CreateFileObjects(this->pFileObjectsBuffer, path, this->fileCount);
-		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
+		this->maxSequenceSetSequenceLength = this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
 		//WINDOWS DEPENDENCE
 		size_t buffer_size = sizeof(FileObject) * this->fileCount;
 		memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
@@ -71,7 +70,7 @@ namespace distanceMeasure
 		this->sequencesPath = new_sequences_path;
 		this->sequenceSetCount = static_cast<int>(sequence_set_names.size());
 		this->currentSequenceNames = sequence_set_names;
-		this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
+		this->maxSequenceSetSequenceLength = this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
 	}
 
 	const std::vector<std::string> FileObjectManager::FillSequenceNamesVector(const std::string& sequence_names_path)
@@ -82,16 +81,19 @@ namespace distanceMeasure
 		if (!sequenceNamesInput.is_open())
 		{
 			printf("File at path: %s - could not be opened\nSequence names could not be retrieved\n", sequence_names_path.c_str());
-			int res;
-			printf("If you would like to try the default Sequence Name retrieval type: '0'\n");
-			std::cin >> res;
-			//use default streagy...
-			if (!res)
-			{
-				printf("default name retrieval inactive... WIP\n");
-			}
+			//int res;
+			//printf("If you would like to try the default Sequence Name retrieval type: '0'\n");
+
+			//
+			////std::cin >> res;
+			////use default streagy...
+			//if (!res)
+			//{
+			//	printf("default name retrieval inactive... WIP\n");
+			//}
+			exit(0);
 		}
-		//fill sequenceNames vector with organisms names
+		//fill sequenceNames vector with organisms namesd
 		else
 		{
 			int count = 0;
@@ -122,14 +124,14 @@ namespace distanceMeasure
 			{
 				std::string name(*it);
 
-				//replace all spaces w/ "__underscores__"
-				for(auto i = 0u; i < name.size(); i++)
-				{
-					if( isspace(name.at(i)) )
-					{
-						name.replace(i, 1u, 1u, '_');
-					}
-				}//--> create_one_word_species_name
+				////replace all spaces w/ "__underscores__"
+				//for(auto i = 0u; i < name.size(); i++)
+				//{
+				//	if( isspace(name.at(i)) )
+				//	{
+				//		name.replace(i, 1u, 1u, '_');
+				//	}
+				//}//--> create_one_word_species_name
 
 				return name;
 			}
@@ -145,20 +147,40 @@ namespace distanceMeasure
 	 * 
 	 ****************************************************/
 
-	const FileObject* const FileObjectManager::GetFileObject(const std::string& name) const
+	const FileObject* const FileObjectManager::GetFileObject(const std::string name) const
 	{
 		//find fileobject w. "name" filename
-		for(int i = 0; i < this->sequenceSetCount; i++)
+		for(int i = 0; i < this->fileCount; i++)
 		{
-			if(this->pSequenceSetFileObjectBuffer[i].GetFileName() == name)
+			if(this->pFileObjectsBuffer[i].GetFileName() == name)
+			{
+				return &this->pFileObjectsBuffer[i];
+			}
+		}
+		printf("FileObject not found for '%s'\n", name.c_str());
+		exit(0);
+		return nullptr;
+	}
+
+	const FileObject* const distanceMeasure::FileObjectManager::GetSequenceSetFileObject(const std::string name) const
+	{
+		//find fileobject w. "name" filename
+		for (int i = 0; i < this->sequenceSetCount; i++)
+		{
+			if (this->pSequenceSetFileObjectBuffer[i].GetFileName() == name)
 			{
 				return &this->pSequenceSetFileObjectBuffer[i];
 			}
 		}
-		
+		printf("FileObject not found for '%s'\n", name.c_str());
+		exit(0);
 		return nullptr;
 	}
-	
+
+	int distanceMeasure::FileObjectManager::GetMax_SS_SequenceLength() const
+	{
+		return this->maxSequenceSetSequenceLength;
+	}
 	const FileObject* distanceMeasure::FileObjectManager::get_file_objects_addr() const
 	{
 		return this->pFileObjectsBuffer;
