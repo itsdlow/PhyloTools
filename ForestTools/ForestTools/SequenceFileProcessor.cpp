@@ -16,12 +16,12 @@ January 3 2020*
 namespace distanceMeasure
 {
 	//given a single Fasta File as "fastaInput" -- containing "fileCount" many sequences --> writes to FileObjectsBuffer
-	int SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//uses FOM
 			//fileCount + CheckForName() + sequences_path
 		//return value
-		int maxSequenceLength = 0;
+		//int maxSequenceLength = 0;
 
 		//open file
 		//read line 1 --> get file name
@@ -48,16 +48,16 @@ namespace distanceMeasure
 			do
 			{
 				count++;
-			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++, maxSequenceLength) && count < sequenceCount);
+			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++) && count < sequenceCount);
 			
 
 			printf("finished processing file\n");
 			fastaInput.close();
 		}
-		return maxSequenceLength;
+		//return maxSequenceLength;
 	}
 
-	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject, int& maxSequence_ref) const
+	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject) const
 	{
 		SequencesProcessingStatus more_sequences_status = SequencesProcessingStatus::MORE_SEQUENCES;
 		std::string line(annotation_line);
@@ -84,11 +84,6 @@ namespace distanceMeasure
 		{
 			//pass-back next_organism name
 			annotation_line = line;
-		}
-		//check max sequence length
-		if(maxSequence_ref < speciesSequence.length())
-		{
-			maxSequence_ref = speciesSequence.length();
 		}
 
 		printf("SpeciesName::%s-\n", speciesName.c_str());

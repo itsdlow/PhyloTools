@@ -30,15 +30,34 @@ const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set
 	char GAP_CHAR = '-';
 	char MISSING_CHAR = '?';
 	//get NCHAR -- max length of --sequence_set--sequences?
-	int NCHAR = fileObjectManager.GetMax_SS_SequenceLength();
+	int NCHAR = fileObjectManager.Get_SS_SequenceLength();
 
 	//WINDOWS DEPENDENCE
 	//nexus file formatting header
-	char nexus_header[100];
+	char nexus_header[200];
 	sprintf_s(nexus_header, "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = DNA GAP = %c MISSING = %c;\n\tMATRIX\n", 
 		sequence_count, NCHAR, GAP_CHAR, MISSING_CHAR);
 
+	//TODO -- move format string to systemsParameters
+	//WiNDOWS DEPENDENCE
+	char nexus_file_path[100];
+	sprintf_s(nexus_file_path, "ForestFiles/TempFiles/temp_%zu.nxs", sequence_set_names.size());
+
+	//WiNDOWS DEPENDENCE
+	FILE* nexusFile;
+	fopen_s(&nexusFile, nexus_file_path, "w");
 	sequence_set_nexus_string.append(nexus_header);
+
+	if (nexusFile)
+	{
+		size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
+		sequence_set_nexus_string.clear();
+	}
+	else
+	{
+		printf("Could not create temp nexus file...\n");
+		exit(0);
+	}
 	
 	
 	//use sequence set Fileobjects to create nexus file, on sequence_set_names
@@ -51,30 +70,13 @@ const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set
 		sequence_set_nexus_string.append("\t");
 		sequence_set_nexus_string.append(pFileObject->GetSequenceString());
 		sequence_set_nexus_string.append("\n");
-	}
-	
-	//TODO -- move format string to systemsParameters
-	//WiNDOWS DEPENDENCE
-	char nexus_file_path[80];
-	sprintf_s(nexus_file_path, "ForestFiles/TempFiles/temp_%zu.nxs", sequence_set_names.size());
-
-
-	FILE* nexusFile;
-	fopen_s(&nexusFile, nexus_file_path, "w");
-	//FILE* fastaFile = fopen(fasta_filename, "w");
-
-	if (nexusFile)
-	{
+		//write to file
 		size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
-		fclose(nexusFile);
+		sequence_set_nexus_string.clear();
 	}
-	else
-	{
-		printf("Could not create temp nexus file...\n");
-		exit(0);
-	}
+	//NEXUS FOOTER???
 
-
+	fclose(nexusFile);
 	//return new .nxs (nexus format file on aligned sequences) filename
 	return std::string(nexus_file_path);
 }

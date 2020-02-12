@@ -20,7 +20,7 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 	//TODO -- move format string to systemsParameters
 	sprintf_s(alignment_command, "extra_tools\\muscle.exe -in %s -out %s", fasta_file_path.c_str(), aligned_file_path);
 	//use muscle (3rd party) to align new_temp_FASTA file
-	system(alignment_command);
+	//system(alignment_command);
 
 	
 	//return new .afa (aligned FASTA sequence file) filename
