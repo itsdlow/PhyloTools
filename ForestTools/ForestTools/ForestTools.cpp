@@ -10,7 +10,12 @@ January 3 2020
 #include <string>
 
 #include "DistanceMatrixObject.h"
+
+#include "DistanceMeasureCalculator.h"
 #include "PValueDistanceCalculator.h"
+#include "LcsDistanceCalculator.h"
+#include "MrBayesDistanceCalculator.h"
+
 
 int main()
 {
@@ -51,17 +56,37 @@ int main()
     //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
     printf("LCS (0), P_Value (1), MrBayes (2), NCD (3)\n");
     printf("Matrix Calculation Method Number: ");
-	//std::cin >> method;
+	std::cin >> method;
     printf("\n");
 
+	distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
+	switch (method)
+	{
+	case 0:
+		dmc = new distanceMeasure::LcsDistanceCalculator();
+		break;
+	case 1:
+		dmc = new distanceMeasure::PValueDistanceCalculator();
+		break;
+	case 2:
+		dmc = new distanceMeasure::MrBayesDistanceCalculator();
+		break;
+	case 3:
+		//dmc = new distanceMeasure::NcdDistanceCalculator();
+		break;
+	default:
+		break;
+	}
     //intializes / prepares all file objects (sequences)
         //for generic distance measure method to work --> must supply distance calc (w/ normalize func!!!)
-    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, new distanceMeasure::PValueDistanceCalculator());
+    distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, dmc);
     
     /*******************   TODO:: Batch run (OPTIONAL)   ***********************/
     printf("Path to Sequence List File: ");
     //file:: string of all sequence combinations --> matrixes to create
     std::cin >> tree_sequences_list;
+
+
 
   /*********************************************************************************************
         for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix

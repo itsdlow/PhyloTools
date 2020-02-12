@@ -27,10 +27,10 @@ namespace distanceMeasure
 
 		//helper functions
 		//void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) override;
-		int CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer) override;
+		void CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer) override;
 
 		enum class SequencesProcessingStatus{NO_MORE_SEQUENCES, MORE_SEQUENCES, ERROR};
-		SequencesProcessingStatus create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject, int& maxSequence_ref) const;
+		SequencesProcessingStatus create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject) const;
 	private:
 
 

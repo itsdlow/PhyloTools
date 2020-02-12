@@ -21,7 +21,7 @@ namespace distanceMeasure
 	//WINDOWS SPECIFIC --> LEGACY -- RETIRED...
 
 	
-	int SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	void SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//windows.h get path_directory files impl
 		WIN32_FIND_DATAA data2;
@@ -70,7 +70,7 @@ namespace distanceMeasure
 			printf("SDP:: directory path not found -- invalid handle");
 		}
 		//***UNDER 1 second to create FILE OBJECTS < ~.008s***
-		return 0;
+		//return 0;
 	}
 
 

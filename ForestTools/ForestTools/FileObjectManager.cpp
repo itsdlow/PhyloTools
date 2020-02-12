@@ -58,7 +58,7 @@ namespace distanceMeasure
 		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
 		//creates Sequence_File_Objects and fills array
 		//this->sp->CreateFileObjects(this->pFileObjectsBuffer, path, this->fileCount);
-		this->maxSequenceSetSequenceLength = this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
+		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
 		//WINDOWS DEPENDENCE
 		size_t buffer_size = sizeof(FileObject) * this->fileCount;
 		memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
@@ -70,7 +70,7 @@ namespace distanceMeasure
 		this->sequencesPath = new_sequences_path;
 		this->sequenceSetCount = static_cast<int>(sequence_set_names.size());
 		this->currentSequenceNames = sequence_set_names;
-		this->maxSequenceSetSequenceLength = this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
+		this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
 	}
 
 	const std::vector<std::string> FileObjectManager::FillSequenceNamesVector(const std::string& sequence_names_path)
@@ -177,10 +177,6 @@ namespace distanceMeasure
 		return nullptr;
 	}
 
-	int distanceMeasure::FileObjectManager::GetMax_SS_SequenceLength() const
-	{
-		return this->maxSequenceSetSequenceLength;
-	}
 	const FileObject* distanceMeasure::FileObjectManager::get_file_objects_addr() const
 	{
 		return this->pFileObjectsBuffer;
@@ -204,6 +200,10 @@ namespace distanceMeasure
 	const int distanceMeasure::FileObjectManager::get_sequence_set_count() const
 	{
 		return this->sequenceSetCount;
+	}
+	int distanceMeasure::FileObjectManager::Get_SS_SequenceLength()
+	{
+		return this->pSequenceSetFileObjectBuffer[0].GetSequenceSize();
 	}
 
 	FileObjectManager::~FileObjectManager()
