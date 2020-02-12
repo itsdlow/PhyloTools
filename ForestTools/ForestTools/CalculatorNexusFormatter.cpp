@@ -35,7 +35,7 @@ const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set
 	//WINDOWS DEPENDENCE
 	//nexus file formatting header
 	char nexus_header[100];
-	sprintf_s(nexus_header, "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = DNA GAP = %c MISSING = %c;\n\tMATRIX\n", 
+	sprintf_s(nexus_header, "#NEXUS\n[comment... date, etc....]\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = DNA GAP = %c MISSING = %c;\n\tMATRIX\n", 
 		sequence_count, NCHAR, GAP_CHAR, MISSING_CHAR);
 
 	sequence_set_nexus_string.append(nexus_header);

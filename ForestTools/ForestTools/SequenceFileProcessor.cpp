@@ -54,6 +54,7 @@ namespace distanceMeasure
 			printf("finished processing file\n");
 			fastaInput.close();
 		}
+		//TO REMOVE -- Do not need max sequence length for every Calcuylator -- only aligned_...Calculators (i.e. MrByaes)
 		return maxSequenceLength;
 	}
 
