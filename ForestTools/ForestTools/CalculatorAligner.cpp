@@ -14,6 +14,7 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 
 	char alignment_command[200];
 	char aligned_file_path[80];
+	//WINDOWS DEPENDENCE
 	sprintf_s(aligned_file_path, "ForestFiles/TempFiles/temp_%zu.afa", sequence_set_names.size());
 
 	//WiNDOWS DEPENDENCE

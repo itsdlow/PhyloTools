@@ -25,7 +25,8 @@ namespace distanceMeasure
 
 		
 	private:
-
+		//batch running command creation func
+		std::string create_mrbayes_default_command_block_file(const std::string& relative_nxs_path);
 
 	};
 
