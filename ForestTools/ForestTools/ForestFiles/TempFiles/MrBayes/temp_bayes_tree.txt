@@ -1,0 +1,17 @@
+tree gen.10000 = [&U] ((((Urotrichus_talpoides:8.443033e-001,(Elephantulus_sp.:1.405930e+000,Eulemur_macaco_macaco:1.029391e+000):1.816663e-001):8.410429e-002,(Camelus_bactrianus:7.191450e-001,((((Muntiacus_crinifrons:1.710157e-001,Mazama_gouazoupira:1.822338e-001):1.163006e-001,(Ovis_orientalis_ophion:1.955014e-001,Oryx_dammah:2.194587e-001):8.619363e-002):2.803307e-001,(Hippopotamus_amphibius:5.125406e-001,Balaenoptera_acutorostrata:5.320436e-001):1.197806e-001):6.596313e-002,(Pecari_tajacu:4.162875e-001,Sus_celebensis:3.660917e-001):2.658588e-001):2.810035e-002):1.031010e-001):1.445887e-002,(Pipistrellus_abramus:1.238113e+000,Rhinolophus_pumilus:5.395002e-001):1.656444e-001):3.970827e-002,Ursus_arctos:7.752282e-001,Equus_przewalskii:5.351147e-001);
+       1 Equus_przewalskii,
+       2 Ursus_arctos,
+       3 Camelus_bactrianus,
+       4 Eulemur_macaco_macaco,
+       5 Hippopotamus_amphibius,
+       6 Balaenoptera_acutorostrata,
+       7 Elephantulus_sp.,
+       8 Oryx_dammah,
+       9 Muntiacus_crinifrons,
+      10 Ovis_orientalis_ophion,
+      11 Pipistrellus_abramus,
+      12 Rhinolophus_pumilus,
+      13 Pecari_tajacu,
+      14 Mazama_gouazoupira,
+      15 Sus_celebensis,
+      16 Urotrichus_talpoides;

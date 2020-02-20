@@ -1,0 +1,7 @@
+[ID: 6143473642]
+[   Gen                --  Generation]
+[   <name1>(<name2>)$acc_run2      --  Acceptance rate of move <name1> changing parameter 1 in run 2]
+[   Swap(1<>2)$acc                 --  Acceptance rate of swaps between chains 1 and 2]
+Gen	Dirichlet(Revmat)$acc	Dirichlet(Revmat)$alpha	Slider(Revmat)$acc	Slider(Revmat)$delta	Dirichlet(Pi)$acc	Dirichlet(Pi)$alpha	Slider(Pi)$acc	Slider(Pi)$delta	Multiplier(Alpha)$acc	Multiplier(Alpha)$lambda	ExtSPR(Tau)$acc	ExtTBR(Tau)$acc	NNI(Tau)$acc	ParsSPR(Tau)$acc	Multiplier(V)$acc	Multiplier(V)$lambda	Nodeslider(V)$acc	TLMultiplier(V)$acc	TLMultiplier(V)$lambda	Swap(1<>2)$acc	Swap(1<>3)$acc	Swap(1<>4)$acc	Swap(2<>3)$acc	Swap(2<>4)$acc	Swap(3<>4)$acc
+5000	NA	1.000000e+002	NA	1.500000e-001	NA	1.000000e+002	NA	2.000000e-001	0.080000	7.948727e-001	0.000000	0.000000	0.010000	0.010000	0.240000	9.575611e-001	0.100000	0.050000	1.292572e+000	0.085439	0.004700	0.000000	0.560241	0.200233	0.389303
+10000	0.020000	1.010050e+002	NA	1.500000e-001	0.010000	1.010050e+002	NA	2.000000e-001	0.040000	7.869636e-001	0.030000	0.000000	0.000000	0.010000	0.300000	1.006656e+000	0.050000	0.040000	1.254371e+000	0.342043	0.160049	0.083724	0.592752	0.243039	0.505250
