@@ -54,8 +54,6 @@ namespace distanceMeasure
 			printf("finished processing file\n");
 			fastaInput.close();
 		}
-		//TO REMOVE -- Do not need max sequence length for every Calcuylator -- only aligned_...Calculators (i.e. MrByaes)
-		//return maxSequenceLength;
 	}
 
 	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject) const

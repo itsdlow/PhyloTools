@@ -21,7 +21,7 @@ namespace distanceMeasure
 		Aligned_InternalDMCalculator() = default;
 		Aligned_InternalDMCalculator(const Aligned_InternalDMCalculator&) = delete;
 		Aligned_InternalDMCalculator& operator=(const Aligned_InternalDMCalculator&) = delete;
-		~Aligned_InternalDMCalculator() = default;
+		virtual ~Aligned_InternalDMCalculator() = default;
 
 		float calculate_normalized_distance(const FileObject & file1, const FileObject & file2) const override = 0;
 		float normalize(int differenceCount, int sequencesize) const override = 0;

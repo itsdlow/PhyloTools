@@ -65,7 +65,7 @@ namespace distanceMeasure
 	}
 
 	//accesors
-	const std::string distanceMeasure::FileObject::GetFileName() const
+	const std::string distanceMeasure::FileObject::GetSequenceName() const
 	{
 		return this->fileName;
 	}

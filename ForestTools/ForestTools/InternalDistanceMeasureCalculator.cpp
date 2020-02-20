@@ -9,6 +9,7 @@ January 18 2020
 #include "InternalDistanceMeasureCalculator.h"
 
 #include "FileObjectManager.h"
+#include "SystemParameters.h"
 
 namespace distanceMeasure
 {
@@ -16,24 +17,65 @@ namespace distanceMeasure
 	{
 		//if alignment needed
 		//ALIGN -- refill_FileObjectManager... done by derived calcs
+
+		
 		//calculate LargeTree giving sequence_names_list
 		this->CalculateLargeTreeDistanceMeasures(fileObjectManager, sequence_set_names);
 		this->CalculateAllQuartetsDistanceMeasures(sequence_set_names);
 
 		////create file for current sequence_set
 		this->write_batch_results( batch_id, sequence_set_names.size() );
+
+		this->create_tree(sequence_set_names, batch_id);
 	}
 
+	void distanceMeasure::InternalDistanceMeasureCalculator::create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id)
+	{
+		//get batch_ID_matrix FILE (quartets + LargeList)
+			//feed to fastme
+			//********************************************
+		const int sequence_set_count = static_cast<int>(sequence_set_names.size());
+		//Get current_sequence-set_matrix files
+		char matrix_file_path[100];
+		char quartet_matrices_file_path[100];
+		//WINDOWS DEPENDENCE
+		sprintf_s(matrix_file_path, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+		sprintf_s(quartet_matrices_file_path, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+		//get path for new_tree files
+		char large_tree_file_path[150];
+		char quartet_trees_file_path[150];
+		sprintf_s(large_tree_file_path, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+		sprintf_s(quartet_trees_file_path, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+
+		//sequence_set_size choose 4
+		const int quartetCount = DistanceMeasureCalculator::GetQuartetCombinations( sequence_set_count );
+
+		char fastme_command[200];
+		char fastme_quartets_command[200];
+		//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"
+		sprintf_s(fastme_command, SystemParameters::GetFastmeCommandString().c_str(), matrix_file_path, 1, large_tree_file_path);
+		sprintf_s(fastme_quartets_command, SystemParameters::GetFastmeCommandString().c_str(), quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
+
+		system(fastme_command);
+		system(fastme_quartets_command);
+
+		printf("1st trees created\n");
+	}
+	
 	//calculate LargeTree (w/o quartets) Distance Matrix
 	void InternalDistanceMeasureCalculator::CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
 	{
 		const size_t fileCount = sequence_set_names.size();
 
+		this->results.append(std::to_string(fileCount).append("\n"));
+
 		for (auto i = 0u; i < fileCount; i++)
 		{
 			//this->results.append(pCurrentFileObject->GetFileName());
-			this->results.append(sequence_set_names.at(i));
-
+			std::string name = sequence_set_names.at(i);
+			//TODO:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
+			DistanceMeasureCalculator::swap_space_with_underscores(name);
+			this->results.append(name);
 
 			for (auto j = 0u; j < fileCount; j++)
 			{
@@ -54,6 +96,7 @@ namespace distanceMeasure
 			printf("\t%zu LCS calculations performed -- %zu calculations remaining...\n", fileCount, (fileCount * fileCount) - (fileCount + (i * fileCount)));
 		}
 	}
+
 	//4 POINT CONDITION CHECK --> FIND ALL QUARTETS "TREE (T)" INDUCES
 	void InternalDistanceMeasureCalculator::CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names)
 	{
@@ -77,24 +120,6 @@ namespace distanceMeasure
 				{
 					for (int l = k + 1; l < fileCount; l++)
 					{
-
-						/*
-						float sum1 = this->lamdaMatrix.at(this->getArrayIndex(i, j, fileCount)) + this->lamdaMatrix.at(this->getArrayIndex(l, k, fileCount));
-						float sum2 = this->lamdaMatrix.at(this->getArrayIndex(i, k, fileCount)) + this->lamdaMatrix.at(this->getArrayIndex(j, l, fileCount));
-						float sum3 = this->lamdaMatrix.at(this->getArrayIndex(i, l, fileCount)) + this->lamdaMatrix.at(this->getArrayIndex(j, k, fileCount));
-						//printf("(%d, %d + %d, %d) -- %f,  %f, %f\n", i,j,l,k,sum1, sum2, sum3 );
-						float minPairwiseSum;
-						if(this->fourPointConditionCheck(sum1, sum2, sum3, minPairwiseSum) == -1)
-						{
-							//4point condition does not hold
-							//Quartets method FAILED --> distance Matrix Invalid
-							printf("lamdaMatrix invalid (non-additive) -- 4 point condition does not hold\n");
-							//break;
-							//return;
-						}
-						*/
-
-
 						//create quartet Distance Matrix -- append to output
 						/*
 						--0 lamdaM(count, i) lamdaM(count, j) lamdaM(count, k) lamdaM(count, l)
@@ -103,13 +128,8 @@ namespace distanceMeasure
 						--3
 						*/
 
-						//using four point method--
-						//create newick based off results of FPM (--> tells pairings (siblings)) [no branch lengths???]
-
-
 						this->write_quartet_matrix(i, j, k, l, sequence_set_names, fileCount);
 						//printf("wrote quartet matrix\n");
-
 					}
 				}
 			}
@@ -140,7 +160,11 @@ namespace distanceMeasure
 		{
 			//taxon name of current fileObject
 			//this->quartetResults.append(pFileObjects[indexV.at(row)].GetFileName());
-			this->quartetResults.append(sequence_set_names.at(indexV.at(row)));
+			//this->quartetResults.append(sequence_set_names.at(indexV.at(row)));
+			std::string name = sequence_set_names.at(indexV.at(row));
+			//TODO:: refine so dont need to always swap -- change FOM to store one-word-sequence_names
+			DistanceMeasureCalculator::swap_space_with_underscores(name);
+			this->quartetResults.append(name);
 
 			//distance measures
 			this->quartetResults.append(" ");
@@ -158,8 +182,8 @@ namespace distanceMeasure
 	//Open new batch file && write results buffer to output FILEs
 	void InternalDistanceMeasureCalculator::write_batch_results(const int batch_number, const size_t sequence_count)
 	{
-		char largelist_filename[50];
-		char quartets_filename[50];
+		char largelist_filename[100];
+		char quartets_filename[100];
 
 		//WINDOWS DEPENDENCE --  '\\'
 		//open output files
@@ -167,8 +191,8 @@ namespace distanceMeasure
 		/////TODO -- create singleton for filename format strings...  ******
 		//sprintf(largetree_filename, "ForestFiles\\LargeListMatrix_%d.txt", batch_number);
 		//sprintf(quartettrees_filename, "ForestFiles\\QuartetMatrixes_%d.txt", batch_number);
-		sprintf_s(largelist_filename, "ForestFiles\\LargeListMatrix_%zu_%d.txt", sequence_count, batch_number);
-		sprintf_s(quartets_filename, "ForestFiles\\QuartetMatrixes_%zu_%d.txt", sequence_count, batch_number);
+		sprintf_s(largelist_filename, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+		sprintf_s(quartets_filename, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 
 		//WINDOWS DEPENDENCE -- "_s" functions
 		fopen_s(&this->pResults, largelist_filename, "w");

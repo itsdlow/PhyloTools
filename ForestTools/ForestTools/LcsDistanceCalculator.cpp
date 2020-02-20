@@ -10,6 +10,13 @@ January 3 2020
 
 namespace distanceMeasure
 {
+
+
+	std::string distanceMeasure::LcsDistanceCalculator::GetCalculatorName() const
+	{
+		return "LCS";
+	}
+	
 	float LcsDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{
 

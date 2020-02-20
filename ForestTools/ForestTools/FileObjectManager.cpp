@@ -152,7 +152,7 @@ namespace distanceMeasure
 		//find fileobject w. "name" filename
 		for(int i = 0; i < this->fileCount; i++)
 		{
-			if(this->pFileObjectsBuffer[i].GetFileName() == name)
+			if(this->pFileObjectsBuffer[i].GetSequenceName() == name)
 			{
 				return &this->pFileObjectsBuffer[i];
 			}
@@ -167,7 +167,7 @@ namespace distanceMeasure
 		//find fileobject w. "name" filename
 		for (int i = 0; i < this->sequenceSetCount; i++)
 		{
-			if (this->pSequenceSetFileObjectBuffer[i].GetFileName() == name)
+			if (this->pSequenceSetFileObjectBuffer[i].GetSequenceName() == name)
 			{
 				return &this->pSequenceSetFileObjectBuffer[i];
 			}

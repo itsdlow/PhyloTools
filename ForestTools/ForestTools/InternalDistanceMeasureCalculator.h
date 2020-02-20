@@ -22,12 +22,17 @@ namespace distanceMeasure
 		InternalDistanceMeasureCalculator() = default;
 		InternalDistanceMeasureCalculator(const InternalDistanceMeasureCalculator&) = delete;
 		InternalDistanceMeasureCalculator& operator=(const InternalDistanceMeasureCalculator&) = delete;
-		~InternalDistanceMeasureCalculator() = default;
+		virtual ~InternalDistanceMeasureCalculator() = default;
 
 		virtual float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const = 0;
 		virtual float normalize(int differenceCount, int sequencesize) const = 0;
-		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override;
 
+		//driver funcs
+		//void operator()();
+		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override;
+		void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override;
+
+		
 		//internal calc specific funcs
 					//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
 		void CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
@@ -37,6 +42,9 @@ namespace distanceMeasure
 		
 		//write results buffer to output FILE, closes FILE
 		void write_batch_results(const int batch_number, const size_t sequence_count);
+
+		std::string GetCalculatorName() const override = 0;
+
 	protected:
 		const int getArrayIndex(int row, int col, int rowCount) const { return (row * rowCount) + col; }
 
@@ -49,7 +57,6 @@ namespace distanceMeasure
 
 		//2D array (distanceMATRIX) of floats
 		std::vector<float> lamdaMatrix;
-
 	};
 }
 

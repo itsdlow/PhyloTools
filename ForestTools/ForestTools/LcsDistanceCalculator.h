@@ -18,10 +18,12 @@ namespace distanceMeasure
 		LcsDistanceCalculator() = default;
 		LcsDistanceCalculator(const LcsDistanceCalculator&) = delete;
 		LcsDistanceCalculator& operator=(const LcsDistanceCalculator&) = delete;
-		~LcsDistanceCalculator() = default;
+		virtual ~LcsDistanceCalculator() = default;
 
 		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
 		float normalize(int differenceCount, int sequencesize) const override;
+
+		std::string GetCalculatorName() const override;
 
 	private:
 		//helper funcs

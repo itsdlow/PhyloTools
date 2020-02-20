@@ -21,7 +21,7 @@ namespace distanceMeasure
 		Aligned_ExternalDMCalculator() = default;
 		Aligned_ExternalDMCalculator(const Aligned_ExternalDMCalculator&) = delete;
 		Aligned_ExternalDMCalculator& operator=(const Aligned_ExternalDMCalculator&) = delete;
-		~Aligned_ExternalDMCalculator() = default;
+		virtual ~Aligned_ExternalDMCalculator() = default;
 
 		//align --> forward to ExternalDistanceMEasureCalc
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override final;

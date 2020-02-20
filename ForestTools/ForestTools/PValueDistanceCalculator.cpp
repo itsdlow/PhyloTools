@@ -24,7 +24,10 @@ namespace distanceMeasure
 	//	//pass FOM forward...
 	//	InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, batch_id);
 	//}
-
+	std::string distanceMeasure::PValueDistanceCalculator::GetCalculatorName() const
+	{
+		return "PValue";
+	}
 	
 	float PValueDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{

@@ -71,9 +71,9 @@ int main()
 	case 2:
 		dmc = new distanceMeasure::MrBayesDistanceCalculator();
 		break;
-	case 3:
-		//dmc = new distanceMeasure::NcdDistanceCalculator();
-		break;
+	//case 3:
+	//	dmc = new distanceMeasure::NcdDistanceCalculator();
+	//	break;
 	default:
 		break;
 	}
@@ -96,7 +96,7 @@ int main()
 	//NOT IMPLEMENTED
 	/********           Create/extract(MrBayes) Trees... fastme           ***************/
     //tree for each matrix file created
-    dmo.batch_tree_creation();
+    //dmo.batch_tree_creation();
 
 
 	//NOT IMPLEMENTED

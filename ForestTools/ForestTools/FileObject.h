@@ -24,7 +24,7 @@ namespace distanceMeasure
 
 		~FileObject();
 
-		const std::string GetFileName() const;
+		const std::string GetSequenceName() const;
 		const int GetSequenceSize() const;
 		const std::string GetFastaDescriptionString() const;
 		const std::string GetSequenceString() const;

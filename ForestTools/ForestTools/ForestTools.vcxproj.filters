@@ -93,6 +93,12 @@
     <ClCompile Include="CalculatorFastaFormatter.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
+    <ClCompile Include="SystemParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceMeasureCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">

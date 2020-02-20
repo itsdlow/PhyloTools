@@ -22,9 +22,10 @@ namespace distanceMeasure
 		ExternalDistanceMeasureCalculator() = default;
 		ExternalDistanceMeasureCalculator(const ExternalDistanceMeasureCalculator&) = delete;
 		ExternalDistanceMeasureCalculator& operator=(const ExternalDistanceMeasureCalculator&) = delete;
-		~ExternalDistanceMeasureCalculator() = default;
+		virtual ~ExternalDistanceMeasureCalculator() = default;
 
-		virtual void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
+		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
+		void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
 
 		//External calc specific funcs
 		
@@ -37,6 +38,8 @@ namespace distanceMeasure
 
 		//write results buffer to output FILE, closes FILE
 		//void write_batch_results(const int batch_number, const size_t sequence_count);
+		//
+		std::string GetCalculatorName() const override = 0;
 	private:
 
 	};

@@ -153,6 +153,7 @@
     <ClCompile Include="CalculatorFastaFormatter.cpp" />
     <ClCompile Include="CalculatorNexusFormatter.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
+    <ClCompile Include="DistanceMeasureCalculator.cpp" />
     <ClCompile Include="ExternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="PValueDistanceCalculator.cpp" />
     <ClCompile Include="SequenceDirectoryProcessor.cpp" />
     <ClCompile Include="SequenceFileProcessor.cpp" />
+    <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>

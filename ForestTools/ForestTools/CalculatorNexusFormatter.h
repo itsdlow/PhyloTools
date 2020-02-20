@@ -24,7 +24,9 @@ namespace distanceMeasure
 
 		const std::string create_sequence_set_nexus_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 	private:
-		void swap_space_with_underscores(std::string& description_string);
+		void swap_space_with_underscores(std::string& description_string) const;
+		void clean_sequence_description(std::string& description_string) const;
+
 	};
 }
 

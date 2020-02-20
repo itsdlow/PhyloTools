@@ -9,8 +9,7 @@ January 18 2020
 
 #include "FileObjectManager.h"
 #include "FileObject.h"
-//#include <fstream>
-
+#include "SystemParameters.h"
 //TODO
 const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
 {
@@ -30,10 +29,7 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	}
 	//write fileobjects in fasta format
 	char fasta_filename[50];
-	
-	//WiNDOWS DEPENDENCE
-	//TODO -- move format string to systemsParameters
-	sprintf_s(fasta_filename, "ForestFiles/TempFiles/temp_%zu.fasta", sequence_count);
+	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count);
 
 	FILE* fastaFile;
 	fopen_s(&fastaFile, fasta_filename, "w");

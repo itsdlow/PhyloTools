@@ -18,12 +18,14 @@ namespace distanceMeasure
 		PValueDistanceCalculator() = default;
 		PValueDistanceCalculator(const PValueDistanceCalculator&) = delete;
 		PValueDistanceCalculator& operator=(const PValueDistanceCalculator&) = delete;
-		~PValueDistanceCalculator() = default;
+		virtual ~PValueDistanceCalculator() = default;
 
 		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
 		float normalize(int differenceCount, int sequencesize) const override;
 
 		//void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string> sequence_set_names, const int batch_id) override;
+
+		std::string GetCalculatorName() const override;
 
 	private:
 
