@@ -51,7 +51,7 @@ namespace distanceMeasure
 		
 		//extract tree ------------------
 		char largelist_filename[100];
-		sprintf_s(largelist_filename, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_names.size(), batch_id);
+		sprintf_s(largelist_filename, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_names.size(), batch_id);
 
 		//open file for quartetTrees
 		FILE* largeTreeFile;
@@ -151,8 +151,13 @@ namespace distanceMeasure
 			printf("MrBayes .t file not opened.\nCould not create mrBayes extracted Tree file\n");
 			exit(0);
 		}
-		//must be done first -- avoid extra seeking
 		const std::vector<std::string> key = MrBayesDistanceCalculator::GetTFileKey(tFile);
+		//safety checks for incomplete .nxs.run#.t file...
+		if(key.empty())
+		{
+			printf("MrBayes .t file not formatted correctly -- key entries not found... exiting\n");
+			exit(0);
+		}
 		//gets latest "tree gen" (newick) line from .t file -- cleans/parses newick
 		std::string newick = MrBayesDistanceCalculator::ParseTreeGenLine(key, MrBayesDistanceCalculator::GetTreeGenLine(tFile));
 		
@@ -163,7 +168,7 @@ namespace distanceMeasure
 	}
 	
 		//Tree Extraction Helpers
-	//TODO
+
 	std::string MrBayesDistanceCalculator::ParseTreeGenLine(const std::vector<std::string>& species_names_key, const std::string& tree_gen_line)
 	{
 		const int chars_of_interest_count = 3;
@@ -226,26 +231,27 @@ namespace distanceMeasure
 	}
 
 	//NOT IMPLEMENTED -- safety checks for incomplete .nxs.run#.t file...
+	//	---> if key_entries not found before EOF -> returns empty key
 	//Given MrBayes .t filestream -- get translate-key
 	std::vector<std::string> distanceMeasure::MrBayesDistanceCalculator::GetTFileKey(std::ifstream& tFile)
 	{
 		std::vector<std::string> key;
 		std::string line;
 		
-		std::getline(tFile, line);
+		//std::getline(tFile, line);
 		//read file til "translate" found --> key definition next
-		while(line.find("translate") == std::string::npos)
+			//OR --> end of file reached
+		while(std::getline(tFile, line) && line.find("translate") == std::string::npos)
 		{
-			std::getline(tFile, line);
 		}
 		
-		std::getline(tFile, line);
+		
 		//read first lines of file until "tree gen" found --> (no more species names to read)
-		while (line.find("tree gen") == std::string::npos)
+		while (std::getline(tFile, line) && line.find("tree gen") == std::string::npos)
 		{
 			//add to key vector
 			key.push_back(CleanKeyEntry(line));
-			std::getline(tFile, line);
+			//std::getline(tFile, line);
 		}
 		
 		return key;
