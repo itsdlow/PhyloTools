@@ -62,7 +62,7 @@ namespace distanceMeasure
 		{
 			//TODO
 			//extract tree from created file (nexusfilepath.run[nRun].t)
-			std::string newick = ExtractMrBayesNewick(nexus_file_path);
+			std::string newick = ExtractMrBayesNewick(GetMrBayesTFileName(nexus_file_path));
 			size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, largeTreeFile);
 			fclose(largeTreeFile);
 		}
