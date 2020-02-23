@@ -32,6 +32,10 @@ namespace distanceMeasure
 		//internal calc specific
 		//virtual void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
 
+		void StartCalculationTimer();
+		void StopCalculationTimer();
+		double GetCalculationTime() const { return this->calculationTime; };
+		
 		virtual std::string GetCalculatorName() const = 0;
 	protected:
 		//internal method?
@@ -40,8 +44,11 @@ namespace distanceMeasure
 
 		static void swap_space_with_underscores(std::string& description_string);
 
-	private:
 
+	private:
+		//debug timing things
+		double startTime;
+		double calculationTime;
 
 	};
 }

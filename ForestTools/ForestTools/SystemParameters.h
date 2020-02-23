@@ -45,7 +45,7 @@ public:
 
 	static const std::string& GetFastmeCommandString() { return SystemParameters::Instance().fastme_command_string; };
 
-	
+	static const int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
 private:
 	SystemParameters() = default;
 
@@ -60,6 +60,8 @@ private:
 	static SystemParameters* pInstance;
 
 	//private members
+
+	const int CALCULATOR_COUNT = 3;
 	
 	//Tree strings
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";

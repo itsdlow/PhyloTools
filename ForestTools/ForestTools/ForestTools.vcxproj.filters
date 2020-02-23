@@ -99,6 +99,9 @@
     <ClCompile Include="DistanceMeasureCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
+    <ClCompile Include="BatchDistanceCalculators.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="SystemParameters.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchDistanceCalculators.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

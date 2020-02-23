@@ -24,10 +24,10 @@ namespace distanceMeasure
 
 	//main driver
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
-	{
-			//loop for all combos of 4
-				//create aligned --> nexus --> execute nexus (repeat)
-				// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
+	{		
+		//loop for all combos of 4
+			//create aligned --> nexus --> execute nexus (repeat)
+			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
 	}
@@ -125,7 +125,8 @@ namespace distanceMeasure
 
 						//CREATE TREES_FILE FOR QUARTETS.. append all quartet newicks to same file...
 						size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, quartetsFile);
-
+						//"writes" as quartets extarcted
+						fflush(quartetsFile);
 					}
 				}
 			}
@@ -259,7 +260,7 @@ namespace distanceMeasure
 		{
 			//assumes file is accurate...
 			tFile.seekg(-1, std::ios_base::cur);
-			int i = tFile.tellg();
+			int i = static_cast<int>(tFile.tellg());
 			for(; i > 0; i--)
 			{
 				// If the data was a '=' --> defining tree

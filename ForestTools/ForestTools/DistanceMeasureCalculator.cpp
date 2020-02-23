@@ -8,6 +8,8 @@ January 24 2020
 
 #include "DistanceMeasureCalculator.h"
 
+#include <ctime>
+
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
 {
@@ -36,4 +38,13 @@ void distanceMeasure::DistanceMeasureCalculator::swap_space_with_underscores(std
 			description_string.replace(i, 1u, 1u, '_');
 		}
 	}//--> create_one_word_species_names
+}
+
+void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()
+{
+	this->startTime = clock();
+}
+void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer()
+{
+	this->calculationTime = (clock() - startTime) / CLOCKS_PER_SEC;
 }

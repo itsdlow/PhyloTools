@@ -13,6 +13,7 @@ January 3 2020*
 
 //debugging timer
 //#include <time.h>
+#include <ctime>
 
 namespace distanceMeasure
 {
@@ -55,24 +56,31 @@ namespace distanceMeasure
 			//read file and create matrixes
 			std::string line;
 			int batch_count = 0;
+			double totalCalculationTime = 0.0f;
 			//while more matrix/tree - sets
 			while(std::getline(fastaInput, line))
-			{
+			{				
 				//return vector of sequence names
 				const std::vector<std::string> sequence_set_names = ProcessSequenceSet(line);
+				this->distanceMeasureFunc->StartCalculationTimer();
 
+				
 				//function delegated to specific DMO calculator (strategy matrix calculator)
 					//CALCULATES DISTANCE MATRIX (if necessary) --> tree out files for current sequence set
-				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, batch_count);// *** output tree files ***
+				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, batch_count++);// *** output tree files ***
 					//note::multithreaded -- thread pool on function/functor^
 						//output associated with thread_id
-						
 					//mrbayes does not need create_tree... call in derived calcs
 				//this->distanceMeasureFunc->create_tree(sequence_set_names, batch_count);
+
+				this->distanceMeasureFunc->StopCalculationTimer();
+				const double sequence_set_calc_time = this->distanceMeasureFunc->GetCalculationTime();
+				printf("Calculation Time For Sequence Set[%zu]: %f seconds", sequence_set_names.size(), sequence_set_calc_time);
+				totalCalculationTime += sequence_set_calc_time;
 				
-				batch_count++;
+				//batch_count++;
 			}
-			
+			printf("Calculation Time For Sequence Set Lists: %f seconds", totalCalculationTime);
 		}
 		
 	}

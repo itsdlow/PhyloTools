@@ -15,7 +15,7 @@ January 3 2020
 #include "PValueDistanceCalculator.h"
 #include "LcsDistanceCalculator.h"
 #include "MrBayesDistanceCalculator.h"
-
+#include "BatchDistanceCalculators.h"
 
 int main()
 {
@@ -54,7 +54,7 @@ int main()
     //std::cin >> sequenceCount;
 
     //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
-    printf("LCS (0), P_Value (1), MrBayes (2), NCD (3)\n");
+    printf("All Methods (0), LCS (1), P_Value (2), MrBayes (3), NCD (4)\n");
     printf("Matrix Calculation Method Number: ");
 	std::cin >> method;
     printf("\n");
@@ -62,16 +62,19 @@ int main()
 	distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
 	switch (method)
 	{
-	case 0:
-		dmc = new distanceMeasure::LcsDistanceCalculator();
+    case 0:
+        dmc = new distanceMeasure::BatchDistanceCalculators();
 		break;
 	case 1:
-		dmc = new distanceMeasure::PValueDistanceCalculator();
+		dmc = new distanceMeasure::LcsDistanceCalculator();
 		break;
 	case 2:
+		dmc = new distanceMeasure::PValueDistanceCalculator();
+		break;
+	case 3:
 		dmc = new distanceMeasure::MrBayesDistanceCalculator();
 		break;
-	//case 3:
+	//case 4:
 	//	dmc = new distanceMeasure::NcdDistanceCalculator();
 	//	break;
 	default:
@@ -133,4 +136,13 @@ int main()
 					//failed fastme?
         // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
 
+}
+
+namespace distanceMeasure
+{
+
+	void RunMrBayesCalculator()
+	{
+		
+	}
 }
