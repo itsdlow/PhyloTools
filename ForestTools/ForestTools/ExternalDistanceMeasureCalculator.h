@@ -25,7 +25,7 @@ namespace distanceMeasure
 		virtual ~ExternalDistanceMeasureCalculator() = default;
 
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
-		void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
+		//void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
 
 		//External calc specific funcs
 		

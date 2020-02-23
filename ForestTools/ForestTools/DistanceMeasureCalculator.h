@@ -29,7 +29,8 @@ namespace distanceMeasure
 
 		//main calculator driver func -- output matrix as text-file
 		virtual void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
-		virtual void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
+		//internal calc specific
+		//virtual void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
 
 		virtual std::string GetCalculatorName() const = 0;
 	protected:

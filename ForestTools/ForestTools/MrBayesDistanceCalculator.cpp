@@ -46,9 +46,10 @@ namespace distanceMeasure
 		//system call to extra-tools\\MrBayes... on MRBAYES command block file
 			//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
 		sprintf_s(mrbayes_command, SystemParameters::GetMrBayesCommandString().c_str(), mrbayes_block_file_path.c_str());
-		//
+		//execute command --> create LargeList MrBayes files (.t + .p)
 		system(mrbayes_command);
-		//extarct tree
+		
+		//extract tree ------------------
 		char largelist_filename[100];
 		sprintf_s(largelist_filename, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_names.size(), batch_id);
 
@@ -60,7 +61,7 @@ namespace distanceMeasure
 		if (largeTreeFile)
 		{
 			//TODO
-			//extract tree from created file (nexusfilepath.run_nRun.t)
+			//extract tree from created file (nexusfilepath.run[nRun].t)
 			std::string newick = ExtractMrBayesNewick(nexus_file_path);
 			size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, largeTreeFile);
 			fclose(largeTreeFile);
@@ -112,22 +113,17 @@ namespace distanceMeasure
 						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, CreateSubSequenceSet(sequence_set_names, i, j, k, l));
 						//create batch MRBAYES BLOCK file
 						std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
-
-						//WiNDOWS DEPENDENCE 
-							//UNIX MRBayes Command -> input redirection
-							//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
+						
 						char mrbayes_command[200];
 						//system call to extra-tools\\MrBayes... on MRBAYES command block file
-							//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
 						sprintf_s(mrbayes_command, SystemParameters::GetMrBayesCommandString().c_str(), mrbayes_block_file_path.c_str());
-						//run mrbayes on quartet
 						system(mrbayes_command);
 
 						//TODO
-						//extract tree from created file (nexusfilepath.run_nRun.t)
-						std::string newick = ExtractMrBayesNewick(nexus_file_path);
+						//extract tree from created file (nexusfilepath.run[nRun].t)
+						std::string newick = ExtractMrBayesNewick(GetMrBayesTFileName(nexus_file_path));
 
-						//CREATE TREES FOR QUARTETS.. append all quartet newicks to same file...
+						//CREATE TREES_FILE FOR QUARTETS.. append all quartet newicks to same file...
 						size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, quartetsFile);
 
 					}
@@ -137,42 +133,190 @@ namespace distanceMeasure
 		fclose(quartetsFile);
 
 	}
-	//TODO
-	std::string distanceMeasure::MrBayesDistanceCalculator::ExtractMrBayesNewick(const std::string& relative_nxs_path)
+
+	/*****************************************************************************
+	 *						tree Extraction 
+	 ******************************************************************************/
+	std::string MrBayesDistanceCalculator::ExtractMrBayesNewick(const std::string& t_file_name)
 	{
-		//latest Mrbayes--run -- file_path
-		std::string tFilename = relative_nxs_path + ".run" + std::to_string(SystemParameters::GetMrBayesNRuns()) + ".t";
+		//given latest Mrbayes--run--file_path (t_file_name)
+		//std::string tFilename = relative_nxs_path + ".run" + std::to_string(SystemParameters::GetMrBayesNRuns()) + ".t";
 
 		//open file .t mrbayes files
-		//std::string filename = SystemParameters::GetNexusFileFormatString() + SystemParameters::GetMrBayesNRuns() + ".t"
-		//std::ifstream tFile(filename);
+		std::ifstream tFile(t_file_name);
 
-		//if (!fastaInput.is_open())
-		//{
-		//	printf("File at path: %s - could not be opened\nFile Objects not to be created\n", pFOM->get_sequence_set_path().c_str());
-		//}
-		//else
-		//{
-		//	int count = 0;
-		//	//read file
-			//find 'end;' line
-				//get previous line --> last newick_tree line
-
-		//	std::string line;
-		//	std::getline(fastaInput, line);
-
-		//	printf("finished processing file\n");
-		//	fastaInput.close();
-		//}
-		//seek to end
-
-		//get species_names key
-			//replace int with corresponding species name
+		if (!tFile.is_open())
+		{
+			printf("MrBayes .t file not opened.\nCould not create mrBayes extracted Tree file\n");
+			exit(0);
+		}
+		//must be done first -- avoid extra seeking
+		const std::vector<std::string> key = MrBayesDistanceCalculator::GetTFileKey(tFile);
+		//gets latest "tree gen" (newick) line from .t file -- cleans/parses newick
+		std::string newick = MrBayesDistanceCalculator::ParseTreeGenLine(key, MrBayesDistanceCalculator::GetTreeGenLine(tFile));
 		
-		//add new line -- for next newick to start on
-		return std::string();
+		printf("finished processing tFile\n");
+		tFile.close();
+
+		return newick;
+	}
+	
+		//Tree Extraction Helpers
+	//TODO
+	std::string MrBayesDistanceCalculator::ParseTreeGenLine(const std::vector<std::string>& species_names_key, const std::string& tree_gen_line)
+	{
+		const int chars_of_interest_count = 3;
+		char chars_of_interest[chars_of_interest_count] = { ',', '(', ')' };
+		
+		//read tree gen line -- starting with first_of '(' -- ending with ';' (excluding)
+		const size_t start = tree_gen_line.find_first_of('(');
+		const size_t count = tree_gen_line.find(';') - start;
+		std::string res = tree_gen_line.substr(start, count);
+		
+		//find ':' -- get key_number (find first parenthesis from ':' using reverse iterator
+			//---> replace key_number with names_key species name
+		size_t cur = std::string::npos;
+		//while more key_numbers in line
+		while( (cur = res.find_last_of(':', cur)) != std::string::npos )
+		{
+			//look for key_number (if present --> not all ':' preceded by key_number)
+			//from cur position, loop (backward) thru string
+				//until non-integer found ( ',' - '('- ')' )
+			bool found = false;
+			//get char left of ':' either char of interest || part of key_number
+			const size_t key_end = cur - 1;
+			size_t key_start = cur - 1;
+			std::string key_number;
+			while(!found)
+			{
+				char cur_char = res.at(key_start);
+				//check if cur char is of interest -- else part of key_number
+				for(int i = 0; i < chars_of_interest_count; i++)
+				{
+					if(cur_char == chars_of_interest[i])
+					{
+						//end of key_number
+						found = true;
+					}
+				}
+				if(!found)
+				{
+					key_start--;
+					//cur pos, NOT char of interest
+						//add cur pos to key_number
+					key_number.append(1, cur_char);
+				}
+			}
+			//key_start == char_of_interest --> left of key_start (if key_number_length > 0)
+			//replace if key_number_length > 0
+			//set cur == key_start... ignores the index changes from replace?  (cur - key_number_length
+			const size_t key_number_length = key_end - key_start;
+			if(key_number_length > 0)
+			{
+				//replace key_number
+				res.replace(key_start + 1, key_number_length, GetKeySpeciesName(species_names_key, std::stoi(key_number)));
+			}
+
+			cur = key_start;
+		}
+		//add new lines -- for next newick to start on
+		res.append("\n\n");
+		return res;
 	}
 
+	//NOT IMPLEMENTED -- safety checks for incomplete .nxs.run#.t file...
+	//Given MrBayes .t filestream -- get translate-key
+	std::vector<std::string> distanceMeasure::MrBayesDistanceCalculator::GetTFileKey(std::ifstream& tFile)
+	{
+		std::vector<std::string> key;
+		std::string line;
+		
+		std::getline(tFile, line);
+		//read file til "translate" found --> key definition next
+		while(line.find("translate") == std::string::npos)
+		{
+			std::getline(tFile, line);
+		}
+		
+		std::getline(tFile, line);
+		//read first lines of file until "tree gen" found --> (no more species names to read)
+		while (line.find("tree gen") == std::string::npos)
+		{
+			//add to key vector
+			key.push_back(CleanKeyEntry(line));
+			std::getline(tFile, line);
+		}
+		
+		return key;
+	}
+	std::string MrBayesDistanceCalculator::GetTreeGenLine(std::ifstream& tFile)
+	{
+		//read file
+		//find first (from EOF) -- 'tree gen' line ( '=' )
+			//seek to spot before EOF
+		tFile.seekg(-1, std::ios_base::end);
+		if(tFile.peek() == '\n')
+		{
+			//assumes file is accurate...
+			tFile.seekg(-1, std::ios_base::cur);
+			int i = tFile.tellg();
+			for(; i > 0; i--)
+			{
+				// If the data was a '=' --> defining tree
+					// Stop at the current position.
+				if (tFile.peek() == '=') 
+				{
+					tFile.get();
+					break;
+				}
+				//move back 1 char
+				tFile.seekg(i, std::ios_base::beg); 
+			}
+		}
+		else
+		{
+			printf("bad tFile?\n");
+			exit(0);
+		}
+
+		std::string line;
+		std::getline(tFile, line);
+
+		return line;
+	}
+
+	
+	std::string MrBayesDistanceCalculator::GetMrBayesTFileName(const std::string& relative_nxs_path)
+	{
+		return relative_nxs_path + ".run" + std::to_string(SystemParameters::GetMrBayesNRuns()) + ".t";
+	}
+	std::string distanceMeasure::MrBayesDistanceCalculator::GetKeySpeciesName(const std::vector<std::string>& species_names_key, size_t i)
+	{
+		const size_t key_index_offset = 1;
+		return species_names_key.at(i - key_index_offset);
+	}
+	//return cleaned substr of key entry line
+	std::string distanceMeasure::MrBayesDistanceCalculator::CleanKeyEntry(const std::string& key_entry)
+	{
+		//FORMAT:: '# species_name,'
+			//remove command, whitespace, and number (#)
+
+		//const size_t start = key_entry.find_first_not_of(' ');
+			//IMPROVE CLARITY --> store key_number, species name in dictionary...
+		//find first space (ignoring leading whitespace)
+		const size_t adjusted_start = key_entry.find(' ', key_entry.find_first_not_of(' ')) + 1;
+		
+		//get pos of end of string  ( ',' delimits end of string -- ';' delimits end of key )
+			//COULD CHANGE "CleanKeyEntry" to run until ';' delimiter found
+		const size_t end = key_entry.find_first_of(",;", adjusted_start);
+
+		//size of substr
+		const size_t count = end - adjusted_start;
+		return key_entry.substr(adjusted_start, count);
+	}
+	/*****************************************************************************
+	*						END:: tree Extraction
+	******************************************************************************/
 	
 	std::vector<std::string> MrBayesDistanceCalculator::CreateSubSequenceSet(const std::vector<std::string>& sequence_set_names, int i, int j, int k, int l)
 	{
