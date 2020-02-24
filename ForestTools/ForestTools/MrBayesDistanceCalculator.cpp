@@ -210,7 +210,7 @@ namespace distanceMeasure
 					key_start--;
 					//cur pos, NOT char of interest
 						//add cur pos to key_number
-					key_number.append(1, cur_char);
+					key_number.insert(0,1, cur_char);
 				}
 			}
 			//key_start == char_of_interest --> left of key_start (if key_number_length > 0)
