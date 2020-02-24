@@ -11,6 +11,14 @@ January 3 2020
 namespace distanceMeasure
 {
 
+	void distanceMeasure::LcsDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
+	{
+		this->StartCalculationTimer();
+
+		InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+
+		this->StopCalculationTimer(batch_id, sequence_set);
+	}
 
 	std::string distanceMeasure::LcsDistanceCalculator::GetCalculatorName() const
 	{

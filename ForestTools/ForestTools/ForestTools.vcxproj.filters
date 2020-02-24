@@ -78,9 +78,6 @@
     <ClCompile Include="LcsDistanceCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClCompile>
-    <ClCompile Include="Aligned_ExternalDMCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClCompile>
     <ClCompile Include="Aligned_InternalDMCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
@@ -148,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="LcsDistanceCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
-    </ClInclude>
-    <ClInclude Include="Aligned_ExternalDMCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
     <ClInclude Include="Aligned_InternalDMCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>

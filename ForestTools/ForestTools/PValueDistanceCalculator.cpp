@@ -24,6 +24,16 @@ namespace distanceMeasure
 	//	//pass FOM forward...
 	//	InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, batch_id);
 	//}
+	//driving method
+	void distanceMeasure::PValueDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
+	{
+		this->StartCalculationTimer();
+
+		Aligned_InternalDMCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+
+		this->StopCalculationTimer(batch_id, sequence_set);
+	}
+	
 	std::string distanceMeasure::PValueDistanceCalculator::GetCalculatorName() const
 	{
 		return "PValue";

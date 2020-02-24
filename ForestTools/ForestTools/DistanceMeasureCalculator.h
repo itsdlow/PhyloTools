@@ -33,10 +33,10 @@ namespace distanceMeasure
 		//virtual void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
 
 		//CALLED BY DistanceMatrixCalculator
-		//opens log file -- for derived calc(s)
-		void InitializeSequenceSetTimingsLog();
+		//opens log file -- for derived calc
+		virtual void InitializeSequenceSetTimingsLog();
 		//write total calc time to log FILE --> closes file
-		void LogTotalCalculationTime();
+		virtual void LogTotalCalculationTime();
 		//PRIVATE???
 		double GetCalculationTime() const { return this->calculationTime; };
 		double GetTotalCalculationTime() const { return this->totalCalculationTime; };
@@ -57,7 +57,7 @@ namespace distanceMeasure
 
 		static void swap_space_with_underscores(std::string& description_string);
 
-
+		
 	private:
 		
 		//debug timing things

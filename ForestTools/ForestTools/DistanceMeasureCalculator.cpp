@@ -51,7 +51,7 @@ void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer(int batchI
 	this->calculationTime = (clock() - startTime) / CLOCKS_PER_SEC;
 	this->totalCalculationTime += this->calculationTime;
 
-	LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);
+	this->LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);
 }
 
 void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchID, double calculationTime, const std::string& sequenceSet) const
@@ -80,7 +80,16 @@ void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 {
 	//Alert distanceMeasureFunc --> done processes sequence Sets
 	//Log (write) total calcaulation time + close file
-	printf("\nCalculation Time For Sequence Set Lists: %f seconds", totalCalculationTime);
+	//printf("\nCalculation Time For Sequence Set Lists: %f seconds", this->totalCalculationTime);
+	//write to log file
+	if (this->pTimingsLogFile)
+	{
+		char time_log_line[100];
+		//WINDOWS DEPENDENCE -- extract to system parameters...
+		sprintf_s(time_log_line, "\nCalculation Time For Sequence Set Lists: %f seconds", this->totalCalculationTime);
+		std::string timingLine(time_log_line);
 
-	fclose(this->pTimingsLogFile);
+		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
+		fclose(this->pTimingsLogFile);
+	}
 }

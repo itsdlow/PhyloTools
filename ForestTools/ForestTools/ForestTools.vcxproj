@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Aligned_ExternalDMCalculator.cpp" />
     <ClCompile Include="Aligned_InternalDMCalculator.cpp" />
     <ClCompile Include="BatchDistanceCalculators.cpp" />
     <ClCompile Include="CalculatorAligner.cpp" />
@@ -171,7 +170,6 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Aligned_ExternalDMCalculator.h" />
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
     <ClInclude Include="BatchDistanceCalculators.h" />
     <ClInclude Include="CalculatorAligner.h" />

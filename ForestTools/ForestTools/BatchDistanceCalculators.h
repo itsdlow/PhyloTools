@@ -22,9 +22,14 @@ namespace distanceMeasure
 		BatchDistanceCalculators& operator=(const BatchDistanceCalculators&) = delete;
 		virtual ~BatchDistanceCalculators();
 
-		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) override;
+		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override;
 
 		std::string GetCalculatorName() const override;
+
+		//opens log file -- for derived calc(s)
+		void InitializeSequenceSetTimingsLog() override;
+		//write total calc time to log FILE --> closes file
+		void LogTotalCalculationTime() override;
 
 	private:
 		static const int calculator_count = 3;

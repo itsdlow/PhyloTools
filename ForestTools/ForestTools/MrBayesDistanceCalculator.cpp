@@ -32,7 +32,7 @@ namespace distanceMeasure
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
 		//adds to total time + sets calculationTime
-		this->StopCalculationTimer();
+		this->StopCalculationTimer(batch_id, sequence_set);
 	}
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
