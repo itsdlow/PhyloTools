@@ -33,6 +33,7 @@ namespace distanceMeasure
 	DistanceMatrixObject::DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, DistanceMeasureCalculator* dmc):
 	//pResults(nullptr),
 	//pQuartetResults(nullptr),
+	//pTimesLogFile(nullptr),
 	fileObjectManager(sequence_names_dir, sequences_dir),
 	//results(std::to_string(sequenceCount).append("\n")),
 	distanceMeasureFunc(dmc)
@@ -57,32 +58,51 @@ namespace distanceMeasure
 			std::string line;
 			int batch_count = 0;
 			double totalCalculationTime = 0.0f;
+			
+			//opens log file(s)
+			this->distanceMeasureFunc->InitializeSequenceSetTimingsLog();
 			//while more matrix/tree - sets
 			while(std::getline(fastaInput, line))
 			{				
 				//return vector of sequence names
 				const std::vector<std::string> sequence_set_names = ProcessSequenceSet(line);
-				this->distanceMeasureFunc->StartCalculationTimer();
-
 				
+				//this->distanceMeasureFunc->StartCalculationTimer();
 				//function delegated to specific DMO calculator (strategy matrix calculator)
 					//CALCULATES DISTANCE MATRIX (if necessary) --> tree out files for current sequence set
-				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, batch_count++);// *** output tree files ***
+				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, line, batch_count);// *** output tree files ***
 					//note::multithreaded -- thread pool on function/functor^
 						//output associated with thread_id
 					//mrbayes does not need create_tree... call in derived calcs
 				//this->distanceMeasureFunc->create_tree(sequence_set_names, batch_count);
+				///this->distanceMeasureFunc->StopCalculationTimer();
 
-				this->distanceMeasureFunc->StopCalculationTimer();
-				const double sequence_set_calc_time = this->distanceMeasureFunc->GetCalculationTime();
-				printf("Calculation Time For Sequence Set[%zu]: %f seconds", sequence_set_names.size(), sequence_set_calc_time);
-				totalCalculationTime += sequence_set_calc_time;
+				//WRITE TO TIMINGS_LOG FILE
+				//const double sequence_set_calc_time = this->distanceMeasureFunc->GetCalculationTime();
+				//LogSequenceSetTimings(batch_count, sequence_set_calc_time, line);
 				
-				//batch_count++;
+				//totalCalculationTime += sequence_set_calc_time;
+				batch_count++;
 			}
-			printf("Calculation Time For Sequence Set Lists: %f seconds", totalCalculationTime);
+			//Alert distanceMeasureFunc --> done processes sequence Sets
+				//Log (write) total calcaulation time + close file
+			//printf("\nCalculation Time For Sequence Set Lists: %f seconds", totalCalculationTime);
+			this->distanceMeasureFunc->LogTotalCalculationTime();
 		}
 		
+	}
+
+	void DistanceMatrixObject::LogSequenceSetTimings(int batchID, double calculationTime, const std::string& sequenceSet) const
+	{
+		char time_log_line[100];
+		//WINDOWS DEPENDENCE
+		sprintf_s(time_log_line, "Calculation Time For Sequence Set[%d]: %f seconds\n\t%s\n", batchID, calculationTime, sequenceSet.c_str());
+
+		//write to log file
+		//if(file.is_open())
+		//{
+		//	
+		//}
 	}
 
 	//REMOVEs UNDERSCORES " _ " from sequence_set -- appends all names to vector - returns

@@ -45,6 +45,11 @@ public:
 
 	static const std::string& GetFastmeCommandString() { return SystemParameters::Instance().fastme_command_string; };
 
+	//DEBUG LOG getters
+	static const std::string& GetTimingsLogFileFormatString() { return SystemParameters::Instance().timings_log_path_format_string; };
+	static const std::string& GetSequenceSetTimingFormatString() { return SystemParameters::Instance().sequence_set_timing_format_string; };
+
+	
 	static const int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
 private:
 	SystemParameters() = default;
@@ -62,6 +67,10 @@ private:
 	//private members
 
 	const int CALCULATOR_COUNT = 3;
+
+	//DEBUG -- timings log
+	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
+	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f seconds\n\t%s\n";
 	
 	//Tree strings
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";

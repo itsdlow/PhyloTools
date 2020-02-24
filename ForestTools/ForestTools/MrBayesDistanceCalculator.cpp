@@ -23,13 +23,16 @@ namespace distanceMeasure
 	}
 
 	//main driver
-	void distanceMeasure::MrBayesDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
-	{		
+	void distanceMeasure::MrBayesDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
+	{
+		this->StartCalculationTimer();
 		//loop for all combos of 4
 			//create aligned --> nexus --> execute nexus (repeat)
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
+		//adds to total time + sets calculationTime
+		this->StopCalculationTimer();
 	}
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{

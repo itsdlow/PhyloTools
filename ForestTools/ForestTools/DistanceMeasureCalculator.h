@@ -28,16 +28,29 @@ namespace distanceMeasure
 		virtual ~DistanceMeasureCalculator() = default;
 
 		//main calculator driver func -- output matrix as text-file
-		virtual void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
+		virtual void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) = 0;
 		//internal calc specific
 		//virtual void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) = 0;
 
-		void StartCalculationTimer();
-		void StopCalculationTimer();
+		//CALLED BY DistanceMatrixCalculator
+		//opens log file -- for derived calc(s)
+		void InitializeSequenceSetTimingsLog();
+		//write total calc time to log FILE --> closes file
+		void LogTotalCalculationTime();
+		//PRIVATE???
 		double GetCalculationTime() const { return this->calculationTime; };
+		double GetTotalCalculationTime() const { return this->totalCalculationTime; };
+
+		void StartCalculationTimer();
+		void StopCalculationTimer(int batchID, const std::string& sequenceSet);
+		//CALLED BY STOP CALCULATIONTIMER()
+		void LogSequenceSetTiming(int batchID, double calculationTime, const std::string& sequenceSet) const;
+
 		
 		virtual std::string GetCalculatorName() const = 0;
 	protected:
+		FILE* pTimingsLogFile;
+
 		//internal method?
 		//const int getArrayIndex(int row, int col, int rowCount) const {return (row * rowCount) + col;}
 		static int GetQuartetCombinations(int n);
@@ -46,10 +59,11 @@ namespace distanceMeasure
 
 
 	private:
+		
 		//debug timing things
 		double startTime;
 		double calculationTime;
-
+		double totalCalculationTime = 0;
 	};
 }
 

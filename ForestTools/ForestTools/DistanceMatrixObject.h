@@ -64,7 +64,8 @@ namespace distanceMeasure
 	private:
 		//FILE* pResults;
 		//FILE* pQuartetResults;
-
+		//FILE* pTimesLogFile;
+		
 		FileObjectManager fileObjectManager;
 
 		//std::string results;
@@ -79,6 +80,9 @@ namespace distanceMeasure
 		//process a line of "sequenceList" file --> batch matrix_creation
 		const std::vector<std::string> ProcessSequenceSet(const std::string& sequence_set) const;
 		const std::string swap_underscores(const std::string& str) const;
+		//log file opened on DMO construction
+		void LogSequenceSetTimings(int batchID, double calculationTime, const std::string& sequenceSet) const;
+
 		
 		//called in distanceMeasure calculation to noramlize lcs value for results matrix
 		//const float normalize(int lcs, long maxSequenceSize) const;
