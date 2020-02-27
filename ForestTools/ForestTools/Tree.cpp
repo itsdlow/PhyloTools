@@ -118,20 +118,27 @@ namespace phylo {
         }
 
 
-        //AdjPairKeyCompare --> ignores second element of pair (edge) when searching
+        //AdjPairKeyCompare --> ignores second_element of pair (edge) when searching
+    		//only compares key's
         auto iterPair = std::equal_range(this->adjacencyList.begin(), this->adjacencyList.end(), v, AdjPairKeyCompare());
-        /*
-        if(std::distance(iterPair.first, iterPair.second) > 1)
-        {
-            printf("error deleting edges\n");
-        }
-        */
-        //for each "v" vector entry in range -- remove from adjList
-        for (std::vector<adjPair>::const_iterator it = iterPair.first; it != iterPair.second; it++)
-        {
-            this->adjacencyList.erase(it);
-        }
 
+		
+		if(std::distance(iterPair.first, iterPair.second) > 1)
+        {
+            printf("error deleting edges... maybe?\n");
+            exit(0);
+        }
+    	else
+        {
+            this->adjacencyList.erase(iterPair.first);
+        }
+        
+    	//NOTE:: changed to only remove last remianing entry...(2/26/20)
+        //for each "v" vector entry in range -- remove from adjList
+        //for (std::vector<adjPair>::const_iterator it = iterPair.first; it != iterPair.second; ++it)
+        //{
+        //    this->adjacencyList.erase(it);
+        //}
     }
 
     void Tree::sortAdjacenyList()

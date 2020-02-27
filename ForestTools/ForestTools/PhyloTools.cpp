@@ -121,13 +121,13 @@ namespace phylo {
                 else if (inducedTree.getDegree(*it) == 2)
                 {
                     const std::vector<std::string> adjacents = inducedTree.getAdjacents(*it);
-                    /*test*******************
+                    //test*******************
                     if(adjacents.size() > 2)
                     {
                         inducedTree.outputAdjacentList();
                         printf("createHomeoSubtree:: ERROR degree!=2\n");
                     }
-                    */
+                    
                     const std::string w = adjacents.at(0);
                     const std::string u = adjacents.at(1);
                     inducedTree.deleteVertex(*it);

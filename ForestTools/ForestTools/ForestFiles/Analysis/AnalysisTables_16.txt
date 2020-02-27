@@ -1,0 +1,16 @@
+compatibilityTable_LtoL
+0.000000 
+
+
+compatibilityTable_QtoQ
+1.000000 
+
+
+compatibilityTable_IQtoIQ
+1.000000 
+
+
+compatibilityTable_IQtoQ
+0.867582 
+
+

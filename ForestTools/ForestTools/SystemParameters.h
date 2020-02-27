@@ -28,6 +28,8 @@ public:
 	static char GetNexusGapChar() { return SystemParameters::Instance().nexus_gap_char; };
 	static char GetNexusMissingChar() { return SystemParameters::Instance().nexus_missing_char; };
 	static int GetMrBayesNRuns() { return SystemParameters::Instance().mrbayes_nruns; };
+	static int GetMrBayesNChains() { return SystemParameters::Instance().mrbayes_nchains; };
+
 	static const std::string& GetNexusDataTypeString() { return SystemParameters::Instance().nexus_data_type_string; };
 	static const std::string& GetMrBayesCommandString() { return SystemParameters::Instance().mrbayes_command_string; };
 	static const std::string& GetMrBayesBlockString() { return SystemParameters::Instance().mrbayes_block_string; };
@@ -49,6 +51,13 @@ public:
 	static const std::string& GetTimingsLogFileFormatString() { return SystemParameters::Instance().timings_log_path_format_string; };
 	static const std::string& GetSequenceSetTimingFormatString() { return SystemParameters::Instance().sequence_set_timing_format_string; };
 
+	static const std::string& GetAnalysisTableFileFormatString() { return SystemParameters::Instance().analysis_table_filepath; };
+
+	//buffer sizes
+	//static const int GetTreeFilePathSize() { return SystemParameters::Instance().tree_file_path_size; };
+	//static const int& GetMatrixFilePathSize() { return SystemParameters::Instance().matrix_file_path_size; };
+
+
 	
 	static const int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
 private:
@@ -68,17 +77,22 @@ private:
 
 	const int CALCULATOR_COUNT = 3;
 
+	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d.txt";
+	
 	//DEBUG -- timings log
 	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
 	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f seconds\n\t%s\n";
 	
 	//Tree strings
+	//const int tree_file_path_size = 150;
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
 	const std::string quartet_trees_path_format_string = "ForestFiles/Trees/QuartetTrees%s_%zu_%d.newick";
+	//const int 
 	const std::string fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 
 	
 	//internal (distance matrix)
+	//const int matrix_file_path_size = 150;
 	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
 	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
 	//fasta
@@ -92,7 +106,9 @@ private:
 	//MRBAYES
 	const char nexus_gap_char = '-';
 	const char nexus_missing_char = '?';
-	const int mrbayes_nruns = 2;
+	const int mrbayes_nruns = 1;
+	const int mrbayes_nchains = 1;
+
 	const std::string nexus_data_type_string = "DNA";
 	//TODO:: add batch number to nexus_file format string???
 	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";

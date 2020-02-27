@@ -36,31 +36,25 @@ namespace distanceMeasure
 	}
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
-					//CREATE TREE FOR LARGE LIST
-		//create .afa (aligned) sequence file --> NEXUS FILE
 		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, sequence_set_names);
-		//create batch MRBAYES BLOCK file
 		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 
-		//WiNDOWS DEPENDENCE 
-			//UNIX MRBayes Command -> input redirection
-			//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
 		char mrbayes_command[200];
 		//system call to extra-tools\\MrBayes... on MRBAYES command block file
-			//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
-		sprintf_s(mrbayes_command, SystemParameters::GetMrBayesCommandString().c_str(), mrbayes_block_file_path.c_str());
+		this->GetMrBayesBatchCommand(mrbayes_command, 200, mrbayes_block_file_path);
 		//execute command --> create LargeList MrBayes files (.t + .p)
 		system(mrbayes_command);
 		
 		//extract tree ------------------
+		//int size = SystemParameters::GetTreeFilePathSize();//Variable length arrays -- not working
 		char largelist_filename[100];
-		sprintf_s(largelist_filename, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_names.size(), batch_id);
-
+		this->GetLargeListTreeFileName(largelist_filename, 100, batch_id, sequence_set_names.size());
+		
 		//open file for quartetTrees
 		FILE* largeTreeFile;
 		fopen_s(&largeTreeFile, largelist_filename, "w");
 		//FILE* fastaFile = fopen(fasta_filename, "w");
-
+		
 		if (largeTreeFile)
 		{
 			//TODO
@@ -76,6 +70,15 @@ namespace distanceMeasure
 		}
 
 	}
+	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
+	{
+		//WiNDOWS DEPENDENCE 
+		//UNIX MRBayes Command -> input redirection
+		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
+		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
+		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+	}
+	
 	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
 		const int fileCount = static_cast<int>(sequence_set_names.size());
@@ -90,7 +93,7 @@ namespace distanceMeasure
 		}
 
 		char quartets_filename[100];
-		sprintf_s(quartets_filename, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), fileCount, batch_id);
+		this->GetQuartetsTreeFileName(quartets_filename, 100, batch_id, 4);//,sequence_set_names.size());
 
 		//open file for quartetTrees
 		FILE* quartetsFile;
@@ -119,7 +122,7 @@ namespace distanceMeasure
 						
 						char mrbayes_command[200];
 						//system call to extra-tools\\MrBayes... on MRBAYES command block file
-						sprintf_s(mrbayes_command, SystemParameters::GetMrBayesCommandString().c_str(), mrbayes_block_file_path.c_str());
+						this->GetMrBayesBatchCommand(mrbayes_command, 200, mrbayes_block_file_path);
 						system(mrbayes_command);
 
 						//TODO
@@ -332,6 +335,8 @@ namespace distanceMeasure
 	{
 		std::vector<std::string> subSequenceSet;
 		std::vector<int> subSequenceSetIndexes{ i,j,k,l };
+		subSequenceSet.reserve(subSequenceSetIndexes.size());
+		
 		for(unsigned int index = 0u; index < subSequenceSetIndexes.size(); index++)
 		{
 			//for each given index (i,j,k,l) add name to result_set
@@ -350,12 +355,14 @@ namespace distanceMeasure
 			"begin mrbayes;\n"
 			"set autoclose = yes nowarn = yes;\n"
 			"execute %s;\n"
-			"lset nst = 6 rates = gamma;\n"
+			//"lset nst = 6 rates = gamma;\n"
 			"mcmcp filename=%s;\n"
+			"mcmcp nchains = %d"
 			"mcmc nruns = %d ngen = 10000 samplefreq = 10;\n"
 			"end;",
 			relative_nxs_path.c_str(),
 			relative_nxs_path.c_str(),
+			SystemParameters::GetMrBayesNChains(),
 			SystemParameters::GetMrBayesNRuns()
 			);
 		//TODO:: SEPARATE INTO FUNCTION... done in multiple .cpp's

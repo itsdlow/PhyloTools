@@ -43,10 +43,6 @@ namespace distanceMeasure
 		//write results buffer to output FILE, closes FILE
 		void write_batch_results(const int batch_number, const size_t sequence_count);
 
-		std::string GetCalculatorName() const override = 0;
-
-	protected:
-		const int getArrayIndex(int row, int col, int rowCount) const { return (row * rowCount) + col; }
 
 	private:
 		FILE* pResults;
@@ -57,6 +53,13 @@ namespace distanceMeasure
 
 		//2D array (distanceMATRIX) of floats
 		std::vector<float> lamdaMatrix;
+
+		void GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const;
+		//void GetQuartetsFastMECommand(char* quartets_buffer, const size_t buffer_size, char* input, int count, char* output) const;
+
+		
+		std::string GetCalculatorName() const override = 0;
+
 	};
 }
 

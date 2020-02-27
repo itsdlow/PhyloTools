@@ -11,10 +11,12 @@ January 3 2020
 
 namespace PhyloAnalysis
 {
-
+    //...lazy
     using namespace phylo;
+
+	
     //prints to output the agreement between two given files (of quartetTrees)
-    void computeQuartetAgreement(std::string quartetFilename1, std::string quartetFilename2)
+    float computeQuartetAgreement(std::string quartetFilename1, std::string quartetFilename2)
     {
         PhyloTools ptools = PhyloTools();
 
@@ -48,6 +50,8 @@ namespace PhyloAnalysis
 
         printf("Total number of quartet trees: %6d\nNumber of identical quartet trees: %6d\nAgreement ratio: %6.4f\n", total, matches, 1.0 * matches / total);
 
+        float res = static_cast<float>(matches) / static_cast<float>(total);
+        return res;
     }
 
     /*
@@ -59,7 +63,7 @@ namespace PhyloAnalysis
 
     */
 
-    void computeInducedQuartetAgreement(std::string largeTreeFilename1, std::string largeTreeFilename2)
+    float computeInducedQuartetAgreement(std::string largeTreeFilename1, std::string largeTreeFilename2)
     {
 
         //compied from agreement
@@ -99,7 +103,8 @@ namespace PhyloAnalysis
 
         printf("Total number of quartet trees: %6d\nNumber of identical quartet trees: %6d\nAgreement ratio: %6.4f\n", total, matches, 1.0 * matches / total);
 
-
+        float res = static_cast<float>(matches) / static_cast<float>(total);
+        return res;
     }
 
     /*
@@ -115,7 +120,7 @@ namespace PhyloAnalysis
      # tree on a large list of sequences.
      */
      //prints to output the compatability ratio between a large sequence tree file and derived quartet trees on sequences
-    void computeQuartetCompatability(std::string quartetFilename, std::string largeTreeFilename)
+    float computeQuartetCompatibility(std::string largeTreeFilename, std::string quartetFilename)
     {
         PhyloTools ptools = PhyloTools();
 
@@ -147,10 +152,13 @@ namespace PhyloAnalysis
 
         }
         printf("Number of sequences in large tree: %2d\nTotal number of quartet trees: %6d\nNumber of identical quartet trees: %6d\nCompatibility ratio: %6.4f\n", largeListSequenceCount, total, matches, 1.0 * matches / total);
+
+        float res = static_cast<float>(matches) / static_cast<float>(total);
+        return res;
     }
     //uses bipartition method to compute symmetric difference --
     //both arguments are largeTreeFileDirectories
-    void computeSymmetricDifference(std::string largeTreeFilename1, std::string largeTreeFilename2)
+    float computeSymmetricDifference(std::string largeTreeFilename1, std::string largeTreeFilename2)
     {
         PhyloTools ptools = PhyloTools();
 
@@ -163,5 +171,6 @@ namespace PhyloAnalysis
 
         printf("The Difference Count is: %d\n", differenceCount);
 
+        return static_cast<float>(differenceCount);
     }
 }

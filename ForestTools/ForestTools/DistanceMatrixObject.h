@@ -56,6 +56,10 @@ namespace distanceMeasure
 		void batch_matrix_calculation(const std::string& sequences_list_dir);
 		//void batch_tree_creation();
 
+		//void batch_calculate_trees(const std::string& sequences_list_dir);
+
+		//void batch_analyze_trees();
+		
 		//accessor methods
 		DistanceMeasureCalculator* getDistanceMeasureFunc() const;
 		const FileObjectManager& getFileObjectManager() const;

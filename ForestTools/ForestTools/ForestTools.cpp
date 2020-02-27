@@ -63,7 +63,10 @@ int main()
 	switch (method)
 	{
     case 0:
-        dmc = new distanceMeasure::BatchDistanceCalculators();
+		//get calculator count...
+			//use bitmasking?
+			
+        dmc = new distanceMeasure::BatchDistanceCalculators(2);
 		break;
 	case 1:
 		dmc = new distanceMeasure::LcsDistanceCalculator();
@@ -95,12 +98,6 @@ int main()
         for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix
   *********************************************************************************************/
     dmo.batch_matrix_calculation(tree_sequences_list);
-
-	//NOT IMPLEMENTED
-	/********           Create/extract(MrBayes) Trees... fastme           ***************/
-    //tree for each matrix file created
-    //dmo.batch_tree_creation();
-
 
 	//NOT IMPLEMENTED
     /******   (batch) ANALYZE CREATED TREES!!!!     *******/
@@ -136,13 +133,4 @@ int main()
 					//failed fastme?
         // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
 
-}
-
-namespace distanceMeasure
-{
-
-	void RunMrBayesCalculator()
-	{
-		
-	}
 }

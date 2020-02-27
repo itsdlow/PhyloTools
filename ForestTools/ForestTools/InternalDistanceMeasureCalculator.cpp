@@ -35,31 +35,32 @@ namespace distanceMeasure
 			//********************************************
 		const int sequence_set_count = static_cast<int>(sequence_set_names.size());
 		//Get current_sequence-set_matrix files
-		char matrix_file_path[100];
+		char largelist_matrix_file_path[100];
+		this->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_id, sequence_set_count);
 		char quartet_matrices_file_path[100];
-		//WINDOWS DEPENDENCE
-		sprintf_s(matrix_file_path, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
-		sprintf_s(quartet_matrices_file_path, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+		this->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_id, sequence_set_count);
+
 		//get path for new_tree files
 		char large_tree_file_path[150];
+		this->GetLargeListTreeFileName(large_tree_file_path, 150, batch_id, sequence_set_count);
 		char quartet_trees_file_path[150];
-		sprintf_s(large_tree_file_path, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
-		sprintf_s(quartet_trees_file_path, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_set_count, batch_id);
+		this->GetQuartetsTreeFileName(quartet_trees_file_path, 150, batch_id, sequence_set_count);
 
 		//sequence_set_size choose 4
 		const int quartetCount = DistanceMeasureCalculator::GetQuartetCombinations( sequence_set_count );
 
 		char fastme_command[200];
 		char fastme_quartets_command[200];
-		//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"
-		sprintf_s(fastme_command, SystemParameters::GetFastmeCommandString().c_str(), matrix_file_path, 1, large_tree_file_path);
-		sprintf_s(fastme_quartets_command, SystemParameters::GetFastmeCommandString().c_str(), quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
+		this->GetFastMECommand(fastme_command, 200, largelist_matrix_file_path, 1, large_tree_file_path);
+		this->GetFastMECommand(fastme_quartets_command, 200, quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
 
 		system(fastme_command);
 		system(fastme_quartets_command);
 
+		//TODO:: currents sequence set progress debug statement
 		printf("1st trees created\n");
 	}
+
 	
 	//calculate LargeTree (w/o quartets) Distance Matrix
 	void InternalDistanceMeasureCalculator::CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
@@ -135,7 +136,11 @@ namespace distanceMeasure
 		}
 
 	}
-
+	void distanceMeasure::InternalDistanceMeasureCalculator::GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const
+	{
+		//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"
+		sprintf_s(buffer, buffer_size, SystemParameters::GetFastmeCommandString().c_str(), input, count, output);
+	}
 
 
 	void InternalDistanceMeasureCalculator::write_quartet_matrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount)
@@ -181,30 +186,21 @@ namespace distanceMeasure
 	//Open new batch file && write results buffer to output FILEs
 	void InternalDistanceMeasureCalculator::write_batch_results(const int batch_number, const size_t sequence_count)
 	{
-		char largelist_filename[100];
-		char quartets_filename[100];
+		char largelist_matrix_file_path[100];
+		this->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_number, sequence_count);
+		char quartet_matrices_file_path[100];
+		this->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_number, sequence_count);
 
-		//WINDOWS DEPENDENCE --  '\\'
-		//open output files
-		////TODO include Distance calculator tag (id string)
-		/////TODO -- create singleton for filename format strings...  ******
-		//sprintf(largetree_filename, "ForestFiles\\LargeListMatrix_%d.txt", batch_number);
-		//sprintf(quartettrees_filename, "ForestFiles\\QuartetMatrixes_%d.txt", batch_number);
-		sprintf_s(largelist_filename, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
-		sprintf_s(quartets_filename, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
-
+		
 		//WINDOWS DEPENDENCE -- "_s" functions
-		fopen_s(&this->pResults, largelist_filename, "w");
-		fopen_s(&this->pQuartetResults, quartets_filename, "w");
+		fopen_s(&this->pResults, largelist_matrix_file_path, "w");
+		fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "w");
 		//this->pResults = fopen(largetree_filename, "w");
 		//this->pQuartetResults = fopen(quartettrees_filename, "w");
-
-
-
 		if (this->pResults != nullptr)
 		{
 			size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);
-			printf("%s written...\n", largelist_filename);
+			printf("%s written...\n", largelist_matrix_file_path);
 			fclose(this->pResults);
 			//reset string for next batch
 			this->results.clear();
@@ -212,7 +208,7 @@ namespace distanceMeasure
 		if (this->pQuartetResults != nullptr)
 		{
 			size_t numBytesWritten2 = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
-			printf("%s written...\n", quartets_filename);
+			printf("%s written...\n", quartet_matrices_file_path);
 			fclose(this->pQuartetResults);
 			//reset string for next batch
 			this->quartetResults.clear();

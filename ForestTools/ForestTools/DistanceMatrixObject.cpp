@@ -3,14 +3,18 @@ DeAngelo Wilson
 January 3 2020*
 
 						DistanceMatrixObject
+								BATCH_DISTANCE_CALCULATOR_OBJECT
+									given construction params
+										--> produces Trees for distanceMeasureCalculator + analyzes tree if BATCH
 ******************************************************************************/
 
 #include "DistanceMatrixObject.h"
 
 //#include "FileObject.h"
 #include "DistanceMeasureCalculator.h"
-#include <fstream>
+//#include "PhyloAnalysis.h"
 
+#include <fstream>
 //debugging timer
 //#include <time.h>
 #include <ctime>
@@ -57,7 +61,6 @@ namespace distanceMeasure
 			//read file and create matrixes
 			std::string line;
 			int batch_count = 0;
-			double totalCalculationTime = 0.0f;
 			
 			//opens log file(s)
 			this->distanceMeasureFunc->InitializeSequenceSetTimingsLog();
@@ -67,30 +70,29 @@ namespace distanceMeasure
 				//return vector of sequence names
 				const std::vector<std::string> sequence_set_names = ProcessSequenceSet(line);
 				
-				//this->distanceMeasureFunc->StartCalculationTimer();
 				//function delegated to specific DMO calculator (strategy matrix calculator)
 					//CALCULATES DISTANCE MATRIX (if necessary) --> tree out files for current sequence set
-				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, line, batch_count);// *** output tree files ***
+				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, line, batch_count++);// *** output tree files ***
 					//note::multithreaded -- thread pool on function/functor^
 						//output associated with thread_id
-					//mrbayes does not need create_tree... call in derived calcs
-				//this->distanceMeasureFunc->create_tree(sequence_set_names, batch_count);
-				///this->distanceMeasureFunc->StopCalculationTimer();
-
-				//WRITE TO TIMINGS_LOG FILE
-				//const double sequence_set_calc_time = this->distanceMeasureFunc->GetCalculationTime();
-				//LogSequenceSetTimings(batch_count, sequence_set_calc_time, line);
+				//analyze trees on current sequence set... if DistanceMeasure Func (BatchCalculators)
+					//call virtual function only implemented in batchCalcs
+				//this->distanceMeasureFunc->batch_analyze_sequence_set(sequence_set_names, batch_count);
 				
-				//totalCalculationTime += sequence_set_calc_time;
-				batch_count++;
+				//batch_count++;
 			}
 			//Alert distanceMeasureFunc --> done processes sequence Sets
 				//Log (write) total calcaulation time + close file
-			//printf("\nCalculation Time For Sequence Set Lists: %f seconds", totalCalculationTime);
 			this->distanceMeasureFunc->LogTotalCalculationTime();
 		}
 		
 	}
+
+	//void distanceMeasure::DistanceMatrixObject::batch_analyze_trees()
+	//{
+	//	//
+	//	
+	//}
 
 	void DistanceMatrixObject::LogSequenceSetTimings(int batchID, double calculationTime, const std::string& sequenceSet) const
 	{

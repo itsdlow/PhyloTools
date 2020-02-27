@@ -11,6 +11,32 @@ January 24 2020
 #include "SystemParameters.h"
 #include <ctime>
 
+
+////only implemented by BatchDistanceCalculators
+//void distanceMeasure::DistanceMeasureCalculator::batch_analyze_sequence_set(const std::vector<std::string>& sequence_set_names, const int batch_id)
+//{
+//	//do nothing -- cannot analyze sequence_set on 1 method -- use BatchCalculators
+//}
+
+//fills given buffer
+void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+
+}
+void distanceMeasure::DistanceMeasureCalculator::GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
 {
@@ -59,7 +85,8 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 	//write to log file
 	if(this->pTimingsLogFile)
 	{
-		char time_log_line[100];
+		//NOTE:: Probably should (somehow) dynamically determine size
+		char time_log_line[1000];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
 		sprintf_s(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
 		std::string timingLine(time_log_line);
