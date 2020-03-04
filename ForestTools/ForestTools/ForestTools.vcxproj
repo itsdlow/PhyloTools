@@ -151,6 +151,7 @@
     <ClCompile Include="BatchCalculatorsAnalyzer.cpp" />
     <ClCompile Include="BatchDistanceCalculators.cpp" />
     <ClCompile Include="CalculatorAligner.cpp" />
+    <ClCompile Include="CalculatorFastaCompressor.cpp" />
     <ClCompile Include="CalculatorFastaFormatter.cpp" />
     <ClCompile Include="CalculatorNexusFormatter.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="InternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
     <ClCompile Include="MrBayesDistanceCalculator.cpp" />
+    <ClCompile Include="NcdDistanceCalculator.cpp" />
     <ClCompile Include="PhyloAnalysis.cpp" />
     <ClCompile Include="PhyloTools.cpp" />
     <ClCompile Include="PValueDistanceCalculator.cpp" />
@@ -175,6 +177,7 @@
     <ClInclude Include="BatchCalculatorsAnalyzer.h" />
     <ClInclude Include="BatchDistanceCalculators.h" />
     <ClInclude Include="CalculatorAligner.h" />
+    <ClInclude Include="CalculatorFastaCompressor.h" />
     <ClInclude Include="CalculatorFastaFormatter.h" />
     <ClInclude Include="CalculatorNexusFormatter.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="InternalDistanceMeasureCalculator.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
     <ClInclude Include="MrBayesDistanceCalculator.h" />
+    <ClInclude Include="NcdDistanceCalculator.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />
     <ClInclude Include="PValueDistanceCalculator.h" />

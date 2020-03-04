@@ -102,6 +102,12 @@
     <ClCompile Include="BatchCalculatorsAnalyzer.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
+    <ClCompile Include="NcdDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculatorFastaCompressor.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -171,6 +177,12 @@
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClInclude>
     <ClInclude Include="BatchCalculatorsAnalyzer.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="NcdDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorFastaCompressor.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
   </ItemGroup>

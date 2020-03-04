@@ -10,6 +10,7 @@ January 18 2020
 #include "MrBayesDistanceCalculator.h"
 #include "PValueDistanceCalculator.h"
 #include "LcsDistanceCalculator.h"
+#include "NcdDistanceCalculator.h"
 
 //#include "PhyloAnalysis.h"
 
@@ -27,7 +28,8 @@ namespace distanceMeasure
 		//take as input parameter --> calc_count + bit_mask?
 			//defines what calculator methods to include in batch_calculation
 			//
-		calculators = new DistanceMeasureCalculator * [this->calculator_count];
+		calculators = new DistanceMeasureCalculator* [this->calculator_count];
+		//pass reference of calculators to batchAnalyzer... used to get specific calc_names + tree file-names
 		BatchCalculatorsAnalyzer::SetCalculatorsArray(calculators);
 
 		//intiialzie calculators array -- WITH ALL CALCULATOR METHODS
@@ -250,8 +252,9 @@ namespace distanceMeasure
 		case 2:
 			dmc = new MrBayesDistanceCalculator();
 			break;
-			//case 3:
-			//	dmc = new NcdDistanceCalculator();
+		case 3:
+			dmc = new NcdDistanceCalculator(1);
+			break;
 		default:
 			break;
 		}

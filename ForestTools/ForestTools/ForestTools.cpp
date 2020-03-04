@@ -15,7 +15,11 @@ January 3 2020
 #include "PValueDistanceCalculator.h"
 #include "LcsDistanceCalculator.h"
 #include "MrBayesDistanceCalculator.h"
+#include "NcdDistanceCalculator.h"
+
 #include "BatchDistanceCalculators.h"
+
+#include "SystemParameters.h"
 
 int main()
 {
@@ -66,7 +70,7 @@ int main()
 		//get calculator count...
 			//use bitmasking?
 			
-        dmc = new distanceMeasure::BatchDistanceCalculators(3);
+        dmc = new distanceMeasure::BatchDistanceCalculators(SystemParameters::GetCalculatorsCount());
 		break;
 	case 1:
 		dmc = new distanceMeasure::LcsDistanceCalculator();
@@ -77,9 +81,17 @@ int main()
 	case 3:
 		dmc = new distanceMeasure::MrBayesDistanceCalculator();
 		break;
-	//case 4:
-	//	dmc = new distanceMeasure::NcdDistanceCalculator();
-	//	break;
+	case 4:
+		//TODO:: NEEDS TO BE GIVEN compression flags...
+			//default runs all compressions
+        int compressor_flag;
+		//get compressor to use for calculation
+        std::cin >> compressor_flag;
+		dmc = new distanceMeasure::NcdDistanceCalculator(compressor_flag);
+		break;
+  // case 5:
+		////BATCH NCD (multiple NCD calculations)
+		//---> adjust BatchCalculators to be able to run just_all types of NCD
 	default:
 		break;
 	}

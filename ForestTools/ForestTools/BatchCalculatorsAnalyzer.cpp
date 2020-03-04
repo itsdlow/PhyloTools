@@ -20,13 +20,6 @@ namespace distanceMeasure
 	{
 	}
 
-
-
-
-
-
-
-
 	void BatchCalculatorsAnalyzer::batch_analyze_sequence_set(const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
 		//analyze current sequence set trees

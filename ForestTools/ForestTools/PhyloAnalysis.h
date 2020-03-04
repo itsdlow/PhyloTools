@@ -23,7 +23,7 @@ namespace PhyloAnalysis
         //both arguments are largeTreeFileDirectories
     float computeSymmetricDifference(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);
 
-    //new analysis tools
+    //NOTE:: new analysis tools
     float computeRFRate(const float differenceCount, const int sequenceCount);
 
     float computeCompatibilityMetric_LtoL(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);

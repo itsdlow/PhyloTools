@@ -62,7 +62,7 @@ namespace distanceMeasure
 	}
 
 	
-	//calculate LargeTree (w/o quartets) Distance Matrix
+	//calculate LargeTree (w/o quartets) Distance Matrix -- phylib format
 	void InternalDistanceMeasureCalculator::CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
 	{
 		const size_t fileCount = sequence_set_names.size();

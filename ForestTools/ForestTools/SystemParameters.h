@@ -57,9 +57,18 @@ public:
 	//static const int GetTreeFilePathSize() { return SystemParameters::Instance().tree_file_path_size; };
 	//static const int& GetMatrixFilePathSize() { return SystemParameters::Instance().matrix_file_path_size; };
 
+	//
+	static const std::string& GetCompressedFilename() { return SystemParameters::Instance().compressed_file_format_string; };
+	//static const std::string& GetMFCompressCommandString() { return SystemParameters::Instance().mfcompress_command_string; };
+	static const std::string& GetMFC1CommandString() { return SystemParameters::Instance().mfc1_command_string; };
+	static const std::string& GetMFC2CommandString() { return SystemParameters::Instance().mfc2_command_string; };
+	static const std::string& GetMFC3CommandString() { return SystemParameters::Instance().mfc3_command_string; };
 
+	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
+
+
+	static int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
 	
-	static const int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
 private:
 	SystemParameters() = default;
 
@@ -75,7 +84,7 @@ private:
 
 	//private members
 
-	const int CALCULATOR_COUNT = 3;
+	const int CALCULATOR_COUNT = 4;
 
 	//TODO:: Allow for user to supply directory path folder
 		//create sub folders? i.e. 'Analysis'
@@ -106,6 +115,19 @@ private:
 	//muscle command
 	//WINDOWS DEPENDENCE
 	const std::string muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
+
+	//NCD
+	const std::string compressed_file_format_string = "ForestFiles/TempFiles/CompressedFile.%s";
+	//takes as parameters - compression_type (1-3) + output filename + Original Input FASTA Filename
+	//const std::string mfcompress_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
+	const std::string mfc1_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
+	const std::string mfc2_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
+	const std::string mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
+
+	
+	//params -- zipped_file_name input_file_path
+	const std::string zip7_command_string = "extra_tools\\7-Zip\\7z.exe a %s %s";
+
 	
 	//MRBAYES
 	const char nexus_gap_char = '-';
