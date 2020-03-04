@@ -96,9 +96,11 @@ namespace phylo {
         int comboFourOf(const Tree& largeListTree, std::vector<std::vector<std::string> >& largeQuartetSequenceList) const;
 
         //symmetric difference
-        const BipartitionList listBipartitions(Tree tree) const;
-        int symmetricDifference(const BipartitionList& bi1, const BipartitionList& bi2) const;
+        const BipartitionList listBipartitions(Tree& tree) const;
+        //int symmetricDifference(const BipartitionList& bi1, const BipartitionList& bi2) const;
+        int bipartitionDistance(const BipartitionList& tree1BipartitionList, const BipartitionList& tree2BipartitionList) const;
 
+    	
     private:
         std::string cleanNewick(const std::string& e) const;
         std::string parseNewickHelper(const std::string& e, Tree& tree) const;

@@ -19,21 +19,24 @@ namespace distanceMeasure
 	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(const int calculator_count):
 	BatchCalculatorsAnalyzer(calculator_count),
 	calculator_count(calculator_count),
-	calculators(new DistanceMeasureCalculator* [calculator_count])
+	//calculators(new DistanceMeasureCalculator* [calculator_count])
+	calculators(nullptr)
 	{
 		//give Calculator analyzer ref to calculators
-		BatchCalculatorsAnalyzer::SetCalculatorsArray(calculators);
 		//NOT IMPLEMENTED::
 		//take as input parameter --> calc_count + bit_mask?
 			//defines what calculator methods to include in batch_calculation
 			//
+		calculators = new DistanceMeasureCalculator * [this->calculator_count];
+		BatchCalculatorsAnalyzer::SetCalculatorsArray(calculators);
+
 		//intiialzie calculators array -- WITH ALL CALCULATOR METHODS
-		//for(int i = 0; i < BatchDistanceCalculators::calculator_count; i++)
-		//{
-		//	this->calculators[i] = GetCalculator(i);
-		//}
-		this->calculators[0] = new PValueDistanceCalculator();
-		this->calculators[1] = new LcsDistanceCalculator();
+		for(int i = 0; i < this->calculator_count; i++)
+		{
+			this->calculators[i] = GetCalculator(i);
+		}
+		//this->calculators[0] = new PValueDistanceCalculator();
+		//this->calculators[1] = new LcsDistanceCalculator();
 	}
 
 	std::string distanceMeasure::BatchDistanceCalculators::GetCalculatorName() const
@@ -43,20 +46,15 @@ namespace distanceMeasure
 	
 	void BatchDistanceCalculators::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
-		//double totalCalculationTime = 0.0;
-		this->StartCalculationTimer();
-		for (int i = 0; i < this->calculator_count; i++)
-		{
-			//this->calculators[i]->InitializeSequenceSetTimingsLog();
-			this->calculators[i]->calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
-			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
-		}
-		this->StopCalculationTimer(batch_id, sequence_set);
-		////printf("\nBatch Calculation Time For Sequence Set Lists: %f minutes\n", totalCalculationTime/60.0);
+		//this->StartCalculationTimer();
+		//for (int i = 0; i < this->calculator_count; i++)
+		//{
+		//	//this->calculators[i]->InitializeSequenceSetTimingsLog();
+		//	this->calculators[i]->calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+		//	//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
+		//}
+		//this->StopCalculationTimer(batch_id, sequence_set);
 
-		//analyze trees...
-			//if called here...
-			//DOES NOT NEED TO BE VIRTUAL
 		BatchCalculatorsAnalyzer::batch_analyze_sequence_set(sequence_set_names, batch_id);
 	}
 

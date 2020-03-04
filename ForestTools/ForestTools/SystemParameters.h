@@ -77,6 +77,10 @@ private:
 
 	const int CALCULATOR_COUNT = 3;
 
+	//TODO:: Allow for user to supply directory path folder
+		//create sub folders? i.e. 'Analysis'
+			//use getter + setter to update to non-default...
+	//const std::string default_analysis_tables_path = "ForestFiles/Analysis/";
 	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d.txt";
 	
 	//DEBUG -- timings log

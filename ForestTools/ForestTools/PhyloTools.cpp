@@ -61,6 +61,11 @@ namespace phylo {
                     //ti[sequences] = this->quartetPairDivision(tree);
                     //printf("BuildQuartetPair:: inserted seuqence,quartet pair\n");
                 }
+                else
+                {
+                    printf("Quartet file: %s contained improper quartet, does not have 6 vertices\n", quartetTreesFilename.c_str());
+                    exit(0);
+                }
 
             }
         }
@@ -181,7 +186,8 @@ namespace phylo {
     {
         //  # Remove branch lengths (i.e., :digits after sequence name)
 
-        std::regex reg(":[0-9]+\\.?[0-9]*");
+    	//WINDOWS DEPENDENCE --> must escape '\' in regex
+        std::regex reg(":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*");
 
         std::string c = std::regex_replace(e, reg, "");
         //c.erase(std::remove(c.begin(), c.end(), '\n'), c.end());
@@ -279,7 +285,7 @@ namespace phylo {
 
 
     //symmetric difference
-    const PhyloTools::BipartitionList PhyloTools::listBipartitions(Tree tree) const
+    const PhyloTools::BipartitionList PhyloTools::listBipartitions(Tree& tree) const
     {
         BipartitionList bipartitionList;
         const std::vector<std::string> vertices = tree.vertices();
@@ -300,7 +306,9 @@ namespace phylo {
                 */
                 if (!tree.isLeaf(*i) && !tree.isLeaf(*j) && tree.isAdjacent(*i, *j))
                 {
+                	//create partition
                     tree.deleteEdge(*i, *j);
+                	
                     std::vector<std::string> iLeaves = tree.leafNameList(*i);
                     //printf("iLeaves:: %s\n", to_s(iLeaves).c_str());
                     std::vector<std::string> jLeaves = tree.leafNameList(*j);
@@ -315,7 +323,9 @@ namespace phylo {
                     {
                         bipartitionList.push_back(std::make_pair(jLeaves, iLeaves));
                     }
+                	//repair tree ref
                     tree.addEdge(*i, *j);
+                	
                     tree.sortAdjacenyList();
                 }
 
@@ -339,8 +349,9 @@ namespace phylo {
         return s;
     }
 
-    int PhyloTools::symmetricDifference(const BipartitionList& tree1BipartitionList, const BipartitionList& tree2BipartitionList) const
-    {
+    //int PhyloTools::symmetricDifference(const BipartitionList& tree1BipartitionList, const BipartitionList& tree2BipartitionList) const
+    int PhyloTools::bipartitionDistance(const BipartitionList& tree1BipartitionList, const BipartitionList& tree2BipartitionList) const
+	{
 
 
         /*

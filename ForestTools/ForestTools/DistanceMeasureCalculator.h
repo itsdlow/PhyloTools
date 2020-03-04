@@ -52,6 +52,9 @@ namespace distanceMeasure
 		virtual void GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) final;
 		virtual void GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) final;
 
+		//called by Get_Matrix/Tree_FileNames + BatchCalculatorsAnalyzer
+		virtual std::string GetCalculatorName() const = 0;
+		
 		//convert 2d-array index into 1d index
 		static int getArrayIndex(int row, int col, int rowCount) { return (row * rowCount) + col; }
 	protected:
@@ -68,6 +71,7 @@ namespace distanceMeasure
 		void StartCalculationTimer();
 		void StopCalculationTimer(int batchID, const std::string& sequenceSet);
 
+
 	private:
 		
 		//debug timing things
@@ -75,8 +79,6 @@ namespace distanceMeasure
 		double calculationTime;
 		double totalCalculationTime = 0;
 
-		//called by Get_Matrix/Tree_FileNames
-		virtual std::string GetCalculatorName() const = 0;
 
 		//CALLED BY StopCalculationTimer()
 		void LogSequenceSetTiming(int batchID, double calculationTime, const std::string& sequenceSet) const;

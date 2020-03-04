@@ -16,7 +16,7 @@ namespace PhyloAnalysis
 
 	
     //prints to output the agreement between two given files (of quartetTrees)
-    float computeQuartetAgreement(std::string quartetFilename1, std::string quartetFilename2)
+    float computeQuartetAgreement(const std::string& quartetFilename1, const std::string& quartetFilename2)
     {
         PhyloTools ptools = PhyloTools();
 
@@ -63,7 +63,7 @@ namespace PhyloAnalysis
 
     */
 
-    float computeInducedQuartetAgreement(std::string largeTreeFilename1, std::string largeTreeFilename2)
+    float computeInducedQuartetAgreement(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2)
     {
 
         //compied from agreement
@@ -120,7 +120,7 @@ namespace PhyloAnalysis
      # tree on a large list of sequences.
      */
      //prints to output the compatability ratio between a large sequence tree file and derived quartet trees on sequences
-    float computeQuartetCompatibility(std::string largeTreeFilename, std::string quartetFilename)
+    float computeQuartetCompatibility(const std::string& largeTreeFilename, const std::string& quartetFilename)
     {
         PhyloTools ptools = PhyloTools();
 
@@ -158,19 +158,223 @@ namespace PhyloAnalysis
     }
     //uses bipartition method to compute symmetric difference --
     //both arguments are largeTreeFileDirectories
-    float computeSymmetricDifference(std::string largeTreeFilename1, std::string largeTreeFilename2)
+    float computeSymmetricDifference(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2)
     {
         PhyloTools ptools = PhyloTools();
 
-        std::string largeTreeNewick1 = ptools.getLargeTreeLine(largeTreeFilename1);
-        std::string largeTreeNewick2 = ptools.getLargeTreeLine(largeTreeFilename2);
-        const PhyloTools::BipartitionList bipartitionList1 = ptools.listBipartitions(ptools.parseNewickExpression(largeTreeNewick1));
-        const PhyloTools::BipartitionList bipartitionList2 = ptools.listBipartitions(ptools.parseNewickExpression(largeTreeNewick2));
+        const std::string largeTreeNewick1 = ptools.getLargeTreeLine(largeTreeFilename1);
+        const std::string largeTreeNewick2 = ptools.getLargeTreeLine(largeTreeFilename2);
+        Tree tree_1 = ptools.parseNewickExpression(largeTreeNewick1);
+        Tree tree_2 = ptools.parseNewickExpression(largeTreeNewick2);
 
-        int differenceCount = ptools.symmetricDifference(bipartitionList1, bipartitionList2);
+        const PhyloTools::BipartitionList bipartitionList1 = ptools.listBipartitions(tree_1);
+        const PhyloTools::BipartitionList bipartitionList2 = ptools.listBipartitions(tree_2);
+        int differenceCount = ptools.bipartitionDistance(bipartitionList1, bipartitionList2);
 
         printf("The Difference Count is: %d\n", differenceCount);
 
         return static_cast<float>(differenceCount);
     }
+
+//NEW ANALYSIS TOOLS
+
+    float computeRFRate(const float differenceCount, const int sequenceCount)
+    {
+        return differenceCount / static_cast<float>(2 * sequenceCount - 6);
+    }
+	//gets RF rate between two tree files
+    float computeCompatibilityMetric_LtoL(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2)
+    {
+        PhyloTools ptools = PhyloTools();
+
+        std::string largeTreeNewick1 = ptools.getLargeTreeLine(largeTreeFilename1);
+        std::string largeTreeNewick2 = ptools.getLargeTreeLine(largeTreeFilename2);
+        Tree tree_1 = ptools.parseNewickExpression(largeTreeNewick1);
+        Tree tree_2 = ptools.parseNewickExpression(largeTreeNewick2);
+        size_t sequenceCount = tree_1.leafNameList().size();
+
+        const PhyloTools::BipartitionList bipartitionList1 = ptools.listBipartitions(tree_1);
+        const PhyloTools::BipartitionList bipartitionList2 = ptools.listBipartitions(tree_2);
+
+        const int differenceCount = ptools.bipartitionDistance(bipartitionList1, bipartitionList2);
+        printf("The Difference Count is: %d\n", differenceCount);
+
+        return computeRFRate(static_cast<float>(differenceCount), static_cast<int>(sequenceCount));
+    }
+	
+	//computes a total (sum of) quartet RF distance -- between (IQ) large tree, induced quartets and (Q) direct quartets
+		//averages the distance --> gets RF rate
+			//(alternate:: sum of RF rates / total quartets)
+	float computeCompatibilityMetric_IQtoQ(const std::string& largeTreeFilename, const std::string& quartetsFilename)
+    {
+        PhyloTools ptools = PhyloTools();
+
+    	//get large tree
+        std::string largeTreeNewick = ptools.getLargeTreeLine(largeTreeFilename);
+        Tree largeTree = ptools.parseNewickExpression(largeTreeNewick);
+        //get quartets file
+        std::ifstream quartetsFile(quartetsFilename, std::ifstream::binary);
+        if (!quartetsFile.is_open())
+        {
+            printf("computeCompatibilityMetricIQtoQ failed -- file: %s not found/opened\n", quartetsFilename.c_str());
+            exit(0);
+        }
+        std::string line;
+    	
+        int totalBipartitionDistance = 0;
+        int count = 0;
+        //for all quartet tree combos...
+    	while(std::getline(quartetsFile, line))
+    	{
+    		//get next directly-genned quartet tree
+                        //if line is blank skip
+            if (line.size() > 2)
+            {
+                //printf("newick_line: %s\n", line.c_str());
+
+                Tree tree = ptools.parseNewickExpression(line);
+                //tree.outputAdjacentList();
+                //# A tree is a quartet iff it contains six vertices.
+                if (tree.v() == 6)//GUARD:: unnecessary?
+                {
+                    //if read line, 'tree' is a proper quartet --> get RF distance (largeTree <--> tree)
+                	//get leaf list
+                    Sequences sequences = tree.leafNameList();
+					//create homeomorphic
+                    Tree subtree = ptools.createHomeoSubtree(largeTree, sequences);
+
+                	//get bipartitions
+                    const PhyloTools::BipartitionList inducedQuartetBipartitionList = ptools.listBipartitions(subtree);
+                    const PhyloTools::BipartitionList quartetBipartitionList2 = ptools.listBipartitions(tree);
+                    const int differenceCount = ptools.bipartitionDistance(inducedQuartetBipartitionList, quartetBipartitionList2);
+                    printf("The Difference Count is: %d\n", differenceCount);
+
+                    totalBipartitionDistance += differenceCount;
+                    count++;
+                }
+                else
+                {
+                    printf("Quartet file: %s contained improper quartet, does not have 6 vertices\n", quartetsFilename.c_str());
+                    exit(0);
+                }
+
+            }
+    	}
+		quartetsFile.close();
+
+        //get average of bipartition distance
+        const float avgDifferenceCount = static_cast<float>(totalBipartitionDistance) / static_cast<float>(count);
+    	
+        //WORKING WITH QUARTETS ONLY
+        const int sequenceCount = 4;
+        return computeRFRate(avgDifferenceCount, sequenceCount);
+    }
+
+    //computes a total (sum of) quartet RF distance -- between (IQ) large tree, induced quartets and (Q) direct quartets
+    //averages the distance --> gets RF rate
+        //(alternate:: sum of RF rates / total quartets)
+    float computeCompatibilityMetric_IQtoIQ(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2)
+    {
+        PhyloTools ptools = PhyloTools();
+
+        Tree largeListTree1 = ptools.parseNewickExpression(ptools.getLargeTreeLine(largeTreeFilename1));
+        Tree largeListTree2 = ptools.parseNewickExpression(ptools.getLargeTreeLine(largeTreeFilename2));
+
+        //lists of all possible combinations of 4 of leafs
+        std::vector<std::vector<std::string> > largeQuartetSequenceList;
+        int largeListSequenceCount = ptools.comboFourOf(largeListTree1, largeQuartetSequenceList);
+        //assumes both trees are on same sequence set
+        //std::vector<const std::vector<std::string> > largeQuartetSequenceList2(largeQuartetSequenceList1);
+
+        int totalBipartitionDistance = 0;
+        int count = 0;
+        for (std::vector<std::vector<std::string> >::const_iterator it = largeQuartetSequenceList.begin(); it != largeQuartetSequenceList.end(); it++)
+        {
+            //printf("quartet: %s, %s, %s, %s\n",(*it).at(0).c_str(),(*it).at(1).c_str(),(*it).at(2).c_str(),(*it).at(3).c_str());
+
+            Tree subtree1 = ptools.createHomeoSubtree(largeListTree1, *it);
+            Tree subtree2 = ptools.createHomeoSubtree(largeListTree2, *it);
+            //get bipartitions
+            const PhyloTools::BipartitionList inducedQuartetBipartitionList = ptools.listBipartitions(subtree1);
+            const PhyloTools::BipartitionList quartetBipartitionList = ptools.listBipartitions(subtree2);
+            const int differenceCount = ptools.bipartitionDistance(inducedQuartetBipartitionList, quartetBipartitionList);
+            printf("The Difference Count is: %d\n", differenceCount);
+
+            totalBipartitionDistance += differenceCount;
+            count++;
+        }
+        //get average of bipartition distance
+        const float avgDifferenceCount = static_cast<float>(totalBipartitionDistance) / static_cast<float>(count);
+
+        //WORKING WITH QUARTETS ONLY
+        const int sequenceCount = 4;
+        return computeRFRate(avgDifferenceCount, sequenceCount);
+    }
+
+    //computes a total (sum of) quartet RF distance -- between (IQ) large tree, induced quartets and (Q) direct quartets
+    //averages the distance --> gets RF rate
+        //(alternate:: sum of RF rates / total quartets)
+    float computeCompatibilityMetric_QtoQ(const std::string& quartetsFilename1, const std::string& quartetsFilename2)
+    {
+        PhyloTools ptools = PhyloTools();
+
+        //get quartets file
+        std::ifstream quartetsFile1(quartetsFilename1, std::ifstream::binary);
+        std::ifstream quartetsFile2(quartetsFilename2, std::ifstream::binary);
+    	if (!quartetsFile1.is_open() || !quartetsFile2.is_open())
+        {
+            printf("computeCompatibilityMetricQtoQ failed -- file: %s || %s not found/opened\n", quartetsFilename1.c_str(), quartetsFilename2.c_str());
+            exit(0);
+        }
+        std::string line1;
+        std::string line2;
+    	
+        int totalBipartitionDistance = 0;
+        int count = 0;
+        //for all quartet tree combos...
+        while (std::getline(quartetsFile1, line1) && std::getline(quartetsFile2, line2))
+        {
+            //get next directly-genned quartet tree
+                        //if line is blank skip
+            if (line1.size() > 2 && line2.size() > 2)
+            {
+                Tree tree1 = ptools.parseNewickExpression(line1);
+                Tree tree2 = ptools.parseNewickExpression(line2);
+
+                //tree.outputAdjacentList();
+                //# A tree is a quartet iff it contains six vertices.
+                if (tree1.v() == 6 && tree2.v() == 6)//GUARD:: unnecessary?
+                {
+                    //if read line, 'tree1' && 'tree2' are proper quarteta --> get RF distance (quartet <--> quartet)
+                    //NOTE:: ASSUMES QUARTETS FILES ARE BUILT IN SAME ORDERING...
+						//ADD GUARD??? --> unecessary? guranteed same ordering if files created by PhyloTools...?
+                    //get bipartitions
+                    const PhyloTools::BipartitionList quartetBipartitionList1 = ptools.listBipartitions(tree1);
+                    const PhyloTools::BipartitionList quartetBipartitionList2 = ptools.listBipartitions(tree2);
+                    const int differenceCount = ptools.bipartitionDistance(quartetBipartitionList1, quartetBipartitionList2);
+                    printf("The Difference Count is: %d\n", differenceCount);
+
+                    totalBipartitionDistance += differenceCount;
+                    count++;
+                }
+                else
+                {
+                    printf("Quartet files: %s || %s contained improper quartet, does not have 6 vertices\n", quartetsFilename1.c_str(), quartetsFilename2.c_str());
+                    exit(0);
+                }
+
+            }
+        }
+        quartetsFile1.close();
+        quartetsFile2.close();
+
+    	
+        //get average of bipartition distance
+        const float avgDifferenceCount = static_cast<float>(totalBipartitionDistance) / static_cast<float>(count);
+
+        //WORKING WITH QUARTETS ONLY
+        const int sequenceCount = 4;
+        return computeRFRate(avgDifferenceCount, sequenceCount);
+    }
+
 }

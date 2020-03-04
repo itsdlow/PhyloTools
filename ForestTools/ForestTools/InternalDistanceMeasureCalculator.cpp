@@ -172,13 +172,13 @@ namespace distanceMeasure
 
 			//distance measures
 			this->quartetResults.append(" ");
-			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(this->getArrayIndex(indexV.at(row), i, fileCount))));
+			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(DistanceMeasureCalculator::getArrayIndex(indexV.at(row), i, fileCount))));
 			this->quartetResults.append(" ");
-			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(this->getArrayIndex(indexV.at(row), j, fileCount))));
+			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(DistanceMeasureCalculator::getArrayIndex(indexV.at(row), j, fileCount))));
 			this->quartetResults.append(" ");
-			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(this->getArrayIndex(indexV.at(row), k, fileCount))));
+			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(DistanceMeasureCalculator::getArrayIndex(indexV.at(row), k, fileCount))));
 			this->quartetResults.append(" ");
-			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(this->getArrayIndex(indexV.at(row), l, fileCount))).append("\n"));
+			this->quartetResults.append(std::to_string(this->lamdaMatrix.at(DistanceMeasureCalculator::getArrayIndex(indexV.at(row), l, fileCount))).append("\n"));
 		}
 		this->quartetResults.append("\n");
 	}

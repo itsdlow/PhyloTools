@@ -58,6 +58,7 @@ namespace distanceMeasure
 			this->ss_size_count++;
 
 		}
+		
 		//compare all permutations of tree_methods (calculators)
 		for (int i = 0; i < this->calculator_count; i++)
 		{
@@ -89,31 +90,61 @@ namespace distanceMeasure
 		this->pCalculators[calculator_index_i]->GetQuartetsTreeFileName(quartetsTreeFileName_1, 100, batch_id, sequence_set_size);
 		char quartetsTreeFileName_2[100];
 		this->pCalculators[calculator_index_j]->GetQuartetsTreeFileName(quartetsTreeFileName_2, 100, batch_id, sequence_set_size);
+		const std::string quartetsFilename1(quartetsTreeFileName_1);
+		const std::string largeListTreeFilename1(largelistTreeFileName_1);
+		const std::string quartetsFilename2(quartetsTreeFileName_2);
+		const std::string largeListTreeFilename2(largelistTreeFileName_2);
 
-
+		
+		size_t pos = static_cast<size_t>(DistanceMeasureCalculator::getArrayIndex(calculator_index_i, calculator_index_j, this->calculator_count));
 		//calculate all 4 compatibilities -- push to vectors
 	//SYMMETRIC
-		this->compatibilityTable_LtoL.at(DistanceMeasureCalculator::getArrayIndex(calculator_index_i, calculator_index_j, this->calculator_count)) += PhyloAnalysis::
-			computeSymmetricDifference(std::string(largelistTreeFileName_1), std::string(largelistTreeFileName_2));
-
-		this->compatibilityTable_QtoQ.at(DistanceMeasureCalculator::getArrayIndex(calculator_index_i, calculator_index_j, this->calculator_count)) += PhyloAnalysis::
-			computeQuartetAgreement(std::string(quartetsTreeFileName_1), std::string(quartetsTreeFileName_2));
-		this->compatibilityTable_IQtoIQ.at(DistanceMeasureCalculator::getArrayIndex(calculator_index_i, calculator_index_j, this->calculator_count)) += PhyloAnalysis::
-			computeInducedQuartetAgreement(std::string(largelistTreeFileName_1), std::string(largelistTreeFileName_2));
+		this->compatibilityTable_LtoL.at(pos) += PhyloAnalysis::
+			computeSymmetricDifference(largeListTreeFilename1, largeListTreeFilename2);
+		
+		this->compatibilityTable_QtoQ.at(pos) += PhyloAnalysis::
+			computeQuartetAgreement(quartetsFilename1, quartetsFilename2);
+		
+		this->compatibilityTable_IQtoIQ.at(pos) += PhyloAnalysis::
+			computeInducedQuartetAgreement(largeListTreeFilename1, largeListTreeFilename2);
+		
 		//NOT SYMMETRIC
-		this->compatibilityTable_IQtoQ.at(DistanceMeasureCalculator::getArrayIndex(calculator_index_i, calculator_index_j, this->calculator_count)) += PhyloAnalysis::
-			computeQuartetCompatibility(std::string(largelistTreeFileName_1), std::string(quartetsTreeFileName_2));
+		this->compatibilityTable_IQtoQ.at(pos) += PhyloAnalysis::
+			computeQuartetCompatibility(largeListTreeFilename1, quartetsFilename2);
+		//calculate all 4_NEW_compatibilities -- push to vectors
+		//SYMMETRIC
+		this->compatibilityTable_LtoL_.at(pos) += PhyloAnalysis::
+			computeCompatibilityMetric_LtoL(largeListTreeFilename1, largeListTreeFilename2);
+		
+		this->compatibilityTable_QtoQ_.at(pos) += PhyloAnalysis::
+			computeCompatibilityMetric_QtoQ(quartetsFilename1, quartetsFilename2);
+		
+		this->compatibilityTable_IQtoIQ_.at(pos) += PhyloAnalysis::
+			computeCompatibilityMetric_IQtoIQ(largeListTreeFilename1, largeListTreeFilename2);
+		
+		//NOT SYMMETRIC
+		this->compatibilityTable_IQtoQ_.at(pos) += PhyloAnalysis::
+			computeCompatibilityMetric_IQtoQ(largeListTreeFilename1, quartetsFilename2);
 	}
 	void BatchCalculatorsAnalyzer::InitializeCompatibilityVectors(const int sequence_count)
 	{
 		for (int i = 0; i < this->calculator_count; i++)
 		{
-			this->compatibilityTable_LtoL.push_back(0);
-			this->compatibilityTable_IQtoQ.push_back(0);
-			this->compatibilityTable_IQtoIQ.push_back(0);
-			this->compatibilityTable_QtoQ.push_back(0);
+			for(int j = 0; j < this->calculator_count; j++)
+			{
+				this->compatibilityTable_LtoL.push_back(0);
+				this->compatibilityTable_IQtoQ.push_back(0);
+				this->compatibilityTable_IQtoIQ.push_back(0);
+				this->compatibilityTable_QtoQ.push_back(0);
+				this->compatibilityTable_LtoL_.push_back(0);
+				this->compatibilityTable_IQtoQ_.push_back(0);
+				this->compatibilityTable_IQtoIQ_.push_back(0);
+				this->compatibilityTable_QtoQ_.push_back(0);
+			}
+
 		}
 	}
+	//TODO:: change to a for loop???
 	void BatchCalculatorsAnalyzer::WriteAnalysisTables()
 	{
 		//write each different anlysis measure table, to same file
@@ -121,7 +152,12 @@ namespace distanceMeasure
 		this->WriteAnalysisTable(this->compatibilityTable_QtoQ, std::string("compatibilityTable_QtoQ\n"));
 		this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ, std::string("compatibilityTable_IQtoIQ\n"));
 		this->WriteAnalysisTable(this->compatibilityTable_IQtoQ, std::string("compatibilityTable_IQtoQ\n"));
-
+		//new measures
+		this->WriteAnalysisTable(this->compatibilityTable_LtoL_, std::string("new_compatibilityTable_LtoL\n"));
+		this->WriteAnalysisTable(this->compatibilityTable_QtoQ_, std::string("new_compatibilityTable_QtoQ\n"));
+		this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ_, std::string("new_compatibilityTable_IQtoIQ\n"));
+		this->WriteAnalysisTable(this->compatibilityTable_IQtoQ_, std::string("new_compatibilityTable_IQtoQ\n"));
+		
 		//open + write to file
 		char analysis_table_file_path[100];
 		this->GetAnalysisTableFilePath(analysis_table_file_path, 100, this->previous_ss_size);
@@ -146,13 +182,13 @@ namespace distanceMeasure
 
 		//TODO add row name... column names? --> standardized to avg_val lengths...
 		//int standardized_label_length = 8;//8 == size (# of chars) of float
-		//this->results.append(standardized_column_labels_string);
+		this->results.append(this->GetStandardizedCalculatorLabels());
 
 		//get average of compatibility tables, using this->previous_ss_size
 			//write to results buffer
 		for (int i = 0; i < this->calculator_count; i++)
 		{
-			//this->results.append(StandardizeLabel(calculators[i].GetCalculatorName(), standardized_label_length);
+			this->results.append(this->StandardizeCalculatorLabel(i));
 			for (int j = 0; j < this->calculator_count; j++)
 			{
 				const float avg_val = table_vector.at(DistanceMeasureCalculator::getArrayIndex(i, j, this->calculator_count)) / static_cast<float>(this->ss_size_count);
@@ -169,6 +205,37 @@ namespace distanceMeasure
 		sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
 	}
 
+	std::string distanceMeasure::BatchCalculatorsAnalyzer::GetStandardizedCalculatorLabels() const
+	{
+		std::string label;
+		const int columnOffset = this->standard_label_size + 2 + 1;
+		//add tab to skip 1st column
+		//label.append(" ", columnOffset);
+		//NOTE:: BAD -- static offset for first column (9 spaces)
+		label.append("         ");
+		
+		for(int i = 0; i < this->calculator_count; i++)
+		{
+			
+			label.append(StandardizeCalculatorLabel(i));
+		}
+		label.append("\n");
+		return label;
+	}
 
-	
+	std::string distanceMeasure::BatchCalculatorsAnalyzer::StandardizeCalculatorLabel(const int index) const
+	{
+		std::string label = this->pCalculators[index]->GetCalculatorName().substr(0, this->standard_label_size);
+		int size = static_cast<int>(label.size() );
+		if(size < this->standard_label_size)
+		{
+			const int diff = this->standard_label_size - size;
+			for(int i = 0; i < diff; i++)
+			{
+				label.append(" ");
+			}
+		}
+		
+		return " " + label + "  ";
+	}
 }

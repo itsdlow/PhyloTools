@@ -25,13 +25,13 @@ namespace distanceMeasure
 		//void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override;
 
 
+		std::string GetCalculatorName() const override;
+
 	private:
 		//batch running command creation func
 		std::string create_mrbayes_default_command_block_file(const std::string& relative_nxs_path) const;
 		void calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
 		void calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
-
-		std::string GetCalculatorName() const override;
 
 		void GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const;
 		

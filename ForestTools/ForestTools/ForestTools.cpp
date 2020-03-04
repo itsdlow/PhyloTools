@@ -66,7 +66,7 @@ int main()
 		//get calculator count...
 			//use bitmasking?
 			
-        dmc = new distanceMeasure::BatchDistanceCalculators(2);
+        dmc = new distanceMeasure::BatchDistanceCalculators(3);
 		break;
 	case 1:
 		dmc = new distanceMeasure::LcsDistanceCalculator();

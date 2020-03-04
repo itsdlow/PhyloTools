@@ -7,18 +7,28 @@ January 3 2020
 
 #include <string>
 
+//TODO:: make class --> privately inherits PhyloTools
 namespace PhyloAnalysis
 {
     //prints to output the agreement between two given files (of quartetTrees)
-    float computeQuartetAgreement(std::string quartetFilename1, std::string quartetFilename2);
+    float computeQuartetAgreement(const std::string& quartetFilename1, const std::string& quartetFilename2);
 
     //Given 2 largeTreeFiles, compute the agreement between quartets (directly induced from largeTree)
-    float computeInducedQuartetAgreement(std::string largeTreeFilename1, std::string largeTreeFilename2);
+    float computeInducedQuartetAgreement(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);
 
     //prints to output the compatability ratio between a large sequence tree file and derived quartet trees on sequences
-    float computeQuartetCompatibility(std::string largeTreeFilename ,std::string quartetFilename);
+    float computeQuartetCompatibility(const std::string& largeTreeFilename ,const std::string& quartetFilename);
 
     //uses bipartition method to compute symmetric difference --
         //both arguments are largeTreeFileDirectories
-    float computeSymmetricDifference(std::string largeTreeFilename1, std::string largeTreeFilename2);
+    float computeSymmetricDifference(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);
+
+    //new analysis tools
+    float computeRFRate(const float differenceCount, const int sequenceCount);
+
+    float computeCompatibilityMetric_LtoL(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);
+    float computeCompatibilityMetric_IQtoQ(const std::string& largeTreeFilename, const std::string& quartetsFilename);
+    float computeCompatibilityMetric_IQtoIQ(const std::string& largeTreeFilename1, const std::string& largeTreeFilename2);
+    float computeCompatibilityMetric_QtoQ(const std::string& quartetsFilename1, const std::string& quartetsFilename2);
+	
 }
