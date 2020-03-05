@@ -18,6 +18,7 @@ January 18 2020
 
 namespace distanceMeasure
 {
+	class FileObject;
 	class FileObjectManager;
 
 	class CalculatorFastaCompressor: private CalculatorFastaFormatter
@@ -31,9 +32,9 @@ namespace distanceMeasure
 		void get_compressed_sequences_sizes(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string);
 
 		//reference vector<pairs> get size of concatenated fileobjects 
-		void get_compressed_sequence_pair_size();
+		int get_compressed_sequences_pair_size(const FileObject& file1, const FileObject& file2, const std::string& extension, const std::string& compress_command_format_string) const;
 		
-		const std::string create_compressed_sequence_set_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string);
+		//const std::string create_compressed_sequence_set_file( FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string);
 
 		//const std::string create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 		std::vector<std::pair<std::string, int> > species_compressed_fasta_sizes;

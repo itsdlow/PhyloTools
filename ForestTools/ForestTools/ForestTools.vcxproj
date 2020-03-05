@@ -198,6 +198,7 @@
     <ClInclude Include="SequenceProcessorType.h" />
     <ClInclude Include="SystemParameters.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="VectorKeyCompare.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -10,6 +10,7 @@ January 3 2020
 
 #include "SystemParameters.h"
 #include "FileObject.h"
+#include "VectorKeyCompare.h"
 
 namespace distanceMeasure
 {
@@ -92,21 +93,20 @@ namespace distanceMeasure
 		}
 		//CREATE CONCATENATED compressed file on fileobjects
 			//create fasta file for both fileobjects ==> concatenate
-		
-		//store species sizes
-		VectorKeyCompare pred1 = VectorKeyCompare(species1);
-		VectorKeyCompare pred2 = VectorKeyCompare(species2);
+		int pair_size = CalculatorFastaCompressor::get_compressed_sequences_pair_size(file1, file2, this->extension, this->compress_command_format_string);
 
+		//store species sizes
+		const VectorKeyCompare pred1 = VectorKeyCompare(species1);
+		const VectorKeyCompare pred2 = VectorKeyCompare(species2);
 		//move to CalculatorFastaCompressor 
 			//FindSpeciesEntry(pred)
 		//TODO:: WIP 
-		//get species 1 size
-		std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred1);
+		//get species 1 size --std::vector<VectorKeyCompare::species_and_size>::const_iterator
+		auto speciesEntry1 = std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred1);
 		//get species 2 size
-		std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred2);
+		auto speciesEntry2 = std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred2);
 
-		return 0.0f;
-		//return this->computeNCDistance();;
+		return this->computeNCDistance(pair_size, speciesEntry1->second, speciesEntry2->second);;
 	}
 
 

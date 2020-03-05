@@ -185,6 +185,9 @@
     <ClInclude Include="CalculatorFastaCompressor.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
+    <ClInclude Include="VectorKeyCompare.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd">
