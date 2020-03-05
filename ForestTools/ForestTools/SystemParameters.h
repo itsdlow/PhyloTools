@@ -84,7 +84,7 @@ private:
 
 	//private members
 
-	const int CALCULATOR_COUNT = 4;
+	const int CALCULATOR_COUNT = 5;
 
 	//TODO:: Allow for user to supply directory path folder
 		//create sub folders? i.e. 'Analysis'

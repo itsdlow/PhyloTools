@@ -85,6 +85,7 @@ int main()
 		//TODO:: NEEDS TO BE GIVEN compression flags...
 			//default runs all compressions
         int compressor_flag;
+        printf("Compressor Flag Method: 7Zip (1), MFC1 (2), MFC2 (3), MFC3 (4), Winzip (5)\n");
 		//get compressor to use for calculation
         std::cin >> compressor_flag;
 		dmc = new distanceMeasure::NcdDistanceCalculator(compressor_flag);

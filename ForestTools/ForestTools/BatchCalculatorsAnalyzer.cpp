@@ -20,6 +20,8 @@ namespace distanceMeasure
 	{
 	}
 
+	//NOTE:: BROKEN --> SEQUENCELISTS.TXT GIVEN NOT ORDERED (16,12,8,8,...,8,12,8,...,8,12,...4,..)***********************************************************************************
+	//**********************************************************************************************************************************************************************
 	void BatchCalculatorsAnalyzer::batch_analyze_sequence_set(const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
 		//analyze current sequence set trees

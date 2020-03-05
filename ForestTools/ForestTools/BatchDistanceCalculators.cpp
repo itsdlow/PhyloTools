@@ -48,14 +48,14 @@ namespace distanceMeasure
 	
 	void BatchDistanceCalculators::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
-		//this->StartCalculationTimer();
-		//for (int i = 0; i < this->calculator_count; i++)
-		//{
-		//	//this->calculators[i]->InitializeSequenceSetTimingsLog();
-		//	this->calculators[i]->calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
-		//	//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
-		//}
-		//this->StopCalculationTimer(batch_id, sequence_set);
+		this->StartCalculationTimer();
+		for (int i = 0; i < this->calculator_count; i++)
+		{
+			//this->calculators[i]->InitializeSequenceSetTimingsLog();
+			this->calculators[i]->calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
+		}
+		this->StopCalculationTimer(batch_id, sequence_set);
 
 		BatchCalculatorsAnalyzer::batch_analyze_sequence_set(sequence_set_names, batch_id);
 	}
