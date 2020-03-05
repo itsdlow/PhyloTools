@@ -41,9 +41,13 @@ namespace distanceMeasure
 			break;
 		case 3:
 			//mfcompress2
+			this->extension = "mfc2";
+			this->compress_command_format_string = SystemParameters::GetMFC2CommandString();
 			break;
 		case 4:
 			//mfcompress3
+			this->extension = "mfc3";
+			this->compress_command_format_string = SystemParameters::GetMFC3CommandString();
 			break;
 		case 5:
 			//winzip

@@ -106,7 +106,11 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	file_object_pair_fasta_string.append("\n");
 	file_object_pair_fasta_string.append(file1.GetSequenceString());
 	file_object_pair_fasta_string.append("\n");
-
+	file_object_pair_fasta_string.append(file2.GetFastaDescriptionString());
+	file_object_pair_fasta_string.append("\n");
+	file_object_pair_fasta_string.append(file2.GetSequenceString());
+	file_object_pair_fasta_string.append("\n");
+	
 	//TODO:: MOVE TO small function of FastaFormatter
 		//std::string fasta_filename = CalculatorFastaFormatter::CreateFastaFile(file_object_fasta_string, sequence_count);
 				//or -- give fileobject... (instead of fasta_string)***

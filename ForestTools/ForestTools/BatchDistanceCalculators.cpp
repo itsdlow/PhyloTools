@@ -255,6 +255,9 @@ namespace distanceMeasure
 		case 3:
 			dmc = new NcdDistanceCalculator(1);
 			break;
+		case 4:
+			dmc = new NcdDistanceCalculator(3);
+			break;
 		default:
 			break;
 		}
