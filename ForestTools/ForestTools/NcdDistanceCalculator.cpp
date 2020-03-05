@@ -60,12 +60,12 @@ namespace distanceMeasure
 		//create fasta file for each sequence of set...
 			//create compressed file on each FASTA
 				//store size of file in a Vector<std::pair<std::string, int size>> sequence_set_compressed_sizes
-		//std::string compressed_file = CalculatorFastaCompressor::create_compressed_sequence_set_file(fileObjectManager, sequence_set_names, this->extension, this->compress_command_format_string);
 		CalculatorFastaCompressor::get_compressed_sequences_sizes(fileObjectManager, sequence_set_names, this->extension, this->compress_command_format_string);
+		//std::string compressed_file = CalculatorFastaCompressor::create_compressed_sequence_set_file(fileObjectManager, sequence_set_names, this->extension, this->compress_command_format_string);
 
 		//create normalized distances between each pairing
 			//create and concatenate fasta file for both sequences
-			//	
+			//
 		InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
 
 		this->StopCalculationTimer(batch_id, sequence_set);
@@ -80,15 +80,35 @@ namespace distanceMeasure
 	float NcdDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{
 		//assumes aligned sequences
-		const int m = file1.GetSequenceSize();
-		const int n = file2.GetSequenceSize();
+		//const int m = file1.GetSequenceSize();
+		//const int n = file2.GetSequenceSize();
+		const std::string species1 = file1.GetSequenceName();
+		const std::string species2 = file2.GetSequenceName();
 
+		//if same sequence -- do not create pair
+		if (species1 == species2)
+		{
+			return 0.0f;
+		}
 		//CREATE CONCATENATED compressed file on fileobjects
 			//create fasta file for both fileobjects ==> concatenate
 		
-		
+		//store species sizes
+		VectorKeyCompare pred1 = VectorKeyCompare(species1);
+		VectorKeyCompare pred2 = VectorKeyCompare(species2);
+
+		//move to CalculatorFastaCompressor 
+			//FindSpeciesEntry(pred)
+		//TODO:: WIP 
+		//get species 1 size
+		std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred1);
+		//get species 2 size
+		std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred2);
+
 		return 0.0f;
+		//return this->computeNCDistance();;
 	}
+
 
 	float distanceMeasure::NcdDistanceCalculator::computeNCDistance(int size_ij, int size_i, int size_j)
 	{

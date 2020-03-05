@@ -61,6 +61,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		{
 			size_t numBytesWritten = fwrite(file_object_fasta_string.c_str(), file_object_fasta_string.length(), 1, fastaFile);
 			fclose(fastaFile);
+			file_object_fasta_string.clear();
 		}
 		else
 		{

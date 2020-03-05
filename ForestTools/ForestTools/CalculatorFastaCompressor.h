@@ -36,9 +36,9 @@ namespace distanceMeasure
 		const std::string create_compressed_sequence_set_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string);
 
 		//const std::string create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
+		std::vector<std::pair<std::string, int> > species_compressed_fasta_sizes;
 	private:
 
-		std::vector<std::pair<std::string, int> > species_compressed_fasta_sizes;
 		
 		//stored directly in InternalDistanceMeasureCalculator::results --> file
 		//std::vector<std::pair<std::string, int> > species_pair_sizes;

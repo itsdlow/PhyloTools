@@ -12,6 +12,7 @@ January 3 2020
 
 namespace distanceMeasure
 {
+
 	class NcdDistanceCalculator : public InternalDistanceMeasureCalculator, private CalculatorFastaCompressor
 	{
 	public:
@@ -39,6 +40,22 @@ namespace distanceMeasure
 		void SetCompressorType(const int compressor_flag);
 		static float computeNCDistance(int size_ij, int size_i, int size_j);
 	};
+
+	struct VectorKeyCompare
+	{
+		const std::string species_of_interest;
+
+		VectorKeyCompare(const std::string& str):
+			species_of_interest(str)
+		{
+
+		}
+		bool operator()(std::pair<std::string, int>& element )
+		{
+			return element.first == species_of_interest;
+		}
+	};
+
 
 }
 
