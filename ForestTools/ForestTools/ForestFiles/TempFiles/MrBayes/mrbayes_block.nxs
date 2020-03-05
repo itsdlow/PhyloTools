@@ -1,7 +1,6 @@
 begin mrbayes;
 set autoclose = yes nowarn = yes;
-execute ForestFiles/TempFiles/MrBayes/temp_16.nxs;
-lset nst = 6 rates = gamma;
-mcmcp filename=ForestFiles/TempFiles/MrBayes/temp_16.nxs;
-mcmc nruns = 2 ngen = 10000 samplefreq = 10;
+execute ForestFiles/TempFiles/MrBayes/temp_8.nxs;
+mcmcp filename=ForestFiles/TempFiles/MrBayes/temp_8.nxs;
+mcmc nchains = 1 nruns = 1 ngen = 10000 samplefreq = 10;
 end;

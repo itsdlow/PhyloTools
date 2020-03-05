@@ -301,7 +301,13 @@ namespace distanceMeasure
 	
 	std::string MrBayesDistanceCalculator::GetMrBayesTFileName(const std::string& relative_nxs_path)
 	{
-		return relative_nxs_path + ".run" + std::to_string(SystemParameters::GetMrBayesNRuns()) + ".t";
+		int nruns = SystemParameters::GetMrBayesNRuns();
+		//if only 1 gen-run (nruns == 1) --> do not append nruns to string
+		if(nruns < 2)
+		{
+			return relative_nxs_path + ".t";
+		}
+		return relative_nxs_path + ".run" + std::to_string(nruns) + ".t";
 	}
 	std::string distanceMeasure::MrBayesDistanceCalculator::GetKeySpeciesName(const std::vector<std::string>& species_names_key, size_t i)
 	{
@@ -357,8 +363,7 @@ namespace distanceMeasure
 			"execute %s;\n"
 			//"lset nst = 6 rates = gamma;\n"
 			"mcmcp filename=%s;\n"
-			"mcmcp nchains = %d"
-			"mcmc nruns = %d ngen = 10000 samplefreq = 10;\n"
+			"mcmc nchains = %d nruns = %d ngen = 10000 samplefreq = 10;\n"
 			"end;",
 			relative_nxs_path.c_str(),
 			relative_nxs_path.c_str(),
