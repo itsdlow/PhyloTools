@@ -69,14 +69,7 @@ namespace distanceMeasure
 		}
 
 	}
-	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
-	{
-		//WiNDOWS DEPENDENCE 
-		//UNIX MRBayes Command -> input redirection
-		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
-		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
-		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
-	}
+
 	
 	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
@@ -92,7 +85,7 @@ namespace distanceMeasure
 		}
 
 		char quartets_filename[100];
-		this->GetQuartetsTreeFileName(quartets_filename, 100, batch_id, 4);//,sequence_set_names.size());
+		this->GetQuartetsTreeFileName(quartets_filename, 100, batch_id, fileCount);//,sequence_set_names.size());
 
 		//open file for quartetTrees
 		FILE* quartetsFile;
@@ -138,7 +131,14 @@ namespace distanceMeasure
 		fclose(quartetsFile);
 
 	}
-
+	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
+	{
+		//WiNDOWS DEPENDENCE 
+		//UNIX MRBayes Command -> input redirection
+		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
+		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
+		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+	}
 	/*****************************************************************************
 	 *						tree Extraction 
 	 ******************************************************************************/
