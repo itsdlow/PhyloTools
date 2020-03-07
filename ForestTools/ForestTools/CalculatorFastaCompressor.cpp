@@ -13,25 +13,6 @@ January 18 2020
 
 #include <fstream>
 
-////TODO
-//const std::string distanceMeasure::CalculatorFastaCompressor::create_compressed_sequence_set_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string)
-//{
-//	//create fasta file
-//	//std::string fasta_file = CalculatorFastaFormatter::create_sequence_set_fasta_file(fileObjectManager, sequence_set_names);
-//
-//	std::string file_object_fasta_string;
-//	//use orignal Fileobjects to create fasta file, on sequence_set_names
-//	//const FileObject* pFileObject = fileObjectManager.GetFileObject(*it);
-//	//file_object_fasta_string.append(pFileObject->GetFastaDescriptionString());
-//	//file_object_fasta_string.append("\n");
-//	//file_object_fasta_string.append(pFileObject->GetSequenceString());
-//	//file_object_fasta_string.append("\n\n");
-//
-//	
-//
-//	return std::string();
-//}
-
 void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string)
 {
 	std::string file_object_fasta_string;

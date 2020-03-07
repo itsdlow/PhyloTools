@@ -11,7 +11,7 @@ January 18 2020
 #include "FileObject.h"
 #include "SystemParameters.h"
 
-//TODO:: (also for aligner...) Prevent re-creation of temp_files buy giving them HASH_ID --> compute hash based of sequence set!!!
+//TODO:: (also for aligner...) Prevent re-creation of temp_files by giving them HASH_ID --> compute hash based of sequence set!!!
 const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
 {
 	std::string sequence_set_fasta_string;

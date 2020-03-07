@@ -49,9 +49,6 @@ namespace distanceMeasure
 		std::string results;
 
 		//2D array
-		//TODO::
-			//move theses vectors in own specific analysis class?
-			//class member to analyzer --> calls driver func
 		std::vector<float> compatibilityTable_LtoL;
 		std::vector<float> compatibilityTable_IQtoQ;
 		std::vector<float> compatibilityTable_QtoQ;

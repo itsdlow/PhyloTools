@@ -71,7 +71,7 @@ namespace distanceMeasure
 		//NOTE::last sequence_sets, of sequence_set_size --> written in LogTotalCalc..()
 	}
 	/*****************************************************************************************
-	 *				//TODO::MOVE TO ANALYSIS OBJECT... this privately inherits
+	 *				
 	******************************************************************************************/
 	void BatchCalculatorsAnalyzer::CalculateAnalysisMeasures(const int calculator_index_i, const int calculator_index_j, const int sequence_set_size, const int batch_id)
 	{
@@ -174,9 +174,6 @@ namespace distanceMeasure
 	void BatchCalculatorsAnalyzer::WriteAnalysisTable(const std::vector<float>& table_vector, const std::string& table_description)
 	{
 		this->results.append(table_description);
-
-		//TODO add row name... column names? --> standardized to avg_val lengths...
-		//int standardized_label_length = 8;//8 == size (# of chars) of float
 		this->results.append(this->GetStandardizedCalculatorLabels());
 
 		//get average of compatibility tables, using this->previous_ss_size
@@ -200,13 +197,14 @@ namespace distanceMeasure
 		sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
 	}
 
+	//TODO -- clean up to allow for better standardizing of label sizes + offsets...
 	std::string distanceMeasure::BatchCalculatorsAnalyzer::GetStandardizedCalculatorLabels() const
 	{
 		std::string label;
 		const int columnOffset = this->standard_label_size + 2 + 1;
 		//add tab to skip 1st column
 		//label.append(" ", columnOffset);
-		//NOTE:: BAD -- static offset for first column (9 spaces)
+		//BAD -- static offset for first column (9 spaces)
 		label.append("         ");
 		
 		for(int i = 0; i < this->calculator_count; i++)

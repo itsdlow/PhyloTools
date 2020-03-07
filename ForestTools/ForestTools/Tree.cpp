@@ -293,7 +293,6 @@ namespace phylo {
         return res;
     }
 
-    //TODO
     const std::pair<const std::string, const std::string> Tree::findSiblings() const
     {
         const std::vector<std::string> vertices = this->vertices();
@@ -353,8 +352,6 @@ namespace phylo {
     /*
      REPRESENTATION FUNCTIONS
      */
-     //TODO
-
     std::string Tree::to_newick() const
     {
         const std::vector<std::string> vertices = this->vertices();

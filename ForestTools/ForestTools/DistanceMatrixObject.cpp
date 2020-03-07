@@ -75,10 +75,7 @@ namespace distanceMeasure
 				this->distanceMeasureFunc->calculate_and_output_matrix(this->fileObjectManager, sequence_set_names, line, batch_count++);// *** output tree files ***
 					//note::multithreaded -- thread pool on function/functor^
 						//output associated with thread_id
-				//analyze trees on current sequence set... if DistanceMeasure Func (BatchCalculators)
-					//call virtual function only implemented in batchCalcs
-				//this->distanceMeasureFunc->batch_analyze_sequence_set(sequence_set_names, batch_count);
-				
+
 				//batch_count++;
 			}
 			//Alert distanceMeasureFunc --> done processes sequence Sets
@@ -93,19 +90,6 @@ namespace distanceMeasure
 	//	//
 	//	
 	//}
-
-	void DistanceMatrixObject::LogSequenceSetTimings(int batchID, double calculationTime, const std::string& sequenceSet) const
-	{
-		char time_log_line[100];
-		//WINDOWS DEPENDENCE
-		sprintf_s(time_log_line, "Calculation Time For Sequence Set[%d]: %f seconds\n\t%s\n", batchID, calculationTime, sequenceSet.c_str());
-
-		//write to log file
-		//if(file.is_open())
-		//{
-		//	
-		//}
-	}
 
 	//REMOVEs UNDERSCORES " _ " from sequence_set -- appends all names to vector - returns
 	const std::vector<std::string> distanceMeasure::DistanceMatrixObject::ProcessSequenceSet(const std::string& sequence_set) const

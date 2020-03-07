@@ -36,15 +36,8 @@ int main()
     std::string sequence_dir;
     std::string tree_sequences_list;
 
-
-
-    //recieve path of file of -- ALL sequence names -- same (EXACT) names that appear in fasta_sequence files**********
-        /*NOTE:: MRBayes --> uses .nex format
-              "Single_Word_Sequence_Name      (whitespace)        ATTAGCCGATGCAGTC...(SEQUENCE)"
-        */
-
 	//receive relative/absolute path of file or directory of sequences to analyze
-        //TODO:: REASLISTICALLy --  Use absolute path of directory
+        //TODO:: REASLISTICALLy --  Use absolute path of directory (allow for changing of default directory?
     printf("Path to Sequences: ");
     std::cin >> sequence_dir;
 
@@ -112,22 +105,8 @@ int main()
   *********************************************************************************************/
     dmo.batch_matrix_calculation(tree_sequences_list);
 
-	//NOT IMPLEMENTED
     /******   (batch) ANALYZE CREATED TREES!!!!     *******/
-
-    //std::string fileDir1 = std::string(argv[1]);
-    //std::string fileDir2 = std::string(argv[2]);
-    //printf("tree file directories are... \n\t%s + %s\n", fileDir1.c_str(), fileDir2.c_str());
-    /*
-    phylo::PhyloAnalysis pa = phylo::PhyloAnalysis();
-    pa.computeQuartetAgreement(fileDir1, fileDir2);
-    */
-
-    //phylo::computeQuartetCompatability(fileDir1, fileDir2);
-    //phylo::computeQuartetAgreement(fileDir1, fileDir2);
-    //phylo::computeSymmetricDifference(fileDir1, fileDir2);
-    //phylo::computeInducedQuartetAgreement(fileDir1, fileDir2);
-
+    //-----> only analyzed for BatchDistanceCalculator
 	
     //TODO::
         // 0) Refactor LcsCalculator code*

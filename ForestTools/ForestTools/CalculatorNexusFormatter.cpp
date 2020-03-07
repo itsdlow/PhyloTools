@@ -13,13 +13,11 @@ January 18 2020
 //#include <fstream>
 #include "SystemParameters.h"
 
-//TODO
 const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
 {
 	//create new sequence_set Fileobjects , on sequence_set_names
 	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(fileObjectManager, sequence_set_names) );
 
-	//...
 	std::string sequence_set_nexus_string;
 	std::size_t sequence_count = sequence_set_names.size();
 	std::size_t species_lines_length(180u);

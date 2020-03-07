@@ -57,7 +57,6 @@ namespace distanceMeasure
 		
 		if (largeTreeFile)
 		{
-			//TODO
 			//extract tree from created file (nexusfilepath.run[nRun].t)
 			std::string newick = ExtractMrBayesNewick(GetMrBayesTFileName(nexus_file_path));
 			size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, largeTreeFile);
@@ -125,7 +124,6 @@ namespace distanceMeasure
 						this->GetMrBayesBatchCommand(mrbayes_command, 200, mrbayes_block_file_path);
 						system(mrbayes_command);
 
-						//TODO
 						//extract tree from created file (nexusfilepath.run[nRun].t)
 						std::string newick = ExtractMrBayesNewick(GetMrBayesTFileName(nexus_file_path));
 
@@ -236,7 +234,6 @@ namespace distanceMeasure
 		return res;
 	}
 
-	//NOT IMPLEMENTED -- safety checks for incomplete .nxs.run#.t file...
 	//	---> if key_entries not found before EOF -> returns empty key
 	//Given MrBayes .t filestream -- get translate-key
 	std::vector<std::string> distanceMeasure::MrBayesDistanceCalculator::GetTFileKey(std::ifstream& tFile)
@@ -370,6 +367,7 @@ namespace distanceMeasure
 			SystemParameters::GetMrBayesNChains(),
 			SystemParameters::GetMrBayesNRuns()
 			);
+
 		//TODO:: SEPARATE INTO FUNCTION... done in multiple .cpp's
 		std::string mrbayes_block_string;
 		mrbayes_block_string.reserve(200);

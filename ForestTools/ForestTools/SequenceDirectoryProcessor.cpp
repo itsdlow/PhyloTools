@@ -56,9 +56,6 @@ namespace distanceMeasure
 				filePath.append("\\");
 				filePath.append(fileNameWithExtension);
 
-
-				//TODO
-
 				//place new fileObject into buffer
 				//FileObject* tmp = new(pCurrentFileObject++) FileObject(this->GetFileSequence(filePath), fileName);
 				count++;

@@ -104,7 +104,6 @@ namespace phylo {
         //make leaf name list const????
         const std::vector<std::string> leafNameList(const std::string& vertex) const;
 
-        //TODO
         //converts the "Tree" to a newick expression --> return string-Tree
         std::string to_newick() const;
         //std::string to_s() const;

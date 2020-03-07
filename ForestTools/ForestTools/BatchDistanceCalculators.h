@@ -39,29 +39,10 @@ namespace distanceMeasure
 
 	private:
 		const int calculator_count;
-		//int previous_ss_size = 0;
-		//int ss_size_count = 0;
-		//
-		//std::string results;
 
-		////2D array 
-		//std::vector<float> compatibilityTable_LtoL;
-		//std::vector<float> compatibilityTable_IQtoQ;
-		//std::vector<float> compatibilityTable_QtoQ;
-		//std::vector<float> compatibilityTable_IQtoIQ;
-		//
-		//NOTE:: GET FROM SYSTEM PARAMETERS?
-		//DistanceMeasureCalculator* calculators[calculator_count]{nullptr};
 		////array of calculators to perform batch analysis on
 		DistanceMeasureCalculator** calculators;
 
-		//void CalculateAnalysisMeasures(const int calculator_index_i, const int calculator_index_j, const int sequence_set_size, const int batch_id);
-		//void InitializeCompatibilityVectors(const int sequence_count);
-		//void WriteAnalysisTables(const int sequence_count);
-		//void WriteAnalysisTable(const std::vector<float>& table_vector, const std::string& table_description);
-		//
-		//void GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const;
-		//
 		static DistanceMeasureCalculator* GetCalculator(int i);
 	};
 }

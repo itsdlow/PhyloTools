@@ -73,14 +73,14 @@ namespace distanceMeasure
 		{
 			//this->results.append(pCurrentFileObject->GetFileName());
 			std::string name = sequence_set_names.at(i);
-			//TODO:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
+			//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
 			DistanceMeasureCalculator::swap_space_with_underscores(name);
 			this->results.append(name);
 
 			for (auto j = 0u; j < fileCount; j++)
 			{
 				//Pvalue, LCS,...
-				//NOT IMPLEMENTED:: Guard against not found FileObject (nullptr)
+				//NOT IMPLEMENTED:: Guard against not found FileObject (nullptr) -> is possible?
 				//pass current (i) fileobject + next (j) fileobject to Distance_Calculator
 				float normalizedDistance = this->calculate_normalized_distance(*fileObjectManager.GetSequenceSetFileObject(sequence_set_names.at(i)), *fileObjectManager.GetSequenceSetFileObject(sequence_set_names.at(j)));
 
