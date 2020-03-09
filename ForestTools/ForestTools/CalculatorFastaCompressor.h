@@ -40,7 +40,7 @@ namespace distanceMeasure
 		std::vector<std::pair<std::string, int> > species_compressed_fasta_sizes;
 	private:
 
-		
+		static int GetCompressedFileSize(char* output_filename, char* fasta_filename);
 		//stored directly in InternalDistanceMeasureCalculator::results --> file
 		//std::vector<std::pair<std::string, int> > species_pair_sizes;
 	};

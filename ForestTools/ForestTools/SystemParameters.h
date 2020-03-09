@@ -94,7 +94,7 @@ private:
 	
 	//DEBUG -- timings log
 	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
-	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f seconds\n\t%s\n";
+	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f minutes\n\t%s\n";
 	
 	//Tree strings
 	//const int tree_file_path_size = 150;

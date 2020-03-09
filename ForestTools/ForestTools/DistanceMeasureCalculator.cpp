@@ -74,7 +74,8 @@ void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()
 }
 void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer(int batchID, const std::string& sequenceSet)
 {
-	this->calculationTime = (clock() - startTime) / CLOCKS_PER_SEC;
+	//get calculation time in minutes
+	this->calculationTime = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
 	this->totalCalculationTime += this->calculationTime;
 
 	this->LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);

@@ -59,21 +59,8 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		sprintf_s(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
 		system(compress_command);
 
-		//read file for size
-		std::ifstream compressedFile(output_filename, std::ios::binary);
-
-		if (!compressedFile.is_open())
-		{
-			printf("File at path: %s - could not compress fasta file to %s\n", fasta_filename, output_filename);
-			exit(0);
-		}
-		std::streampos begin, end;
-		begin = compressedFile.tellg();
-		compressedFile.seekg(0, std::ios::end);
-		end = compressedFile.tellg();
-		compressedFile.close();
-		int size = static_cast<int>(end - begin);//size of compressed file in bytes
-		
+		////read file for size
+		const int size = GetCompressedFileSize(output_filename, fasta_filename);
 		//store size
 		this->species_compressed_fasta_sizes.emplace_back(pFileObject->GetSequenceName(), size);
 	}
@@ -128,6 +115,12 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	system(compress_command);
 
 	//read file for size
+	return GetCompressedFileSize(output_filename, fasta_filename);
+}
+
+int distanceMeasure::CalculatorFastaCompressor::GetCompressedFileSize(char* output_filename, char* fasta_filename)
+{
+	//read file for size
 	std::ifstream compressedFile(output_filename, std::ios::binary);
 
 	if (!compressedFile.is_open())
@@ -141,5 +134,12 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	end = compressedFile.tellg();
 	compressedFile.close();
 	const int size = static_cast<int>(end - begin);//size of compressed file in bytes
+
+	//delete compressed file
+	if( remove(output_filename) != 0 )
+	{
+		printf("Failed to delete compressed file: %s\n", output_filename);
+	}
+	
 	return size;
 }
