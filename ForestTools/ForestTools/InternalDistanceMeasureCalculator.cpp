@@ -93,7 +93,7 @@ namespace distanceMeasure
 			}
 
 			this->results.append("\n");
-			printf("\t%zu LCS calculations performed -- %zu calculations remaining...\n", fileCount, (fileCount * fileCount) - (fileCount + (i * fileCount)));
+			printf("\t%zu %s calculations performed -- %zu calculations remaining...\n", fileCount, this->GetCalculatorName().c_str(), (fileCount * fileCount) - (fileCount + (i * fileCount)));
 		}
 	}
 
