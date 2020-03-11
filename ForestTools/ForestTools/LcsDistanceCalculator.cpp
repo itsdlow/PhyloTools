@@ -15,7 +15,7 @@ namespace distanceMeasure
 	{
 		this->StartCalculationTimer();
 
-		InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+		Unaligned_InternalDMCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
 
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}

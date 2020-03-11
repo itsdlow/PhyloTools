@@ -11,19 +11,6 @@ January 3 2020
 
 namespace distanceMeasure
 {
-	////main driver
-	//void distanceMeasure::PValueDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string> sequence_set_names, const int batch_id)
-	//{
-	//	//align seqeunces...
-	//		//create fasta file on sequence_set
-	//	//CalculatorAligner::CreateAligned
-	//		//where to store aligned seqeunces.... (need orignal FileObjects for lifetime...)
-
-
-	//	
-	//	//pass FOM forward...
-	//	InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, batch_id);
-	//}
 	//driving method
 	void distanceMeasure::PValueDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{

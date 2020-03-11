@@ -7,13 +7,13 @@ January 3 2020
 #ifndef _NcdDistanceCalculator
 #define _NcdDistanceCalculator
 
-#include "InternalDistanceMeasureCalculator.h"
+#include "Unaligned_InternalDMCalculator.h"
 #include "CalculatorFastaCompressor.h"
 
 namespace distanceMeasure
 {
 
-	class NcdDistanceCalculator : public InternalDistanceMeasureCalculator, private CalculatorFastaCompressor
+	class NcdDistanceCalculator : public Unaligned_InternalDMCalculator, private CalculatorFastaCompressor
 	{
 	public:
 		//BIG 4

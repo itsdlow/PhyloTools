@@ -7,11 +7,11 @@ January 3 2020
 #ifndef _LcsDistanceCalculator
 #define _LcsDistanceCalculator
 
-#include "InternalDistanceMeasureCalculator.h"
+#include "Unaligned_InternalDMCalculator.h"
 
 namespace distanceMeasure
 {
-	class LcsDistanceCalculator: public InternalDistanceMeasureCalculator
+	class LcsDistanceCalculator: public Unaligned_InternalDMCalculator
 	{
 	public:
 		//BIG 4

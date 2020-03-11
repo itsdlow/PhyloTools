@@ -171,6 +171,7 @@
     <ClCompile Include="SequenceFileProcessor.cpp" />
     <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="SequenceProcessorType.h" />
     <ClInclude Include="SystemParameters.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Unaligned_InternalDMCalculator.h" />
     <ClInclude Include="VectorKeyCompare.h" />
   </ItemGroup>
   <ItemGroup>

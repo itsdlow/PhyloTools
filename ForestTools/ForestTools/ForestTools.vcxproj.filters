@@ -108,6 +108,9 @@
     <ClCompile Include="CalculatorFastaCompressor.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
+    <ClCompile Include="Unaligned_InternalDMCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="VectorKeyCompare.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Unaligned_InternalDMCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
