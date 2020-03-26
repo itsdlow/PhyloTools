@@ -1,1 +1,59 @@
 Orycteropus afer
+Loxodonta africana
+Lama pacos
+Equus asinus
+Odobenus rosmarus rosmarus
+Tachyglossus aculeatus
+Bos taurus
+Trichosurus vulpecula
+Hylobates lar
+Macropus robustus
+Canis familiaris
+Felis catus
+Cavia porcellus
+Dugong dugon
+Echinosorex gymnura
+Sciurus vulgaris
+Lepus europaeus
+Talpa europaea
+Balaenoptera physalus
+Halichoerus grypus
+Thryonomys swinderianus
+Rhinoceros unicornis
+Papio hamadryas
+Hippopotamus amphibius
+Equus caballus
+Cephalopachus bancanus
+Mouse
+Homo sapiens
+Artibeus jamaicensis
+Pteropus scapulatus
+Manis tetradactyla
+Chalinolobus tuberculatus
+Dasypus novemcinctus
+Didelphis virginiana
+Isoodon macrourus
+AF217811.1 Tupaia belangeri
+AJ421453.1 Tupaia belangeri
+Rattus norvegicus
+Ochotona collaris
+Sus scrofa
+Ornithorhynchus anatinus
+Ursus maritimus
+Oryctolagus cuniculus
+Lemur catta
+Ovis aries
+Macroscelides proboscideus
+Nycticebus coucang
+Echinops telfairi
+Tamandua tetradactyla
+Physeter macrocephalus
+Eumetopias jubatus
+Pongo abelii
+Cynocephalus variegatus
+Soriculus fumidus
+Microtus kikuchii
+Erinaceus europaeus
+Gorilla gorilla gorilla
+Ceratotherium simum
+Cebus albifrons
