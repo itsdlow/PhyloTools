@@ -20,7 +20,7 @@ public:
 	//API interface
 	
 	//void Terminate();
-	//void Initialize();
+	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
 	//std::string GetFileFormatString() { return SystemParameters::Instance().format_string; };
 	static const std::string& GetNexusFileFormatString() { return SystemParameters::Instance().nexus_path_format_string; };
@@ -66,11 +66,25 @@ public:
 
 	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
 
+	
 
 	static int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
+
+	static int GetMaxSequenceListSize() { return SystemParameters::Instance().max_sequence_list_size; };
+	static int GetFractionOfMaxSequenceSize(float fraction) { return static_cast<int>(static_cast<float>(SystemParameters::Instance().max_sequence_list_size) * fraction); };
+	static int GetMinSequenceListSize() { return SystemParameters::Instance().min_sequence_list_size;/* quartet size */ };
+
+	static int GetSubsetSizeLarge() { return SystemParameters::Instance().subset_size_large; };
+	static int GetSubsetSizeSmall() { return SystemParameters::Instance().subset_size_small; };
+	static int GetSubsetCountSmall() { return SystemParameters::Instance().subset_count_small; };
+	static int GetSubsetCountLarge() { return SystemParameters::Instance().subset_count_large; };
+	static int GetSubsetCountRatioLarge() { return static_cast<int>(SystemParameters::Instance().subset_count_fraction_large * 100); };
+	static int GetSubsetCountRatioSmall() { return static_cast<int>(SystemParameters::Instance().subset_count_fraction_small * 100); };
+	
+	static const std::string& GetSequenceListsFileString() { return SystemParameters::Instance().sequence_lists_filepath; };
 	
 private:
-	SystemParameters() = default;
+	SystemParameters();
 
 	static SystemParameters& Instance()
 	{
@@ -86,6 +100,23 @@ private:
 
 	const int CALCULATOR_COUNT = 5;
 
+	/***************************************************
+	 *				Sequence Generator Parameters
+	 **************************************************/
+	const int min_sequence_list_size = 4;
+	int max_sequence_list_size;
+	//subset sizes
+	int subset_size_small;// = .5f;
+	int subset_size_large;// = .75f;
+	//subset sample size
+	int subset_count_large;// = 128; --> "                                  " - .07033
+	int subset_count_small;// = 1024; --> almost 8% of total combinations...  - .07956
+		// + all quartets
+	float subset_count_fraction_large;
+	float subset_count_fraction_small;
+	
+	const std::string sequence_lists_filepath = "ForestFiles/SequenceLists.txt";
+	
 	//TODO:: Allow for user to supply directory path folder
 		//create sub folders? i.e. 'Analysis'
 			//use getter + setter to update to non-default...
@@ -109,9 +140,9 @@ private:
 	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
 	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
 	//fasta
-	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
+	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu_%zu.fasta";
 	//aligned
-	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu.afa";
+	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu_%zu.afa";
 	//muscle command
 	//WINDOWS DEPENDENCE
 	const std::string muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";

@@ -111,6 +111,9 @@
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
+    <ClCompile Include="SequenceListsGenerator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Unaligned_InternalDMCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceListsGenerator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

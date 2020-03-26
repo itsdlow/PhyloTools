@@ -30,14 +30,13 @@ namespace distanceMeasure
 	private:
 		//batch running command creation func
 		std::string create_mrbayes_default_command_block_file(const std::string& relative_nxs_path) const;
-		void calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
-		void calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
+		void calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id);
+		void calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id);
 
 		void GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const;
 		
 		//given mrbayes_output_filename --> extract last gen'ed tree 
 		static std::string ExtractMrBayesNewick(const std::string& t_file_name);//use r-value???
-		static std::vector<std::string> CreateSubSequenceSet(const std::vector<std::string>& sequence_set_names, int i, int j, int k, int l);
 		static std::string GetMrBayesTFileName(const std::string& relative_nxs_path);
 		static std::vector<std::string> GetTFileKey(std::ifstream& tFile);
 		static std::string GetTreeGenLine(std::ifstream& tFile);

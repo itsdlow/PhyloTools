@@ -12,7 +12,7 @@ January 18 2020
 #include "SystemParameters.h"
 
 //TODO:: (also for aligner...) Prevent re-creation of temp_files by giving them HASH_ID --> compute hash based of sequence set!!!
-const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
+const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set_fasta_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set) const
 {
 	std::string sequence_set_fasta_string;
 	std::size_t sequence_count = sequence_set_names.size();
@@ -29,13 +29,13 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 		sequence_set_fasta_string.append("\n\n");
 	}
 	//write fileobjects in fasta format
-	char fasta_filename[50];
-	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count);
+	char fasta_filename[150];
+	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, std::hash<std::string>{}(sequence_set));
 
 	FILE* fastaFile;
 	fopen_s(&fastaFile, fasta_filename, "w");
 	//FILE* fastaFile = fopen(fasta_filename, "w");
-	
+	//TODO:: IF FIEL OPEN -- and size > 0 do not overwrite (check before writing...)
 	if(fastaFile)
 	{
 		size_t numBytesWritten = fwrite(sequence_set_fasta_string.c_str(), sequence_set_fasta_string.length(), 1, fastaFile);

@@ -16,18 +16,15 @@ January 3 2020
 #include "LcsDistanceCalculator.h"
 #include "MrBayesDistanceCalculator.h"
 #include "NcdDistanceCalculator.h"
-
 #include "BatchDistanceCalculators.h"
 
 #include "SystemParameters.h"
+#include "SequenceListsGenerator.h"
 
 int main()
 {
     std::cout << "Hello World!\n";
     /*****   (using sequence data) create matrix --> tree (fastme)   ****/
-    //Command line arguments:: 
-    //1. directory path for Sequnces folder
-    //2. number of sequence files
 
     //distanceMeasure::SequenceProcessor sequenceProcessorType = distanceMeasure::SequenceProcessor::FileProcessing;
     int method = 0;
@@ -49,7 +46,7 @@ int main()
     //recieve Number of sequences to read
     //printf("Number of Sequences: ");
     //std::cin >> sequenceCount;
-
+    
     //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
     printf("All Methods (0), LCS (1), P_Value (2), MrBayes (3), NCD (4)\n");
     printf("Matrix Calculation Method Number: ");
@@ -89,33 +86,46 @@ int main()
 	default:
 		break;
 	}
-    //intializes / prepares all file objects (sequences)
-        //for generic distance measure method to work --> must supply distance calc (w/ normalize func!!!)
+    //intializes / prepares all file objects (sequences) -- given a DistanceMeasureCalculator.
     distanceMeasure::DistanceMatrixObject dmo(sequence_names_dir, sequence_dir, dmc);
     
-    /*******************   TODO:: Batch run (OPTIONAL)   ***********************/
-    printf("Path to Sequence List File: ");
+    /*******************   Batch run (OPTIONAL)   ***********************/
+    //CREATE SEQUENCE LISTS FILE
+    //get sequence count
+    SystemParameters::Initialize(dmo.getFileObjectManager().get_file_count());
+    int batch_flag;
+	printf("Batch Run (0), Give SequenceLists File (1), Single Tree on a all sequences (2)\n");
     //file:: string of all sequence combinations --> matrixes to create
-    std::cin >> tree_sequences_list;
-
-
+    std::cin >> batch_flag; 
+    if(batch_flag == 0)
+    {
+	    //generate BATCH SequenceLists file
+        tree_sequences_list = distanceMeasure::SequenceListsGenerator::GenerateBatchSequenceListsFile(dmo.getFileObjectManager().GetCurrentSetNames());
+    }
+    else if (batch_flag == 1)
+    {
+        printf("Enter path to Sequence List file:");
+        //file:: string of all sequence combinations --> matrixes to create
+        std::cin >> tree_sequences_list;
+    }
+    else
+    {
+	    //generate single tree gen SequenceLists file
+        tree_sequences_list = distanceMeasure::SequenceListsGenerator::GenerateSequenceListFile(dmo.getFileObjectManager().GetCurrentSetNames());
+    }
 
   /*********************************************************************************************
-        for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix
+        for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix + TREES...
   *********************************************************************************************/
     dmo.batch_matrix_calculation(tree_sequences_list);
 
-    /******   (batch) ANALYZE CREATED TREES!!!!     *******/
-    //-----> only analyzed for BatchDistanceCalculator
-	
+	    /******   (batch) ANALYZE CREATED TREES!!!!     *******/
+	    //-----> only analyzed for BatchDistanceCalculator
+}
+		
     //TODO::
         // 0) Refactor LcsCalculator code*
-        // 1) Naming convention????
-        //      1.5) Processing of sequence list??? --> matrix -> tree (fastme) 
-        // 2) Fastme itegration ( CreateProcessA || system() )
         // 3) How to get amino acid sequences
-        // 4) How to align sequences using... Muscle?
-        //          - Checking (when required) for aligned sequences
         // 5) GUARDS!!!
                 //safe-failing/execption safe
                 //Matrixes not created...
@@ -124,5 +134,3 @@ int main()
 				//Trees not created...
 					//failed fastme?
         // 6) FileObject::sequence_size --> long -- allow for 3billion bp sequences
-
-}

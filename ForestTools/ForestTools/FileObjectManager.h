@@ -51,8 +51,9 @@ January 3 2020*
 
 			const FileObject* const GetFileObject(const std::string name) const;
 			const FileObject* const GetSequenceSetFileObject(const std::string name) const;
-
-			int Get_SS_SequenceLength();
+			std::vector<std::string> GetCurrentSetNames() const { return this->currentSequenceNames; };
+			
+			int GetCurrentSetSequenceLength() const;
 		private:
 			int fileCount;
 

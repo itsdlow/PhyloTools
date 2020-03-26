@@ -169,6 +169,7 @@
     <ClCompile Include="PValueDistanceCalculator.cpp" />
     <ClCompile Include="SequenceDirectoryProcessor.cpp" />
     <ClCompile Include="SequenceFileProcessor.cpp" />
+    <ClCompile Include="SequenceListsGenerator.cpp" />
     <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="PValueDistanceCalculator.h" />
     <ClInclude Include="SequenceDirectoryProcessor.h" />
     <ClInclude Include="SequenceFileProcessor.h" />
+    <ClInclude Include="SequenceListsGenerator.h" />
     <ClInclude Include="SequenceProcessor.h" />
     <ClInclude Include="SequenceProcessorType.h" />
     <ClInclude Include="SystemParameters.h" />

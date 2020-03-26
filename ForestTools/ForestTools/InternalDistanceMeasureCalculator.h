@@ -36,15 +36,15 @@ namespace distanceMeasure
 		//internal calc specific funcs
 					//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
 		void CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
-		void CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names);
+		void CalculateAllQuartetsDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 		
-		void write_quartet_matrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount);
+		virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount);
 		
 		//write results buffer to output FILE, closes FILE
 		void write_batch_results(const int batch_number, const size_t sequence_count);
 
 		std::string GetCalculatorName() const override = 0;
-	private:
+	protected:
 		FILE* pResults;
 		FILE* pQuartetResults;
 

@@ -57,6 +57,9 @@ namespace distanceMeasure
 		
 		//convert 2d-array index into 1d index
 		static int getArrayIndex(int row, int col, int rowCount) { return (row * rowCount) + col; }
+		static int GetQuartetCombinations(int n);
+		static int GetCombinations(int n, int r);
+		static void swap_space_with_underscores(std::string& description_string);
 	protected:
 		FILE* pTimingsLogFile;
 
@@ -64,8 +67,9 @@ namespace distanceMeasure
 
 		//helpers
 
-		static int GetQuartetCombinations(int n);
-		static void swap_space_with_underscores(std::string& description_string);
+
+		static std::vector<std::string> CreateSubsequenceSet(const std::vector<std::string>& sequence_set_names, const std::vector<int>& subSequenceSetIndexes);
+		static std::string CreateSubsequenceSetString(const std::vector<std::string>& subsequence_set_names);
 
 		//debug - timings helpers
 		void StartCalculationTimer();

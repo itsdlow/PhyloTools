@@ -17,9 +17,10 @@ namespace distanceMeasure
 		//IF:: Alignment needed (MrBayes + P-Value) must align for each seqeunce_set!
 		//on sequnece set --> refill FileObjectManager with new Unaligned_file		
 			//CalculatorAligner::create_Unaligned_sequence_set_file();
-		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorFastaFormatter::create_sequence_set_fasta_file(fileObjectManager, sequence_set_names));//Unaligned_sequence_set_path);
+		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorFastaFormatter::create_sequence_set_fasta_file(fileObjectManager, sequence_set_names, sequence_set));//Unaligned_sequence_set_path);
 
 		//pass it forward
 		InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
 	}
+
 }

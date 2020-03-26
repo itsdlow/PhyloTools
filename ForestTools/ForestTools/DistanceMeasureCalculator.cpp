@@ -55,6 +55,24 @@ int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
 	return result;
 }
 
+//Sequence_set_size (N) Choose (4) --> number of quartet matrices 
+int distanceMeasure::DistanceMeasureCalculator::GetCombinations(int n, int r)
+{
+	//size of quartet
+	int k = r;
+
+	if (k > n) return 0;
+	if (k * 2 > n) k = n - k;
+	if (k == 0) return 1;
+
+	int result = n;
+	for (int i = 2; i <= k; ++i) {
+		result *= (n - i + 1);
+		result /= i;
+	}
+	return result;
+}
+
 void distanceMeasure::DistanceMeasureCalculator::swap_space_with_underscores(std::string& description_string)
 {
 	//replace all spaces w/ "__underscores__"
@@ -66,6 +84,45 @@ void distanceMeasure::DistanceMeasureCalculator::swap_space_with_underscores(std
 		}
 	}//--> create_one_word_species_names
 }
+
+
+std::vector<std::string> distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSet(const std::vector<std::string>& sequence_set_names, const std::vector<int>& subSequenceSetIndexes)
+{
+	std::vector<std::string> subSequenceSet;
+	//std::vector<int> subSequenceSetIndexes{ i,j,k,l };
+	subSequenceSet.reserve(subSequenceSetIndexes.size());
+
+	for (unsigned int index = 0u; index < subSequenceSetIndexes.size(); index++)
+	{
+		//for each given index (i,j,k,l) add name to result_set
+		subSequenceSet.push_back(sequence_set_names.at(subSequenceSetIndexes.at(index)));
+	}
+	return subSequenceSet;
+}
+
+std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetString(const std::vector<std::string>& subsequence_set_names)
+{
+	std::string str(std::to_string(subsequence_set_names.size()).append("\t"));
+	for(auto it = subsequence_set_names.begin(); it != subsequence_set_names.end(); it++)
+	{
+		std::string temp = std::string(*it);
+		swap_space_with_underscores(temp);
+		//append name to subsequence set string
+		str.append(" ");
+		str.append(temp);
+	}
+	str.append("\n");
+	
+	return str;
+}
+
+
+
+
+
+/***************************************************************
+ *						Timing functions
+ ***************************************************************/
 
 //times calculation for -1- SEQUENCE SET
 void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()

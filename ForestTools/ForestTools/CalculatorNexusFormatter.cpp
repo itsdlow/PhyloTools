@@ -13,16 +13,16 @@ January 18 2020
 //#include <fstream>
 #include "SystemParameters.h"
 
-const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
+const std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set)
 {
 	//create new sequence_set Fileobjects , on sequence_set_names
-	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(fileObjectManager, sequence_set_names) );
+	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(fileObjectManager, sequence_set_names, sequence_set) );
 
 	std::string sequence_set_nexus_string;
 	std::size_t sequence_count = sequence_set_names.size();
 	std::size_t species_lines_length(180u);
 	sequence_set_nexus_string.reserve(sequence_count * species_lines_length);
-	const int NCHAR = fileObjectManager.Get_SS_SequenceLength();
+	const int NCHAR = fileObjectManager.GetCurrentSetSequenceLength();
 
 	//WINDOWS DEPENDENCE
 	//nexus file formatting header

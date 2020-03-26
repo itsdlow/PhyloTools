@@ -29,14 +29,14 @@ namespace distanceMeasure
 		//loop for all combos of 4
 			//create aligned --> nexus --> execute nexus (repeat)
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
-		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
-		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
+		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, sequence_set,batch_id);
 		//adds to total time + sets calculationTime
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}
-	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
+	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
-		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, sequence_set_names);
+		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, sequence_set_names, sequence_set);
 		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 
 		char mrbayes_command[200];
@@ -71,17 +71,21 @@ namespace distanceMeasure
 	}
 
 	
-	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
+	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
 		const int fileCount = static_cast<int>(sequence_set_names.size());
 
 		if (fileCount == 4)
 		{
 			//return distanceMatrix -- tree
+			printf("CalculateAllQuartetsDistanceMeasures:: Tree is quartet\n");
+			return;
 		}
 		if (fileCount < 4)
 		{
 			//ERROR
+			printf("Sequence set contains less leaves than minimum viable tree (quartet): %d\n", fileCount);
+			exit(0);
 		}
 
 		char quartets_filename[100];
@@ -107,8 +111,19 @@ namespace distanceMeasure
 				{
 					for (int l = k + 1; l < fileCount; l++)
 					{
+						//vector of quartet indicies
+						std::vector<int> indexV{ i,j,k,l };//removed for MAC build
+						//std::vector<int> indexV;
+						//indexV.push_back(i);
+						//indexV.push_back(j);
+						//indexV.push_back(k);
+						//indexV.push_back(l);
+						const std::vector<std::string> subsequence_set_names = DistanceMeasureCalculator::CreateSubsequenceSet(sequence_set_names, indexV);
+						const std::string subsequence_set = DistanceMeasureCalculator::CreateSubsequenceSetString(subsequence_set_names);
+
+
 						//create .afa (aligned) sequence file --> NEXUS FILE
-						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, CreateSubSequenceSet(sequence_set_names, i, j, k, l));
+						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, subsequence_set_names, subsequence_set);
 						//create batch MRBAYES BLOCK file
 						std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 						
@@ -131,14 +146,7 @@ namespace distanceMeasure
 		fclose(quartetsFile);
 
 	}
-	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
-	{
-		//WiNDOWS DEPENDENCE 
-		//UNIX MRBayes Command -> input redirection
-		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
-		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
-		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
-	}
+
 	/*****************************************************************************
 	 *						tree Extraction 
 	 ******************************************************************************/
@@ -306,6 +314,7 @@ namespace distanceMeasure
 		}
 		return relative_nxs_path + ".run" + std::to_string(nruns) + ".t";
 	}
+	
 	std::string distanceMeasure::MrBayesDistanceCalculator::GetKeySpeciesName(const std::vector<std::string>& species_names_key, size_t i)
 	{
 		const size_t key_index_offset = 1;
@@ -333,20 +342,7 @@ namespace distanceMeasure
 	/*****************************************************************************
 	*						END:: tree Extraction
 	******************************************************************************/
-	
-	std::vector<std::string> MrBayesDistanceCalculator::CreateSubSequenceSet(const std::vector<std::string>& sequence_set_names, int i, int j, int k, int l)
-	{
-		std::vector<std::string> subSequenceSet;
-		std::vector<int> subSequenceSetIndexes{ i,j,k,l };
-		subSequenceSet.reserve(subSequenceSetIndexes.size());
-		
-		for(unsigned int index = 0u; index < subSequenceSetIndexes.size(); index++)
-		{
-			//for each given index (i,j,k,l) add name to result_set
-			subSequenceSet.push_back( sequence_set_names.at(subSequenceSetIndexes.at(index)) );
-		}
-		return subSequenceSet;
-	}
+
 	
 	std::string distanceMeasure::MrBayesDistanceCalculator::create_mrbayes_default_command_block_file(const std::string& relative_nxs_path) const
 	{
@@ -389,6 +385,15 @@ namespace distanceMeasure
 
 		
 		return mrbayes_block_file_path;
+	}
+
+	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
+	{
+		//WiNDOWS DEPENDENCE 
+		//UNIX MRBayes Command -> input redirection
+		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
+		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
+		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
 	}
 
 }

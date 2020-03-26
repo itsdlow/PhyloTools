@@ -201,7 +201,7 @@ namespace distanceMeasure
 	{
 		return this->sequenceSetCount;
 	}
-	int distanceMeasure::FileObjectManager::Get_SS_SequenceLength()
+	int distanceMeasure::FileObjectManager::GetCurrentSetSequenceLength() const
 	{
 		return this->pSequenceSetFileObjectBuffer[0].GetSequenceSize();
 	}
