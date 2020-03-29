@@ -1,4 +1,4 @@
-Calculation Time For Sequence Set[0]: 1.425183 minutes
-	8	Camelus_bactrianus Elephantulus_sp. Hippopotamus_amphibius Mazama_gouazoupira Oryx_dammah Ovis_orientalis_ophion Pipistrellus_abramus Ursus_arctos
+Calculation Time For Sequence Set[0]: 0.025667 minutes
+	5	Camelus_bactrianus Elephantulus_sp. Hippopotamus_amphibius Mazama_gouazoupira Oryx_dammah
 
-Calculation Time For Sequence Set Lists: 1.425183 seconds
+Calculation Time For Sequence Set Lists: 0.025667 minutes

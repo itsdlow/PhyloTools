@@ -102,9 +102,6 @@
     <ClCompile Include="BatchCalculatorsAnalyzer.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
-    <ClCompile Include="NcdDistanceCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
-    </ClCompile>
     <ClCompile Include="CalculatorFastaCompressor.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
@@ -112,6 +109,15 @@
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
     <ClCompile Include="SequenceListsGenerator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClCompile>
+    <ClCompile Include="AlignedDistanceMeasureCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="NcdDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalCalculatorTools.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,6 +204,12 @@
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
     <ClInclude Include="SequenceListsGenerator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="AlignedDistanceMeasureCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="InternalCalculatorTools.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
   </ItemGroup>

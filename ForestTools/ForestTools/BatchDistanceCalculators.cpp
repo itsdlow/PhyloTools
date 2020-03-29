@@ -121,5 +121,20 @@ namespace distanceMeasure
 		}
 		return dmc;
 	}
+
+
+	//internal calc specific function -- NOT NEEDED
+	void distanceMeasure::BatchDistanceCalculators::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	{
+		//by default DMC does not have method to write quartet matrix -- derived Internal CAlculators define...
+	}
+	float distanceMeasure::BatchDistanceCalculators::normalize(int differenceCount, int sequencesize) const
+	{
+		return 0.0f;
+	}
+	float distanceMeasure::BatchDistanceCalculators::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
+	{
+		return 0.0f;
+	}
 }
 

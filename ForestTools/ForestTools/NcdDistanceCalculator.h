@@ -13,6 +13,13 @@ January 3 2020
 namespace distanceMeasure
 {
 
+	//enum class CompressorType
+	//{
+	//	_7ZIP,
+	//	MFC1,
+	//	MFC2
+	//};
+	
 	class NcdDistanceCalculator : public Unaligned_InternalDMCalculator, private CalculatorFastaCompressor
 	{
 	public:
@@ -32,6 +39,7 @@ namespace distanceMeasure
 		std::string GetCalculatorName() const override;
 
 	private:
+		//CompressorType type;
 		std::string extension;
 		std::string compress_command_format_string;
 

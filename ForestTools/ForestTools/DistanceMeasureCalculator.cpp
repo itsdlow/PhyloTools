@@ -2,7 +2,7 @@
 DeAngelo Wilson
 January 24 2020
 
-                        Distance MEasure Calculator
+                        Distance Measure Calculator
 ******************************************************************************/
 
 
@@ -18,24 +18,7 @@ January 24 2020
 //	//do nothing -- cannot analyze sequence_set on 1 method -- use BatchCalculators
 //}
 
-//fills given buffer
-void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
-{
-	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
-}
-void distanceMeasure::DistanceMeasureCalculator::GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
-{
-	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
-}
-void distanceMeasure::DistanceMeasureCalculator::GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
-{
-	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 
-}
-void distanceMeasure::DistanceMeasureCalculator::GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count)
-{
-	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
-}
 
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
@@ -115,16 +98,41 @@ std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetStri
 	
 	return str;
 }
+/*
+ *
+ */
 
 
+//fills given buffer
+void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 
+}
+void distanceMeasure::DistanceMeasureCalculator::GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const
+{
+	//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"
+	sprintf_s(buffer, buffer_size, SystemParameters::GetFastmeCommandString().c_str(), input, count, output);
+}
 
 
 /***************************************************************
  *						Timing functions
  ***************************************************************/
 
-//times calculation for -1- SEQUENCE SET
+//times calculation for - 1 - SEQUENCE SET
 void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()
 {
 	this->startTime = clock();
@@ -133,6 +141,8 @@ void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer(int batchI
 {
 	//get calculation time in minutes
 	this->calculationTime = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
+	//if calculator had to align -- include time it takes to align
+	
 	this->totalCalculationTime += this->calculationTime;
 
 	this->LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);
@@ -147,9 +157,10 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 		char time_log_line[1000];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
 		sprintf_s(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
-		std::string timingLine(time_log_line);
+		const std::string timingLine(time_log_line);
 		
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
+		fflush(this->pTimingsLogFile);
 	}
 }
 
@@ -171,7 +182,7 @@ void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 	{
 		char time_log_line[100];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
-		sprintf_s(time_log_line, "\nCalculation Time For Sequence Set Lists: %f seconds", this->totalCalculationTime);
+		sprintf_s(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime);
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);

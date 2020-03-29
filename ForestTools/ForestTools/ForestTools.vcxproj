@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlignedDistanceMeasureCalculator.cpp" />
     <ClCompile Include="Aligned_InternalDMCalculator.cpp" />
     <ClCompile Include="BatchCalculatorsAnalyzer.cpp" />
     <ClCompile Include="BatchDistanceCalculators.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
     <ClCompile Include="ForestTools.cpp" />
+    <ClCompile Include="InternalCalculatorTools.cpp" />
     <ClCompile Include="InternalDistanceMeasureCalculator.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
     <ClCompile Include="MrBayesDistanceCalculator.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlignedDistanceMeasureCalculator.h" />
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
     <ClInclude Include="BatchCalculatorsAnalyzer.h" />
     <ClInclude Include="BatchDistanceCalculators.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="ExternalDistanceMeasureCalculator.h" />
     <ClInclude Include="FileObject.h" />
     <ClInclude Include="FileObjectManager.h" />
+    <ClInclude Include="InternalCalculatorTools.h" />
     <ClInclude Include="InternalDistanceMeasureCalculator.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
     <ClInclude Include="MrBayesDistanceCalculator.h" />

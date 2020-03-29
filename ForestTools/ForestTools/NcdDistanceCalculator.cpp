@@ -78,7 +78,7 @@ namespace distanceMeasure
 
 	std::string distanceMeasure::NcdDistanceCalculator::GetCalculatorName() const
 	{
-		return "Ncd";
+		return this->extension;
 	}
 
 	//... assumes compression files already created?

@@ -25,20 +25,12 @@ namespace distanceMeasure
 		virtual ~ExternalDistanceMeasureCalculator() = default;
 
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override = 0;
-		//void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override = 0;
 
-		//External calc specific funcs
-		
-		//internal calc specific funcs
-					//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
-		//void CalculateLargeTreeDistanceMeasures(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
-		//void CalculateAllQuartetsDistanceMeasures(const std::vector<std::string>& sequence_set_names);
+		//internal calc specific
+		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override final;
+		float normalize(int differenceCount, int sequencesize) const override final;
+		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) override final;
 
-		//void write_quartet_matrix(int i, int j, int k, int l, const std::vector<std::string>& sequence_set_names, const int fileCount);
-
-		//write results buffer to output FILE, closes FILE
-		//void write_batch_results(const int batch_number, const size_t sequence_count);
-		//
 		std::string GetCalculatorName() const override = 0;
 	private:
 

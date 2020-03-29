@@ -31,7 +31,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 					//or -- give fileobject... (instead of fasta_string)***
 		//create file
 		//write fileobjects in fasta format
-		char fasta_filename[50];
+		char fasta_filename[150];
 		sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), 1);
 
 		FILE* fastaFile;
@@ -84,7 +84,7 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 				//or -- give fileobject... (instead of fasta_string)***
 	//create file
 	//write fileobjects in fasta format
-	char fasta_filename[50];
+	char fasta_filename[150];
 	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), 2);
 
 	FILE* fastaFile;

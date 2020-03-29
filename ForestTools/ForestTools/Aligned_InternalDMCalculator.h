@@ -9,12 +9,14 @@ January 18 2020
 #ifndef _Aligned_InternalDMCalculator
 #define _Aligned_InternalDMCalculator
 
-#include "InternalDistanceMeasureCalculator.h"
+//#include "InternalDistanceMeasureCalculator.h"
+#include "AlignedDistanceMeasureCalculator.h"
 #include "CalculatorAligner.h"
+#include "InternalCalculatorTools.h"
 
 namespace distanceMeasure
 {
-	class Aligned_InternalDMCalculator: public InternalDistanceMeasureCalculator, private CalculatorAligner
+	class Aligned_InternalDMCalculator: public AlignedDistanceMeasureCalculator, private CalculatorAligner, private InternalCalculatorTools
 	{
 	public:
 		//BIG 4
@@ -30,7 +32,6 @@ namespace distanceMeasure
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override;
 
 		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) override;
-
 	};
 }
 

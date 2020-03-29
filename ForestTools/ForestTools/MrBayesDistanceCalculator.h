@@ -7,12 +7,12 @@ January 3 2020
 #ifndef _MrBayesDistanceCalculator
 #define _MrBayesDistanceCalculator
 
-#include "ExternalDistanceMeasureCalculator.h"
+#include "AlignedDistanceMeasureCalculator.h"
 #include "CalculatorNexusFormatter.h"
 
 namespace distanceMeasure
 {
-	class MrBayesDistanceCalculator : public ExternalDistanceMeasureCalculator, private CalculatorNexusFormatter
+	class MrBayesDistanceCalculator : public AlignedDistanceMeasureCalculator, private CalculatorNexusFormatter
 	{
 	public:
 		//BIG 4
@@ -22,7 +22,12 @@ namespace distanceMeasure
 		virtual ~MrBayesDistanceCalculator() = default;
  
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)  override;
-		//void create_tree(const std::vector<std::string>& sequence_set_names, const int batch_id) override;
+
+		//internal calc specific
+		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
+		float normalize(int differenceCount, int sequencesize) const override;
+		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) override;
+
 
 
 		std::string GetCalculatorName() const override;

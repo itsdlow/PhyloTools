@@ -51,6 +51,9 @@ public:
 	static const std::string& GetTimingsLogFileFormatString() { return SystemParameters::Instance().timings_log_path_format_string; };
 	static const std::string& GetSequenceSetTimingFormatString() { return SystemParameters::Instance().sequence_set_timing_format_string; };
 
+	static const std::string& GetAlignmentTimingsLogFileFormatString() { return SystemParameters::Instance().alignment_timings_log_path_format_string; };
+	static const std::string& GetSequenceSetAlignmentTimingFormatString() { return SystemParameters::Instance().sequence_set_alignment_timing_format_string; };
+
 	static const std::string& GetAnalysisTableFileFormatString() { return SystemParameters::Instance().analysis_table_filepath; };
 
 	//buffer sizes
@@ -126,7 +129,9 @@ private:
 	//DEBUG -- timings log
 	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
 	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f minutes\n\t%s\n";
-	
+	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s.txt";
+	const std::string sequence_set_alignment_timing_format_string = "Alignment Time For Sequence Set[%d]: %f minutes\n\t%s\n";
+
 	//Tree strings
 	//const int tree_file_path_size = 150;
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
@@ -140,7 +145,8 @@ private:
 	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
 	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
 	//fasta
-	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu_%zu.fasta";
+	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
+
 	//aligned
 	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu_%zu.afa";
 	//muscle command

@@ -36,7 +36,7 @@ namespace distanceMeasure
 	}
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
-		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, sequence_set_names, sequence_set);
+		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, sequence_set);
 		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 
 		char mrbayes_command[200];
@@ -123,7 +123,7 @@ namespace distanceMeasure
 
 
 						//create .afa (aligned) sequence file --> NEXUS FILE
-						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(fileObjectManager, subsequence_set_names, subsequence_set);
+						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, subsequence_set_names, subsequence_set);
 						//create batch MRBAYES BLOCK file
 						std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 						
@@ -394,6 +394,22 @@ namespace distanceMeasure
 		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
 		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
 		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+	}
+
+
+
+	//internal calc specific function -- NOT NEEDED
+	void distanceMeasure::MrBayesDistanceCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	{
+		//by default DMC does not have method to write quartet matrix -- derived Internal CAlculators define...
+	}
+	float distanceMeasure::MrBayesDistanceCalculator::normalize(int differenceCount, int sequencesize) const
+	{
+		return 0.0f;
+	}
+	float distanceMeasure::MrBayesDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
+	{
+		return 0.0f;
 	}
 
 }
