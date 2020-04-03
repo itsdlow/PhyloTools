@@ -1,0 +1,27 @@
+#NEXUS
+[ID: 3420337132]
+[generation: 8000]
+
+begin trees;
+	translate
+       1 Elephantulus_sp.,
+       2 Hippopotamus_amphibius,
+       3 Mazama_gouazoupira,
+       4 Oryx_dammah;
+	tree mcmc.tree_1 = ((4:7.888850372447784e-002,3:9.338618083182641e-002):5.569607991489446e-002,2:1.102041059663092e-001,1:2.010070927519777e-001);
+end;
+
+begin mrbayes;
+	startvals
+		Tau(1,1)=mcmc.tree_1
+		V(1,1)=mcmc.tree_1
+		Pi(1,1)=(3.175108445532470e-001,2.765212182341413e-001,1.231135093688601e-001,2.828544278437516e-001)
+	;
+	propset
+		Dirichlet(Pi)$alpha(1,1)=1.000000000000000e+002
+		Slider(Pi)$delta(1,1)=2.000000000000000e-001
+		Multiplier(V)$lambda(1,1)=9.966399177319385e-001
+		TLMultiplier(V)$lambda(1,1)=1.318683987316658e+000
+	;
+end;
+

@@ -1,0 +1,39 @@
+#NEXUS
+[ID: 6579146967]
+[generation: 10000]
+
+begin trees;
+	translate
+       1 Equus_przewalskii,
+       2 Ursus_arctos,
+       3 Camelus_bactrianus,
+       4 Eulemur_macaco_macaco,
+       5 Hippopotamus_amphibius,
+       6 Balaenoptera_acutorostrata,
+       7 Elephantulus_sp.,
+       8 Oryx_dammah,
+       9 Muntiacus_crinifrons,
+      10 Ovis_orientalis_ophion,
+      11 Pipistrellus_abramus,
+      12 Rhinolophus_pumilus,
+      13 Pecari_tajacu,
+      14 Mazama_gouazoupira,
+      15 Sus_celebensis,
+      16 Urotrichus_talpoides;
+	tree mcmc.tree_1 = (((((16:1.266214692229288e-001,11:1.917203205163375e-001):3.826807827462721e-002,(4:1.569919082270305e-001,7:1.817833932965815e-001):4.815588095604074e-002):2.777687055908400e-002,(12:1.265793433240196e-001,2:1.706570733583652e-001):3.080167046497069e-002):2.033896155977520e-002,((13:1.017505543471269e-001,15:8.473421428024790e-002):4.622485086262734e-002,(((8:7.752177056595512e-002,10:7.335900909083901e-002):2.332476230140342e-002,(14:6.766276022146075e-002,9:6.603457716723925e-002):3.578622597915360e-002):5.596783082360447e-002,(6:1.174337363042587e-001,5:1.136957822268132e-001):3.224707401866320e-002):2.243710824203273e-002):1.773697454765410e-002):2.901208990691457e-002,3:1.560122285321770e-001,1:1.100233571197744e-001);
+end;
+
+begin mrbayes;
+	startvals
+		Tau(1,1)=mcmc.tree_1
+		V(1,1)=mcmc.tree_1
+		Pi(1,1)=(2.704235764722021e-001,2.851597786055241e-001,1.280749173004892e-001,3.163417276217847e-001)
+	;
+	propset
+		Dirichlet(Pi)$alpha(1,1)=1.010050167084168e+002
+		Slider(Pi)$delta(1,1)=1.980099667498336e-001
+		Multiplier(V)$lambda(1,1)=9.769051251253998e-001
+		TLMultiplier(V)$lambda(1,1)=1.305562862410548e+000
+	;
+end;
+

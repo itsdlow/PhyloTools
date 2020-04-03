@@ -1,0 +1,6 @@
+[ID: 6579146967]
+[   Gen                --  Generation]
+[   <name1>(<name2>)$acc_run2      --  Acceptance rate of move <name1> changing parameter 1 in run 2]
+Gen	Dirichlet(Pi)$acc	Dirichlet(Pi)$alpha	Slider(Pi)$acc	Slider(Pi)$delta	ExtSPR(Tau)$acc	ExtTBR(Tau)$acc	NNI(Tau)$acc	ParsSPR(Tau)$acc	Multiplier(V)$acc	Multiplier(V)$lambda	Nodeslider(V)$acc	TLMultiplier(V)$acc	TLMultiplier(V)$lambda
+5000	NA	1.000000e+002	NA	2.000000e-001	0.000000	0.000000	0.000000	0.000000	0.160000	1.193195e+000	0.020000	0.000000	1.345323e+000
+10000	0.060000	1.010050e+002	0.100000	1.980100e-001	0.000000	0.000000	0.000000	0.000000	0.170000	9.769051e-001	0.030000	0.000000	1.305563e+000
