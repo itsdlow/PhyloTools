@@ -16,6 +16,7 @@ January 3 2020
 
 #include <fstream>
 //#include <iostream>
+#include <cstring>
 
 namespace distanceMeasure
 { 
@@ -61,7 +62,9 @@ namespace distanceMeasure
 		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
 		//WINDOWS DEPENDENCE
 		size_t buffer_size = sizeof(FileObject) * this->fileCount;
-		memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
+		//memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
+		memcpy(this->pSequenceSetFileObjectBuffer, this->pFileObjectsBuffer, buffer_size);
+
 	}
 	
 	//used to create sub-fileObject_sets (sequence Set file objects -- for batch run)

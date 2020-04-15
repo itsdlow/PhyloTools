@@ -44,7 +44,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 			//NOTE:: Probably should (somehow) dynamically determine size
 			char time_log_line[1000];
 			//WINDOWS DEPENDENCE -- extract to system parameters...
-			sprintf_s(time_log_line, SystemParameters::GetSequenceSetAlignmentTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
+			sprintf(time_log_line, SystemParameters::GetSequenceSetAlignmentTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
 			const std::string timingLine(time_log_line);
 
 			size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
@@ -58,10 +58,13 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTim
 {
 	DistanceMeasureCalculator::InitializeSequenceSetTimingsLog();
 	char alignment_log_file_path[100];
-	sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+	//WINDOWS DEPENDENCE
+	//sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+	sprintf(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
 
 	//open file
-	fopen_s(&this->pAlignmentTimingsLogFile, alignment_log_file_path, "w");
+	//fopen_s(&this->pAlignmentTimingsLogFile, alignment_log_file_path, "w");
+	this->pAlignmentTimingsLogFile = fopen(alignment_log_file_path, "w");
 
 }
 void distanceMeasure::AlignedDistanceMeasureCalculator::LogTotalCalculationTime()
@@ -75,7 +78,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogTotalCalculationTime(
 	{
 		char time_log_line[100];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
-		sprintf_s(time_log_line, "\nAlignment Time For Sequence Set Lists: %f minutes\n", this->totalAlignmentTime);
+		sprintf(time_log_line, "\nAlignment Time For Sequence Set Lists: %f minutes\n", this->totalAlignmentTime);
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);

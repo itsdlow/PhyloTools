@@ -38,7 +38,13 @@ int main()
     printf("Path to Sequences: ");
     std::cin >> sequence_dir;
 
-
+    //allow multiple ways
+	/*
+	 * (1) -- Default -- use whole taxa name line
+	 * (2) Use accenssion number
+	 * (3) supply SequenceNames file
+	 * (4) supply ordered alternative names
+	 */
     printf("Path to sequence names file: ");
     std::cin >> sequence_names_dir;
         //if no sequence names provided...

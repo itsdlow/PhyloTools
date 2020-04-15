@@ -11,6 +11,7 @@ January 3 2020
 #include "SystemParameters.h"
 #include "FileObject.h"
 #include "VectorKeyCompare.h"
+#include <algorithm>
 
 namespace distanceMeasure
 {

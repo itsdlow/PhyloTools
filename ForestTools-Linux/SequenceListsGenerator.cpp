@@ -119,8 +119,7 @@ std::string distanceMeasure::SequenceListsGenerator::WriteSequenceListsFile(cons
 {
 	std::string filename = SystemParameters::GetSequenceListsFileString();
 	
-	FILE* pSequenceLists;
-	fopen_s(&pSequenceLists, filename.c_str(), "w");
+	FILE* pSequenceLists = fopen(filename.c_str(), "w");
 	if (pSequenceLists != nullptr)
 	{
 		size_t numBytesWritten = fwrite(str.c_str(), str.length(), 1, pSequenceLists);

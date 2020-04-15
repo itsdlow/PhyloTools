@@ -30,11 +30,13 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	}
 	//write fileobjects in fasta format
 	char fasta_filename[150];
-	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count);//, std::hash<std::string>{}(sequence_set));
+	//sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count);//, std::hash<std::string>{}(sequence_set));
+	sprintf(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count);//, std::hash<std::string>{}(sequence_set));
 
-	FILE* fastaFile;
-	fopen_s(&fastaFile, fasta_filename, "w");
-	//FILE* fastaFile = fopen(fasta_filename, "w");
+
+	//FILE* fastaFile;
+	//fopen_s(&fastaFile, fasta_filename, "w");
+	FILE* fastaFile = fopen(fasta_filename, "w");
 	//TODO:: IF FIEL OPEN -- and size > 0 do not overwrite (check before writing...)
 	if(fastaFile)
 	{

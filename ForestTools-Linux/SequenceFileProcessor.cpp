@@ -12,6 +12,7 @@ January 3 2020*
 #include "FileObjectManager.h"
 
 #include <fstream>
+#include <cstring>
 
 namespace distanceMeasure
 {
@@ -88,7 +89,7 @@ namespace distanceMeasure
 		printf("SpeciesName::%s-\n", speciesName.c_str());
 		//create file object with file name and sequence string
 		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesName);//...not really const function... FileObjectManager:: unsafe pointer 
-		printf("created FileObject\n");
+		printf("created FileObject - %s\n", tmp->GetSequenceName().c_str());
 
 		return more_sequences_status;
 	}

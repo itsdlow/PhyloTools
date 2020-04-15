@@ -51,9 +51,9 @@ namespace distanceMeasure
 		this->GetLargeListTreeFileName(largelist_filename, 100, batch_id, sequence_set_names.size());
 		
 		//open file for quartetTrees
-		FILE* largeTreeFile;
-		fopen_s(&largeTreeFile, largelist_filename, "w");
-		//FILE* fastaFile = fopen(fasta_filename, "w");
+		//FILE* largeTreeFile;
+		//fopen_s(&largeTreeFile, largelist_filename, "w");
+		FILE* largeTreeFile = fopen(largelist_filename, "w");
 		
 		if (largeTreeFile)
 		{
@@ -92,9 +92,9 @@ namespace distanceMeasure
 		this->GetQuartetsTreeFileName(quartets_filename, 100, batch_id, fileCount);//,sequence_set_names.size());
 
 		//open file for quartetTrees
-		FILE* quartetsFile;
-		fopen_s(&quartetsFile, quartets_filename, "w");
-		//FILE* fastaFile = fopen(fasta_filename, "w");
+		//FILE* quartetsFile;
+		//fopen_s(&quartetsFile, quartets_filename, "w");
+		FILE* quartetsFile = fopen(quartets_filename, "w");
 
 		if (!quartetsFile)
 		{
@@ -350,7 +350,7 @@ namespace distanceMeasure
 			//use default mrbayes parameters
 		std::string mrbayes_block_file_path = SystemParameters::GetMrBayesBlockString();
 		char mrbayes_block[400];
-		sprintf_s(mrbayes_block, 
+		sprintf(mrbayes_block, 
 			"begin mrbayes;\n"
 			"set autoclose = yes nowarn = yes;\n"
 			"execute %s;\n"
@@ -370,8 +370,9 @@ namespace distanceMeasure
 		mrbayes_block_string.append(mrbayes_block);
 		
 		//WiNDOWS DEPENDENCE
-		FILE* nexusFile;
-		fopen_s(&nexusFile, mrbayes_block_file_path.c_str(), "w");
+		//FILE* nexusFile;
+		//fopen_s(&nexusFile, mrbayes_block_file_path.c_str(), "w");
+		FILE* nexusFile = fopen(mrbayes_block_file_path.c_str(), "w");
 		if (nexusFile)
 		{
 			size_t numBytesWritten = fwrite(mrbayes_block_string.c_str(), mrbayes_block_string.length(), 1, nexusFile);
@@ -393,7 +394,8 @@ namespace distanceMeasure
 		//UNIX MRBayes Command -> input redirection
 		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
 		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
-		sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+		//sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+		sprintf(buffer, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
 	}
 
 

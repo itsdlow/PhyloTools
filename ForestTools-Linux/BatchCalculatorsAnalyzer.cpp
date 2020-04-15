@@ -156,11 +156,10 @@ namespace distanceMeasure
 		char analysis_table_file_path[100];
 		this->GetAnalysisTableFilePath(analysis_table_file_path, 100, this->previous_ss_size);
 
-		FILE* pResults;
+		
 		//WINDOWS DEPENDENCE -- "_s" functions
-		fopen_s(&pResults, analysis_table_file_path, "w");
-		//this->pResults = fopen(largetree_filename, "w");
-		//this->pQuartetResults = fopen(quartettrees_filename, "w");
+		FILE* pResults = fopen(analysis_table_file_path, "w");
+
 		if (pResults != nullptr)
 		{
 			size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, pResults);
@@ -193,7 +192,9 @@ namespace distanceMeasure
 	}
 	void BatchCalculatorsAnalyzer::GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const
 	{
-		sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
+		//sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
+		sprintf(buffer, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
+
 	}
 
 	//TODO -- clean up to allow for better standardizing of label sizes + offsets...

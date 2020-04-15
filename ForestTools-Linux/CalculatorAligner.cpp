@@ -18,11 +18,10 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 {
 	char aligned_file_path[150];
 	//WINDOWS DEPENDENCE
-	sprintf_s(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), std::hash<std::string>{}(sequence_set));
+	sprintf(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), std::hash<std::string>{}(sequence_set));
 
 	//TODO::...check if .afa file already created + size != 0
-	FILE* aligned_file;
-	fopen_s(&aligned_file, aligned_file_path, "rb");
+	FILE* aligned_file = fopen(aligned_file_path, "rb");
 	//NOTE:: ASSUMPTION:: NO incomplete .afa files (if .afa exists -- is correct)
 	if(!aligned_file)
 	{
@@ -41,7 +40,7 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 				//include hash (of sequence_set) in temp filename??? ****** NOT IMPLEMENTED
 					//all different sequence sets unique...need to file_cleanup
 						//system("exec rm -r /tmp/*") -- removes all files from folder temp
-			sprintf_s(alignment_command, SystemParameters::GetMuscleCommandString().c_str(), fasta_file_path.c_str(), aligned_file_path);
+			sprintf(alignment_command, SystemParameters::GetMuscleCommandString().c_str(), fasta_file_path.c_str(), aligned_file_path);
 			//use muscle (3rd party) to align new_temp_FASTA file
 			system(alignment_command);
 

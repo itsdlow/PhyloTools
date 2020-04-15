@@ -11,8 +11,7 @@
 
 namespace phylo {
     Tree::Tree() :
-        adjacencyList(),
-        counter()
+        adjacencyList()
     {
         //minimum size of viable tree is 4 leafs (quartet) (6 vertices + 5 edges entries)
         this->adjacencyList.reserve(11);

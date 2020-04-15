@@ -1,2 +1,4 @@
+Alignment Time For Sequence Set[0]: 36.539467 minutes
+	5	Camelus_bactrianus Elephantulus_sp. Hippopotamus_amphibius Mazama_gouazoupira Oryx_dammah
 
-Alignment Time For Sequence Set Lists: 0.000000 minutes
+Alignment Time For Sequence Set Lists: 36.539467 minutes

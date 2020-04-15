@@ -156,10 +156,10 @@ void distanceMeasure::InternalCalculatorTools::write_batch_results(DistanceMeasu
 
 
 	//WINDOWS DEPENDENCE -- "_s" functions
-	fopen_s(&this->pResults, largelist_matrix_file_path, "w");
-	fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "w");
-	//this->pResults = fopen(largetree_filename, "w");
-	//this->pQuartetResults = fopen(quartettrees_filename, "w");
+	//fopen_s(&this->pResults, largelist_matrix_file_path, "w");
+	//fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "w");
+	this->pResults = fopen(largelist_matrix_file_path, "w");
+	this->pQuartetResults = fopen(quartet_matrices_file_path, "w");
 	if (this->pResults != nullptr)
 	{
 		size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);

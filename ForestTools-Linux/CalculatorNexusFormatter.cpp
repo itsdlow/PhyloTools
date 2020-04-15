@@ -27,16 +27,17 @@ std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus
 	//WINDOWS DEPENDENCE
 	//nexus file formatting header
 	char nexus_header[200];
-	sprintf_s(nexus_header, SystemParameters::GetNexusHeaderFormatString().c_str(), 
+	sprintf(nexus_header, SystemParameters::GetNexusHeaderFormatString().c_str(), 
 		sequence_count, NCHAR, SystemParameters::GetNexusDataTypeString().c_str(), SystemParameters::GetNexusGapChar(), SystemParameters::GetNexusMissingChar());
 
 	//WiNDOWS DEPENDENCE
 	char nexus_file_path[100];
-	sprintf_s(nexus_file_path, SystemParameters::GetNexusFileFormatString().c_str(), sequence_set_names.size());
+	sprintf(nexus_file_path, SystemParameters::GetNexusFileFormatString().c_str(), sequence_set_names.size());
 
 	//WiNDOWS DEPENDENCE
-	FILE* nexusFile;
-	fopen_s(&nexusFile, nexus_file_path, "w");
+	//FILE* nexusFile;
+	//fopen_s(&nexusFile, nexus_file_path, "w");
+	FILE* nexusFile = fopen(nexus_file_path, "w");
 	sequence_set_nexus_string.append(nexus_header);
 
 	if (nexusFile)

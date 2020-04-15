@@ -106,25 +106,25 @@ std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetStri
 //fills given buffer
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
-	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 }
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
-	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 }
 void distanceMeasure::DistanceMeasureCalculator::GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
-	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 
 }
 void distanceMeasure::DistanceMeasureCalculator::GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
-	sprintf_s(buffer, buffer_size, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
 }
 void distanceMeasure::DistanceMeasureCalculator::GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const
 {
 	//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"
-	sprintf_s(buffer, buffer_size, SystemParameters::GetFastmeCommandString().c_str(), input, count, output);
+	sprintf(buffer, SystemParameters::GetFastmeCommandString().c_str(), input, count, output);
 }
 
 
@@ -156,7 +156,8 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 		//NOTE:: Probably should (somehow) dynamically determine size
 		char time_log_line[1000];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
-		sprintf_s(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
+		//sprintf_s(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
+		sprintf(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
 		const std::string timingLine(time_log_line);
 		
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
@@ -167,10 +168,14 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 void distanceMeasure::DistanceMeasureCalculator::InitializeSequenceSetTimingsLog()
 {
 	char log_file_path[100];
-	sprintf_s(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+	//sprintf_s(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+	sprintf(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+
 
 	//open file
-	fopen_s(&this->pTimingsLogFile, log_file_path, "w");
+	//fopen_s(&this->pTimingsLogFile, log_file_path, "w");
+	this->pTimingsLogFile = fopen(log_file_path, "w");
+
 }
 void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 {
@@ -182,7 +187,9 @@ void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 	{
 		char time_log_line[100];
 		//WINDOWS DEPENDENCE -- extract to system parameters...
-		sprintf_s(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime);
+		//sprintf_s(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime);
+		sprintf(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime);
+
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
