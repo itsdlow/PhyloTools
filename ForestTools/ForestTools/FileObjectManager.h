@@ -14,12 +14,14 @@ January 3 2020*
 	#include <string>
 	#include <vector>
 
+
 	namespace distanceMeasure
 	{
 		//forward declaration
 		class SequenceProcessor;
 		class FileObject;
-
+		class SequenceNamesStrategy;
+		
 		//Creates (in constructor) FileOjects array + inits with sequence driectory
 		class FileObjectManager
 		{
@@ -31,14 +33,20 @@ January 3 2020*
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
-			FileObjectManager(const std::string& sequence_names_path, const std::string& path);
+			//FileObjectManager(const std::string& sequence_names_path, const std::string& path);
+			FileObjectManager(SequenceNamesStrategy* name_strategy, const std::string& path);
 
+			
 			//helper functions
 			std::string CheckForSequenceName(const std::string& line) const;
-
+			void TryAddingSequenceIdentifier(const std::string& id);
+			
 			//
 			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string new_sequences_path);
 
+			//called by sequenceProcessor -- uses names strategy
+			std::string GetSpeciesIdentifier(const std::string& line, const int index);
+			std::string GetSequenceNameAtIndex(const int i) const;
 			
 			//accessor functions
 			const FileObject* get_file_objects_addr() const;
@@ -63,6 +71,9 @@ January 3 2020*
 			//object that interacts with windows directory || given file -- of sequences
 			SequenceProcessor* sp;
 
+			//naming strategy
+			SequenceNamesStrategy* pNameStrategy;
+			
 			int sequenceSetCount;
 			//int maxSequenceSetSequenceLength;
 			//path to sequence file/directory (original)

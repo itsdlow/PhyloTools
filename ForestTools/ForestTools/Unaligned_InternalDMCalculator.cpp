@@ -11,6 +11,12 @@ January 18 2020
 
 namespace distanceMeasure
 {
+
+	distanceMeasure::Unaligned_InternalDMCalculator::Unaligned_InternalDMCalculator(RunFlags* flags):
+	DistanceMeasureCalculator(flags)
+	{
+	}
+	
 	void Unaligned_InternalDMCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
 
@@ -52,6 +58,7 @@ namespace distanceMeasure
 			sequence_set_res.append("\n");
 		}
 		sequence_set_res.append("\n");
+		//TODO:: MUST WRITE TO FILE AND CLEAR InternalCalculatorTools::'quartetResults' string
 		InternalCalculatorTools::AppendToQuartetResults(sequence_set_res);
 	}
 }

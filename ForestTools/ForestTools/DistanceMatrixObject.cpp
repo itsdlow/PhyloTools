@@ -34,11 +34,11 @@ namespace distanceMeasure
 		delete this->distanceMeasureFunc;
 	}
 
-	DistanceMatrixObject::DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, DistanceMeasureCalculator* dmc):
+	DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc):
 	//pResults(nullptr),
 	//pQuartetResults(nullptr),
 	//pTimesLogFile(nullptr),
-	fileObjectManager(sequence_names_dir, sequences_dir),
+	fileObjectManager(names_strategy, sequences_dir),
 	//results(std::to_string(sequenceCount).append("\n")),
 	distanceMeasureFunc(dmc)
 	{
@@ -127,7 +127,7 @@ namespace distanceMeasure
 		return sequence_names;
 	}
 	//given line with 0 - N underscores -- swap underscore with spaces
-	const std::string DistanceMatrixObject::swap_underscores(const std::string& str) const
+	std::string DistanceMatrixObject::swap_underscores(const std::string& str) const
 	{
 		std::string res = str;
 		for(auto it = res.begin(); it != res.end(); it++)

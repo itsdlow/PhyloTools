@@ -24,7 +24,7 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		NcdDistanceCalculator(const int compressor_flag);
+		NcdDistanceCalculator(RunFlags* flags, const int compressor_flag);
 		
 		NcdDistanceCalculator() = delete;
 		NcdDistanceCalculator(const NcdDistanceCalculator&) = delete;

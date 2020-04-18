@@ -14,6 +14,11 @@ March 27 2020
  *						Timing functions
  ***************************************************************/
 
+distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags):
+DistanceMeasureCalculator(flags)
+{
+}
+
 //times calculation for - 1 - SEQUENCE SET
 void distanceMeasure::AlignedDistanceMeasureCalculator::StartCalculationTimer()
 {

@@ -10,7 +10,11 @@ January 3 2020
 
 namespace distanceMeasure
 {
-
+	distanceMeasure::LcsDistanceCalculator::LcsDistanceCalculator(RunFlags* flags):
+	Unaligned_InternalDMCalculator(flags)
+	{
+	}
+	
 	void distanceMeasure::LcsDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
 		this->StartCalculationTimer();

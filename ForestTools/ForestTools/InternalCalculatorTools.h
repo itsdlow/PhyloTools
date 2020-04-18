@@ -33,7 +33,8 @@ namespace distanceMeasure
 		void CalculateDistanceMeasuresAndTrees(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id);
 		
 		//void operator()();
-		static void create_tree(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id);
+		static void create_large_tree(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id);
+		static void create_quartet_trees(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id);
 
 
 		//internal calc specific funcs
@@ -44,7 +45,9 @@ namespace distanceMeasure
 		//virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount);
 
 		//write results buffer to output FILE, closes FILE
-		void write_batch_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count);
+		//void write_batch_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count);
+		void write_large_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count);
+		void write_quartets_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count);
 
 		void AppendToQuartetResults(const std::string& res);
 

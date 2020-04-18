@@ -16,7 +16,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		MrBayesDistanceCalculator() = default;
+		MrBayesDistanceCalculator() = delete;
+		MrBayesDistanceCalculator(RunFlags* flags);
+		
 		MrBayesDistanceCalculator(const MrBayesDistanceCalculator&) = delete;
 		MrBayesDistanceCalculator& operator=(const MrBayesDistanceCalculator&) = delete;
 		virtual ~MrBayesDistanceCalculator() = default;

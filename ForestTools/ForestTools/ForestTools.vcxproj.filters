@@ -34,6 +34,9 @@
     <Filter Include="Source Files\To-Matrix\DistanceCalculator\BaseCalculators">
       <UniqueIdentifier>{a5da8a1c-4e0f-448a-9360-ef244077719b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy">
+      <UniqueIdentifier>{3b5cb37e-07f1-49a4-b48f-b16f7aaaafc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -81,12 +84,6 @@
     <ClCompile Include="Aligned_InternalDMCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
-    <ClCompile Include="ExternalDistanceMeasureCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClCompile>
-    <ClCompile Include="InternalDistanceMeasureCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClCompile>
     <ClCompile Include="CalculatorFastaFormatter.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
@@ -119,6 +116,18 @@
     </ClCompile>
     <ClCompile Include="InternalCalculatorTools.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNamesDescriptionStrategy.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNamesUnorderedFastaStrategy.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNamesOrderedCustomStrategy.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNamesIDStrategy.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,12 +182,6 @@
     <ClInclude Include="DistanceMeasureCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
-    <ClInclude Include="ExternalDistanceMeasureCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClInclude>
-    <ClInclude Include="InternalDistanceMeasureCalculator.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClInclude>
     <ClInclude Include="CalculatorFastaFormatter.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
@@ -210,6 +213,24 @@
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClInclude>
     <ClInclude Include="InternalCalculatorTools.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesIDStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesDescriptionStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesOrderedCustomStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesUnorderedFastaStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="RunFlags.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
   </ItemGroup>

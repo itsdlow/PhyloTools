@@ -11,6 +11,11 @@ January 18 2020
 
 namespace distanceMeasure
 {
+	distanceMeasure::Aligned_InternalDMCalculator::Aligned_InternalDMCalculator(RunFlags* flags):
+	AlignedDistanceMeasureCalculator(flags)
+	{
+	}
+	
 	void Aligned_InternalDMCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
 		//NOTE:: timings skewed because only 1st aligned calculator aligns...
