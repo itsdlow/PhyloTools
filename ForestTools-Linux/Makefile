@@ -34,7 +34,14 @@ phylotools_SOURCES = \
 	SystemParameters.cpp					SystemParameters.h					\
 	Tree.cpp								Tree.h								\
 	Unaligned_InternalDMCalculator.cpp		Unaligned_InternalDMCalculator.h	\
-											VectorKeyCompare.h
+											VectorKeyCompare.h					\
+											RunFlags.h							\
+											SequenceNamesStrategy.h				\
+	SequenceNamesIDStrategy.cpp				SequenceNamesIDStrategy.h			\
+	SequenceNamesDescriptionStrategy.cpp	SequenceNamesDescriptionStrategy.h	\
+	SequenceNamesOrderedCustomStrategy.cpp	SequenceNamesOrderedCustomStrategy.h\
+	SequenceNamesUnorderedFastaStrategy.cpp	SequenceNamesUnorderedFastaStrategy.h\
+
 
 INCLUDES = \
 	ForestTools.cpp							\
@@ -64,7 +71,11 @@ INCLUDES = \
 	SystemParameters.cpp					\
 	Tree.cpp								\
 	Unaligned_InternalDMCalculator.cpp		\
-
+	SequenceNamesIDStrategy.cpp				\
+	SequenceNamesDescriptionStrategy.cpp	\
+	SequenceNamesOrderedCustomStrategy.cpp	\
+	SequenceNamesUnorderedFastaStrategy.cpp
+	
 phylotools: $(phylotools_SOURCES)    
 	$(CC) $(CFLAGS) -o $(PROGRAM) $(INCLUDES)
 	

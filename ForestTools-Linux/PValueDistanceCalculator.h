@@ -15,7 +15,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		PValueDistanceCalculator() = default;
+		PValueDistanceCalculator() = delete;
+		PValueDistanceCalculator(RunFlags* flags);
+		
 		PValueDistanceCalculator(const PValueDistanceCalculator&) = delete;
 		PValueDistanceCalculator& operator=(const PValueDistanceCalculator&) = delete;
 		virtual ~PValueDistanceCalculator() = default;

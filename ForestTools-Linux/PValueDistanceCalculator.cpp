@@ -11,6 +11,11 @@ January 3 2020
 
 namespace distanceMeasure
 {
+	distanceMeasure::PValueDistanceCalculator::PValueDistanceCalculator(RunFlags* flags):
+	Aligned_InternalDMCalculator(flags)
+	{
+	}
+	
 	//driving method
 	void distanceMeasure::PValueDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{

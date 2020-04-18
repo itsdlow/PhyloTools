@@ -25,7 +25,8 @@ namespace distanceMeasure
 {
 	class DistanceMeasureCalculator;
 	//typedef std::function<float (const FileObject& file1, const FileObject& file2)> DistanceMeasureCalculator;
-
+	class SequenceNamesStrategy;
+	
 	class DistanceMatrixObject
 	{
 	public:
@@ -39,7 +40,7 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(std::string sequence_names_dir, std::string sequences_dir, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc);
 		
 		//helper functions
 		//
@@ -84,7 +85,7 @@ namespace distanceMeasure
 		//private helper
 		//process a line of "sequenceList" file --> batch matrix_creation
 		const std::vector<std::string> ProcessSequenceSet(const std::string& sequence_set) const;
-		const std::string swap_underscores(const std::string& str) const;
+		std::string swap_underscores(const std::string& str) const;
 
 		
 		//called in distanceMeasure calculation to noramlize lcs value for results matrix

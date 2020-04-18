@@ -30,7 +30,7 @@ namespace distanceMeasure
 
 		//helper functions
 		//virtual void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) = 0;
-		virtual void CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pCurrentFileObject) = 0;
+		virtual void CreateFileObjects(FileObjectManager* pFOM, FileObject* const pCurrentFileObject) = 0;
 
 	private:
 

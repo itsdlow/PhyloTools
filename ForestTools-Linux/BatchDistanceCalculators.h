@@ -16,7 +16,7 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		BatchDistanceCalculators(const int calculator_count);
+		BatchDistanceCalculators(RunFlags* flags);
 		BatchDistanceCalculators(const BatchDistanceCalculators&) = delete;
 		BatchDistanceCalculators& operator=(const BatchDistanceCalculators&) = delete;
 		virtual ~BatchDistanceCalculators();
@@ -42,7 +42,7 @@ namespace distanceMeasure
 		////array of calculators to perform batch analysis on
 		DistanceMeasureCalculator** calculators;
 
-		static DistanceMeasureCalculator* GetCalculator(int i);
+		DistanceMeasureCalculator* GetCalculator(int i);
 	};
 }
 

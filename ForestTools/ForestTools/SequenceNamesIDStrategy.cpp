@@ -33,7 +33,7 @@ namespace distanceMeasure
 	std::string distanceMeasure::SequenceNamesIDStrategy::GetAccessionNumber(const std::string& line)
 	{
 		std::string id;
-		//exclude starting '>' character on FASTA description line\
+		//exclude starting '>' character on FASTA description line
 			//append chars until a space " " is reached
 		for (auto it = line.begin() + 1; *it != ' '; ++it)
 		{

@@ -16,6 +16,11 @@ January 3 2020
 
 namespace distanceMeasure
 {
+	distanceMeasure::MrBayesDistanceCalculator::MrBayesDistanceCalculator(RunFlags* flags):
+	AlignedDistanceMeasureCalculator(flags)
+	{
+	}
+	
 	//move to SystemParameters??? -- add GetCalcName() (switch statement on calculator.type)
 	std::string MrBayesDistanceCalculator::GetCalculatorName() const
 	{
@@ -30,7 +35,11 @@ namespace distanceMeasure
 			//create aligned --> nexus --> execute nexus (repeat)
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, sequence_set, batch_id);
-		this->calculate_quartet_trees(fileObjectManager, sequence_set_names, sequence_set,batch_id);
+
+		if(this->GetCalculatorFlags()->generate_quartets)
+		{
+			this->calculate_quartet_trees(fileObjectManager, sequence_set_names, sequence_set,batch_id);
+		}
 		//adds to total time + sets calculationTime
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}

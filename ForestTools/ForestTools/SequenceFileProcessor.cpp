@@ -12,6 +12,7 @@ January 3 2020*
 #include "FileObjectManager.h"
 
 #include <fstream>
+#include <cstring>
 
 namespace distanceMeasure
 {

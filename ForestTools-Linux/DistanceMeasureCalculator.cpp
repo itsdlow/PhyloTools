@@ -18,7 +18,15 @@ January 24 2020
 //	//do nothing -- cannot analyze sequence_set on 1 method -- use BatchCalculators
 //}
 
+distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags):
+pFlags(flags)
+{
+}
 
+distanceMeasure::DistanceMeasureCalculator::~DistanceMeasureCalculator()
+{
+	delete this->pFlags;
+}
 
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
@@ -153,12 +161,16 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 	//write to log file
 	if(this->pTimingsLogFile)
 	{
-		//NOTE:: Probably should (somehow) dynamically determine size
-		char time_log_line[1000];
+		const int sequence_timing_format_string_size = 75;
+		const int time_log_line_size = static_cast<int>(sequenceSet.size()) + sequence_timing_format_string_size;
+		char* const time_log_line = new char[time_log_line_size];
+
 		//WINDOWS DEPENDENCE -- extract to system parameters...
 		//sprintf_s(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
 		sprintf(time_log_line, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
 		const std::string timingLine(time_log_line);
+		
+		delete[] time_log_line;
 		
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
 		fflush(this->pTimingsLogFile);

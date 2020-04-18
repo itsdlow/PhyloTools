@@ -17,7 +17,7 @@ January 3 2020*
 namespace distanceMeasure
 {
 	//given a single Fasta File as "fastaInput" -- containing "fileCount" many sequences --> writes to FileObjectsBuffer
-	void SequenceFileProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	void SequenceFileProcessor::CreateFileObjects(FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//uses FOM
 			//fileCount + CheckForName() + sequences_path
@@ -49,7 +49,7 @@ namespace distanceMeasure
 			do
 			{
 				count++;
-			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++) && count < sequenceCount);
+			} while (SequencesProcessingStatus::MORE_SEQUENCES == create_file_object(fastaInput, line, pFOM, pCurrentFileObject++, count - 1) && count < sequenceCount);
 			
 
 			printf("finished processing file\n");
@@ -57,7 +57,7 @@ namespace distanceMeasure
 		}
 	}
 
-	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, const FileObjectManager* pFOM, FileObject* const pFileObject) const
+	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, FileObjectManager* pFOM, FileObject* const pFileObject, const int index) const
 	{
 		SequencesProcessingStatus more_sequences_status = SequencesProcessingStatus::MORE_SEQUENCES;
 		std::string line(annotation_line);
@@ -65,7 +65,8 @@ namespace distanceMeasure
 		speciesSequence.reserve(10000);
 
 		//get species name from File_Object_Manager
-		const std::string speciesName(pFOM->CheckForSequenceName(line));
+		//const std::string speciesName(pFOM->CheckForSequenceName(line));
+		const std::string speciesIdentifier(pFOM->GetSpeciesIdentifier(line, index));
 		//get first line of fasta sequence (">Species_Name....")
 		const std::string fastaIDLine(line);
 		//note:: could change this to just accension number
@@ -86,10 +87,10 @@ namespace distanceMeasure
 			annotation_line = line;
 		}
 
-		printf("SpeciesName::%s-\n", speciesName.c_str());
+		printf("SpeciesName::%s\n", speciesIdentifier.c_str());
 		//create file object with file name and sequence string
-		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesName);//...not really const function... FileObjectManager:: unsafe pointer 
-		printf("created FileObject - %s\n", tmp->GetSequenceName().c_str());
+		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesIdentifier);//...not really const function... FileObjectManager:: unsafe pointer 
+		printf("created FileObject\n");
 
 		return more_sequences_status;
 	}

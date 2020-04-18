@@ -12,14 +12,16 @@ January 18 2020
 #include "LcsDistanceCalculator.h"
 #include "NcdDistanceCalculator.h"
 
+#include "SystemParameters.h"
 //#include "PhyloAnalysis.h"
 
 namespace distanceMeasure
 {
 
-	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(const int calculator_count):
-	BatchCalculatorsAnalyzer(calculator_count),
-	calculator_count(calculator_count),
+	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(RunFlags* flags):
+	DistanceMeasureCalculator(flags),
+	BatchCalculatorsAnalyzer(flags->calculator_count),
+	calculator_count(flags->calculator_count),
 	//calculators(new DistanceMeasureCalculator* [calculator_count])
 	calculators(nullptr)
 	{
@@ -102,19 +104,29 @@ namespace distanceMeasure
 		switch (i)
 		{
 		case 0:
-			dmc = new LcsDistanceCalculator();
+			dmc = new LcsDistanceCalculator(this->pFlags);
 			break;
 		case 1:
-			dmc = new PValueDistanceCalculator();
+			dmc = new PValueDistanceCalculator(this->pFlags);
 			break;
 		case 2:
-			dmc = new MrBayesDistanceCalculator();
+			dmc = new MrBayesDistanceCalculator(this->pFlags);
 			break;
 		case 3:
-			dmc = new NcdDistanceCalculator(1);
+			//7zip
+			dmc = new NcdDistanceCalculator(this->pFlags, 1);
 			break;
 		case 4:
-			dmc = new NcdDistanceCalculator(3);
+			//mfc1
+			dmc = new NcdDistanceCalculator(this->pFlags, 2);
+			break;
+		case 5:
+			//mfc2
+			dmc = new NcdDistanceCalculator(this->pFlags, 3);
+			break;
+		case 6:
+			//mfc3
+			dmc = new NcdDistanceCalculator(this->pFlags, 4);
 			break;
 		default:
 			break;

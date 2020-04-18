@@ -15,7 +15,8 @@ January 3 2020
 
 namespace distanceMeasure
 {
-	distanceMeasure::NcdDistanceCalculator::NcdDistanceCalculator(const int compressor_flag)
+	distanceMeasure::NcdDistanceCalculator::NcdDistanceCalculator(RunFlags* flags, const int compressor_flag):
+	Unaligned_InternalDMCalculator(flags)
 	{
 		this->SetCompressorType(compressor_flag);
 	}

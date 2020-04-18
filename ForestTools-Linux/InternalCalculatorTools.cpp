@@ -15,19 +15,31 @@ January 18 2020
 
 void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 {
-	//pass it forward
-	//InternalDistanceMeasureCalculator::calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+	//if calculating -- Large Tree + Quartet Trees
+		//open quartets file for writing (allows for appending chunks of quartetResults)
+			//fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "w");
+		//calculateLarge + calulcateAllQuartets
+		//write
+
 	//calculate LargeTree giving sequence_names_list
 	this->CalculateLargeTreeDistanceMeasures(dmc, fileObjectManager, sequence_set_names);
-	InternalCalculatorTools::CalculateAllQuartetsDistanceMeasures(dmc, fileObjectManager, sequence_set_names);
 
-	////create file for current sequence_set
-	this->write_batch_results(dmc, batch_id, sequence_set_names.size());
-	InternalCalculatorTools::create_tree(dmc, sequence_set_names, batch_id);
+	if(dmc->GetCalculatorFlags()->generate_quartets)
+	{
+		//calculate quartets tree matrix
+		InternalCalculatorTools::CalculateAllQuartetsDistanceMeasures(dmc, fileObjectManager, sequence_set_names);
+		
+		//write quartet matrices and run FASTME
+		this->write_quartets_results(dmc, batch_id, sequence_set_names.size());
+		InternalCalculatorTools::create_quartet_trees(dmc, sequence_set_names, batch_id);
+	}
+	//Write large tree matrix and run FASTME
+	this->write_large_tree_results(dmc, batch_id, sequence_set_names.size());
+	InternalCalculatorTools::create_large_tree(dmc, sequence_set_names, batch_id);
 }
 
 
-void distanceMeasure::InternalCalculatorTools::create_tree(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
+void distanceMeasure::InternalCalculatorTools::create_large_tree(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
 {
 	//get batch_ID_matrix FILE (quartets + LargeList)
 		//feed to fastme
@@ -36,30 +48,41 @@ void distanceMeasure::InternalCalculatorTools::create_tree(DistanceMeasureCalcul
 	//Get current_sequence-set_matrix files
 	char largelist_matrix_file_path[100];
 	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_id, sequence_set_count);
-	char quartet_matrices_file_path[100];
-	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_id, sequence_set_count);
 
 	//get path for new_tree files
 	char large_tree_file_path[150];
 	dmc->GetLargeListTreeFileName(large_tree_file_path, 150, batch_id, sequence_set_count);
+
+	char fastme_command[200];
+	dmc->GetFastMECommand(fastme_command, 200, largelist_matrix_file_path, 1, large_tree_file_path);
+
+	system(fastme_command);
+
+	printf("FastME command executed -- Large Tree Generated\n");
+}
+void distanceMeasure::InternalCalculatorTools::create_quartet_trees(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
+{
+	//get batch_ID_matrix FILE (quartets + LargeList)
+		//feed to fastme
+		//********************************************
+	const int sequence_set_count = static_cast<int>(sequence_set_names.size());
+	//Get current_sequence-set_matrix files
+	char quartet_matrices_file_path[100];
+	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_id, sequence_set_count);
+
 	char quartet_trees_file_path[150];
 	dmc->GetQuartetsTreeFileName(quartet_trees_file_path, 150, batch_id, sequence_set_count);
 
 	//sequence_set_size choose 4
 	const int quartetCount = DistanceMeasureCalculator::GetQuartetCombinations(sequence_set_count);
 
-	char fastme_command[200];
 	char fastme_quartets_command[200];
-	dmc->GetFastMECommand(fastme_command, 200, largelist_matrix_file_path, 1, large_tree_file_path);
 	dmc->GetFastMECommand(fastme_quartets_command, 200, quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
 
-	system(fastme_command);
 	system(fastme_quartets_command);
 
-	//TODO:: currents sequence set progress debug statement
-	printf("1st trees created\n");
+	printf("FastME command executed -- Quartet Trees Generated\n");
 }
-
 
 //calculate LargeTree (w/o quartets) Distance Matrix -- phylib format
 void distanceMeasure::InternalCalculatorTools::CalculateLargeTreeDistanceMeasures(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names)
@@ -114,8 +137,13 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 		printf("Sequence set contains less leaves than minimum viable tree (quartet): %d\n", fileCount);
 		exit(0);
 	}
-	int totalQuartets = DistanceMeasureCalculator::GetQuartetCombinations(fileCount);
+	const int totalQuartets = DistanceMeasureCalculator::GetQuartetCombinations(fileCount);
 	int count = 0;
+
+	const float fraction = .25f;
+	//25% of total quartets rounded up
+	const int multiple = static_cast<int>(static_cast<float>(totalQuartets) * fraction);
+	
 	for (int i = 0; i < fileCount; i++)
 	{
 		//while "atleast" 3 OTHER fileObjects exist
@@ -133,11 +161,18 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 					//indexV.push_back(k);
 					//indexV.push_back(l);
 
+					//TODO:: if totalQuartets > XX --> if count /
+					//if currently on a quartile number index of quartet (i.e. 25%, 50%, 75%)
+					if(count % multiple == 1)
+					{
+						//flush quartets string
+						printf("FLUSHING 'quartetResult' STRING MEMORY -- writing to file");
+					}
 					
 					//pass FOM in for Pvalue Calc--> does not use lambda matrix
-					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount);
+					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount);//appended to quartetsResult
 					count++;
-					//NOTE:: CHANGE TO '\r' when other debug print statements removed
+					//NOTE:: CHANGE TO '\r' when other debug print statements removed (mr mrbayes/alignment output interfers)
 					printf("%d/%d %s Quartet Matrices calculated...\n", count, totalQuartets, dmc->GetCalculatorName().c_str());
 				}
 			}
@@ -145,21 +180,16 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 	}
 
 }
-
-//Open new batch file && write results buffer to output FILEs
-void distanceMeasure::InternalCalculatorTools::write_batch_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
+void distanceMeasure::InternalCalculatorTools::write_large_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
 {
 	char largelist_matrix_file_path[100];
 	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_number, sequence_count);
-	char quartet_matrices_file_path[100];
-	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_number, sequence_count);
 
 
 	//WINDOWS DEPENDENCE -- "_s" functions
 	//fopen_s(&this->pResults, largelist_matrix_file_path, "w");
-	//fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "w");
 	this->pResults = fopen(largelist_matrix_file_path, "w");
-	this->pQuartetResults = fopen(quartet_matrices_file_path, "w");
+
 	if (this->pResults != nullptr)
 	{
 		size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);
@@ -167,7 +197,21 @@ void distanceMeasure::InternalCalculatorTools::write_batch_results(DistanceMeasu
 		fclose(this->pResults);
 		//reset string for next batch
 		this->results.clear();
+		this->lamdaMatrix.clear();//NOTE:: problematic? was working before...
+
 	}
+}
+void distanceMeasure::InternalCalculatorTools::write_quartets_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
+{
+	char quartet_matrices_file_path[100];
+	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_number, sequence_count);
+
+
+	//WINDOWS DEPENDENCE -- "_s" functions
+	//fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "a");
+
+	this->pQuartetResults = fopen(quartet_matrices_file_path, "a");
+
 	if (this->pQuartetResults != nullptr)
 	{
 		size_t numBytesWritten2 = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
@@ -176,7 +220,6 @@ void distanceMeasure::InternalCalculatorTools::write_batch_results(DistanceMeasu
 		//reset string for next batch
 		this->quartetResults.clear();
 	}
-
 }
 
 float distanceMeasure::InternalCalculatorTools::GetLamdaMatrixDistanceAt(int pos) const

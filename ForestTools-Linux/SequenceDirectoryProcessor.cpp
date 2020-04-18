@@ -21,7 +21,7 @@ namespace distanceMeasure
 	//WINDOWS SPECIFIC --> LEGACY -- RETIRED...
 
 	
-	void SequenceDirectoryProcessor::CreateFileObjects(const FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
+	void SequenceDirectoryProcessor::CreateFileObjects(FileObjectManager* pFOM, FileObject* const pFileObjectsBuffer)
 	{
 		//windows.h get path_directory files impl
 		WIN32_FIND_DATAA data2;

@@ -11,6 +11,7 @@ January 3 2020
 
 #include <string>
 #include <vector>
+#include "RunFlags.h"
 
 namespace distanceMeasure
 {
@@ -22,10 +23,12 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		DistanceMeasureCalculator() = default;
+		DistanceMeasureCalculator() = delete;
+		DistanceMeasureCalculator(RunFlags* flags);
+		
 		DistanceMeasureCalculator(const DistanceMeasureCalculator&) = delete;
 		DistanceMeasureCalculator& operator=(const DistanceMeasureCalculator&) = delete;
-		virtual ~DistanceMeasureCalculator() = default;
+		virtual ~DistanceMeasureCalculator();
 
 		//main calculator driver func -- output matrix as text-file
 			//calculate_sequence_set_trees()
@@ -64,9 +67,12 @@ namespace distanceMeasure
 		static int GetQuartetCombinations(int n);
 		static int GetCombinations(int n, int r);
 		static void swap_space_with_underscores(std::string& description_string);
-		
+		const RunFlags* GetCalculatorFlags() const { return this->pFlags; };
 	protected:
 		FILE* pTimingsLogFile = nullptr;
+		//Calculator Run Flags:
+		RunFlags* pFlags;
+		
 		//debug timing things
 		double startTime = 0;
 		double calculationTime = 0;

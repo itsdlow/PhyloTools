@@ -21,7 +21,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		Unaligned_InternalDMCalculator() = default;
+		Unaligned_InternalDMCalculator() = delete;
+		Unaligned_InternalDMCalculator(RunFlags* flags);
+		
 		Unaligned_InternalDMCalculator(const Unaligned_InternalDMCalculator&) = delete;
 		Unaligned_InternalDMCalculator& operator=(const Unaligned_InternalDMCalculator&) = delete;
 		virtual ~Unaligned_InternalDMCalculator() = default;

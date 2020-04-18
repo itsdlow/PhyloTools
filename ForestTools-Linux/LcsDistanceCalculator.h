@@ -15,7 +15,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		LcsDistanceCalculator() = default;
+		LcsDistanceCalculator() = delete;
+		LcsDistanceCalculator(RunFlags* flags);
+		
 		LcsDistanceCalculator(const LcsDistanceCalculator&) = delete;
 		LcsDistanceCalculator& operator=(const LcsDistanceCalculator&) = delete;
 		virtual ~LcsDistanceCalculator() = default;

@@ -16,7 +16,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		AlignedDistanceMeasureCalculator() = default;
+		AlignedDistanceMeasureCalculator() = delete;
+		AlignedDistanceMeasureCalculator(RunFlags* flags);
+		
 		AlignedDistanceMeasureCalculator(const AlignedDistanceMeasureCalculator&) = delete;
 		AlignedDistanceMeasureCalculator& operator=(const AlignedDistanceMeasureCalculator&) = delete;
 		virtual ~AlignedDistanceMeasureCalculator() = default;
