@@ -30,7 +30,7 @@ namespace distanceMeasure
 		CalculatorAligner(const CalculatorAligner& ca) = delete;
 		CalculatorAligner& operator=(const CalculatorAligner& ca) = delete;
 
-		const std::string create_sequence_set_aligned_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set) const;
+		const std::string create_sequence_set_aligned_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int hash_id) const;
 	private:
 	};
 } 

@@ -29,7 +29,7 @@ namespace distanceMeasure
 						//write align timings / sequence set and total...
 		
 		//on sequence set --> refill FileObjectManager with new aligned_file		
-		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, sequence_set_names, sequence_set));//aligned_sequence_set_path);
+		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, sequence_set_names, batch_id));//aligned_sequence_set_path);
 		//this->AddAlignmentTime(alignTime);
 		
 		//pass it forward
@@ -38,13 +38,13 @@ namespace distanceMeasure
 	
 	//Internal calc - quartet matrix creastion --> uses values calculated from LargeListTree... (cannot be used by Aligned_Internal calc --> override)
 		//OVERRIDE:: aligns each quartet sequence set 
-	void Aligned_InternalDMCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	void Aligned_InternalDMCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count)
 	{
 		//FOR GIVEN SEQUENCE SET -- create sequence set line...
 							//+ create aligned file --> refill sequenceSetBuffer
 		const std::vector<std::string> subsequence_set_names = DistanceMeasureCalculator::CreateSubsequenceSet(sequence_set_names, speciesSequenceSetIndexes);
-		const std::string subsequence_set = DistanceMeasureCalculator::CreateSubsequenceSetString(subsequence_set_names);
-		fileObjectManager.RefillFileObjectsBuffer(subsequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, subsequence_set_names, subsequence_set));
+		//const std::string subsequence_set = DistanceMeasureCalculator::CreateSubsequenceSetString(subsequence_set_names);
+		fileObjectManager.RefillFileObjectsBuffer(subsequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, subsequence_set_names, quartet_count));
 
 		
 		const int quartetSize = 4;

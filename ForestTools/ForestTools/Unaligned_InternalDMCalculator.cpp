@@ -23,7 +23,7 @@ namespace distanceMeasure
 		//IF:: Alignment needed (MrBayes + P-Value) must align for each seqeunce_set!
 		//on sequnece set --> refill FileObjectManager with new Unaligned_file		
 			//CalculatorAligner::create_Unaligned_sequence_set_file();
-		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorFastaFormatter::create_sequence_set_fasta_file(fileObjectManager, sequence_set_names, sequence_set));//Unaligned_sequence_set_path);
+		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorFastaFormatter::create_sequence_set_fasta_file(fileObjectManager, sequence_set_names, batch_id));
 
 		//pass it forward -- Calculate LargeTree & Quartet Trees Distance Measures
 			// + create tree (fastME)	
@@ -31,7 +31,7 @@ namespace distanceMeasure
 	}
 
 	//Internal calc - quartet matrix creastion --> uses values calculated from LargeListTree... (cannot be used by Aligned_Internal calc --> override)
-	void Unaligned_InternalDMCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	void Unaligned_InternalDMCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count)
 	{
 		const int quartetSize = 4;
 		std::string sequence_set_res(std::to_string(quartetSize).append("\n"));

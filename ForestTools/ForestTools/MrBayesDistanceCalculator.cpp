@@ -34,18 +34,18 @@ namespace distanceMeasure
 		//loop for all combos of 4
 			//create aligned --> nexus --> execute nexus (repeat)
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
-		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, sequence_set, batch_id);
+		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 
 		if(this->GetCalculatorFlags()->generate_quartets)
 		{
-			this->calculate_quartet_trees(fileObjectManager, sequence_set_names, sequence_set,batch_id);
+			this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
 		}
 		//adds to total time + sets calculationTime
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}
-	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
+	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
-		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, sequence_set);
+		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, batch_id);
 		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 
 		char mrbayes_command[200];
@@ -80,7 +80,7 @@ namespace distanceMeasure
 	}
 
 	
-	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
+	void MrBayesDistanceCalculator::calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
 		const int fileCount = static_cast<int>(sequence_set_names.size());
 
@@ -111,6 +111,7 @@ namespace distanceMeasure
 			exit(0);
 		}
 
+		int count = 0;
 		for (int i = 0; i < fileCount; i++)
 		{
 			//while "atleast" 3 OTHER fileObjects exist
@@ -132,7 +133,7 @@ namespace distanceMeasure
 
 
 						//create .afa (aligned) sequence file --> NEXUS FILE
-						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, subsequence_set_names, subsequence_set);
+						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, subsequence_set_names, count++);
 						//create batch MRBAYES BLOCK file
 						std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 						
@@ -408,7 +409,7 @@ namespace distanceMeasure
 
 
 	//internal calc specific function -- NOT NEEDED
-	void distanceMeasure::MrBayesDistanceCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	void distanceMeasure::MrBayesDistanceCalculator::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count)
 	{
 		//by default DMC does not have method to write quartet matrix -- derived Internal CAlculators define...
 	}

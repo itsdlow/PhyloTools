@@ -26,7 +26,7 @@ namespace distanceMeasure
 		//internal calc specific
 		float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const override;
 		float normalize(int differenceCount, int sequencesize) const override;
-		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) override;
+		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count) override;
 
 		
 		std::string GetCalculatorName() const override;

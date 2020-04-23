@@ -31,9 +31,10 @@ January 3 2020
 
 
 //forward decl
-distanceMeasure::DistanceMeasureCalculator* SetDistanceCalculator(int method, int quartets_flag);
+void TryClearingTempFiles();
+distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator();
 std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo);
-distanceMeasure::SequenceNamesStrategy* SetNamingStrategy(int type);
+distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
 
 //TODO::
     // 0) Refactor LcsCalculator code*
@@ -53,10 +54,8 @@ int main()
 {
     std::cout << "Hello World!\n";
 
+	
     //distanceMeasure::SequenceProcessor sequenceProcessorType = distanceMeasure::SequenceProcessor::FileProcessing;
-    int calc_method;
-    int names_type;
-    //int sequenceCount;
     std::string sequence_dir;
 
 	//receive relative/absolute path of file or directory of sequences to analyze
@@ -66,33 +65,11 @@ int main()
     printf("Path to Sequences: ");
     std::cin >> sequence_dir;
 
-    //TODO:: allow multiple ways
-/*
- * (1) -- Default -- use whole taxa name line
- * (2) Use accenssion number
- * (3) supply SequenceNames file
- * (4) supply ordered alternative names
- */
-    printf("Description Line (0), Accession ID (1), Input FASTA Sequence Names file (2), Input Ordered Alternative Names (3)\n");
-    printf("Sequence Names Type Number: ");
-    std::cin >> names_type;
+
 	//set sequenceNames strategy --> pass to dmo -> fom (instead of sequence_names path)
-    distanceMeasure::SequenceNamesStrategy* name_strategy = SetNamingStrategy(names_type);
-        //if no sequence names provided...
-            //default processing?
-    //recieve Number of sequences to read
-    //printf("Number of Sequences: ");
-    //std::cin >> sequenceCount;
-    
-    //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
-    printf("All Methods (0), LCS (1), P_Value (2), MrBayes (3), NCD (4)\n");
-    printf("Matrix Calculation Method Number: ");
-	std::cin >> calc_method;
-    int quartets_gen_flag;
-    printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
-    printf("No (0), Yes (1)\n");
-    std::cin >> quartets_gen_flag;
-	distanceMeasure::DistanceMeasureCalculator* dmc = SetDistanceCalculator(calc_method, quartets_gen_flag);
+    distanceMeasure::SequenceNamesStrategy* name_strategy = GetNamingStrategy();
+
+	distanceMeasure::DistanceMeasureCalculator* dmc = GetDistanceCalculator();
 
 	//get sequenceList type
     int batch_flag;
@@ -100,7 +77,8 @@ int main()
     printf("Sequence Lists Method Number: ");
     //file:: string of all sequence set combinations --> matrices to create
     std::cin >> batch_flag;
-	
+
+	//GET ALL USER INPUT BEFORE CONSTRUCTING dmo---------------------------------------------------------------------------
     //intializes / prepares all file objects (sequences) -- given a DistanceMeasureCalculator.
     distanceMeasure::DistanceMatrixObject dmo(name_strategy, sequence_dir, dmc);
 
@@ -119,21 +97,52 @@ int main()
 }
 
 
-
-
-distanceMeasure::DistanceMeasureCalculator* SetDistanceCalculator(int method, int quartets_flag)
+void TryClearingTempFiles()
 {
+    int clear_temp_files_flag;
+    printf("If you are using new/different data, temporary files must be removed\n");
+    printf("Would you like to clear TempFiles? No (0), Yes (1)\n");
+    std::cin >> clear_temp_files_flag;
+
+    if (clear_temp_files_flag)
+    {
+        char clean_mrbayes_dir_cmd[200];
+        char clean_temp_dir_cmd[200];
+
+        sprintf_s(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
+        sprintf_s(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
+
+        //remove files from MrBayes + TempFiles
+        system(clean_mrbayes_dir_cmd);
+        system(clean_temp_dir_cmd);
+
+    }
+}
+
+distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()
+{
+    int calc_method;
+
+    //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
+    printf("All Methods (0), LCS (1), P_Value (2), MrBayes (3), NCD (4)\n");
+    printf("Matrix Calculation Method Number: ");
+    std::cin >> calc_method;
+    int quartets_gen_flag;
+    printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
+    printf("No (0), Yes (1)\n");
+    std::cin >> quartets_gen_flag;
+	
     distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
 
     bool generate_quartets = true;
-	if(quartets_flag < 1)
+	if(quartets_gen_flag < 1)
 	{
         generate_quartets = false;
 	}
     distanceMeasure::RunFlags* flags = new distanceMeasure::RunFlags(generate_quartets);
 
 	
-    switch (method)
+    switch (calc_method)
     {
     case 0:
         //get calculator count...
@@ -192,13 +201,25 @@ std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::Distance
     return tree_sequences_list;
 }
 
-distanceMeasure::SequenceNamesStrategy* SetNamingStrategy(int type)
+distanceMeasure::SequenceNamesStrategy* GetNamingStrategy()
 {
+    //TODO:: allow multiple ways
+	/*
+	 * (1) -- Default -- use whole taxa name line
+	 * (2) Use accenssion number
+	 * (3) supply SequenceNames file
+	 * (4) supply ordered alternative names
+	 */
+    int names_type;
+
+    printf("Description Line (0), Accession ID (1), Input FASTA Sequence Names file (2), Input Ordered Alternative Names (3)\n");
+    printf("Sequence Names Type Number: ");
+    std::cin >> names_type;
 	std::string path;
     int count;
 	
     distanceMeasure::SequenceNamesStrategy* strategy = nullptr;
-    switch (type)
+    switch (names_type)
     {
         //default
     case 0:

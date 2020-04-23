@@ -40,7 +40,7 @@ namespace distanceMeasure
 		//internal calc specific
 		virtual float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const = 0;
 		virtual float normalize(int differenceCount, int sequencesize) const = 0;
-		virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) = 0;
+		virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count) = 0;
 
 		
 		//CALLED BY DistanceMatrixCalculator

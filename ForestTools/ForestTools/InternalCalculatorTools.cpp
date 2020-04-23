@@ -165,8 +165,8 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 					}
 					
 					//pass FOM in for Pvalue Calc--> does not use lambda matrix
-					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount);//appended to quartetsResult
-					count++;
+					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount, count++);//appended to quartetsResult
+					//count++;
 					//NOTE:: CHANGE TO '\r' when other debug print statements removed (mr mrbayes/alignment output interfers)
 					printf("%d/%d %s Quartet Matrices calculated...\n", count, totalQuartets, dmc->GetCalculatorName().c_str());
 				}

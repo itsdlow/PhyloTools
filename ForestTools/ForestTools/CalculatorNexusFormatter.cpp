@@ -13,10 +13,10 @@ January 18 2020
 //#include <fstream>
 #include "SystemParameters.h"
 
-std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set) const
+std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int hash_id) const
 {
 	//create new sequence_set Fileobjects , on sequence_set_names
-	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(dmc, fileObjectManager, sequence_set_names, sequence_set) );
+	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(dmc, fileObjectManager, sequence_set_names, hash_id) );
 
 	std::string sequence_set_nexus_string;
 	std::size_t sequence_count = sequence_set_names.size();
