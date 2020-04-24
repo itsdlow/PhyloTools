@@ -60,6 +60,6 @@ namespace distanceMeasure
 
 	float PValueDistanceCalculator::normalize(int differenceCount, int sequencesize) const
 	{
-		return static_cast<float>(differenceCount) / sequencesize;
+		return static_cast<float>(differenceCount) / static_cast<float>(sequencesize);
 	}
 }

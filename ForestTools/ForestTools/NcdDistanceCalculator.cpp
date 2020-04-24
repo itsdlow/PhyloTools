@@ -83,7 +83,6 @@ namespace distanceMeasure
 		return this->extension;
 	}
 
-	//... assumes compression files already created?
 	float NcdDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{
 		//assumes aligned sequences
@@ -129,6 +128,9 @@ namespace distanceMeasure
 			max_size = size_j;
 			min_size = size_i;
 		}
+		//Measure::
+			//normalize(count) == 1 --> MAXIMALLY DIFFERENT sequences
+			//normalize(count) == 0 --> IDENTICAL SEQUENCES
 		return static_cast<float>(size_ij - min_size) / static_cast<float>(max_size);
 	}
 	//not needed by NCD calcs...

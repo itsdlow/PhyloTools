@@ -56,7 +56,10 @@ namespace distanceMeasure
 
 		void GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 
+		
 		void GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const;

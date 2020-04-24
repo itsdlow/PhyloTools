@@ -112,6 +112,19 @@ std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetStri
 
 
 //fills given buffer
+void distanceMeasure::DistanceMeasureCalculator::GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	std::string clustered_matrix_fmt_str = SystemParameters::GetLargeListMatrixFileFormatString();
+	clustered_matrix_fmt_str.append("_clustered");
+	sprintf_s(buffer, buffer_size, clustered_matrix_fmt_str.c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetClusteredTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	std::string clustered_tree_fmt_str = SystemParameters::GetLargeListTreeFileFormatString();
+	clustered_tree_fmt_str.append("_clustered");
+	sprintf_s(buffer, buffer_size, clustered_tree_fmt_str.c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
 	sprintf_s(buffer, buffer_size, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
