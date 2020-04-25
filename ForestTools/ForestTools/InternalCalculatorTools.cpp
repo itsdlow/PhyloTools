@@ -11,7 +11,7 @@ January 18 2020
 #include "SystemParameters.h"
 #include "DistanceMeasureCalculator.h"
 #include "FileObjectManager.h"
-#include <set>
+//#include <set>
 
 
 void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
@@ -46,90 +46,10 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 	//if strict || loose clustering
 	if(dmc->GetCalculatorFlags()->closeness_factor > 0)
 	{
-		//set of indexes to cluster
-			//removes .second index of CLuster Pair
-		//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
-		std::set<ClusterPair> index_pair_set;
-
-		const int fileCount = static_cast<int>(sequence_set_names.size());
-		float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
-		for(int i = 0; i < fileCount; i++)
-		{
-			float min = INT_MAX;
-			float max = INT_MIN;
-			//go through species matrix line -- pairwise distances
-				//find max and min pairwise distance
-			for (int j = 0; j < fileCount; j++)
-			{
-				const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
-				//check if new min
-				if(pairwise_distance > 0.0f && pairwise_distance < min)
-				{
-					min = pairwise_distance;
-				}
-				//check if new max
-				if(pairwise_distance > max)
-				{
-					max = pairwise_distance;
-				}
-			}
-			//calculate closeness limit
-			const float closeness_limit = closeness_factor * (max - min);
-			for (int j = 0; j < fileCount; j++)
-			{
-				const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
-
-				//check for indexes of "too close" sequences
-				if(pairwise_distance > 0.0f && pairwise_distance < closeness_limit)
-				{
-					//HACK:: place index pair in same ordering no matter what -- smaller index == .first larger index .second
-							//always remove the larger index
-					//add to set
-					index_pair_set.emplace(i,j);
-				}
-			}
-		}
-		//log search...
-		std::set<int> remove_indexes;
-		for(auto it = index_pair_set.begin(); it != index_pair_set.end(); it++)
-		{
-			remove_indexes.insert((*it).second);
-		}
-		const int cluster_count = fileCount - remove_indexes.size();
-		this->clusteredResults.append(std::to_string(cluster_count) + '\n');
-
-		//to remove -- itereate through lamda matrix -- writing to results_clustered -- (NO COPYING results)
-			//if i == remove_index -- || j == remove_index --> do not write
-		for(int i = 0; i < fileCount; i++)
-		{
-			//write matrix line/entry if... curent index row (i)-- not removed
-			if (remove_indexes.count(i) == 0)
-			{
-				std::string name = sequence_set_names.at(i);
-				//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
-				DistanceMeasureCalculator::swap_space_with_underscores(name);
-				//write name of matrix table line
-				this->clusteredResults.append(name);
-
-				for (int j = 0; j < fileCount; j++)
-				{
-
-					//if current index column (j) not removed
-					if(remove_indexes.count(j) == 0)
-					{
-						const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
-
-						//write lcs to results
-						this->clusteredResults.append(" ");
-						this->clusteredResults.append(std::to_string(pairwise_distance));
-					}
-				}
-				
-			}
-			this->clusteredResults.append("\n");
-		}
+		this->CalculateClusteredTreeDistanceMeasures(dmc, sequence_set_names);
 
 		this->write_clustered_tree_results(dmc, batch_id, sequence_set_names.size());
+		InternalCalculatorTools::create_clustered_tree(dmc, sequence_set_names, batch_id);
 	}
 
 	
@@ -308,6 +228,111 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 	}
 
 }
+void distanceMeasure::InternalCalculatorTools::CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names)
+{
+	const int fileCount = sequence_set_names.size();
+	//write Large tree matrix -- MINUS "too close" sequences
+	this->WriteClusteredMatrixResults(this->GetClusteredRemovableIndexes(dmc, fileCount), sequence_set_names);
+}
+
+std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const int fileCount) const
+{
+	//set of indexes to cluster
+//removes .second index of CLuster Pair
+	std::set<ClusterPair, ClusterPairCompare> index_pair_set;
+	//std::set<ClusterPair> index_pair_set;
+
+	//const int fileCount = static_cast<int>(sequence_set_names.size());
+	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
+	for (int i = 0; i < fileCount; i++)
+	{
+		float min = INT_MAX;
+		float max = INT_MIN;
+		//go through species matrix line -- pairwise distances
+			//find max and min pairwise distance
+		for (int j = 0; j < fileCount; j++)
+		{
+			const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+			//check if new min
+			if (pairwise_distance > 0.0f && pairwise_distance < min)
+			{
+				min = pairwise_distance;
+			}
+			//check if new max
+			if (pairwise_distance > max)
+			{
+				max = pairwise_distance;
+			}
+		}
+		//calculate closeness limit
+		const float closeness_limit = closeness_factor * (max - min);
+		for (int j = 0; j < fileCount; j++)
+		{
+			const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+
+			//check for indexes of "too close" sequences
+			if (pairwise_distance > 0.0f && pairwise_distance < closeness_limit)
+			{
+				//HACK:: place index pair in same ordering no matter what -- smaller index == .first larger index .second
+						//always remove the larger index
+				//add to set
+				index_pair_set.emplace(i, j);
+			}
+		}
+	}
+	//set -> log search...
+	std::set<int> remove_indexes;
+	for (auto it = index_pair_set.begin(); it != index_pair_set.end(); it++)
+	{
+		remove_indexes.insert((*it).second);
+	}
+	return remove_indexes;
+}
+
+void distanceMeasure::InternalCalculatorTools::WriteClusteredMatrixResults(std::set<int>&& remove_indexes, const std::vector<std::string>& sequence_set_names)
+{
+	const int fileCount = static_cast<int>(sequence_set_names.size());
+
+	//write matrix
+	const int cluster_count = fileCount - static_cast<int>(remove_indexes.size());
+	this->clusteredResults.append(std::to_string(cluster_count) + '\n');
+
+	//to remove -- itereate through lamda matrix -- writing to results_clustered -- (NO COPYING results)
+		//if i == remove_index -- || j == remove_index --> do not write
+	for (int i = 0; i < fileCount; i++)
+	{
+		//write matrix line/entry if... curent index row (i)-- not removed
+		if (remove_indexes.count(i) == 0)
+		{
+			std::string name = sequence_set_names.at(i);
+			//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
+			DistanceMeasureCalculator::swap_space_with_underscores(name);
+			//write name of matrix table line
+			this->clusteredResults.append(name);
+
+			for (int j = 0; j < fileCount; j++)
+			{
+
+				//if current index column (j) not removed
+				if (remove_indexes.count(j) == 0)
+				{
+					const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+
+					//write lcs to results
+					this->clusteredResults.append(" ");
+					this->clusteredResults.append(std::to_string(pairwise_distance));
+				}
+			}
+			this->clusteredResults.append("\n");
+		}
+	}
+}
+
+
+
+
+
+
 void distanceMeasure::InternalCalculatorTools::write_large_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
 {
 	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large

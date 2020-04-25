@@ -11,6 +11,7 @@ January 18 2020
 #include <string>
 #include <vector>
 #include <utility>
+#include <set>
 
 namespace distanceMeasure
 {
@@ -89,6 +90,7 @@ namespace distanceMeasure
 					//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
 		void CalculateLargeTreeDistanceMeasures(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 		static void CalculateAllQuartetsDistanceMeasures(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
+		void CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names);
 
 		//virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount);
 
@@ -117,8 +119,8 @@ namespace distanceMeasure
 		std::vector<float> lamdaMatrix;
 
 		//void GetQuartetsFastMECommand(char* quartets_buffer, const size_t buffer_size, char* input, int count, char* output) const;
-
-
+		void WriteClusteredMatrixResults(std::set<int>&& remove_indexes, const std::vector<std::string>& sequence_set_names);
+		std::set<int> GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const int fileCount) const;
 
 	};
 }
