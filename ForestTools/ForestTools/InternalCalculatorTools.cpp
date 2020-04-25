@@ -239,8 +239,8 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 {
 	//set of indexes to cluster
 //removes .second index of CLuster Pair
-	std::set<ClusterPair, ClusterPairCompare> index_pair_set;
-	//std::set<ClusterPair> index_pair_set;
+	std::set<ClusterPair> index_pair_set;
+	//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
 
 	//const int fileCount = static_cast<int>(sequence_set_names.size());
 	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
@@ -275,8 +275,21 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 			{
 				//HACK:: place index pair in same ordering no matter what -- smaller index == .first larger index .second
 						//always remove the larger index
+					//NOTE::USER DEFINED COMPARATOR (ClusterPairCompare) INVALID...
+						//---> supposed to ignore ordering of pair for equality...
+				int small_index, large_index;
+				if(i < j)
+				{
+					small_index = i;
+					large_index = j;
+				}
+				else
+				{
+					small_index = j;
+					large_index = i;
+				}
 				//add to set
-				index_pair_set.emplace(i, j);
+				index_pair_set.emplace(small_index, large_index);
 			}
 		}
 	}
