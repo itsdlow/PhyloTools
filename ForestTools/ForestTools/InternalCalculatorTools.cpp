@@ -48,8 +48,9 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 	{
 		//set of indexes to cluster
 			//removes .second index of CLuster Pair
-		std::set<ClusterPair, ClusterPairCompare> index_pair_set;
-		
+		//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
+		std::set<ClusterPair> index_pair_set;
+
 		const int fileCount = static_cast<int>(sequence_set_names.size());
 		float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
 		for(int i = 0; i < fileCount; i++)
@@ -81,6 +82,8 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 				//check for indexes of "too close" sequences
 				if(pairwise_distance > 0.0f && pairwise_distance < closeness_limit)
 				{
+					//HACK:: place index pair in same ordering no matter what -- smaller index == .first larger index .second
+							//always remove the larger index
 					//add to set
 					index_pair_set.emplace(i,j);
 				}
@@ -99,18 +102,19 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 			//if i == remove_index -- || j == remove_index --> do not write
 		for(int i = 0; i < fileCount; i++)
 		{
-			std::string name = sequence_set_names.at(i);
-			//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
-			DistanceMeasureCalculator::swap_space_with_underscores(name);
-			//write name of matrix table line
-			this->clusteredResults.append(name);
-
-			for (int j = 0; j < fileCount; j++)
+			//write matrix line/entry if... curent index row (i)-- not removed
+			if (remove_indexes.count(i) == 0)
 			{
+				std::string name = sequence_set_names.at(i);
+				//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
+				DistanceMeasureCalculator::swap_space_with_underscores(name);
+				//write name of matrix table line
+				this->clusteredResults.append(name);
 
-				//write matrix line/entry if... index not i || j
-				if(remove_indexes.count(i) == 0)
+				for (int j = 0; j < fileCount; j++)
 				{
+
+					//if current index column (j) not removed
 					if(remove_indexes.count(j) == 0)
 					{
 						const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));

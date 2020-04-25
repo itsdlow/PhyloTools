@@ -44,12 +44,26 @@ namespace distanceMeasure
 		private:
 			bool pairLess(const ClusterPair& k1, const ClusterPair& k2) const
 			{
-				if (k1.first == k2.first || k1.first == k2.second)
+				if(k1.first == k2.first)
 				{
-					
-					return (k1.second == k2.first || k1.second == k2.second);
+					return k1.second < k2.second;
 				}
-				return k1.first < k2.first;
+				else if(k1.first == k2.second)
+				{
+					return k1.second < k2.first;
+
+				}
+				else
+				{
+					return k1.first < k2.first;
+				}
+				//if (k1.first == k2.first || k1.first == k2.second)
+				//{
+				//	return k1.second == k2.first || k1.second == k2.second);
+
+				//	//return (k1.second == k2.first || k1.second == k2.second);
+				//}
+				//return k1.first < k2.first;
 			}
 		};
 	public:

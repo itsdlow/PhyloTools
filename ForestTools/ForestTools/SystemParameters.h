@@ -40,7 +40,9 @@ public:
 	
 	static const std::string& GetFastaFileFormatString() { return SystemParameters::Instance().fasta_path_format_string; };
 	static const std::string& GetAlignedFileFormatString() { return SystemParameters::Instance().aligned_path_format_string; };
-
+	static const std::string& GetCompressedFastaFileFormatString() { return SystemParameters::Instance().compressed_fasta_path_format_string; };
+	
+	
 	static const std::string& GetMuscleCommandString() { return SystemParameters::Instance().muscle_command_string; };
 	static const std::string& GetCleanDirectoryCommandString() { return SystemParameters::Instance().clean_dir_format_string; };
 
@@ -155,6 +157,8 @@ private:
 	const std::string temp_files_dir = "ForestFiles/TempFiles";
 	//fasta
 	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu_%d.fasta";
+	const std::string compressed_fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
+
 	//aligned
 	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu_%d.afa";
 
