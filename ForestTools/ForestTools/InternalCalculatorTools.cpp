@@ -230,7 +230,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 }
 void distanceMeasure::InternalCalculatorTools::CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names)
 {
-	const int fileCount = sequence_set_names.size();
+	const int fileCount = static_cast<int>(sequence_set_names.size());
 	//write Large tree matrix -- MINUS "too close" sequences
 	this->WriteClusteredMatrixResults(this->GetClusteredRemovableIndexes(dmc, fileCount), sequence_set_names);
 }
@@ -246,7 +246,7 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
 	for (int i = 0; i < fileCount; i++)
 	{
-		float min = INT_MAX;
+		float min = static_cast<float>(INT_MAX);
 		float max = INT_MIN;
 		//go through species matrix line -- pairwise distances
 			//find max and min pairwise distance

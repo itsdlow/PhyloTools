@@ -39,7 +39,7 @@ std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::Distance
 distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
 
 //returns path to initial-full FASTA file
-std::string GetInitialFastaInputPath();
+std::string GetOriginalFastaInputPath();
 
 //TODO::
     // 0) Refactor LcsCalculator code*
@@ -61,71 +61,8 @@ int main()
 
     TryClearingTempFiles();
 	
-    std::string sequence_dir;
+    const std::string sequence_dir = GetOriginalFastaInputPath();
 
-	//receive relative/absolute path of file or directory of sequences to analyze
-        //TODO:: REASLISTICALLy --  Use absolute path of directory (allow for changing of default directory?
-        //
-		//TODO:: ALLOW multiple fasta sequence paths to be given -- concatenate those together for 1
-			//TODO::Should change to implicitly concatenate FASTA files -- if more than one path given
-    int multiple_fasta_inputs_flag;
-    printf("Is your FASTA data in 1 file? No (0), Yes (1)\n");
-    std::cin >> multiple_fasta_inputs_flag;
-
-	if(multiple_fasta_inputs_flag)
-	{
-		printf("Path to Sequences: ");
-	    std::cin >> sequence_dir;
-	}
-    else
-    {
-	    //concatenate all inputs together --> creating 1 FASTA file --> pass to dmo
-			//should allow all input paths on 1 line -> parse by looking for space
-        int more_input_flag = 1;
-        std::string fasta_paths;
-    	while(more_input_flag)
-		{
-            std::string path;
-			//ask user for file name
-            printf("Path to Sequences: ");
-            std::cin >> path;
-            fasta_paths.append(path + " ");
-    		
-            printf("Do you have more FASTA file inputs? No (0), Yes (1)\n");
-            std::cin >> more_input_flag;
-		}//should be done by user in 1 line
-
-    	//*********************************************************************************************
-    	//DO AFTER TAKING IN ALL USER INPUT (after asking batch sequenceLists...)
-    	//concatenate
-        std::string original_fasta_path(SystemParameters::GetTempFilesDirectory());
-        original_fasta_path.append("original.fasta");
-    	//open file to append
-        std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
-
-    	if(original_fasta_file.is_open())
-    	{
-    		//go through entire string
-	        std::string path;
-    		for(auto it = fasta_paths.begin(); it != fasta_paths.end(); it++)
-    		{
-				//if break in string
-				if(*it == ' ')
-				{
-					//open path file -- read + append to new FASTA
-                    std::ifstream intermediary_file(path, std::ios_base::binary);
-                    path.clear();
-                    //of_a.seekp(0, std::ios_base::end);//NOT NEEDED? -- never closing file until finished...
-                    original_fasta_file << intermediary_file.rdbuf();
-				}
-				else
-				{
-					path.push_back(*it);
-				}
-    		}
-    	}
-        original_fasta_file.close();
-    }
 
 
 	//set sequenceNames strategy --> pass to dmo -> fom (instead of sequence_names path)
@@ -192,6 +129,88 @@ void TryClearingTempFiles()
         system(clean_temp_dir_cmd);
 
     }
+}
+
+std::string GetOriginalFastaInputPath()
+{
+    std::string sequence_dir;
+    //receive relative/absolute path of file or directory of sequences to analyze
+    //TODO:: REASLISTICALLy --  Use absolute path of directory (allow for changing of default directory?
+    //
+    //TODO:: ALLOW multiple fasta sequence paths to be given -- concatenate those together for 1
+        //TODO::Should change to implicitly concatenate FASTA files -- if more than one path given
+    int multiple_fasta_inputs_flag;
+    printf("Is your FASTA data in 1 file? No (0), Yes (1)\n");
+    std::cin >> multiple_fasta_inputs_flag;
+
+    if (multiple_fasta_inputs_flag)
+    {
+        printf("Path to FASTA file: ");
+        std::cin >> sequence_dir;
+    }
+    else
+    {
+        printf("Please enter, separated by spaces, all your FASTA file paths:\n");
+        std::string fasta_paths;
+        //ask user for file name
+        std::cin >> fasta_paths;
+        //concatenate all inputs together --> creating 1 FASTA file --> pass to dmo
+            //should allow all input paths on 1 line -> parse by looking for space
+  //      int more_input_flag = 1;
+  //      std::string fasta_paths;
+  //  	while(more_input_flag)
+        //{
+  //          std::string path;
+        //	//ask user for file name
+  //          printf("Path to Sequences: ");
+  //          std::cin >> path;
+  //          fasta_paths.append(path + " ");
+  //  		
+  //          printf("Do you have more FASTA file inputs? No (0), Yes (1)\n");
+  //          std::cin >> more_input_flag;
+        //}//should be done by user in 1 line
+
+        //*********************************************************************************************
+        //DO AFTER TAKING IN ALL USER INPUT (after asking batch sequenceLists...)
+        //concatenate
+        std::string original_fasta_path(SystemParameters::GetTempFilesDirectory());
+        original_fasta_path.append("original.fasta");
+        //open file to append
+        std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
+
+        if (original_fasta_file.is_open())
+        {
+            //go through entire string
+            std::string path;
+            for (auto it = fasta_paths.begin(); it != fasta_paths.end(); it++)
+            {
+                //if break in string
+                if (*it == ' ')
+                {
+                    //open path file -- read + append to new FASTA
+                    std::ifstream intermediary_file(path, std::ios_base::binary);
+                	if(intermediary_file.is_open())
+                	{
+                		path.clear();
+	                    //of_a.seekp(0, std::ios_base::end);//NOT NEEDED? -- never closing file until finished...
+	                    original_fasta_file << intermediary_file.rdbuf();	
+                	}
+                    else
+                    {
+                        printf("Could not open FASTA file at '%s'\n", path.c_str());
+                        exit(0);
+                    }
+                }
+                else
+                {
+                    path.push_back(*it);
+                }
+            }
+        }
+        original_fasta_file.close();
+        sequence_dir = original_fasta_path;
+    }
+    return sequence_dir;
 }
 
 distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()

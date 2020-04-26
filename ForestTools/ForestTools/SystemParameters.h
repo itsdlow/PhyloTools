@@ -46,13 +46,16 @@ public:
 	static const std::string& GetMuscleCommandString() { return SystemParameters::Instance().muscle_command_string; };
 	static const std::string& GetCleanDirectoryCommandString() { return SystemParameters::Instance().clean_dir_format_string; };
 
-	
+
+	static const std::string& GetClusteredMatrixFileFormatString() { return SystemParameters::Instance().clustered_matrix_path_format_string; };
 	static const std::string& GetLargeListMatrixFileFormatString() { return SystemParameters::Instance().large_list_matrix_path_format_string; };
 	static const std::string& GetQuartetMatricesFileFormatString() { return SystemParameters::Instance().quartet_matrices_path_format_string; };
 
 	static const std::string& GetLargeListTreeFileFormatString() { return SystemParameters::Instance().large_list_tree_path_format_string; };
 	static const std::string& GetQuartetTreesFileFormatString() { return SystemParameters::Instance().quartet_trees_path_format_string; };
+	static const std::string& GetClusteredTreeFileFormatString() { return SystemParameters::Instance().clustered_tree_path_format_string; };
 
+	
 	static const std::string& GetFastmeCommandString() { return SystemParameters::Instance().fastme_command_string; };
 
 	//DEBUG LOG getters
@@ -144,6 +147,7 @@ private:
 	//const int tree_file_path_size = 150;
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
 	const std::string quartet_trees_path_format_string = "ForestFiles/Trees/QuartetTrees%s_%zu_%d.newick";
+	const std::string clustered_tree_path_format_string = "ForestFiles/Trees/QuartetTree%s_%zu_%d_clustered.newick";
 	//const int 
 	const std::string fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 
@@ -152,7 +156,8 @@ private:
 	//const int matrix_file_path_size = 150;
 	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
 	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
-
+	const std::string clustered_matrix_path_format_string = "ForestFiles/Matrices/ClusteredMatrix%s_%zu_%d_clustered.txt";
+	
 	// -- allow user to supply directory of tempfiles
 	const std::string temp_files_dir = "ForestFiles/TempFiles";
 	//fasta
