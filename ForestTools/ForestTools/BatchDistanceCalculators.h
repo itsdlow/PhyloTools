@@ -32,7 +32,7 @@ namespace distanceMeasure
 		std::string GetCalculatorName() const override;
 
 		//opens log file -- for derived calc(s)
-		void InitializeSequenceSetTimingsLog() override;
+		void InitializeSequenceSetTimingsLog(const int total_sequence_count) override;
 		//write total calc time to log FILE --> closes file
 		void LogTotalCalculationTime() override;
 

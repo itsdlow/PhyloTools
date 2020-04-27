@@ -62,14 +62,14 @@ namespace distanceMeasure
 		BatchCalculatorsAnalyzer::batch_analyze_sequence_set(sequence_set_names, batch_id);
 	}
 
-	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog()
+	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 	{
-		DistanceMeasureCalculator::InitializeSequenceSetTimingsLog();
+		DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
 		//COMPOSITE... initialize all calc timingsLogFILE
 		for (int i = 0; i < this->calculator_count; i++)
 		{
 			//this->calculators[i]->InitializeSequenceSetTimingsLog();
-			this->calculators[i]->InitializeSequenceSetTimingsLog();
+			this->calculators[i]->InitializeSequenceSetTimingsLog(total_sequence_count);
 			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
 		}
 	}

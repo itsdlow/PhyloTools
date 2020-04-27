@@ -20,6 +20,7 @@ public:
 	//API interface
 	
 	//void Terminate();
+	static void InitializeSystemDependentCommands();
 	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
 	//std::string GetFileFormatString() { return SystemParameters::Instance().format_string; };
@@ -65,6 +66,8 @@ public:
 	static const std::string& GetAlignmentTimingsLogFileFormatString() { return SystemParameters::Instance().alignment_timings_log_path_format_string; };
 	static const std::string& GetSequenceSetAlignmentTimingFormatString() { return SystemParameters::Instance().sequence_set_alignment_timing_format_string; };
 
+	static const std::string& GetClosenessLimitLogFileFormatString() { return SystemParameters::Instance().closeness_limit_log_format_string; };
+	
 	static const std::string& GetAnalysisTableFileFormatString() { return SystemParameters::Instance().analysis_table_filepath; };
 
 	//buffer sizes
@@ -111,7 +114,8 @@ private:
 	static SystemParameters* pInstance;
 
 	//private members
-
+	bool OS_WINDOWS;
+	
 	const int CALCULATOR_COUNT = 5;
 
 	/***************************************************
@@ -138,11 +142,13 @@ private:
 	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d.txt";
 	
 	//DEBUG -- timings log
-	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
+	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s_%d.txt";
 	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f minutes\n\t%s\n";
-	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s.txt";
+	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s_d.txt";
 	const std::string sequence_set_alignment_timing_format_string = "Alignment Time For Sequence Set[%d]: %f minutes\n\t%s\n";
 
+	const std::string closeness_limit_log_format_string = "ForestFiles/Logs/ClosenessLimitLog%s_%zu_%d.txt";
+	
 	//Tree strings
 	//const int tree_file_path_size = 150;
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
@@ -182,9 +188,10 @@ private:
 	const std::string mfc2_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
 	const std::string mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
 
-	
+	//TODO:: intiialize all unix/windows commands in SystemParameters::Initialize -- after System determined...
 	//params -- zipped_file_name input_file_path
-	const std::string zip7_command_string = "extra_tools\\7-Zip\\7z.exe a %s %s";
+	std::string zip7_command_string;// = "extra_tools\\7-Zip\\7z.exe a %s %s > nul";
+	//const std::string zip7_command_string_unix = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
 
 	
 	//MRBAYES

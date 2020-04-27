@@ -16,7 +16,8 @@ January 18 2020
 void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& extension, const std::string& compress_command_format_string)
 {
 	std::string file_object_fasta_string;
-
+	int count = 1;
+	const int sequence_set_size = static_cast<int>(sequence_set_names.size());
 	//use orignal Fileobjects to create fasta file, on sequence_set_names
 	for (auto it = sequence_set_names.begin(); it != sequence_set_names.end(); it++)
 	{
@@ -63,6 +64,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		const int size = GetCompressedFileSize(output_filename, fasta_filename);
 		//store size
 		this->species_compressed_fasta_sizes.emplace_back(pFileObject->GetSequenceName(), size);
+		printf("Calculating compressed Sequence Set: %d/%d\n", count++, sequence_set_size);
 	}
 }
 

@@ -34,6 +34,7 @@ namespace distanceMeasure
 		case 1:
 			//7zip
 			this->extension = "7z";
+			//NOTE::DEPENDECY ISSUE --> SystemnParameteres initialized after FMO, (dmo), calculator...
 			this->compress_command_format_string = SystemParameters::Get7ZipCommandString();
 			break;
 		case 2:
@@ -128,6 +129,8 @@ namespace distanceMeasure
 			max_size = size_j;
 			min_size = size_i;
 		}
+
+		
 		//Measure::
 			//normalize(count) == 1 --> MAXIMALLY DIFFERENT sequences
 			//normalize(count) == 0 --> IDENTICAL SEQUENCES

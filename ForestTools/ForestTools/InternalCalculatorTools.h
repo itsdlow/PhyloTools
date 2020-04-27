@@ -90,7 +90,7 @@ namespace distanceMeasure
 					//fill results buffer with distance Measures + LAMDAMATRIX for allquartetsMethod
 		void CalculateLargeTreeDistanceMeasures(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
 		static void CalculateAllQuartetsDistanceMeasures(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names);
-		void CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names);
+		void CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id);
 
 		//virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount);
 
@@ -106,7 +106,7 @@ namespace distanceMeasure
 		float GetLamdaMatrixDistanceAt(int pos) const;
 		//std::string GetClusteredMatrixFilename();
 	private:
-		//MEMBER VARS --> Allows for breaking larger datasets into multiple writes
+		//MEMBER VARS --> Allows for breaking larger datasets into multiple writes (save memory if needed)
 		FILE* pResults = nullptr;
 		FILE* pQuartetResults = nullptr;
 		FILE* pClusteredResults = nullptr;
@@ -114,14 +114,15 @@ namespace distanceMeasure
 		std::string results;
 		std::string quartetResults;
 		std::string clusteredResults;
-		
+		std::string closeness_limit_log;
 		//2D array (distanceMATRIX) of floats
 		std::vector<float> lamdaMatrix;
 
 		//void GetQuartetsFastMECommand(char* quartets_buffer, const size_t buffer_size, char* input, int count, char* output) const;
 		void WriteClusteredMatrixResults(std::set<int>&& remove_indexes, const std::vector<std::string>& sequence_set_names);
-		std::set<int> GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const int fileCount) const;
-
+		std::set<int> GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id);
+		void WriteSequenceClosenessLimitLog(const std::string& sequence_name, const float closeness_limit);
+		void WriteClosenessLimitLog(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count);
 	};
 }
 

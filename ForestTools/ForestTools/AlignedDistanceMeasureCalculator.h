@@ -31,7 +31,7 @@ namespace distanceMeasure
 
 		//CALLED BY DistanceMatrixCalculator
 		//opens log file -- for derived calc
-		void InitializeSequenceSetTimingsLog() override;
+		void InitializeSequenceSetTimingsLog(const int total_sequence_count) override;
 		//write total calc time to log FILE --> closes file
 		void LogTotalCalculationTime() override;
 

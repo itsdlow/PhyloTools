@@ -58,7 +58,8 @@ std::string GetOriginalFastaInputPath();
 int main()
 {
     std::cout << "Hello World!\n";
-
+    SystemParameters::InitializeSystemDependentCommands();
+	
     TryClearingTempFiles();
 	
     const std::string sequence_dir = GetOriginalFastaInputPath();

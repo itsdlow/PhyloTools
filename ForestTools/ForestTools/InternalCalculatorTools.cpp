@@ -46,7 +46,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 	//if strict || loose clustering
 	if(dmc->GetCalculatorFlags()->closeness_factor > 0)
 	{
-		this->CalculateClusteredTreeDistanceMeasures(dmc, sequence_set_names);
+		this->CalculateClusteredTreeDistanceMeasures(dmc, sequence_set_names, batch_id);
 
 		this->write_clustered_tree_results(dmc, batch_id, sequence_set_names.size());
 		InternalCalculatorTools::create_clustered_tree(dmc, sequence_set_names, batch_id);
@@ -228,21 +228,20 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 	}
 
 }
-void distanceMeasure::InternalCalculatorTools::CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names)
+void distanceMeasure::InternalCalculatorTools::CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
 {
-	const int fileCount = static_cast<int>(sequence_set_names.size());
 	//write Large tree matrix -- MINUS "too close" sequences
-	this->WriteClusteredMatrixResults(this->GetClusteredRemovableIndexes(dmc, fileCount), sequence_set_names);
+	this->WriteClusteredMatrixResults(this->GetClusteredRemovableIndexes(dmc, sequence_set_names, batch_id), sequence_set_names);
 }
 
-std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const int fileCount) const
+std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
 {
 	//set of indexes to cluster
 //removes .second index of CLuster Pair
 	std::set<ClusterPair> index_pair_set;
 	//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
 
-	//const int fileCount = static_cast<int>(sequence_set_names.size());
+	const int fileCount = static_cast<int>(sequence_set_names.size());
 	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
 	for (int i = 0; i < fileCount; i++)
 	{
@@ -266,6 +265,7 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 		}
 		//calculate closeness limit
 		const float closeness_limit = closeness_factor * (max - min);
+		this->WriteSequenceClosenessLimitLog(sequence_set_names.at(i), closeness_limit);
 		for (int j = 0; j < fileCount; j++)
 		{
 			const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
@@ -293,6 +293,8 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 			}
 		}
 	}
+	//write closeness limit log file results
+	this->WriteClosenessLimitLog(dmc, batch_id, sequence_set_names.size());
 	//set -> log search...
 	std::set<int> remove_indexes;
 	for (auto it = index_pair_set.begin(); it != index_pair_set.end(); it++)
@@ -341,9 +343,31 @@ void distanceMeasure::InternalCalculatorTools::WriteClusteredMatrixResults(std::
 	}
 }
 
+void distanceMeasure::InternalCalculatorTools::WriteSequenceClosenessLimitLog(const std::string& sequence_name, const float closeness_limit)
+{	
+	this->closeness_limit_log.append(sequence_name + ": " + std::to_string(closeness_limit) + "\n");
+}
 
+void distanceMeasure::InternalCalculatorTools::WriteClosenessLimitLog(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
+{
+	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large
+	char closeness_limit_file_path[200];
+	dmc->GetClosenessLimitLogFileName(closeness_limit_file_path, 200, batch_number, sequence_count);
 
-
+	FILE* pLog;
+	//WINDOWS DEPENDENCE -- "_s" functions
+	fopen_s(&pLog, closeness_limit_file_path, "w");
+	//this->pResults = fopen(largetree_filename, "w");
+	//this->pQuartetResults = fopen(quartettrees_filename, "w");
+	if (pLog != nullptr)
+	{
+		size_t numBytesWritten = fwrite(this->closeness_limit_log.c_str(), this->closeness_limit_log.length(), 1, pLog);
+		printf("%s written...\n", closeness_limit_file_path);
+		fclose(pLog);
+		//reset string for next batch
+		this->closeness_limit_log.clear();
+	}
+}
 
 
 void distanceMeasure::InternalCalculatorTools::write_large_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)

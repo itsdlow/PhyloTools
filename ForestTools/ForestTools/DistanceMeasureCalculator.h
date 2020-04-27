@@ -45,15 +45,18 @@ namespace distanceMeasure
 		
 		//CALLED BY DistanceMatrixCalculator
 		//opens log file -- for derived calc
-		virtual void InitializeSequenceSetTimingsLog();
+		virtual void InitializeSequenceSetTimingsLog(const int total_sequence_count);
 		//write total calc time to log FILE --> closes file
 		virtual void LogTotalCalculationTime();
+
 		
 		//PRIVATE???
 		double GetCalculationTime() const { return this->calculationTime; };
 		double GetTotalCalculationTime() const { return this->totalCalculationTime; };
 
 
+		
+		
 		void GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
@@ -63,6 +66,8 @@ namespace distanceMeasure
 		void GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const;
+
+		void GetClosenessLimitLogFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 
 			
 		//convert 2d-array index into 1d index

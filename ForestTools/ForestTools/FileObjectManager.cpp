@@ -77,7 +77,9 @@ namespace distanceMeasure
 		this->sequencesPath = new_sequences_path;
 		this->sequenceSetCount = static_cast<int>(sequence_set_names.size());
 		this->currentSequenceNames = sequence_set_names;
+		printf("Creating %d FileObjects for this Sequence Set\n", this->sequenceSetCount);
 		this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
+		
 	}
 
 	//const std::vector<std::string> FileObjectManager::FillSequenceNamesVector(const std::string& sequence_names_path)

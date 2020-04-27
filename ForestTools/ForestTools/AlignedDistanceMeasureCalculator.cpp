@@ -59,11 +59,11 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 
 }
 
-void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTimingsLog()
+void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 {
-	DistanceMeasureCalculator::InitializeSequenceSetTimingsLog();
+	DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
 	char alignment_log_file_path[100];
-	sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
+	sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
 
 	//open file
 	fopen_s(&this->pAlignmentTimingsLogFile, alignment_log_file_path, "w");

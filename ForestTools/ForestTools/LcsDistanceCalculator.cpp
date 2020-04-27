@@ -120,7 +120,7 @@ namespace distanceMeasure
 
 		float normalizedDistance = float(maxSequenceSize - lcs) / maxSequenceSize;
 
-		printf("%f -- %d -- %d\n", normalizedDistance, lcs, maxSequenceSize);
+		//printf("%f -- %d -- %d\n", normalizedDistance, lcs, maxSequenceSize);
 		return normalizedDistance;
 	}
 
