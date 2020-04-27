@@ -43,8 +43,9 @@ namespace distanceMeasure
 		//replace all spaces w/ "__underscores__"
 		for (auto i = 0u; i < description_string.size(); i++)
 		{
+			//TODO:: clean up
 			//remove underscores and commas
-			if (description_string.at(i) == '_' || description_string.at(i) == ',')
+			if (description_string.at(i) == '_' || description_string.at(i) == ',' || description_string.at(i) == ':' || description_string.at(i) == '(' || description_string.at(i) == ')')
 			{
 				description_string.replace(i, 1u, 1u, ' ');
 			}

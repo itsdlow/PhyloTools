@@ -34,6 +34,7 @@ namespace distanceMeasure
 		if (!fastaInput.is_open())
 		{
 			printf("File at path: %s - could not be opened\nFile Objects not to be created\n", pFOM->get_sequence_set_path().c_str());
+			exit(0);
 		}
 		else
 		{

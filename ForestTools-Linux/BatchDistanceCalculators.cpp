@@ -62,14 +62,14 @@ namespace distanceMeasure
 		BatchCalculatorsAnalyzer::batch_analyze_sequence_set(sequence_set_names, batch_id);
 	}
 
-	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog()
+	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 	{
-		DistanceMeasureCalculator::InitializeSequenceSetTimingsLog();
+		DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
 		//COMPOSITE... initialize all calc timingsLogFILE
 		for (int i = 0; i < this->calculator_count; i++)
 		{
 			//this->calculators[i]->InitializeSequenceSetTimingsLog();
-			this->calculators[i]->InitializeSequenceSetTimingsLog();
+			this->calculators[i]->InitializeSequenceSetTimingsLog(total_sequence_count);
 			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
 		}
 	}
@@ -136,7 +136,7 @@ namespace distanceMeasure
 
 
 	//internal calc specific function -- NOT NEEDED
-	void distanceMeasure::BatchDistanceCalculators::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount)
+	void distanceMeasure::BatchDistanceCalculators::write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count)
 	{
 		//by default DMC does not have method to write quartet matrix -- derived Internal CAlculators define...
 	}

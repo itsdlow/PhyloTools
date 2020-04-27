@@ -34,6 +34,7 @@ namespace distanceMeasure
 		case 1:
 			//7zip
 			this->extension = "7z";
+
 			this->compress_command_format_string = SystemParameters::Get7ZipCommandString();
 			break;
 		case 2:

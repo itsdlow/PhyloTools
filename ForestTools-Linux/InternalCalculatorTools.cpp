@@ -11,6 +11,7 @@ January 18 2020
 #include "SystemParameters.h"
 #include "DistanceMeasureCalculator.h"
 #include "FileObjectManager.h"
+//#include <set>
 
 
 void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
@@ -24,6 +25,37 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 	//calculate LargeTree giving sequence_names_list
 	this->CalculateLargeTreeDistanceMeasures(dmc, fileObjectManager, sequence_set_names);
 
+	/***************************************************************************************************************************
+	//TODO::ADD CLUSTERING (should only be enabled when dealing with all InternalCalculators (or non-batchCalculator->Internal)
+		//check this->lamda
+			//look for any pairwise distances that are very close (0.0 - 0.???)
+		//NOT IMPLEMENTED:: strict -- loose -- none -------> clustering
+		//determine "closeness-limit" based on min-max pairwise distance (for each species (species1 -- speciesX) )
+
+		//CLUSTERING FILTER -- creates an additional tree with like-sequences clustered into 1
+	****************************************************************************************************************************/
+	//Get closeness-limit for each sequence -- check if species "too" close
+				//------> remove "other" species from matrix???
+
+	//iterate through lambda matrix
+		//get min and max pairwise distance for -- 1 species matrix line
+			//calc "closeness-limit" (closeness_factor * max_pairwise_distance_diff)
+		//reiterate through same line of lamda -- check against closeness_limit -- add index of (species, species_to_remove) pair
+			//---> add to std::set --> supply compare function...
+			//NOTE:: add pair --> no duplicates allowed i.e. --> (species_0 <--> species_3) + (species_3 <-> species_0)
+	//if strict || loose clustering
+	if(dmc->GetCalculatorFlags()->closeness_factor > 0)
+	{
+		this->CalculateClusteredTreeDistanceMeasures(dmc, sequence_set_names, batch_id);
+
+		this->write_clustered_tree_results(dmc, batch_id, sequence_set_names.size());
+		InternalCalculatorTools::create_clustered_tree(dmc, sequence_set_names, batch_id);
+	}
+
+	
+
+		
+	//NOTE: MUST - change sequence_set_names to reflect removed sequences
 	if(dmc->GetCalculatorFlags()->generate_quartets)
 	{
 		//calculate quartets tree matrix
@@ -82,6 +114,27 @@ void distanceMeasure::InternalCalculatorTools::create_quartet_trees(DistanceMeas
 	system(fastme_quartets_command);
 
 	printf("FastME command executed -- Quartet Trees Generated\n");
+}
+void distanceMeasure::InternalCalculatorTools::create_clustered_tree(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
+{
+	//get batch_ID_matrix FILE (quartets + LargeList)
+		//feed to fastme
+		//********************************************
+	const int sequence_set_count = static_cast<int>(sequence_set_names.size());
+	//Get current_sequence-set_matrix files
+	char clustered_matrix_file_path[200];
+	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, 200, batch_id, sequence_set_count);
+
+	//get path for new_tree files
+	char clustered_tree_file_path[200];
+	dmc->GetClusteredTreeFileName(clustered_tree_file_path, 200, batch_id, sequence_set_count);
+
+	char fastme_command[200];
+	dmc->GetFastMECommand(fastme_command, 200, clustered_matrix_file_path, 1, clustered_tree_file_path);
+
+	system(fastme_command);
+
+	printf("FastME command executed -- Clustered Tree Generated\n");
 }
 
 //calculate LargeTree (w/o quartets) Distance Matrix -- phylib format
@@ -170,8 +223,8 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 					}
 					
 					//pass FOM in for Pvalue Calc--> does not use lambda matrix
-					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount);//appended to quartetsResult
-					count++;
+					dmc->write_quartet_matrix(fileObjectManager, indexV, sequence_set_names, fileCount, count++);//appended to quartetsResult
+					//count++;
 					//NOTE:: CHANGE TO '\r' when other debug print statements removed (mr mrbayes/alignment output interfers)
 					printf("%d/%d %s Quartet Matrices calculated...\n", count, totalQuartets, dmc->GetCalculatorName().c_str());
 				}
@@ -180,10 +233,155 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 	}
 
 }
+void distanceMeasure::InternalCalculatorTools::CalculateClusteredTreeDistanceMeasures(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
+{
+	//write Large tree matrix -- MINUS "too close" sequences
+	this->WriteClusteredMatrixResults(this->GetClusteredRemovableIndexes(dmc, sequence_set_names, batch_id), sequence_set_names);
+}
+
+std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableIndexes(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
+{
+	//set of indexes to cluster
+//removes .second index of CLuster Pair
+	std::set<ClusterPair> index_pair_set;
+	//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
+
+	const int fileCount = static_cast<int>(sequence_set_names.size());
+	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
+	for (int i = 0; i < fileCount; i++)
+	{
+		float min = static_cast<float>(INT_MAX);
+		float max = INT_MIN;
+		//go through species matrix line -- pairwise distances
+			//find max and min pairwise distance
+		for (int j = 0; j < fileCount; j++)
+		{
+			const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+			//check if new min
+			if (pairwise_distance > 0.0f && pairwise_distance < min)
+			{
+				min = pairwise_distance;
+			}
+			//check if new max
+			if (pairwise_distance > max)
+			{
+				max = pairwise_distance;
+			}
+		}
+		//calculate closeness limit
+		const float closeness_limit = closeness_factor * (max - min);
+		this->WriteSequenceClosenessLimitLog(sequence_set_names.at(i), closeness_limit);
+		for (int j = 0; j < fileCount; j++)
+		{
+			const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+
+			//check for indexes of "too close" sequences
+			if (pairwise_distance > 0.0f && pairwise_distance < closeness_limit)
+			{
+				//HACK:: place index pair in same ordering no matter what -- smaller index == .first larger index .second
+						//always remove the larger index
+					//NOTE::USER DEFINED COMPARATOR (ClusterPairCompare) INVALID...
+						//---> supposed to ignore ordering of pair for equality...
+				int small_index, large_index;
+				if(i < j)
+				{
+					small_index = i;
+					large_index = j;
+				}
+				else
+				{
+					small_index = j;
+					large_index = i;
+				}
+				//add to set
+				index_pair_set.emplace(small_index, large_index);
+			}
+		}
+	}
+	//write closeness limit log file results
+	this->WriteClosenessLimitLog(dmc, batch_id, sequence_set_names.size());
+	//set -> log search...
+	std::set<int> remove_indexes;
+	for (auto it = index_pair_set.begin(); it != index_pair_set.end(); it++)
+	{
+		remove_indexes.insert((*it).second);
+	}
+	return remove_indexes;
+}
+
+void distanceMeasure::InternalCalculatorTools::WriteClusteredMatrixResults(std::set<int>&& remove_indexes, const std::vector<std::string>& sequence_set_names)
+{
+	const int fileCount = static_cast<int>(sequence_set_names.size());
+
+	//write matrix
+	const int cluster_count = fileCount - static_cast<int>(remove_indexes.size());
+	this->clusteredResults.append(std::to_string(cluster_count) + '\n');
+
+	//to remove -- itereate through lamda matrix -- writing to results_clustered -- (NO COPYING results)
+		//if i == remove_index -- || j == remove_index --> do not write
+	for (int i = 0; i < fileCount; i++)
+	{
+		//write matrix line/entry if... curent index row (i)-- not removed
+		if (remove_indexes.count(i) == 0)
+		{
+			std::string name = sequence_set_names.at(i);
+			//NOTE:: refine so dont need to always swap -- change FOM to store one-word-sequence_names... need both forms (searching FOM --> spaces -- creating output --> one-word)
+			DistanceMeasureCalculator::swap_space_with_underscores(name);
+			//write name of matrix table line
+			this->clusteredResults.append(name);
+
+			for (int j = 0; j < fileCount; j++)
+			{
+
+				//if current index column (j) not removed
+				if (remove_indexes.count(j) == 0)
+				{
+					const float pairwise_distance = this->GetLamdaMatrixDistanceAt(DistanceMeasureCalculator::getArrayIndex(i, j, fileCount));
+
+					//write lcs to results
+					this->clusteredResults.append(" ");
+					this->clusteredResults.append(std::to_string(pairwise_distance));
+				}
+			}
+			this->clusteredResults.append("\n");
+		}
+	}
+}
+
+void distanceMeasure::InternalCalculatorTools::WriteSequenceClosenessLimitLog(const std::string& sequence_name, const float closeness_limit)
+{	
+	this->closeness_limit_log.append(sequence_name + ": " + std::to_string(closeness_limit) + "\n");
+}
+
+void distanceMeasure::InternalCalculatorTools::WriteClosenessLimitLog(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
+{
+	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large
+	char closeness_limit_file_path[200];
+	dmc->GetClosenessLimitLogFileName(closeness_limit_file_path, 200, batch_number, sequence_count);
+
+	//FILE* pLog;
+	//WINDOWS DEPENDENCE -- "_s" functions
+	//fopen_s(&pLog, closeness_limit_file_path, "w");
+
+
+
+	FILE* pLog = fopen(closeness_limit_file_path, "w");
+	if (pLog != nullptr)
+	{
+		size_t numBytesWritten = fwrite(this->closeness_limit_log.c_str(), this->closeness_limit_log.length(), 1, pLog);
+		printf("%s written...\n", closeness_limit_file_path);
+		fclose(pLog);
+		//reset string for next batch
+		this->closeness_limit_log.clear();
+	}
+}
+
+
 void distanceMeasure::InternalCalculatorTools::write_large_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
 {
-	char largelist_matrix_file_path[100];
-	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_number, sequence_count);
+	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large
+	char largelist_matrix_file_path[200];
+	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 200, batch_number, sequence_count);
 
 
 	//WINDOWS DEPENDENCE -- "_s" functions
@@ -203,8 +401,8 @@ void distanceMeasure::InternalCalculatorTools::write_large_tree_results(Distance
 }
 void distanceMeasure::InternalCalculatorTools::write_quartets_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
 {
-	char quartet_matrices_file_path[100];
-	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_number, sequence_count);
+	char quartet_matrices_file_path[200];
+	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 200, batch_number, sequence_count);
 
 
 	//WINDOWS DEPENDENCE -- "_s" functions
@@ -221,6 +419,27 @@ void distanceMeasure::InternalCalculatorTools::write_quartets_results(DistanceMe
 		this->quartetResults.clear();
 	}
 }
+void distanceMeasure::InternalCalculatorTools::write_clustered_tree_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
+{
+	char clustered_matrix_file_path[200];
+	//dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 200, batch_number, sequence_count);
+	//std::string clustered_matrix_file_path(largelist_matrix_file_path);
+	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, 200, batch_number, sequence_count);
+
+	//WINDOWS DEPENDENCE -- "_s" functions
+	//fopen_s(&this->pClusteredResults, clustered_matrix_file_path, "w");
+
+	this->pClusteredResults = fopen(clustered_matrix_file_path, "w");
+	if (this->pClusteredResults != nullptr)
+	{
+		size_t numBytesWritten = fwrite(this->clusteredResults.c_str(), this->clusteredResults.length(), 1, this->pClusteredResults);
+		printf("%s written...\n", clustered_matrix_file_path);
+		fclose(this->pClusteredResults);
+		//reset string for next batch
+		this->clusteredResults.clear();
+	}
+}
+
 
 float distanceMeasure::InternalCalculatorTools::GetLamdaMatrixDistanceAt(int pos) const
 {

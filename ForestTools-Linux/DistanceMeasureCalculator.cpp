@@ -112,6 +112,21 @@ std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetStri
 
 
 //fills given buffer
+void distanceMeasure::DistanceMeasureCalculator::GetClosenessLimitLogFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf(buffer, SystemParameters::GetClosenessLimitLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+
+}
+void distanceMeasure::DistanceMeasureCalculator::GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+
+	sprintf(buffer, SystemParameters::GetClusteredMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+void distanceMeasure::DistanceMeasureCalculator::GetClusteredTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
+{
+	sprintf(buffer, SystemParameters::GetClusteredTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+}
+
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const
 {
 	sprintf(buffer, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
@@ -177,12 +192,11 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 	}
 }
 
-void distanceMeasure::DistanceMeasureCalculator::InitializeSequenceSetTimingsLog()
+void distanceMeasure::DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 {
 	char log_file_path[100];
-	//sprintf_s(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
-	sprintf(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
-
+	//sprintf_s(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
+	sprintf(log_file_path, SystemParameters::GetTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
 
 	//open file
 	//fopen_s(&this->pTimingsLogFile, log_file_path, "w");

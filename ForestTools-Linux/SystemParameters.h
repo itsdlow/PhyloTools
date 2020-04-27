@@ -20,6 +20,7 @@ public:
 	//API interface
 	
 	//void Terminate();
+	static void InitializeSystemDependentCommands();
 	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
 	//std::string GetFileFormatString() { return SystemParameters::Instance().format_string; };
@@ -34,17 +35,28 @@ public:
 	static const std::string& GetMrBayesCommandString() { return SystemParameters::Instance().mrbayes_command_string; };
 	static const std::string& GetMrBayesBlockString() { return SystemParameters::Instance().mrbayes_block_string; };
 
+	static const std::string& GetTempFilesDirectory() { return SystemParameters::Instance().temp_files_dir; };
+	static const std::string& GetMrBayesFilesDirectory() { return SystemParameters::Instance().mrbayes_files_dir; };
+
+	
 	static const std::string& GetFastaFileFormatString() { return SystemParameters::Instance().fasta_path_format_string; };
-
 	static const std::string& GetAlignedFileFormatString() { return SystemParameters::Instance().aligned_path_format_string; };
+	static const std::string& GetCompressedFastaFileFormatString() { return SystemParameters::Instance().compressed_fasta_path_format_string; };
+	
+	
 	static const std::string& GetMuscleCommandString() { return SystemParameters::Instance().muscle_command_string; };
+	static const std::string& GetCleanDirectoryCommandString() { return SystemParameters::Instance().clean_dir_format_string; };
 
+
+	static const std::string& GetClusteredMatrixFileFormatString() { return SystemParameters::Instance().clustered_matrix_path_format_string; };
 	static const std::string& GetLargeListMatrixFileFormatString() { return SystemParameters::Instance().large_list_matrix_path_format_string; };
 	static const std::string& GetQuartetMatricesFileFormatString() { return SystemParameters::Instance().quartet_matrices_path_format_string; };
 
 	static const std::string& GetLargeListTreeFileFormatString() { return SystemParameters::Instance().large_list_tree_path_format_string; };
 	static const std::string& GetQuartetTreesFileFormatString() { return SystemParameters::Instance().quartet_trees_path_format_string; };
+	static const std::string& GetClusteredTreeFileFormatString() { return SystemParameters::Instance().clustered_tree_path_format_string; };
 
+	
 	static const std::string& GetFastmeCommandString() { return SystemParameters::Instance().fastme_command_string; };
 
 	//DEBUG LOG getters
@@ -54,6 +66,8 @@ public:
 	static const std::string& GetAlignmentTimingsLogFileFormatString() { return SystemParameters::Instance().alignment_timings_log_path_format_string; };
 	static const std::string& GetSequenceSetAlignmentTimingFormatString() { return SystemParameters::Instance().sequence_set_alignment_timing_format_string; };
 
+	static const std::string& GetClosenessLimitLogFileFormatString() { return SystemParameters::Instance().closeness_limit_log_format_string; };
+	
 	static const std::string& GetAnalysisTableFileFormatString() { return SystemParameters::Instance().analysis_table_filepath; };
 
 	//buffer sizes
@@ -100,7 +114,8 @@ private:
 	static SystemParameters* pInstance;
 
 	//private members
-
+	bool OS_WINDOWS;
+	
 	const int CALCULATOR_COUNT = 5;
 
 	/***************************************************
@@ -127,15 +142,18 @@ private:
 	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d.txt";
 	
 	//DEBUG -- timings log
-	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s.txt";
+	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s_%d.txt";
 	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f minutes\n\t%s\n";
-	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s.txt";
+	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s_d.txt";
 	const std::string sequence_set_alignment_timing_format_string = "Alignment Time For Sequence Set[%d]: %f minutes\n\t%s\n";
 
+	const std::string closeness_limit_log_format_string = "ForestFiles/Logs/ClosenessLimitLog%s_%zu_%d.txt";
+	
 	//Tree strings
 	//const int tree_file_path_size = 150;
 	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
 	const std::string quartet_trees_path_format_string = "ForestFiles/Trees/QuartetTrees%s_%zu_%d.newick";
+	const std::string clustered_tree_path_format_string = "ForestFiles/Trees/QuartetTree%s_%zu_%d_clustered.newick";
 	//const int 
 	const std::string fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 
@@ -144,15 +162,24 @@ private:
 	//const int matrix_file_path_size = 150;
 	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
 	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
+	const std::string clustered_matrix_path_format_string = "ForestFiles/Matrices/ClusteredMatrix%s_%zu_%d_clustered.txt";
+	
+	// -- allow user to supply directory of tempfiles
+	const std::string temp_files_dir = "ForestFiles/TempFiles";
 	//fasta
-	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
+	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu_%d.fasta";
+	const std::string compressed_fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
 
 	//aligned
-	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu_%zu.afa";
+	const std::string aligned_path_format_string = "ForestFiles/TempFiles/temp_%zu_%d.afa";
+
 	//muscle command
 	//WINDOWS DEPENDENCE
 	const std::string muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
 
+	//remove dir command
+	const std::string clean_dir_format_string = "rm -v %s/*";
+	
 	//NCD
 	const std::string compressed_file_format_string = "ForestFiles/TempFiles/CompressedFile.%s";
 	//takes as parameters - compression_type (1-3) + output filename + Original Input FASTA Filename
@@ -161,9 +188,10 @@ private:
 	const std::string mfc2_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
 	const std::string mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
 
-	
+	//TODO:: intiialize all unix/windows commands in SystemParameters::Initialize -- after System determined...
 	//params -- zipped_file_name input_file_path
-	const std::string zip7_command_string = "extra_tools\\7-Zip\\7z.exe a %s %s";
+	std::string zip7_command_string;// = "extra_tools\\7-Zip\\7z.exe a %s %s > nul";
+	//const std::string zip7_command_string_unix = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
 
 	
 	//MRBAYES
@@ -173,7 +201,8 @@ private:
 	const int mrbayes_nchains = 1;
 
 	const std::string nexus_data_type_string = "DNA";
-	//TODO:: add batch number to nexus_file format string???
+	//TODO:: add batch number to nexus_file format string??? -- allow user to supply directory of tempfiles
+	const std::string mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
 	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";
 	const std::string nexus_header_format_string = "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = %s GAP = %c MISSING = %c;\n\tMATRIX\n";
 	//Windows Dependence

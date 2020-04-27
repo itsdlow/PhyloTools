@@ -63,7 +63,7 @@ namespace distanceMeasure
 			int batch_count = 0;
 			
 			//opens log file(s)
-			this->distanceMeasureFunc->InitializeSequenceSetTimingsLog();
+			this->distanceMeasureFunc->InitializeSequenceSetTimingsLog(this->fileObjectManager.get_file_count());
 			//while more matrix/tree - sets
 			while(std::getline(fastaInput, line))
 			{				

@@ -40,12 +40,12 @@ namespace distanceMeasure
 		//internal calc specific
 		virtual float calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const = 0;
 		virtual float normalize(int differenceCount, int sequencesize) const = 0;
-		virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount) = 0;
+		virtual void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count) = 0;
 
 		
 		//CALLED BY DistanceMatrixCalculator
 		//opens log file -- for derived calc
-		virtual void InitializeSequenceSetTimingsLog();
+		virtual void InitializeSequenceSetTimingsLog(const int total_sequence_count);
 		//write total calc time to log FILE --> closes file
 		virtual void LogTotalCalculationTime();
 		
@@ -54,12 +54,19 @@ namespace distanceMeasure
 		double GetTotalCalculationTime() const { return this->totalCalculationTime; };
 
 
+		
+		
 		void GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 
+		
 		void GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 		void GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const;
+
+		void GetClosenessLimitLogFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
 
 			
 		//convert 2d-array index into 1d index
