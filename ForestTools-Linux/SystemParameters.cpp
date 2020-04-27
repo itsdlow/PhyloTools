@@ -25,7 +25,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 	}
 	else
 	{
-		SystemParameters::Instance().zip7_command_string = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
+		SystemParameters::Instance().zip7_command_string = "7z a %s %s";//".extra_tools/7-Zip/7z a %s %s > /dev/null";
 	}
 }
 

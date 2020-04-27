@@ -16,11 +16,13 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 {
 	char fasta_filename[150];
 	std::size_t sequence_count = sequence_set_names.size();
-	sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
+	//sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
+	sprintf(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
 
 	//try to open file
-	FILE* exiting_fasta_file;
-	fopen_s(&exiting_fasta_file, fasta_filename, "rb");
+	//FILE* exiting_fasta_file;
+	//fopen_s(&exiting_fasta_file, fasta_filename, "rb");
+	FILE* exiting_fasta_file = fopen(fasta_filename, "rb");
 	//NOTE:: ASSUMPTION:: NO incomplete .fasta files (if .fasta exists -- is correct)
 	if (!exiting_fasta_file)
 	{
