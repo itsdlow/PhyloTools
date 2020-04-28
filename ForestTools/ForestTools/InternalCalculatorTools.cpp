@@ -169,7 +169,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateLargeTreeDistanceMeasure
 
 		this->results.append("\n");
 		//NOTE:: CHANGE TO '\r' when other debug print statements removed
-		printf("\t%zu %s calculations performed -- %zu calculations remaining...\n", fileCount, dmc->GetCalculatorName().c_str(), (fileCount * fileCount) - (fileCount + (i * fileCount)));
+		printf("\t%zu %s matrix distances calculated -- %d/%zu row calculations performed...\n", fileCount, dmc->GetCalculatorName().c_str(), static_cast<int>(i) + 1, fileCount);
 	}
 }
 
