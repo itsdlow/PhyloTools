@@ -65,7 +65,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTim
 	char alignment_log_file_path[100];
 	//WINDOWS DEPENDENCE
 	//sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
-	sprintf(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), , total_sequence_count);
+	sprintf(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
 
 	//open file
 	//fopen_s(&this->pAlignmentTimingsLogFile, alignment_log_file_path, "w");

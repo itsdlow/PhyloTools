@@ -152,25 +152,25 @@ std::string GetOriginalFastaInputPath()
     }
     else
     {
-        printf("Please enter, separated by spaces, all your FASTA file paths:\n");
-        std::string fasta_paths;
+        //printf("Please enter, separated by spaces, all your FASTA file paths:\n");
+        //std::string fasta_paths;
         //ask user for file name
-        std::cin >> fasta_paths;
+        //std::cin >> fasta_paths;
         //concatenate all inputs together --> creating 1 FASTA file --> pass to dmo
             //should allow all input paths on 1 line -> parse by looking for space
-  //      int more_input_flag = 1;
-  //      std::string fasta_paths;
-  //  	while(more_input_flag)
-        //{
-  //          std::string path;
-        //	//ask user for file name
-  //          printf("Path to Sequences: ");
-  //          std::cin >> path;
-  //          fasta_paths.append(path + " ");
-  //  		
-  //          printf("Do you have more FASTA file inputs? No (0), Yes (1)\n");
-  //          std::cin >> more_input_flag;
-        //}//should be done by user in 1 line
+        int more_input_flag = 1;
+        std::string fasta_paths;
+    	while(more_input_flag)
+        {
+            std::string path;
+        	//ask user for file name
+            printf("Path to Sequences: ");
+            std::cin >> path;
+            fasta_paths.append(path + " ");
+   		
+            printf("Do you have more FASTA file inputs? No (0), Yes (1)\n");
+            std::cin >> more_input_flag;
+        }//should be done by user in 1 line
 
         //*********************************************************************************************
         //DO AFTER TAKING IN ALL USER INPUT (after asking batch sequenceLists...)

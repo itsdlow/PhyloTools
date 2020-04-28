@@ -250,8 +250,8 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
 	for (int i = 0; i < fileCount; i++)
 	{
-		float min = static_cast<float>(INT_MAX);
-		float max = INT_MIN;
+		float min = -1.0f;
+		float max = 1.0f;
 		//go through species matrix line -- pairwise distances
 			//find max and min pairwise distance
 		for (int j = 0; j < fileCount; j++)

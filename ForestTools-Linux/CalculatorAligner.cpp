@@ -18,7 +18,8 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 {
 	char aligned_file_path[150];
 	//WINDOWS DEPENDENCE
-	sprintf_s(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), hash_id);
+	//sprintf_s(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), hash_id);
+	sprintf(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), hash_id);
 
 	//TODO::...check if .afa file already created + size != 0
 	FILE* aligned_file = fopen(aligned_file_path, "rb");

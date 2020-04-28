@@ -17,11 +17,9 @@ phylotools_SOURCES = \
 	CalculatorNexusFormatter.cpp			CalculatorNexusFormatter.h			\
 	DistanceMatrixObject.cpp				DistanceMatrixObject.h				\
 	DistanceMeasureCalculator.cpp			DistanceMeasureCalculator.h			\
-	ExternalDistanceMeasureCalculator.cpp	ExternalDistanceMeasureCalculator.h	\
 	FileObject.cpp							FileObject.h						\
 	FileObjectManager.cpp					FileObjectManager.h					\
 	InternalCalculatorTools.cpp				InternalCalculatorTools.h			\
-	InternalDistanceMeasureCalculator.cpp	InternalDistanceMeasureCalculator.h	\
 	LcsDistanceCalculator.cpp				LcsDistanceCalculator.h				\
 	MrBayesDistanceCalculator.cpp			MrBayesDistanceCalculator.h			\
 	NcdDistanceCalculator.cpp				NcdDistanceCalculator.h				\
@@ -55,11 +53,9 @@ INCLUDES = \
 	CalculatorNexusFormatter.cpp			\
 	DistanceMatrixObject.cpp				\
 	DistanceMeasureCalculator.cpp			\
-	ExternalDistanceMeasureCalculator.cpp	\
 	FileObject.cpp							\
 	FileObjectManager.cpp					\
 	InternalCalculatorTools.cpp				\
-	InternalDistanceMeasureCalculator.cpp	\
 	LcsDistanceCalculator.cpp				\
 	MrBayesDistanceCalculator.cpp			\
 	NcdDistanceCalculator.cpp				\
