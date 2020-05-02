@@ -69,6 +69,10 @@ namespace distanceMeasure
 		}
 		//NOTE::last sequence_sets, of sequence_set_size --> written in LogTotalCalc..()
 	}
+	//TODO:: seperate BatchCalculatorAnalyzer & TreeAnalyzer
+		//batch calc analyzer --> deals with iterating through sequence sets
+		//TreeAnalyzer --> contains Compatibility Table Vectors, takes file names of newick trees
+			//calls Tree analysis functions + writes tables
 	/*****************************************************************************************
 	 *				
 	******************************************************************************************/

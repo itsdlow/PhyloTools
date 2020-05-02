@@ -64,7 +64,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		const int size = GetCompressedFileSize(output_filename, fasta_filename);
 		//store size
 		this->species_compressed_fasta_sizes.emplace_back(pFileObject->GetSequenceName(), size);
-		printf("Calculating compressed Sequence Set: %d/%d\n", count++, sequence_set_size);
+		printf("Calculating compressed Sequence Set: %d/%d\r", count++, sequence_set_size);
 	}
 }
 
