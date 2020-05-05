@@ -3,56 +3,17 @@
 README
 	This file.
 
-MFCompressC.c
-	The encoder main program.
+MFCompressC
+	The encoder binary for 32-bit linux.
 
-MFCompressD.c
-	The decoder main program.
-
-Makefile.linux
-	Makefile for the linux operating system. Type "make -f Makefile.linux"
-	to get the "MFCompressC" (encoder) and "MFCompressD" (decoder) executables.
-
-Makefile.win32
-	Makefile for cross-compiling in linux to the windows (32 bits) operating
-	system. Type "make -f Makefile.win32" to get the "MFCompressC32.exe"
-	(encoder) and "MFCompressD32.exe" (decoder) executables. You need to
-	have installed MinGW-w64 (http://mingw-w64.sourceforge.net/) to be able
-	to generate these binaries. If you do not know what I'm talking about,
-	please use the precompiled executables available in a companion package.
-
-Makefile.win64
-	Makefile for cross-compiling in linux to the windows (64 bits) operating
-	system. Type "make -f Makefile.win64" to get the "MFCompressC64.exe"
-	(encoder) and "MFCompressD64.exe" (decoder) executables. You need to
-	have installed MinGW-w64 (http://mingw-w64.sourceforge.net/) to be able
-	to generate these binaries. If you do not know what I'm talking about,
-	please use the precompiled executables available in a companion package.
-
-arith_aux.c arith_aux.h arith.c arith.h bitio.c bitio.h
-	Functions that implement the aritmetic encoder/decoder.
-
-defs.h
-	Definition of some data types and parameters.
-
-fasta.c fasta.h
-	Functions for handling fasta and multi-fasta files.
-
-fcm.c fcm.h
-	Functions for handling the finite-context models.
-
-io.c io.h
-	Functions for input/output operations.
-
-mem.c mem.h
-	Functions for accounting memory usage.
+MFCompressD
+	The decoder binary for 32-bit linux.
 
 example.fa
 	Example of a multi-fasta file (this is file CAM_PROJ_MarineBrine.read.fa
 	from the CAMERA data set).
 
-=== The MFCompressC/MFCompressC32.exe/MFCompressC64.exe programs have the
-    following interface:
+=== The MFCompressC program has the following interface:
 
 MFCompressC [ -o EncodedFile ]
             [ -v (verbose) ]
@@ -65,9 +26,9 @@ MFCompressC [ -o EncodedFile ]
             MultiFastaFile
 
 -o EncodedFile
-	If present, it writes the encoded data into file "EncodedFile". If not
-	present, the output file name is the same as the input file name with
-	".mfc" appended.
+    If present, it writes the encoded data into file "EncodedFile". If not
+    present, the output file name is the same as the input file name with
+    ".mfc" appended.
 
 -v
 	Verbose. Some additional information is displayed.
@@ -107,8 +68,7 @@ MFCompressC [ -o EncodedFile ]
 MultiFastaFile
 	The fasta or multi-fasta to encode.
 
-=== The MFCompressD/MFCompressD32.exe/MFCompressD64.exe programs have the
-    following interface:
+=== The MFCompressD program has the following interface:
 
 MFCompressD [ -o MultiFastaFile ]
             [ -v (verbose) ]
@@ -119,9 +79,9 @@ MFCompressD [ -o MultiFastaFile ]
             EncodedFile
 
 -o MultiFastaFile
-	If present, it writes the decoded data into file "MultiFastaFile".
-	If not present, the output file name is obtained appending ".d"
-	to "EncodedFile".
+    If present, it writes the decoded data into file "MultiFastaFile".
+    If not present, the output file name is obtained appending ".d"
+    to "EncodedFile".
 
 -v
 	Verbose. Some additional information is displayed.
@@ -150,30 +110,30 @@ MFCompressD [ -o MultiFastaFile ]
 EncodedFile
 	The compressed file to decode.
 
-=== Compression and decompression example (linux) using the default
+=== Compression and decompression example using the default
     parameters (the "stat" command is used here just to display the
     size of the compressed file):
 
-shell prompt> MFCompressC example.fa
-shell prompt> stat -c %s example.fa.mfc
+prompt> MFCompressC example.fa
+prompt> stat -c %s example.fa.mfc
 597991
-shell prompt> MFCompressD example.fa.mfc
-shell prompt> cmp example.fa example.fa.mfc.d
-shell prompt>
+prompt> MFCompressD example.fa.mfc
+prompt> cmp example.fa example.fa.mfc.d
+prompt>
 
-=== Compression and decompression example (linux) showing the creation of
+=== Compression and decompression example showing the creation of
     a multi-part encoded file:
 
-shell prompt> MFCompressC -p 2 example.fa
-shell prompt> stat -c %s example.fa.mfc
+prompt> MFCompressC -p 2 example.fa
+prompt> stat -c %s example.fa.mfc
 610520
-shell prompt> MFCompressD example.fa.mfc
-shell prompt> cmp example.fa example.fa.mfc.d
-shell prompt>
+prompt> MFCompressD example.fa.mfc
+prompt> cmp example.fa example.fa.mfc.d
+prompt>
 
-=== Example (linux) showing the use of the -i flag:
+=== Example showing the use of the -i flag:
 
-shell prompt> MFCompressD -i example.fa.mfc
+prompt> MFCompressD -i example.fa.mfc
 File has 2 part(s) and 2947 record(s)
     Part 1 has 305073 bytes (records 1:1475)
     Part 2 has 305219 bytes (records 1476:2947)
@@ -184,5 +144,5 @@ ACGNT
 Header context string: -c 3 1/50 2047
 Sequence context string: -c 1:3 1/1 65535 0 0 -c 1:8 1/1 2047 0 0 -c 1:14 1/50 15 1 1 -bs 75
 AuxInfo context string: -cs 5 16383 -cx 7 16383 -cc 12
-shell prompt>
+prompt>
 
