@@ -13,30 +13,28 @@ January 18 2020
 //#include <fstream>
 #include "SystemParameters.h"
 
-std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int hash_id) const
+std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int total_sequence_count, const int hash_id) const
 {
 	//create new sequence_set Fileobjects , on sequence_set_names
-	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(dmc, fileObjectManager, sequence_set_names, hash_id) );
+	fileObjectManager.RefillFileObjectsBuffer( sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(dmc, fileObjectManager, sequence_set_names, total_sequence_count, hash_id) );
 
 	std::string sequence_set_nexus_string;
-	std::size_t sequence_count = sequence_set_names.size();
-	std::size_t species_lines_length(180u);
+	const std::size_t sequence_count = sequence_set_names.size();
+	const std::size_t species_lines_length(180u);
 	sequence_set_nexus_string.reserve(sequence_count * species_lines_length);
 	const int NCHAR = fileObjectManager.GetCurrentSetSequenceLength();
 
-	//WINDOWS DEPENDENCE
 	//nexus file formatting header
 	char nexus_header[200];
-	sprintf_s(nexus_header, SystemParameters::GetNexusHeaderFormatString().c_str(), 
-		sequence_count, NCHAR, SystemParameters::GetNexusDataTypeString().c_str(), SystemParameters::GetNexusGapChar(), SystemParameters::GetNexusMissingChar());
-
-	//WiNDOWS DEPENDENCE
+	//sprintf_s(nexus_header, SystemParameters::GetNexusHeaderFormatString().c_str(), 
+	//	sequence_count, NCHAR, SystemParameters::GetNexusDataTypeString().c_str(), SystemParameters::GetNexusGapChar(), SystemParameters::GetNexusMissingChar());
+	SystemParameters::GetNexusHeaderString(nexus_header, sequence_count, NCHAR);
+	
 	char nexus_file_path[100];
-	sprintf_s(nexus_file_path, SystemParameters::GetNexusFileFormatString().c_str(), sequence_set_names.size());
+	//sprintf_s(nexus_file_path, SystemParameters::GetNexusFileFormatString().c_str(), sequence_set_names.size());
+	SystemParameters::GetNexusFileString(nexus_file_path, sequence_count);
 
-	//WiNDOWS DEPENDENCE
-	FILE* nexusFile;
-	fopen_s(&nexusFile, nexus_file_path, "w");
+	FILE* nexusFile = fopen(nexus_file_path, "w");
 	sequence_set_nexus_string.append(nexus_header);
 
 	if (nexusFile)

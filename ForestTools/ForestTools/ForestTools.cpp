@@ -122,8 +122,9 @@ void TryClearingTempFiles()
         char clean_mrbayes_dir_cmd[200];
         char clean_temp_dir_cmd[200];
 
-        sprintf_s(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
-        sprintf_s(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
+    	//note:: extract to system paramters...
+        sprintf(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
+        sprintf(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
 
         //remove files from MrBayes + TempFiles
         system(clean_mrbayes_dir_cmd);
@@ -223,17 +224,21 @@ distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()
     printf("Matrix Calculation Method Number: ");
 	//NOTE IMPLEMENTED :: batch calculator bitmask -- allow for entering all '#' for calculators to analyze (1234 == 0 --> all calcs)
     std::cin >> calc_method;
-    int quartets_gen_flag;
-    printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
-    printf("No (0), Yes (1)\n");
-    std::cin >> quartets_gen_flag;
-	
 
+	//NOTE:: --> ASSUMPTION TAKEN --> (otherwise must check flag in BatchCalculatorAnalyzer)
+    int quartets_gen_flag = 1;
+    //if batch calculator must calculate quartets as well...
+	if(calc_method != 0)
+	{
+		printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
+	    printf("No (0), Yes (1)\n");
+	    std::cin >> quartets_gen_flag;
+	}
     bool generate_quartets = true;
 	if(quartets_gen_flag < 1)
 	{
         generate_quartets = false;
-	}
+	}//ew
 
     //CLUSTERING???
     int clustering_flag;

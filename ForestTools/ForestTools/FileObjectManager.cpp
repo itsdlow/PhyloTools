@@ -55,6 +55,7 @@ namespace distanceMeasure
 		//this->currentSequenceNames = this->FillSequenceNamesVector(sequence_names_path);
 		this->pNameStrategy->FillSequenceNamesVector(this->sequenceNames, this->currentSequenceNames, this->fileCount, this->pFileObjectsBuffer);
 		this->pSequenceSetFileObjectBuffer = new FileObject[this->fileCount];
+		//used in createFileObjects
 		this->sequenceSetCount = this->fileCount;
 
 
@@ -62,24 +63,25 @@ namespace distanceMeasure
 		//creates Sequence_File_Objects and fills array
 		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
 
-		
-		//WINDOWS DEPENDENCE
-		size_t buffer_size = sizeof(FileObject) * this->fileCount;
-		memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
+		//NOTE:: SEQUENCE SET FileObjectBuffer -- needed for all DMC's -- initialized in RefillBuffer
+		//size_t buffer_size = sizeof(FileObject) * this->fileCount;
+		//memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
+		//memcpy(this->pSequenceSetFileObjectBuffer, this->pFileObjectsBuffer, buffer_size);
+
 		//"sequenceNames" can be set in "FillSequenceNameVector" || "CreateFileObjects"
-		this->currentSequenceNames = this->sequenceNames;
+		//this->currentSequenceNames = this->sequenceNames;
 
 	}
-	
+
+	//NOTE:: FOR UNALIGNED DMC's --> sequence set duplicated (shouldnt be needed... but is)
 	//used to create sub-fileObject_sets (sequence Set file objects -- for batch run)
-	void FileObjectManager::RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string new_sequences_path)
+	void FileObjectManager::RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, const std::string& new_sequences_path)
 	{
 		this->sequencesPath = new_sequences_path;
 		this->sequenceSetCount = static_cast<int>(sequence_set_names.size());
 		this->currentSequenceNames = sequence_set_names;
 		printf("Creating %d FileObjects for this Sequence Set\n", this->sequenceSetCount);
 		this->sp->CreateFileObjects(this, this->pSequenceSetFileObjectBuffer);
-		
 	}
 
 	//const std::vector<std::string> FileObjectManager::FillSequenceNamesVector(const std::string& sequence_names_path)

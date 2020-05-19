@@ -29,7 +29,7 @@ namespace distanceMeasure
 						//write align timings / sequence set and total...
 		
 		//on sequence set --> refill FileObjectManager with new aligned_file		
-		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, sequence_set_names, batch_id));//aligned_sequence_set_path);
+		fileObjectManager.RefillFileObjectsBuffer(sequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, sequence_set_names, static_cast<int>(sequence_set_names.size()), batch_id));//aligned_sequence_set_path);
 		//this->AddAlignmentTime(alignTime);
 		
 		//pass it forward
@@ -44,7 +44,8 @@ namespace distanceMeasure
 							//+ create aligned file --> refill sequenceSetBuffer
 		const std::vector<std::string> subsequence_set_names = DistanceMeasureCalculator::CreateSubsequenceSet(sequence_set_names, speciesSequenceSetIndexes);
 		//const std::string subsequence_set = DistanceMeasureCalculator::CreateSubsequenceSetString(subsequence_set_names);
-		fileObjectManager.RefillFileObjectsBuffer(subsequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, subsequence_set_names, quartet_count));
+		//TODO:: change Quartet naming scheme (in MrBayesCalc too) -- include SequenceCount_SubSequenceCount
+		fileObjectManager.RefillFileObjectsBuffer(subsequence_set_names, CalculatorAligner::create_sequence_set_aligned_file(this, fileObjectManager, subsequence_set_names, fileCount, quartet_count));
 
 		
 		const int quartetSize = 4;

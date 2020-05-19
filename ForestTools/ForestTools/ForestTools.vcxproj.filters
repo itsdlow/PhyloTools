@@ -129,6 +129,9 @@
     <ClCompile Include="SequenceNamesIDStrategy.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
     </ClCompile>
+    <ClCompile Include="TreeAnalyzer.cpp">
+      <Filter>Source Files\Tree-Analysis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="RunFlags.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeAnalyzer.h">
+      <Filter>Source Files\Tree-Analysis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

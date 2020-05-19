@@ -102,7 +102,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -176,6 +176,7 @@
     <ClCompile Include="SequenceNamesUnorderedFastaStrategy.cpp" />
     <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="TreeAnalyzer.cpp" />
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +212,7 @@
     <ClInclude Include="SequenceProcessorType.h" />
     <ClInclude Include="SystemParameters.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="TreeAnalyzer.h" />
     <ClInclude Include="Unaligned_InternalDMCalculator.h" />
     <ClInclude Include="VectorKeyCompare.h" />
   </ItemGroup>

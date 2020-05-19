@@ -130,11 +130,17 @@ namespace distanceMeasure
 			min_size = size_i;
 		}
 
-		
+
+		const float ret = static_cast<float>(size_ij - min_size) / static_cast<float>(max_size);
+		if(ret > 1.0f)
+		{
+			printf("Huh?\n");
+			exit(0);
+		}
 		//Measure::
 			//normalize(count) == 1 --> MAXIMALLY DIFFERENT sequences
 			//normalize(count) == 0 --> IDENTICAL SEQUENCES
-		return static_cast<float>(size_ij - min_size) / static_cast<float>(max_size);
+		return ret;
 	}
 	//not needed by NCD calcs...
 	float distanceMeasure::NcdDistanceCalculator::normalize(int differenceCount, int sequencesize) const

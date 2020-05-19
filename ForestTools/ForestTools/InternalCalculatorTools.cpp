@@ -12,7 +12,8 @@ January 18 2020
 #include "DistanceMeasureCalculator.h"
 #include "FileObjectManager.h"
 //#include <set>
-
+//used for FLT_MAX/MIN
+#include <cfloat>
 
 void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees(DistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 {
@@ -79,14 +80,14 @@ void distanceMeasure::InternalCalculatorTools::create_large_tree(DistanceMeasure
 	const int sequence_set_count = static_cast<int>(sequence_set_names.size());
 	//Get current_sequence-set_matrix files
 	char largelist_matrix_file_path[100];
-	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 100, batch_id, sequence_set_count);
+	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, batch_id, sequence_set_count);
 
 	//get path for new_tree files
 	char large_tree_file_path[150];
-	dmc->GetLargeListTreeFileName(large_tree_file_path, 150, batch_id, sequence_set_count);
+	dmc->GetLargeListTreeFileName(large_tree_file_path, batch_id, sequence_set_count);
 
 	char fastme_command[200];
-	dmc->GetFastMECommand(fastme_command, 200, largelist_matrix_file_path, 1, large_tree_file_path);
+	dmc->GetFastMECommand(fastme_command, largelist_matrix_file_path, 1, large_tree_file_path);
 
 	system(fastme_command);
 
@@ -100,16 +101,16 @@ void distanceMeasure::InternalCalculatorTools::create_quartet_trees(DistanceMeas
 	const int sequence_set_count = static_cast<int>(sequence_set_names.size());
 	//Get current_sequence-set_matrix files
 	char quartet_matrices_file_path[100];
-	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 100, batch_id, sequence_set_count);
+	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, batch_id, sequence_set_count);
 
 	char quartet_trees_file_path[150];
-	dmc->GetQuartetsTreeFileName(quartet_trees_file_path, 150, batch_id, sequence_set_count);
+	dmc->GetQuartetsTreeFileName(quartet_trees_file_path, batch_id, sequence_set_count);
 
 	//sequence_set_size choose 4
 	const int quartetCount = DistanceMeasureCalculator::GetQuartetCombinations(sequence_set_count);
 
 	char fastme_quartets_command[200];
-	dmc->GetFastMECommand(fastme_quartets_command, 200, quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
+	dmc->GetFastMECommand(fastme_quartets_command, quartet_matrices_file_path, quartetCount, quartet_trees_file_path);
 
 	system(fastme_quartets_command);
 
@@ -123,14 +124,14 @@ void distanceMeasure::InternalCalculatorTools::create_clustered_tree(DistanceMea
 	const int sequence_set_count = static_cast<int>(sequence_set_names.size());
 	//Get current_sequence-set_matrix files
 	char clustered_matrix_file_path[200];
-	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, 200, batch_id, sequence_set_count);
+	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, batch_id, sequence_set_count);
 
 	//get path for new_tree files
 	char clustered_tree_file_path[200];
-	dmc->GetClusteredTreeFileName(clustered_tree_file_path, 200, batch_id, sequence_set_count);
+	dmc->GetClusteredTreeFileName(clustered_tree_file_path, batch_id, sequence_set_count);
 
 	char fastme_command[200];
-	dmc->GetFastMECommand(fastme_command, 200, clustered_matrix_file_path, 1, clustered_tree_file_path);
+	dmc->GetFastMECommand(fastme_command, clustered_matrix_file_path, 1, clustered_tree_file_path);
 
 	system(fastme_command);
 
@@ -213,6 +214,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateAllQuartetsDistanceMeasu
 					//if currently on a quartile number index of quartet (i.e. 25%, 50%, 75%)
 					if(count % multiple == 1)
 					{
+						//TODO
 						//flush quartets string
 						printf("FLUSHING 'quartetResult' STRING MEMORY -- writing to file");
 					}
@@ -245,8 +247,8 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
 	for (int i = 0; i < fileCount; i++)
 	{
-		float min = static_cast<float>(INT_MAX);
-		float max = INT_MIN;
+		float min = static_cast<float>(FLT_MAX);
+		float max = static_cast<float>(FLT_MIN);
 		//go through species matrix line -- pairwise distances
 			//find max and min pairwise distance
 		for (int j = 0; j < fileCount; j++)
@@ -352,11 +354,9 @@ void distanceMeasure::InternalCalculatorTools::WriteClosenessLimitLog(DistanceMe
 {
 	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large
 	char closeness_limit_file_path[200];
-	dmc->GetClosenessLimitLogFileName(closeness_limit_file_path, 200, batch_number, sequence_count);
+	dmc->GetClosenessLimitLogFileName(closeness_limit_file_path, batch_number, sequence_count);
 
-	FILE* pLog;
-	//WINDOWS DEPENDENCE -- "_s" functions
-	fopen_s(&pLog, closeness_limit_file_path, "w");
+	FILE* pLog = fopen(closeness_limit_file_path, "w");
 	//this->pResults = fopen(largetree_filename, "w");
 	//this->pQuartetResults = fopen(quartettrees_filename, "w");
 	if (pLog != nullptr)
@@ -374,11 +374,9 @@ void distanceMeasure::InternalCalculatorTools::write_large_tree_results(Distance
 {
 	//NOTE:: NEED GUARD (ERROR MESSAGE) FOR Path too large
 	char largelist_matrix_file_path[200];
-	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 200, batch_number, sequence_count);
+	dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, batch_number, sequence_count);
 
-
-	//WINDOWS DEPENDENCE -- "_s" functions
-	fopen_s(&this->pResults, largelist_matrix_file_path, "w");
+	this->pResults = fopen(largelist_matrix_file_path, "w");
 	//this->pResults = fopen(largetree_filename, "w");
 	//this->pQuartetResults = fopen(quartettrees_filename, "w");
 	if (this->pResults != nullptr)
@@ -395,11 +393,9 @@ void distanceMeasure::InternalCalculatorTools::write_large_tree_results(Distance
 void distanceMeasure::InternalCalculatorTools::write_quartets_results(DistanceMeasureCalculator* dmc, const int batch_number, const size_t sequence_count)
 {
 	char quartet_matrices_file_path[200];
-	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, 200, batch_number, sequence_count);
+	dmc->GetQuartetsMatrixFileName(quartet_matrices_file_path, batch_number, sequence_count);
 
-
-	//WINDOWS DEPENDENCE -- "_s" functions
-	fopen_s(&this->pQuartetResults, quartet_matrices_file_path, "a");
+	this->pQuartetResults = fopen(quartet_matrices_file_path, "a");
 	//this->pResults = fopen(largetree_filename, "w");
 	//this->pQuartetResults = fopen(quartettrees_filename, "w");
 
@@ -417,10 +413,9 @@ void distanceMeasure::InternalCalculatorTools::write_clustered_tree_results(Dist
 	char clustered_matrix_file_path[200];
 	//dmc->GetLargeListMatrixFileName(largelist_matrix_file_path, 200, batch_number, sequence_count);
 	//std::string clustered_matrix_file_path(largelist_matrix_file_path);
-	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, 200, batch_number, sequence_count);
+	dmc->GetClusteredMatrixFileName(clustered_matrix_file_path, batch_number, sequence_count);
 
-	//WINDOWS DEPENDENCE -- "_s" functions
-	fopen_s(&this->pClusteredResults, clustered_matrix_file_path, "w");
+	this->pClusteredResults = fopen(clustered_matrix_file_path, "w");
 	//this->pResults = fopen(largetree_filename, "w");
 	//this->pQuartetResults = fopen(quartettrees_filename, "w");
 	if (this->pClusteredResults != nullptr)

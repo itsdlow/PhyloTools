@@ -10,6 +10,7 @@
 #include <memory>
 #include <regex>
 
+#include "SystemParameters.h"
 
 namespace phylo {
 
@@ -187,8 +188,10 @@ namespace phylo {
         //  # Remove branch lengths (i.e., :digits after sequence name)
 
     	//WINDOWS DEPENDENCE --> must escape '\' in regex
-        std::regex reg(":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*");
+        //std::regex reg(":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*");
+        const std::regex reg(SystemParameters::GetCleanNewickRegEx());
 
+    	
         std::string c = std::regex_replace(e, reg, "");
         //c.erase(std::remove(c.begin(), c.end(), '\n'), c.end());
         //printf("regex:: %s + back: %c - %c\n",c.c_str(), c.c_str()[c.size()-1], c.c_str()[c.size()-2]);
