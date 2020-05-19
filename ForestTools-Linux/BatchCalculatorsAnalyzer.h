@@ -65,7 +65,8 @@ namespace distanceMeasure
 		void InitializeCompatibilityVectors(const int sequence_count);
 		void WriteAnalysisTable(const std::vector<float>& table_vector, const std::string& table_description);
 
-		void GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const;
+		//moved to system params
+		//void GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const;
 
 		std::string GetStandardizedCalculatorLabels() const;
 		std::string StandardizeCalculatorLabel(const int index) const;

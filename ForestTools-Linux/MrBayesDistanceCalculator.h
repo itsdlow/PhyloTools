@@ -40,7 +40,7 @@ namespace distanceMeasure
 		void calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
 		void calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
 
-		void GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const;
+		void GetMrBayesBatchCommand(char* buffer, const std::string batch_block_file_path) const;
 		
 		//given mrbayes_output_filename --> extract last gen'ed tree 
 		static std::string ExtractMrBayesNewick(const std::string& t_file_name);//use r-value???

@@ -48,8 +48,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 		{
 			//NOTE:: Probably should (somehow) dynamically determine size
 			char time_log_line[1000];
-			//WINDOWS DEPENDENCE -- extract to system parameters...
-			sprintf(time_log_line, SystemParameters::GetSequenceSetAlignmentTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
+			SystemParameters::GetSequenceSetAlignmentTimingString(time_log_line, batchID, calculationTime, sequenceSet.c_str());
 			const std::string timingLine(time_log_line);
 
 			size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
@@ -63,12 +62,9 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTim
 {
 	DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
 	char alignment_log_file_path[100];
-	//WINDOWS DEPENDENCE
-	//sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str());
-	sprintf(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
-
+	//sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
+	SystemParameters::GetAlignmentTimingsLogFileString(alignment_log_file_path, this->GetCalculatorName().c_str(), total_sequence_count);
 	//open file
-	//fopen_s(&this->pAlignmentTimingsLogFile, alignment_log_file_path, "w");
 	this->pAlignmentTimingsLogFile = fopen(alignment_log_file_path, "w");
 
 }
@@ -82,7 +78,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogTotalCalculationTime(
 	if (this->pAlignmentTimingsLogFile)
 	{
 		char time_log_line[100];
-		//WINDOWS DEPENDENCE -- extract to system parameters...
+		//ToDO::extract to system parameters...
 		sprintf(time_log_line, "\nAlignment Time For Sequence Set Lists: %f minutes\n", this->totalAlignmentTime);
 		std::string timingLine(time_log_line);
 

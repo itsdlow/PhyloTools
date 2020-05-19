@@ -121,8 +121,8 @@ void TryClearingTempFiles()
     {
         char clean_mrbayes_dir_cmd[200];
         char clean_temp_dir_cmd[200];
-//NOTE UNIX COMMANDS NOT SET...
 
+    	//note:: extract to system paramters...
         sprintf(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
         sprintf(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
 
@@ -167,7 +167,7 @@ std::string GetOriginalFastaInputPath()
             printf("Path to Sequences: ");
             std::cin >> path;
             fasta_paths.append(path + " ");
-   		
+    		
             printf("Do you have more FASTA file inputs? No (0), Yes (1)\n");
             std::cin >> more_input_flag;
         }//should be done by user in 1 line
@@ -176,7 +176,7 @@ std::string GetOriginalFastaInputPath()
         //DO AFTER TAKING IN ALL USER INPUT (after asking batch sequenceLists...)
         //concatenate
         std::string original_fasta_path(SystemParameters::GetTempFilesDirectory());
-        original_fasta_path.append("original.fasta");
+        original_fasta_path.append("/original.fasta");
         //open file to append
         std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
 
@@ -224,17 +224,21 @@ distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()
     printf("Matrix Calculation Method Number: ");
 	//NOTE IMPLEMENTED :: batch calculator bitmask -- allow for entering all '#' for calculators to analyze (1234 == 0 --> all calcs)
     std::cin >> calc_method;
-    int quartets_gen_flag;
-    printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
-    printf("No (0), Yes (1)\n");
-    std::cin >> quartets_gen_flag;
-	
 
+	//NOTE:: --> ASSUMPTION TAKEN --> (otherwise must check flag in BatchCalculatorAnalyzer)
+    int quartets_gen_flag = 1;
+    //if batch calculator must calculate quartets as well...
+	if(calc_method != 0)
+	{
+		printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
+	    printf("No (0), Yes (1)\n");
+	    std::cin >> quartets_gen_flag;
+	}
     bool generate_quartets = true;
 	if(quartets_gen_flag < 1)
 	{
         generate_quartets = false;
-	}
+	}//ew
 
     //CLUSTERING???
     int clustering_flag;

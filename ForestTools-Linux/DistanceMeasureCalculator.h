@@ -48,6 +48,7 @@ namespace distanceMeasure
 		virtual void InitializeSequenceSetTimingsLog(const int total_sequence_count);
 		//write total calc time to log FILE --> closes file
 		virtual void LogTotalCalculationTime();
+
 		
 		//PRIVATE???
 		double GetCalculationTime() const { return this->calculationTime; };
@@ -56,17 +57,17 @@ namespace distanceMeasure
 
 		
 		
-		void GetLargeListMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
-		void GetLargeListTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
-		void GetClusteredMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
-		void GetClusteredTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetLargeListMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		void GetLargeListTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		void GetClusteredTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
 
 		
-		void GetQuartetsMatrixFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
-		void GetQuartetsTreeFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
-		void GetFastMECommand(char* buffer, const size_t buffer_size, char* input, int count, char* output) const;
+		void GetQuartetsMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		void GetQuartetsTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		void GetFastMECommand(char* buffer, char* input, int count, char* output) const;
 
-		void GetClosenessLimitLogFileName(char* buffer, const size_t buffer_size, const int batch_number, const size_t sequence_count) const;
+		void GetClosenessLimitLogFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
 
 			
 		//convert 2d-array index into 1d index
@@ -74,9 +75,12 @@ namespace distanceMeasure
 		static int GetQuartetCombinations(int n);
 		static int GetCombinations(int n, int r);
 		static void swap_space_with_underscores(std::string& description_string);
+
 		const RunFlags* GetCalculatorFlags() const { return this->pFlags; };
+
 	protected:
 		FILE* pTimingsLogFile = nullptr;
+
 		//Calculator Run Flags:
 		RunFlags* pFlags;
 		
@@ -84,6 +88,7 @@ namespace distanceMeasure
 		double startTime = 0;
 		double calculationTime = 0;
 		double totalCalculationTime = 0;
+
 		
 		//helpers
 		static std::vector<std::string> CreateSubsequenceSet(const std::vector<std::string>& sequence_set_names, const std::vector<int>& subSequenceSetIndexes);

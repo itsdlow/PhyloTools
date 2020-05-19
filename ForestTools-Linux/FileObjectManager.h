@@ -14,6 +14,7 @@ January 3 2020*
 	#include <string>
 	#include <vector>
 
+
 	namespace distanceMeasure
 	{
 		//forward declaration
@@ -41,7 +42,7 @@ January 3 2020*
 			void TryAddingSequenceIdentifier(const std::string& id);
 			
 			//
-			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, std::string new_sequences_path);
+			void RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, const std::string& new_sequences_path);
 
 			//called by sequenceProcessor -- uses names strategy
 			std::string GetSpeciesIdentifier(const std::string& line, const int index);

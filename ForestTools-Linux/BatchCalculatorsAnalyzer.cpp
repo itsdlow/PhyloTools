@@ -64,11 +64,26 @@ namespace distanceMeasure
 			//calculate for all comparisons (include self -- NOT symmetric)
 			for (int j = 0; j < this->calculator_count; j++)
 			{
+				//get tree file names for current calcs ( i - j )
+				//char largelistTreeFileName_1[100];
+				//this->pCalculators[i]->GetLargeListTreeFileName(largelistTreeFileName_1, 100, batch_id, sequence_set_size);
+				//char largelistTreeFileName_2[100];
+				//this->pCalculators[j]->GetLargeListTreeFileName(largelistTreeFileName_2, 100, batch_id, sequence_set_size);
+
+				//char quartetsTreeFileName_1[100];
+				//this->pCalculators[i]->GetQuartetsTreeFileName(quartetsTreeFileName_1, 100, batch_id, sequence_set_size);
+				//char quartetsTreeFileName_2[100];
+				//this->pCalculators[j]->GetQuartetsTreeFileName(quartetsTreeFileName_2, 100, batch_id, sequence_set_size);
+
 				this->CalculateAnalysisMeasures(i, j, sequence_set_size, batch_id);
 			}
 		}
 		//NOTE::last sequence_sets, of sequence_set_size --> written in LogTotalCalc..()
 	}
+	//TODO:: seperate BatchCalculatorAnalyzer & TreeAnalyzer
+		//batch calc analyzer --> deals with iterating through sequence sets
+		//TreeAnalyzer --> contains Compatibility Table Vectors, takes file names of newick trees
+			//calls Tree analysis functions + writes tables
 	/*****************************************************************************************
 	 *				
 	******************************************************************************************/
@@ -76,14 +91,14 @@ namespace distanceMeasure
 	{
 		//get tree file names for current calcs ( i - j )
 		char largelistTreeFileName_1[100];
-		this->pCalculators[calculator_index_i]->GetLargeListTreeFileName(largelistTreeFileName_1, 100, batch_id, sequence_set_size);
+		this->pCalculators[calculator_index_i]->GetLargeListTreeFileName(largelistTreeFileName_1, batch_id, sequence_set_size);
 		char largelistTreeFileName_2[100];
-		this->pCalculators[calculator_index_j]->GetLargeListTreeFileName(largelistTreeFileName_2, 100, batch_id, sequence_set_size);
+		this->pCalculators[calculator_index_j]->GetLargeListTreeFileName(largelistTreeFileName_2, batch_id, sequence_set_size);
 
 		char quartetsTreeFileName_1[100];
-		this->pCalculators[calculator_index_i]->GetQuartetsTreeFileName(quartetsTreeFileName_1, 100, batch_id, sequence_set_size);
+		this->pCalculators[calculator_index_i]->GetQuartetsTreeFileName(quartetsTreeFileName_1, batch_id, sequence_set_size);
 		char quartetsTreeFileName_2[100];
-		this->pCalculators[calculator_index_j]->GetQuartetsTreeFileName(quartetsTreeFileName_2, 100, batch_id, sequence_set_size);
+		this->pCalculators[calculator_index_j]->GetQuartetsTreeFileName(quartetsTreeFileName_2, batch_id, sequence_set_size);
 		const std::string quartetsFilename1(quartetsTreeFileName_1);
 		const std::string largeListTreeFilename1(largelistTreeFileName_1);
 		const std::string quartetsFilename2(quartetsTreeFileName_2);
@@ -154,12 +169,10 @@ namespace distanceMeasure
 		
 		//open + write to file
 		char analysis_table_file_path[100];
-		this->GetAnalysisTableFilePath(analysis_table_file_path, 100, this->previous_ss_size);
-
+		//this->GetAnalysisTableFilePath(analysis_table_file_path, 100, this->previous_ss_size);
+		SystemParameters::GetAnalysisTableFilePath(analysis_table_file_path, this->previous_ss_size);
 		
-		//WINDOWS DEPENDENCE -- "_s" functions
 		FILE* pResults = fopen(analysis_table_file_path, "w");
-
 		if (pResults != nullptr)
 		{
 			size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, pResults);
@@ -190,12 +203,10 @@ namespace distanceMeasure
 		}
 		this->results.append("\n\n");
 	}
-	void BatchCalculatorsAnalyzer::GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const
-	{
-		//sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
-		sprintf(buffer, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
-
-	}
+	//void BatchCalculatorsAnalyzer::GetAnalysisTableFilePath(char* buffer, const size_t buffer_size, const int sequence_count) const
+	//{
+	//	sprintf_s(buffer, buffer_size, SystemParameters::GetAnalysisTableFileFormatString().c_str(), sequence_count);
+	//}
 
 	//TODO -- clean up to allow for better standardizing of label sizes + offsets...
 	std::string distanceMeasure::BatchCalculatorsAnalyzer::GetStandardizedCalculatorLabels() const

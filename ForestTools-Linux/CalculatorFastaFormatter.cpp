@@ -17,14 +17,12 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	char fasta_filename[150];
 	std::size_t sequence_count = sequence_set_names.size();
 	//sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
-	sprintf(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
-
+	SystemParameters::GetFastaFileString(fasta_filename, sequence_count, hash_id);
+	
 	//try to open file
-	//FILE* exiting_fasta_file;
-	//fopen_s(&exiting_fasta_file, fasta_filename, "rb");
-	FILE* exiting_fasta_file = fopen(fasta_filename, "rb");
+	FILE* existing_fasta_file = fopen(fasta_filename, "rb");
 	//NOTE:: ASSUMPTION:: NO incomplete .fasta files (if .fasta exists -- is correct)
-	if (!exiting_fasta_file)
+	if (!existing_fasta_file)
 	{
 		//create FASTA file string
 		std::string sequence_set_fasta_string;
@@ -41,10 +39,9 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 			sequence_set_fasta_string.append("\n\n");
 		}
 		
-		//FILE* fastaFile;
-		//fopen_s(&fastaFile, fasta_filename, "w");
 		FILE* fastaFile = fopen(fasta_filename, "w");
-		//TODO:: IF FIEL OPEN -- and size > 0 do not overwrite (check before writing...)
+		//FILE* fastaFile = fopen(fasta_filename, "w");
+		//TODO:: IF FILE OPEN -- and size > 0 do not overwrite (check before writing...)
 		if(fastaFile)
 		{
 			size_t numBytesWritten = fwrite(sequence_set_fasta_string.c_str(), sequence_set_fasta_string.length(), 1, fastaFile);
@@ -56,8 +53,13 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 			exit(0);
 		}
 	}
-	
+	else
+	{
+		//close existing fasta file
+		fclose(existing_fasta_file);
+	}
 	//write fileobjects in fasta format
+
 
 	
 	//return new .cfasta (custom -- FASTA sequence file) filename

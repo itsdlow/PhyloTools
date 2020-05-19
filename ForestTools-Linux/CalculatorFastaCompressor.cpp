@@ -33,11 +33,11 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		//create file
 		//write fileobjects in fasta format
 		char fasta_filename[150];
-		sprintf(fasta_filename, SystemParameters::GetCompressedFastaFileFormatString().c_str(), 1);
-
-		//FILE* fastaFile;
-		//fopen_s(&fastaFile, fasta_filename, "w");
+		//sprintf_s(fasta_filename, SystemParameters::GetCompressedFastaFileFormatString().c_str(), 1);
+		SystemParameters::GetCompressedFastaFileString(fasta_filename, 1);
+		
 		FILE* fastaFile = fopen(fasta_filename, "w");
+		//FILE* fastaFile = fopen(fasta_filename, "w");
 
 		if (fastaFile)
 		{
@@ -54,17 +54,19 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 
 		//compress
 		char output_filename[50];
-		sprintf(output_filename, SystemParameters::GetCompressedFilename().c_str(), extension.c_str());
+		//sprintf_s(output_filename, SystemParameters::GetCompressedFilename().c_str(), extension.c_str());
+		SystemParameters::GetCompressedFilename(output_filename, extension.c_str());
 		//create compressor - system call
 		char compress_command[200];
-		sprintf(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+		//sprintf_s(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+		SystemParameters::GetCompressionCommand(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
 		system(compress_command);
 
 		////read file for size
 		const int size = GetCompressedFileSize(output_filename, fasta_filename);
 		//store size
 		this->species_compressed_fasta_sizes.emplace_back(pFileObject->GetSequenceName(), size);
-		printf("Calculating compressed Sequence Set: %d/%d\n", count++, sequence_set_size);
+		printf("Calculating compressed Sequence Set: %d/%d\r", count++, sequence_set_size);
 	}
 }
 
@@ -87,11 +89,12 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	//create file
 	//write fileobjects in fasta format
 	char fasta_filename[150];
-	sprintf(fasta_filename, SystemParameters::GetCompressedFastaFileFormatString().c_str(), 2);
+	//sprintf_s(fasta_filename, SystemParameters::GetCompressedFastaFileFormatString().c_str(), 2);
+	SystemParameters::GetCompressedFastaFileString(fasta_filename, 2);
 
-	//FILE* fastaFile;
-	//fopen(&fastaFile, fasta_filename, "w");
+	
 	FILE* fastaFile = fopen(fasta_filename, "w");
+	//FILE* fastaFile = fopen(fasta_filename, "w");
 
 	if (fastaFile)
 	{
@@ -110,10 +113,12 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	
 	//compress
 	char output_filename[50];
-	sprintf(output_filename, SystemParameters::GetCompressedFilename().c_str(), extension.c_str());
+	//sprintf_s(output_filename, SystemParameters::GetCompressedFilename().c_str(), extension.c_str());
+	SystemParameters::GetCompressedFilename(output_filename, extension.c_str());
 	//create compressor - system call
 	char compress_command[200];
-	sprintf(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+	//sprintf_s(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+	SystemParameters::GetCompressionCommand(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
 	system(compress_command);
 
 	//read file for size

@@ -43,7 +43,7 @@ namespace distanceMeasure
 			//read file
 			std::string line;
 			//clear FileObjectBuffer
-			memset(pFileObjectsBuffer, 0, sizeof(FileObject) * pFOM->get_file_count());
+			//memset(pFileObjectsBuffer, 0, sizeof(FileObject) * pFOM->get_file_count());
 			FileObject* pCurrentFileObject = pFileObjectsBuffer;
 			
 			std::getline(fastaInput, line);

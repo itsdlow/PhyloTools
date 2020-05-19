@@ -45,24 +45,23 @@ namespace distanceMeasure
 	}
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
-		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, batch_id);
+		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, static_cast<int>(sequence_set_names.size()), batch_id);
 		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 
 		char mrbayes_command[200];
 		//system call to extra-tools\\MrBayes... on MRBAYES command block file
-		this->GetMrBayesBatchCommand(mrbayes_command, 200, mrbayes_block_file_path);
+		this->GetMrBayesBatchCommand(mrbayes_command, mrbayes_block_file_path);
 		//execute command --> create LargeList MrBayes files (.t + .p)
 		system(mrbayes_command);
 		
 		//extract tree ------------------
 		//int size = SystemParameters::GetTreeFilePathSize();//Variable length arrays -- not working
 		char largelist_filename[100];
-		this->GetLargeListTreeFileName(largelist_filename, 100, batch_id, sequence_set_names.size());
+		this->GetLargeListTreeFileName(largelist_filename, batch_id, sequence_set_names.size());
 		
 		//open file for quartetTrees
-		//FILE* largeTreeFile;
-		//fopen_s(&largeTreeFile, largelist_filename, "w");
 		FILE* largeTreeFile = fopen(largelist_filename, "w");
+		//FILE* fastaFile = fopen(fasta_filename, "w");
 		
 		if (largeTreeFile)
 		{
@@ -98,11 +97,9 @@ namespace distanceMeasure
 		}
 
 		char quartets_filename[100];
-		this->GetQuartetsTreeFileName(quartets_filename, 100, batch_id, fileCount);//,sequence_set_names.size());
+		this->GetQuartetsTreeFileName(quartets_filename, batch_id, fileCount);//,sequence_set_names.size());
 
 		//open file for quartetTrees
-		//FILE* quartetsFile;
-		//fopen_s(&quartetsFile, quartets_filename, "w");
 		FILE* quartetsFile = fopen(quartets_filename, "w");
 
 		if (!quartetsFile)
@@ -131,15 +128,15 @@ namespace distanceMeasure
 						const std::vector<std::string> subsequence_set_names = DistanceMeasureCalculator::CreateSubsequenceSet(sequence_set_names, indexV);
 						const std::string subsequence_set = DistanceMeasureCalculator::CreateSubsequenceSetString(subsequence_set_names);
 
-
+						//TODO:: CHANGE QUARTETS NAMING SCHEME -- include total sequence count + subsequence count
 						//create .afa (aligned) sequence file --> NEXUS FILE
-						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, subsequence_set_names, count++);
+						const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, subsequence_set_names, fileCount, count++);
 						//create batch MRBAYES BLOCK file
 						std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
 						
 						char mrbayes_command[200];
 						//system call to extra-tools\\MrBayes... on MRBAYES command block file
-						this->GetMrBayesBatchCommand(mrbayes_command, 200, mrbayes_block_file_path);
+						this->GetMrBayesBatchCommand(mrbayes_command, mrbayes_block_file_path);
 						system(mrbayes_command);
 
 						//extract tree from created file (nexusfilepath.run[nRun].t)
@@ -379,9 +376,6 @@ namespace distanceMeasure
 		mrbayes_block_string.reserve(200);
 		mrbayes_block_string.append(mrbayes_block);
 		
-		//WiNDOWS DEPENDENCE
-		//FILE* nexusFile;
-		//fopen_s(&nexusFile, mrbayes_block_file_path.c_str(), "w");
 		FILE* nexusFile = fopen(mrbayes_block_file_path.c_str(), "w");
 		if (nexusFile)
 		{
@@ -398,14 +392,14 @@ namespace distanceMeasure
 		return mrbayes_block_file_path;
 	}
 
-	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const size_t buffer_size, const std::string batch_block_file_path) const
+	void distanceMeasure::MrBayesDistanceCalculator::GetMrBayesBatchCommand(char* buffer, const std::string batch_block_file_path) const
 	{
 		//WiNDOWS DEPENDENCE 
 		//UNIX MRBayes Command -> input redirection
 		//mb < batch.txt > log.txt & <-- (run task in background - do not wait)
 		//NOTE:: call is relative to current_code (sln_folder/ForestTools/) execution
-		//sprintf_s(buffer, buffer_size, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
-		sprintf(buffer, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+		//sprintf(buffer, SystemParameters::GetMrBayesCommandString().c_str(), batch_block_file_path.c_str());
+		SystemParameters::GetMrBayesCommand(buffer, batch_block_file_path.c_str());
 	}
 
 
