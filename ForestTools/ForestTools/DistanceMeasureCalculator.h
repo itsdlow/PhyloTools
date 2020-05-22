@@ -12,6 +12,7 @@ January 3 2020
 #include <string>
 #include <vector>
 #include "RunFlags.h"
+#include <ctime>
 
 namespace distanceMeasure
 {
@@ -85,7 +86,9 @@ namespace distanceMeasure
 		RunFlags* pFlags;
 		
 		//debug timing things
+		//clock_t startTime = 0;
 		double startTime = 0;
+
 		double calculationTime = 0;
 		double totalCalculationTime = 0;
 
