@@ -162,8 +162,11 @@ void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()
 }
 void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer(int batchID, const std::string& sequenceSet)
 {
+	//TODO:: IMPL TIMER LIB---
 	//get calculation time in minutes
-	this->calculationTime = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
+	//this->calculationTime = (static_cast<float>((clock() - this->startTime)) / CLOCKS_PER_SEC) / 60.0;
+	this->calculationTime = ((clock() - this->startTime) / CLOCKS_PER_SEC) / 60;
+
 	//if calculator had to align -- include time it takes to align
 	
 	this->totalCalculationTime += this->calculationTime;

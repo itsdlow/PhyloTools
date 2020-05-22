@@ -58,19 +58,13 @@ namespace distanceMeasure
 		//used in createFileObjects
 		this->sequenceSetCount = this->fileCount;
 
-
 		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
 		//creates Sequence_File_Objects and fills array
 		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
-
-		//NOTE:: SEQUENCE SET FileObjectBuffer -- needed for all DMC's -- initialized in RefillBuffer
-		//size_t buffer_size = sizeof(FileObject) * this->fileCount;
-		//memcpy_s(this->pSequenceSetFileObjectBuffer, buffer_size, this->pFileObjectsBuffer, buffer_size);
-		//memcpy(this->pSequenceSetFileObjectBuffer, this->pFileObjectsBuffer, buffer_size);
-
-		//"sequenceNames" can be set in "FillSequenceNameVector" || "CreateFileObjects"
-		//this->currentSequenceNames = this->sequenceNames;
-
+		
+		//"sequenceNames" can be set in "FillSequenceNameVector" || "CreateFileObjects" -- must be initialized after...
+			//NOTE:: Needed by SequenceListGenerator...
+		this->currentSequenceNames = this->sequenceNames;
 	}
 
 	//NOTE:: FOR UNALIGNED DMC's --> sequence set duplicated (shouldnt be needed... but is)
