@@ -29,7 +29,7 @@ namespace distanceMeasure
 		
 		DistanceMeasureCalculator(const DistanceMeasureCalculator&) = delete;
 		DistanceMeasureCalculator& operator=(const DistanceMeasureCalculator&) = delete;
-		virtual ~DistanceMeasureCalculator();
+		virtual ~DistanceMeasureCalculator() = default;
 
 		//main calculator driver func -- output matrix as text-file
 			//calculate_sequence_set_trees()
@@ -78,7 +78,9 @@ namespace distanceMeasure
 		static void swap_space_with_underscores(std::string& description_string);
 
 		const RunFlags* GetCalculatorFlags() const { return this->pFlags; };
-
+		bool GenerateQuartetsFlag() const { return this->pFlags->generate_quartets; };
+		float GetClosenessFactor() const { return this->pFlags->closeness_factor; };
+		
 	protected:
 		FILE* pTimingsLogFile = nullptr;
 

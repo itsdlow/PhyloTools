@@ -36,7 +36,7 @@ namespace distanceMeasure
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 
-		if(this->GetCalculatorFlags()->generate_quartets)
+		if(this->GenerateQuartetsFlag())
 		{
 			this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
 		}

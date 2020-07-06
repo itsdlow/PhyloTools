@@ -30,17 +30,18 @@ namespace distanceMeasure
 	DistanceMatrixObject::~DistanceMatrixObject()
 	{
 		//this->writeResults();
-		
 		delete this->distanceMeasureFunc;
+		delete this->poRunFlags;
 	}
 
 	DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc):
 	//pResults(nullptr),
 	//pQuartetResults(nullptr),
 	//pTimesLogFile(nullptr),
-	fileObjectManager(names_strategy, sequences_dir),
+	distanceMeasureFunc(dmc),
+	poRunFlags(dmc->GetCalculatorFlags()),
+	fileObjectManager(names_strategy, sequences_dir)
 	//results(std::to_string(sequenceCount).append("\n")),
-	distanceMeasureFunc(dmc)
 	{
 		//printf("dmo constructed\n");
 	}

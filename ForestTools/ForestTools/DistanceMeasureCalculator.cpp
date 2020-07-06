@@ -23,10 +23,10 @@ pFlags(flags)
 {
 }
 
-distanceMeasure::DistanceMeasureCalculator::~DistanceMeasureCalculator()
-{
-	delete this->pFlags;
-}
+//distanceMeasure::DistanceMeasureCalculator::~DistanceMeasureCalculator()
+//{
+//	//delete this->pFlags;
+//}
 
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)

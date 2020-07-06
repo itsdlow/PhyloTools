@@ -45,7 +45,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 			//---> add to std::set --> supply compare function...
 			//NOTE:: add pair --> no duplicates allowed i.e. --> (species_0 <--> species_3) + (species_3 <-> species_0)
 	//if strict || loose clustering
-	if(dmc->GetCalculatorFlags()->closeness_factor > 0)
+	if(dmc->GetClosenessFactor() > 0)
 	{
 		this->CalculateClusteredTreeDistanceMeasures(dmc, sequence_set_names, batch_id);
 
@@ -57,7 +57,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateDistanceMeasuresAndTrees
 
 		
 	//NOTE: MUST - change sequence_set_names to reflect removed sequences
-	if(dmc->GetCalculatorFlags()->generate_quartets)
+	if(dmc->GenerateQuartetsFlag())
 	{
 		//calculate quartets tree matrix
 		InternalCalculatorTools::CalculateAllQuartetsDistanceMeasures(dmc, fileObjectManager, sequence_set_names);
@@ -244,7 +244,7 @@ std::set<int> distanceMeasure::InternalCalculatorTools::GetClusteredRemovableInd
 	//std::set<ClusterPair, ClusterPairCompare> index_pair_set;
 
 	const int fileCount = static_cast<int>(sequence_set_names.size());
-	const float closeness_factor = dmc->GetCalculatorFlags()->closeness_factor;
+	const float closeness_factor = dmc->GetClosenessFactor();
 	for (int i = 0; i < fileCount; i++)
 	{
 		float min = static_cast<float>(FLT_MAX);

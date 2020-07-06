@@ -26,6 +26,7 @@ namespace distanceMeasure
 	class DistanceMeasureCalculator;
 	//typedef std::function<float (const FileObject& file1, const FileObject& file2)> DistanceMeasureCalculator;
 	class SequenceNamesStrategy;
+	class RunFlags;
 	
 	class DistanceMatrixObject
 	{
@@ -71,13 +72,15 @@ namespace distanceMeasure
 		//FILE* pResults;
 		//FILE* pQuartetResults;
 		//FILE* pTimesLogFile;
+		DistanceMeasureCalculator* distanceMeasureFunc;
+		// Run flags (global blackboard) between dmc's... owned by DMO (this)
+		const RunFlags* poRunFlags;
 		
 		FileObjectManager fileObjectManager;
 
 		//std::string results;
 		//std::string quartetResults;
 
-		DistanceMeasureCalculator* distanceMeasureFunc;
 
 		//2D array (distanceMATRIX) of floats
 		//std::vector<float> lamdaMatrix;
