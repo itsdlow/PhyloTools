@@ -1,0 +1,4 @@
+Calculation Time For Sequence Set[0]: 27355.289167 minutes
+	30 Orycteropus_afer Loxodonta_africana Lama_pacos Equus_asinus Odobenus_rosmarus_rosmarus Tachyglossus_aculeatus Bos_taurus Trichosurus_vulpecula Hylobates_lar Macropus_robustus Canis_familiaris Felis_catus Cavia_porcellus Dugong_dugon Echinosorex_gymnura Sciurus_vulgaris Lepus_europaeus Talpa_europaea Balaenoptera_physalus Halichoerus_grypus Thryonomys_swinderianus Rhinoceros_unicornis Papio_hamadryas Hippopotamus_amphibius Equus_caballus Cephalopachus_bancanus Mouse Homo_sapiens Artibeus_jamaicensis Pteropus_scapulatus
+
+Calculation Time For Sequence Set Lists: 27355.289167 minutes
