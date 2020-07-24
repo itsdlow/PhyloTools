@@ -213,7 +213,31 @@ namespace distanceMeasure
 		static void Terminate() { delete Ncd_Mfc1CalculatorType::pInstance; };
 
 	};
-	
+
+	class Ncd_Mfc2CalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_Mfc2CalculatorType();
+
+		static Ncd_Mfc2CalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_Mfc2CalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_Mfc2CalculatorType* pInstance;
+	public:
+		virtual ~Ncd_Mfc2CalculatorType() = default;
+		Ncd_Mfc2CalculatorType(const Ncd_Mfc2CalculatorType&) = delete;
+		Ncd_Mfc2CalculatorType& operator=(const Ncd_Mfc2CalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_Mfc2CalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_Mfc2CalculatorType::pInstance; };
+
+	};
 
 }
 

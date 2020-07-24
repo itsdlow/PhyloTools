@@ -13,6 +13,12 @@ July 20 2020
 
 #include <math.h>
 
+//ADDING NEW CALCULATOR STEPS:
+//#1 - create calc type -- Constructor and Visit
+//#2 - Create singleton instance initialization
+//#3 - Add to Calculator Factory -- Initialization and Termination list 
+
+
 //SINGLETON INSTANCE INITIALIZATIONS
 namespace distanceMeasure
 {
@@ -22,6 +28,7 @@ namespace distanceMeasure
 	MrBayesCalculatorType* MrBayesCalculatorType::pInstance = nullptr;
 	Ncd_7ZipCalculatorType* Ncd_7ZipCalculatorType::pInstance = nullptr;
 	Ncd_Mfc1CalculatorType* Ncd_Mfc1CalculatorType::pInstance = nullptr;
+	Ncd_Mfc2CalculatorType* Ncd_Mfc2CalculatorType::pInstance = nullptr;
 
 }
 
@@ -79,6 +86,10 @@ distanceMeasure::Ncd_Mfc1CalculatorType::Ncd_Mfc1CalculatorType() :
 NcdCalculatorType("Mfc1", "mfc1", SystemParameters::GetMFC1CommandString())
 {
 }
+distanceMeasure::Ncd_Mfc2CalculatorType::Ncd_Mfc2CalculatorType() :
+	NcdCalculatorType("Mfc2", "mfc2", SystemParameters::GetMFC2CommandString())
+{
+}
 
 /*
  * CALCULATOR TYPE visitors...
@@ -106,6 +117,10 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_7ZipCalculatorT
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc1CalculatorType::visit(RunFlags* pFlags)
+{
+	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc2CalculatorType::visit(RunFlags* pFlags)
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }

@@ -26,6 +26,7 @@ namespace distanceMeasure
 		MrBayesCalculatorType::Initialize();
 		Ncd_7ZipCalculatorType::Initialize();
 		Ncd_Mfc1CalculatorType::Initialize();
+		Ncd_Mfc2CalculatorType::Initialize();
 	}
 
 
@@ -45,6 +46,8 @@ namespace distanceMeasure
 		MrBayesCalculatorType::Terminate();
 		Ncd_7ZipCalculatorType::Terminate();
 		Ncd_Mfc1CalculatorType::Terminate();
+		Ncd_Mfc2CalculatorType::Terminate();
+
 	}
 	
 	void distanceMeasure::CalculatorFactory::PushCalculatorType(CalculatorType* pType)
