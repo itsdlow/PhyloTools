@@ -101,7 +101,9 @@ namespace distanceMeasure
 
 
 	distanceMeasure::BatchDistanceCalculators::~BatchDistanceCalculators()
-	{	
+	{
+		delete this->poBatchAnalyzer;
+		
 		for (int i = 0; i < this->calculator_count; i++)
 		{
 			delete this->calculators[i];

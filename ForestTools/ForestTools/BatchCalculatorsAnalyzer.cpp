@@ -8,8 +8,6 @@ February 26 2020
 #include "BatchCalculatorsAnalyzer.h"
 
 #include "DistanceMeasureCalculator.h"
-#include "SystemParameters.h"
-#include "PhyloAnalysis.h"
 #include "TreeAnalyzer.h"
 
 
@@ -23,6 +21,10 @@ namespace distanceMeasure
 	}
 	//set analysis strategy + calcs array
 
+	distanceMeasure::BatchCalculatorsAnalyzer::~BatchCalculatorsAnalyzer()
+	{
+		delete this->poStrategyAnalyzer;
+	}
 	
 	//COMPLEXITY ADDED ==> allow for additive, continuous analysis on seperate sequence sets of same sequence_size
 	//NOTE:: DOES NOT WORK -- W/ SEQUENCELISTS.TXT GIVEN NOT ORDERED (16,12,8,8,...,8,12,8,...,8,12,...4,..)

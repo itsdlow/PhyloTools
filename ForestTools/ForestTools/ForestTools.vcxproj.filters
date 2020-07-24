@@ -52,6 +52,9 @@
     <Filter Include="Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation">
       <UniqueIdentifier>{c6128c8c-b908-456f-9266-54603ca04da2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ResourceManager">
+      <UniqueIdentifier>{685e94cb-5d5e-4e9c-90c4-b762d536928a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp">
       <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicSizedArray.cpp">
+      <Filter>Source Files\ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="NullBatchCalculatorsAnalyzer.h">
       <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicSizedArray.h">
+      <Filter>Source Files\ResourceManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

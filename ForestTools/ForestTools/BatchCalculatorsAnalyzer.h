@@ -31,7 +31,7 @@ namespace distanceMeasure
 		BatchCalculatorsAnalyzer() = delete;
 		BatchCalculatorsAnalyzer(const int calculator_count, phylo::TreeAnalyzer* pAnalyzer);
 		
-		virtual ~BatchCalculatorsAnalyzer() = default;
+		virtual ~BatchCalculatorsAnalyzer();
 		BatchCalculatorsAnalyzer(const BatchCalculatorsAnalyzer& bca) = delete;
 		BatchCalculatorsAnalyzer& operator=(const BatchCalculatorsAnalyzer& bca) = delete;
 

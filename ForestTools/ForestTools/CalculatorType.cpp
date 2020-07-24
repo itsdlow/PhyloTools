@@ -11,6 +11,8 @@ July 20 2020
 #include "SystemParameters.h"
 #include "CalculatorFactory.h"
 
+#include <math.h>
+
 //SINGLETON INSTANCE INITIALIZATIONS
 namespace distanceMeasure
 {
@@ -23,6 +25,15 @@ namespace distanceMeasure
 
 }
 
+unsigned int distanceMeasure::CalculatorType::GetBitmask() const
+{
+	//index 0 calc --> 1 bit mask
+	if(this->index == 0)
+	{
+		return 1;
+	}
+	return static_cast<unsigned int>(pow(2, this->index));
+}
 
 distanceMeasure::CalculatorType::CalculatorType(std::string name)
 :name(std::move(name)), index(CalculatorFactory::GetCalculatorTypeCount())

@@ -39,7 +39,7 @@ namespace distanceMeasure
 		CalculatorType& operator=(const CalculatorType&) = delete;
 
 		virtual DistanceMeasureCalculator* visit(RunFlags* pFlags) = 0;
-		unsigned int GetBitmask() const { return (this->index + 1) * (this->index + 1); };
+		unsigned int GetBitmask() const;// { return (this->index + 1) * (this->index + 1); };
 		
 		std::string name;
 		int index;

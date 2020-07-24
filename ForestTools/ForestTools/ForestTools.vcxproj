@@ -161,6 +161,7 @@
     <ClCompile Include="CalculatorType.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
     <ClCompile Include="DistanceMeasureCalculator.cpp" />
+    <ClCompile Include="DynamicSizedArray.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
     <ClCompile Include="ForestTools.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="CalculatorType.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
     <ClInclude Include="DistanceMeasureCalculator.h" />
+    <ClInclude Include="DynamicSizedArray.h" />
     <ClInclude Include="FileObject.h" />
     <ClInclude Include="FileObjectManager.h" />
     <ClInclude Include="InternalCalculatorTools.h" />
