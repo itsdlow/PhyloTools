@@ -12,21 +12,12 @@ January 24 2020
 #include <ctime>
 
 
-////only implemented by BatchDistanceCalculators
-//void distanceMeasure::DistanceMeasureCalculator::batch_analyze_sequence_set(const std::vector<std::string>& sequence_set_names, const int batch_id)
-//{
-//	//do nothing -- cannot analyze sequence_set on 1 method -- use BatchCalculators
-//}
-
-distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags):
-pFlags(flags)
+distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags, const std::string& name):
+pFlags(flags),
+name(name)
 {
 }
 
-//distanceMeasure::DistanceMeasureCalculator::~DistanceMeasureCalculator()
-//{
-//	//delete this->pFlags;
-//}
 
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)

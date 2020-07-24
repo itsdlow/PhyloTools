@@ -26,7 +26,7 @@ namespace distanceMeasure
 	class DistanceMeasureCalculator;
 	//typedef std::function<float (const FileObject& file1, const FileObject& file2)> DistanceMeasureCalculator;
 	class SequenceNamesStrategy;
-	class RunFlags;
+	struct RunFlags;
 	
 	class DistanceMatrixObject
 	{

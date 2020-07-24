@@ -11,8 +11,8 @@ January 3 2020
 
 namespace distanceMeasure
 {
-	distanceMeasure::PValueDistanceCalculator::PValueDistanceCalculator(RunFlags* flags):
-	Aligned_InternalDMCalculator(flags)
+	distanceMeasure::PValueDistanceCalculator::PValueDistanceCalculator(RunFlags* flags, const std::string& name):
+	Aligned_InternalDMCalculator(flags, name)
 	{
 	}
 	
@@ -26,10 +26,10 @@ namespace distanceMeasure
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}
 	
-	std::string distanceMeasure::PValueDistanceCalculator::GetCalculatorName() const
-	{
-		return "PValue";
-	}
+	//std::string distanceMeasure::PValueDistanceCalculator::GetCalculatorName() const
+	//{
+	//	return "PValue";
+	//}
 	
 	float PValueDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{

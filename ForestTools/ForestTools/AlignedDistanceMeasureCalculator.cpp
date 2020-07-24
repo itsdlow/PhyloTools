@@ -14,8 +14,8 @@ March 27 2020
  *						Timing functions
  ***************************************************************/
 
-distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags):
-DistanceMeasureCalculator(flags)
+distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags, const std::string& name):
+DistanceMeasureCalculator(flags, name)
 {
 }
 

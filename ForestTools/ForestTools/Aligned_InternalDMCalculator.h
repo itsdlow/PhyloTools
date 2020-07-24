@@ -21,7 +21,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		Aligned_InternalDMCalculator() = delete;
-		Aligned_InternalDMCalculator(RunFlags* flags);
+		Aligned_InternalDMCalculator(RunFlags* flags, const std::string& name);
 		
 		Aligned_InternalDMCalculator(const Aligned_InternalDMCalculator&) = delete;
 		Aligned_InternalDMCalculator& operator=(const Aligned_InternalDMCalculator&) = delete;

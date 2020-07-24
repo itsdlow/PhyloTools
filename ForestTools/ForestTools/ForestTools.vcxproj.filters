@@ -37,6 +37,21 @@
     <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy">
       <UniqueIdentifier>{3b5cb37e-07f1-49a4-b48f-b16f7aaaafc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation">
+      <UniqueIdentifier>{11f41f05-de77-4349-9a21-a373498c2478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree-Analysis\AnalysisStrategy">
+      <UniqueIdentifier>{e4386620-0aef-472b-9077-36e384650748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy">
+      <UniqueIdentifier>{6679ab2d-81a4-416c-9c99-47866524652a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy">
+      <UniqueIdentifier>{ce94bd58-a319-4099-ba45-0032d135b8b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation">
+      <UniqueIdentifier>{c6128c8c-b908-456f-9266-54603ca04da2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -96,9 +111,6 @@
     <ClCompile Include="BatchDistanceCalculators.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClCompile>
-    <ClCompile Include="BatchCalculatorsAnalyzer.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
-    </ClCompile>
     <ClCompile Include="CalculatorFastaCompressor.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
@@ -129,8 +141,32 @@
     <ClCompile Include="SequenceNamesIDStrategy.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
     </ClCompile>
+    <ClCompile Include="CalculatorFactory.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculatorType.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="CompleteTreeAnalyzer.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeTreeAnalyzer.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClCompile>
     <ClCompile Include="TreeAnalyzer.cpp">
-      <Filter>Source Files\Tree-Analysis</Filter>
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchCalculatorsAnalyzer.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="AnalyzerFactory.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnalyzerType.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +230,6 @@
     <ClInclude Include="BatchDistanceCalculators.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClInclude>
-    <ClInclude Include="BatchCalculatorsAnalyzer.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
-    </ClInclude>
     <ClInclude Include="NcdDistanceCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClInclude>
@@ -233,11 +266,38 @@
     <ClInclude Include="SequenceNamesUnorderedFastaStrategy.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
     </ClInclude>
+    <ClInclude Include="CalculatorFactory.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
+    </ClInclude>
     <ClInclude Include="RunFlags.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorType.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorsWrapper.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators\CalculatorCreation</Filter>
     </ClInclude>
     <ClInclude Include="TreeAnalyzer.h">
-      <Filter>Source Files\Tree-Analysis</Filter>
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="CompleteTreeAnalyzer.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeTreeAnalyzer.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\TreeAnalyzerStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchCalculatorsAnalyzer.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="AnalyzerFactory.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnalyzerType.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\AnalyzerCreation</Filter>
+    </ClInclude>
+    <ClInclude Include="NullBatchCalculatorsAnalyzer.h">
+      <Filter>Source Files\Tree-Analysis\AnalysisStrategy\BatchCalculatorAnalyzerStrategy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

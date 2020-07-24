@@ -149,21 +149,27 @@
   <ItemGroup>
     <ClCompile Include="AlignedDistanceMeasureCalculator.cpp" />
     <ClCompile Include="Aligned_InternalDMCalculator.cpp" />
+    <ClCompile Include="AnalyzerFactory.cpp" />
+    <ClCompile Include="AnalyzerType.cpp" />
     <ClCompile Include="BatchCalculatorsAnalyzer.cpp" />
     <ClCompile Include="BatchDistanceCalculators.cpp" />
     <ClCompile Include="CalculatorAligner.cpp" />
+    <ClCompile Include="CalculatorFactory.cpp" />
     <ClCompile Include="CalculatorFastaCompressor.cpp" />
     <ClCompile Include="CalculatorFastaFormatter.cpp" />
     <ClCompile Include="CalculatorNexusFormatter.cpp" />
+    <ClCompile Include="CalculatorType.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
     <ClCompile Include="DistanceMeasureCalculator.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
     <ClCompile Include="ForestTools.cpp" />
     <ClCompile Include="InternalCalculatorTools.cpp" />
+    <ClCompile Include="LargeTreeAnalyzer.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
     <ClCompile Include="MrBayesDistanceCalculator.cpp" />
     <ClCompile Include="NcdDistanceCalculator.cpp" />
+    <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp" />
     <ClCompile Include="PhyloAnalysis.cpp" />
     <ClCompile Include="PhyloTools.cpp" />
     <ClCompile Include="PValueDistanceCalculator.cpp" />
@@ -177,25 +183,33 @@
     <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeAnalyzer.cpp" />
+    <ClCompile Include="CompleteTreeAnalyzer.cpp" />
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlignedDistanceMeasureCalculator.h" />
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
+    <ClInclude Include="AnalyzerType.h" />
+    <ClInclude Include="AnalyzerFactory.h" />
     <ClInclude Include="BatchCalculatorsAnalyzer.h" />
     <ClInclude Include="BatchDistanceCalculators.h" />
     <ClInclude Include="CalculatorAligner.h" />
+    <ClInclude Include="CalculatorFactory.h" />
     <ClInclude Include="CalculatorFastaCompressor.h" />
     <ClInclude Include="CalculatorFastaFormatter.h" />
     <ClInclude Include="CalculatorNexusFormatter.h" />
+    <ClInclude Include="CalculatorsWrapper.h" />
+    <ClInclude Include="CalculatorType.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
     <ClInclude Include="DistanceMeasureCalculator.h" />
     <ClInclude Include="FileObject.h" />
     <ClInclude Include="FileObjectManager.h" />
     <ClInclude Include="InternalCalculatorTools.h" />
+    <ClInclude Include="LargeTreeAnalyzer.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
     <ClInclude Include="MrBayesDistanceCalculator.h" />
     <ClInclude Include="NcdDistanceCalculator.h" />
+    <ClInclude Include="NullBatchCalculatorsAnalyzer.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />
     <ClInclude Include="PValueDistanceCalculator.h" />
@@ -213,6 +227,7 @@
     <ClInclude Include="SystemParameters.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="TreeAnalyzer.h" />
+    <ClInclude Include="CompleteTreeAnalyzer.h" />
     <ClInclude Include="Unaligned_InternalDMCalculator.h" />
     <ClInclude Include="VectorKeyCompare.h" />
   </ItemGroup>

@@ -16,16 +16,16 @@ January 3 2020
 
 namespace distanceMeasure
 {
-	distanceMeasure::MrBayesDistanceCalculator::MrBayesDistanceCalculator(RunFlags* flags):
-	AlignedDistanceMeasureCalculator(flags)
+	distanceMeasure::MrBayesDistanceCalculator::MrBayesDistanceCalculator(RunFlags* flags, const std::string& name):
+	AlignedDistanceMeasureCalculator(flags, name)
 	{
 	}
 	
-	//move to SystemParameters??? -- add GetCalcName() (switch statement on calculator.type)
-	std::string MrBayesDistanceCalculator::GetCalculatorName() const
-	{
-		return "MrBayes";
-	}
+	////move to SystemParameters??? -- add GetCalcName() (switch statement on calculator.type)
+	//std::string MrBayesDistanceCalculator::GetCalculatorName() const
+	//{
+	//	return "MrBayes";
+	//}
 
 	//main driver
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)

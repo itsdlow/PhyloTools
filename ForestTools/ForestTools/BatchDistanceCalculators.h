@@ -8,15 +8,17 @@ January 3 2020
 #define _BatchDistanceCalculators
 
 #include "DistanceMeasureCalculator.h"
-#include "BatchCalculatorsAnalyzer.h"
 
 namespace distanceMeasure
 {
-	class BatchDistanceCalculators : public DistanceMeasureCalculator, private BatchCalculatorsAnalyzer
+	//forward decls
+	class BatchCalculatorsAnalyzer;
+	
+	class BatchDistanceCalculators : public DistanceMeasureCalculator
 	{
 	public:
 		//BIG 4
-		BatchDistanceCalculators(RunFlags* flags);
+		BatchDistanceCalculators(RunFlags* flags, const std::string& name);
 		BatchDistanceCalculators(const BatchDistanceCalculators&) = delete;
 		BatchDistanceCalculators& operator=(const BatchDistanceCalculators&) = delete;
 		virtual ~BatchDistanceCalculators();
@@ -29,7 +31,7 @@ namespace distanceMeasure
 		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count) override;
 
 		
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 		//opens log file -- for derived calc(s)
 		void InitializeSequenceSetTimingsLog(const int total_sequence_count) override;
@@ -42,7 +44,7 @@ namespace distanceMeasure
 		////array of calculators to perform batch analysis on
 		DistanceMeasureCalculator** calculators;
 
-		DistanceMeasureCalculator* GetCalculator(int i);
+		BatchCalculatorsAnalyzer* poBatchAnalyzer;
 	};
 }
 

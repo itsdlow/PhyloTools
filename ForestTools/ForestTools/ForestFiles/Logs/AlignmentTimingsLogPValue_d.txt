@@ -1,0 +1,4 @@
+Alignment Time For Sequence Set[0]: 23.668567 minutes
+	16 Elephantulus_sp. Pipistrellus_abramus Eulemur_macaco_macaco Ursus_arctos Camelus_bactrianus Urotrichus_talpoides Rhinolophus_pumilus Equus_przewalskii Muntiacus_crinifrons Mazama_gouazoupira Oryx_dammah Ovis_orientalis_ophion Pecari_tajacu Sus_celebensis Hippopotamus_amphibius Balaenoptera_acutorostrata
+
+Alignment Time For Sequence Set Lists: 23.668567 minutes

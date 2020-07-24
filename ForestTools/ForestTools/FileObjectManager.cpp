@@ -42,6 +42,7 @@ namespace distanceMeasure
 	filePath(path),
 	sequencesPath(path)
 	{
+		// NOTE :: dir processing if given a set of sequence sets.... (protein analysis)
 		this->sp = new SequenceFileProcessor();
 		/*
 		 * 			this->fileCount = count;

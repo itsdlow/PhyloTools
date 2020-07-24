@@ -1,0 +1,221 @@
+/******************************************************************************
+DeAngelo Wilson
+July 20 2020
+
+						CalculatorType (strategy -- base)
+******************************************************************************/
+#ifndef _CalculatorType
+#define _CalculatorType
+
+#include <string>
+
+//NOTE:: could be written by perl program, based on meta data... (: Calculator names, line by line [index])
+
+//used to create calcualtor in batchCalculators + ForestTools (main)...
+//ALTERNATIVE:: create calculator type class??? ----> put in SystemParams
+	//has enum type property
+	//===> convert ENUM -> ID (int) || name (string)
+namespace distanceMeasure
+{
+	//forward declarations
+	class DistanceMeasureCalculator;
+	struct RunFlags;
+	
+	//enum class CalculatorTypes
+	//{
+	//	LCS = 0,
+	//	PVALUE,
+	//	MRBAYES,
+	//	NCD,
+
+	//};
+	class CalculatorType
+	{
+	public:
+
+		CalculatorType(std::string name);
+		virtual ~CalculatorType() = default;
+		CalculatorType(const CalculatorType&) = delete;
+		CalculatorType& operator=(const CalculatorType&) = delete;
+
+		virtual DistanceMeasureCalculator* visit(RunFlags* pFlags) = 0;
+		unsigned int GetBitmask() const { return (this->index + 1) * (this->index + 1); };
+		
+		std::string name;
+		int index;
+		//unsigned int bitmask;
+		//command string
+	};
+
+	/*	
+	 * Derived CalculatorTypes -----------
+	 */
+	class BatchCalculatorType : public CalculatorType
+	{
+	private:
+		BatchCalculatorType();
+
+		static BatchCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new BatchCalculatorType();
+			}
+			return *pInstance;
+		}
+		static BatchCalculatorType* pInstance;
+	public:
+		//LcsCalculatorType(std::string name, int index);
+		virtual ~BatchCalculatorType() = default;
+		BatchCalculatorType(const BatchCalculatorType&) = delete;
+		BatchCalculatorType& operator=(const BatchCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { BatchCalculatorType::Instance(); };
+		static void Terminate() { delete BatchCalculatorType::pInstance; };
+
+	};
+	
+	class LcsCalculatorType: public CalculatorType
+	{
+	private:
+		LcsCalculatorType();
+
+		static LcsCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new LcsCalculatorType();
+			}
+			return *pInstance;
+		}
+		static LcsCalculatorType* pInstance;
+	public:
+		//LcsCalculatorType(std::string name, int index);
+		virtual ~LcsCalculatorType() = default;
+		LcsCalculatorType(const LcsCalculatorType&) = delete;
+		LcsCalculatorType& operator=(const LcsCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { LcsCalculatorType::Instance(); };
+		static void Terminate() { delete LcsCalculatorType::pInstance; };
+	};
+	
+	class PValueCalculatorType : public CalculatorType
+	{
+	private:
+		PValueCalculatorType();
+
+		static PValueCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new PValueCalculatorType();
+			}
+			return *pInstance;
+		}
+		static PValueCalculatorType* pInstance;
+	public:
+		//PValueCalculatorType(std::string name, int index);
+		virtual ~PValueCalculatorType() = default;
+		PValueCalculatorType(const PValueCalculatorType&) = delete;
+		PValueCalculatorType& operator=(const PValueCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { PValueCalculatorType::Instance(); };
+		static void Terminate() { delete PValueCalculatorType::pInstance; };
+
+	};
+	
+	class MrBayesCalculatorType : public CalculatorType
+	{
+	private:
+		MrBayesCalculatorType();
+
+		static MrBayesCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new MrBayesCalculatorType();
+			}
+			return *pInstance;
+		}
+		static MrBayesCalculatorType* pInstance;
+	public:
+		virtual ~MrBayesCalculatorType() = default;
+		MrBayesCalculatorType(const MrBayesCalculatorType&) = delete;
+		MrBayesCalculatorType& operator=(const MrBayesCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { MrBayesCalculatorType::Instance(); };
+		static void Terminate() { delete MrBayesCalculatorType::pInstance; };
+
+	};
+
+	//abstarct interface class for Ncd calculator types
+	class NcdCalculatorType: public CalculatorType
+	{
+	public:
+		NcdCalculatorType(std::string name, std::string extension, std::string compress_command_format_string);
+		virtual ~NcdCalculatorType() = default;
+		NcdCalculatorType(const NcdCalculatorType&) = delete;
+		NcdCalculatorType& operator=(const NcdCalculatorType&) = delete;
+
+		std::string extension;
+		std::string compress_command_format_string;
+	};
+	
+	class Ncd_7ZipCalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_7ZipCalculatorType();
+
+		static Ncd_7ZipCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_7ZipCalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_7ZipCalculatorType* pInstance;
+	public:
+		virtual ~Ncd_7ZipCalculatorType() = default;
+		Ncd_7ZipCalculatorType(const Ncd_7ZipCalculatorType&) = delete;
+		Ncd_7ZipCalculatorType& operator=(const Ncd_7ZipCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_7ZipCalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_7ZipCalculatorType::pInstance; };
+
+	};
+	class Ncd_Mfc1CalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_Mfc1CalculatorType();
+
+		static Ncd_Mfc1CalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_Mfc1CalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_Mfc1CalculatorType* pInstance;
+	public:
+		virtual ~Ncd_Mfc1CalculatorType() = default;
+		Ncd_Mfc1CalculatorType(const Ncd_Mfc1CalculatorType&) = delete;
+		Ncd_Mfc1CalculatorType& operator=(const Ncd_Mfc1CalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_Mfc1CalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_Mfc1CalculatorType::pInstance; };
+
+	};
+	
+
+}
+
+#endif
+

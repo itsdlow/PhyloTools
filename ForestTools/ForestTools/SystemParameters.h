@@ -19,10 +19,12 @@ class SystemParameters
 public:
 	//API interface
 	
-	//void Terminate();
+	static void Terminate();
 	static void InitializeSystemDependentCommands();
+	static void InitializeCalculatorFactory();
 	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
+	
 	//used by PhyloTools
 	static const std::string& GetCleanNewickRegEx() { return SystemParameters::Instance().clean_newick_regex; };
 	
@@ -113,9 +115,16 @@ public:
 	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
 
 	
+	//***
+	// Calculator Factory things...
+	//***
+	static int GetCalculatorsCount() { return SystemParameters::Instance().privGetCalculatorTypeCount(); };
+	int privGetCalculatorTypeCount();
 
-	static int GetCalculatorsCount() { return SystemParameters::Instance().CALCULATOR_COUNT; };
+	static unsigned int GetCalculatorMask(int id);
+	static unsigned int GetAllCalculatorsMask();
 
+	
 	static int GetMaxSequenceListSize() { return SystemParameters::Instance().max_sequence_list_size; };
 	static int GetFractionOfMaxSequenceSize(float fraction) { return static_cast<int>(static_cast<float>(SystemParameters::Instance().max_sequence_list_size) * fraction); };
 	static int GetMinSequenceListSize() { return SystemParameters::Instance().min_sequence_list_size;/* quartet size */ };
@@ -145,8 +154,9 @@ private:
 	//private members
 	bool OS_WINDOWS;
 	
-	const int CALCULATOR_COUNT = 5;
+	//const int CALCULATOR_COUNT = 5;
 
+	
 	/***************************************************
 	 *				Sequence Generator Parameters
 	 **************************************************/
@@ -209,7 +219,7 @@ private:
 
 	//WINDOWS DEPENDENCE???
 	//remove dir command
-	const std::string clean_dir_format_string = "rm -v %s/*";
+	std::string clean_dir_format_string;// = "rm -v %s/*";
 	
 	//NCD
 	const std::string compressed_file_format_string = "ForestFiles/TempFiles/CompressedFile.%s";
@@ -236,8 +246,9 @@ private:
 
 	const std::string nexus_data_type_string = "DNA";
 	//TODO:: add batch number to nexus_file format string??? -- allow user to supply directory of tempfiles
-	const std::string mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
-	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";
+	std::string mrbayes_files_dir;// = "ForestFiles/TempFiles/MrBayes";
+
+	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";//TODO:: fix to use mrbayes_file_dir...
 	const std::string nexus_header_format_string = "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = %s GAP = %c MISSING = %c;\n\tMATRIX\n";
 	
 	std::string mrbayes_command_string;// = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
@@ -246,6 +257,7 @@ private:
 	//Phylotools
 	std::string clean_newick_regex;
 };
+
 
 #endif
 

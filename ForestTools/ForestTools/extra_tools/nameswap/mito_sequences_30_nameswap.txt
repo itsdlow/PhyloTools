@@ -1,0 +1,32 @@
+#_NOTE:_SHOULD_NOT_BE_LOCATED_IN_PHYLOTOOL_DIRECTORY..._(along_with_all_user_data...)
+
+Orycteropus_afer, aardvark
+Loxodonta_africana, African elephant
+Lama_pacos,alpaca
+Equus_asinus,donkey
+Odobenus_rosmarus_rosmarus, walrus
+Tachyglossus_aculeatus, echidna
+Bos_taurus,cow
+Trichosurus_vulpecula, brushtailed possum
+Hylobates_lar, gibbon
+Macropus_robustus, wallaroo
+Canis_familiaris, dog
+Felis_catus, cat
+Cavia_porcellus, guinea pigm
+Dugong_dugon, manatees
+Echinosorex_gymnura, lesser hedgehog tenrec
+Sciurus_vulgaris, squirrel
+Lepus_europaeus, brown hare
+Talpa_europaea, European mole
+Balaenoptera_physalus, fin whale
+Halichoerus_grypus, grey seal
+Thryonomys_swinderianus, cane rat 
+Rhinoceros_unicornis, Indian rhinoceros
+Papio_hamadryas, hamadryas baboon
+Hippopotamus_amphibius, hippopotamus
+Equus_caballus, horse
+Cephalopachus_bancanus, tarsier
+Mouse, mouse
+Homo_sapiens, human
+Artibeus_jamaicensis, Jamaican fruit bat
+Pteropus_scapulatus, little red flying fox

@@ -1,4 +1,4 @@
-compatibilityTable_LtoL
+compatibilityTable_LtoL - SymmetricDifference
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.000000 28.000000 30.000000 26.000000 32.000000 
  PValue  28.000000 0.000000 34.000000 30.000000 34.000000 
@@ -7,7 +7,7 @@ compatibilityTable_LtoL
  mfc1    32.000000 34.000000 26.000000 22.000000 0.000000 
 
 
-compatibilityTable_QtoQ
+compatibilityTable_QtoQ - QuartetAgreement
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     1.000000 0.840941 0.729502 0.715380 0.667798 
  PValue  0.840941 1.000000 0.767926 0.745995 0.689619 
@@ -16,7 +16,7 @@ compatibilityTable_QtoQ
  mfc1    0.667798 0.689619 0.764277 0.763255 1.000000 
 
 
-compatibilityTable_IQtoIQ
+compatibilityTable_IQtoIQ - InducedQuartetAgreement
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     1.000000 0.822040 0.751432 0.780332 0.699945 
  PValue  0.822040 1.000000 0.778617 0.827185 0.756285 
@@ -25,7 +25,7 @@ compatibilityTable_IQtoIQ
  mfc1    0.699945 0.756285 0.734902 0.855464 1.000000 
 
 
-compatibilityTable_IQtoQ
+compatibilityTable_IQtoQ - QuartetCompatibility
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.749206 0.737749 0.718664 0.737019 0.667433 
  PValue  0.716767 0.774603 0.744244 0.765116 0.694034 
@@ -34,7 +34,7 @@ compatibilityTable_IQtoQ
  mfc1    0.666886 0.707608 0.781062 0.801350 0.767926 
 
 
-new_compatibilityTable_LtoL
+new_compatibilityTable_LtoL - Robinson Foulds (RF) Metric
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.000000 0.518519 0.555556 0.481481 0.592593 
  PValue  0.518519 0.000000 0.629630 0.555556 0.629630 
@@ -43,7 +43,7 @@ new_compatibilityTable_LtoL
  mfc1    0.592593 0.629630 0.481481 0.407407 0.000000 
 
 
-new_compatibilityTable_QtoQ
+new_compatibilityTable_QtoQ - Robinson Foulds (RF) Metric
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.000000 0.159059 0.270498 0.284620 0.332202 
  PValue  0.159059 0.000000 0.232074 0.254005 0.310381 
@@ -52,7 +52,7 @@ new_compatibilityTable_QtoQ
  mfc1    0.332202 0.310381 0.235723 0.236745 0.000000 
 
 
-new_compatibilityTable_IQtoIQ
+new_compatibilityTable_IQtoIQ - Robinson Foulds (RF) Metric
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.000000 0.177960 0.248568 0.219668 0.300055 
  PValue  0.177960 0.000000 0.221383 0.172815 0.243715 
@@ -61,7 +61,7 @@ new_compatibilityTable_IQtoIQ
  mfc1    0.300055 0.243715 0.265098 0.144536 0.000000 
 
 
-new_compatibilityTable_IQtoQ
+new_compatibilityTable_IQtoQ - Robinson Foulds (RF) Metric
           LCS      PValue   MrBaye   7z       mfc1    
  LCS     0.250794 0.262251 0.281336 0.262981 0.332567 
  PValue  0.283233 0.225397 0.255756 0.234884 0.305966 

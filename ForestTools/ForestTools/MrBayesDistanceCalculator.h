@@ -17,7 +17,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		MrBayesDistanceCalculator() = delete;
-		MrBayesDistanceCalculator(RunFlags* flags);
+		MrBayesDistanceCalculator(RunFlags* flags, const std::string& name);
 		
 		MrBayesDistanceCalculator(const MrBayesDistanceCalculator&) = delete;
 		MrBayesDistanceCalculator& operator=(const MrBayesDistanceCalculator&) = delete;
@@ -32,7 +32,7 @@ namespace distanceMeasure
 
 
 
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 	private:
 		//batch running command creation func
