@@ -13,18 +13,33 @@ January 3 2020
 #include "SystemParameters.h"
 
 #include <fstream>
+#include <iostream>
 
 namespace distanceMeasure
 {
-	distanceMeasure::MrBayesDistanceCalculator::MrBayesDistanceCalculator(RunFlags* flags):
-	AlignedDistanceMeasureCalculator(flags)
+	distanceMeasure::MrBayesDistanceCalculator::MrBayesDistanceCalculator(RunFlags* flags, const std::string& name):
+	AlignedDistanceMeasureCalculator(flags, name)
 	{
+		this->prepare_mrbayes_params();
 	}
-	
-	//move to SystemParameters??? -- add GetCalcName() (switch statement on calculator.type)
-	std::string MrBayesDistanceCalculator::GetCalculatorName() const
+
+	//TODO:: ----------------------------------------------------------------------------------*
+	void distanceMeasure::MrBayesDistanceCalculator::prepare_mrbayes_params()
 	{
-		return "MrBayes";
+		//hard coding cuz lazy
+		const char* datatype  [3]  = {"DNA", "RNA", "protein"};
+		//create MrBayes block and command....
+		int index;
+		printf("%s (0), %s (1), %s (2)\nData type Number: ", datatype[0], datatype[1], datatype[2]);
+		std::cin >> index;
+		if(index < 3 && index >=0)
+		{
+			SystemParameters::SetNexusDataTypeString(datatype[index]);
+		}
+		else
+		{
+			exit(0);
+		}
 	}
 
 	//main driver
@@ -36,7 +51,7 @@ namespace distanceMeasure
 			// + extracts trees from .t file --> write/append to [...]Tree(s)MrBayes.newick
 		this->calculate_large_list_tree(fileObjectManager, sequence_set_names, batch_id);
 
-		if(this->GetCalculatorFlags()->generate_quartets)
+		if(this->GenerateQuartetsFlag())
 		{
 			this->calculate_quartet_trees(fileObjectManager, sequence_set_names, batch_id);
 		}
@@ -46,7 +61,7 @@ namespace distanceMeasure
 	void distanceMeasure::MrBayesDistanceCalculator::calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id)
 	{
 		const std::string nexus_file_path = CalculatorNexusFormatter::create_sequence_set_nexus_file(this, fileObjectManager, sequence_set_names, static_cast<int>(sequence_set_names.size()), batch_id);
-		const std::string mrbayes_block_file_path = create_mrbayes_default_command_block_file(nexus_file_path);
+		const std::string mrbayes_block_file_path = this->create_mrbayes_default_command_block_file(nexus_file_path);
 
 		char mrbayes_command[200];
 		//system call to extra-tools\\MrBayes... on MRBAYES command block file
@@ -361,14 +376,15 @@ namespace distanceMeasure
 			"begin mrbayes;\n"
 			"set autoclose = yes nowarn = yes;\n"
 			"execute %s;\n"
-			//"lset nst = 6 rates = gamma;\n"
+			//"lset nst = mixed;\n"
 			"mcmcp filename=%s;\n"
-			"mcmc nchains = %d nruns = %d ngen = 10000 samplefreq = 10;\n"
+			"mcmc nchains = %d nruns = %d ngen = %d;\n"
 			"end;",
 			relative_nxs_path.c_str(),
 			relative_nxs_path.c_str(),
 			SystemParameters::GetMrBayesNChains(),
-			SystemParameters::GetMrBayesNRuns()
+			SystemParameters::GetMrBayesNRuns(),
+			SystemParameters::GetMrBayesNGen()
 			);
 
 		//TODO:: SEPARATE INTO FUNCTION... done in multiple .cpp's

@@ -7,61 +7,71 @@ January 18 2020
 
 #include "BatchDistanceCalculators.h"
 
-#include "MrBayesDistanceCalculator.h"
-#include "PValueDistanceCalculator.h"
-#include "LcsDistanceCalculator.h"
-#include "NcdDistanceCalculator.h"
+#include "BatchCalculatorsAnalyzer.h"
 
-#include "SystemParameters.h"
-//#include "PhyloAnalysis.h"
+//#include "SystemParameters.h"
+#include "CalculatorFactory.h"
+#include "AnalyzerFactory.h"
 
 namespace distanceMeasure
 {
 
-	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(RunFlags* flags):
-	DistanceMeasureCalculator(flags),
-	BatchCalculatorsAnalyzer(flags->calculator_count),
+	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(RunFlags* flags, const std::string& name):
+	DistanceMeasureCalculator(flags, name),
+	//TODO:: MOVE INITIALIZATION OF MEMBER VARS TO body ---> get batch calc params (bitmask, count) before, in constructor
 	calculator_count(flags->calculator_count),
-	//calculators(new DistanceMeasureCalculator* [calculator_count])
-	calculators(nullptr)
+	calculators(new DistanceMeasureCalculator* [this->calculator_count]),
+	//poBatchAnalyzer(new BatchCalculatorsAnalyzer(this->calculators, flags->calculator_count, flags->generate_analysis, flags->generate_quartets))
+	poBatchAnalyzer(phylo::AnalyzerFactory::Create(this->calculators, flags->calculator_count, flags->generate_analysis, flags->generate_quartets))
 	{
-		//give Calculator analyzer ref to calculators
-		//NOT IMPLEMENTED::
-		//take as input parameter --> calc_count + bit_mask?
-			//defines what calculator methods to include in batch_calculation
-			//
-		calculators = new DistanceMeasureCalculator* [this->calculator_count];
-		//pass reference of calculators to batchAnalyzer... used to get specific calc_names + tree file-names
-		BatchCalculatorsAnalyzer::SetCalculatorsArray(calculators);
-
-		//intiialzie calculators array -- WITH ALL CALCULATOR METHODS
-		for(int i = 0; i < this->calculator_count; i++)
+		//NOTE:: ^^ FIRST CALL TO AnalyzerFactory --> may need to initialize...
+			//analyzer factory not needed....
+		phylo::AnalyzerFactory::Terminate();
+		
+		//intiialzie calculators array -- WITH ALL -- BIT_SET -- CALCULATOR METHODS
+		int index = 0;
+		int count = 0;
+		unsigned int bitmask = flags->calculators_bitmask;
+		while(bitmask != 0 && this->calculator_count > index)
 		{
-			this->calculators[i] = GetCalculator(i);
+			const unsigned int bit = bitmask & 1;
+			if (bit == 1)
+			{
+				this->calculators[index] = CalculatorFactory::Create(count, flags);
+				index++;
+			}
+			//else //zero
+			//{
+				//...ignore
+			//}
+			bitmask >>= 1;
+			
+			count++;
 		}
-		//this->calculators[0] = new PValueDistanceCalculator();
-		//this->calculators[1] = new LcsDistanceCalculator();
-	}
-
-	std::string distanceMeasure::BatchDistanceCalculators::GetCalculatorName() const
-	{
-		return "Batch";
 	}
 	
+	//called for each sequence set...
+	//Driving function -- of Batch Distance Measure Calculator
 	void BatchDistanceCalculators::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
 	{
 		this->StartCalculationTimer();
 		for (int i = 0; i < this->calculator_count; i++)
 		{
-			//this->calculators[i]->InitializeSequenceSetTimingsLog();
 			this->calculators[i]->calculate_and_output_matrix(fileObjectManager, sequence_set_names, sequence_set, batch_id);
-			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
 		}
 		this->StopCalculationTimer(batch_id, sequence_set);
 
-		BatchCalculatorsAnalyzer::batch_analyze_sequence_set(sequence_set_names, batch_id);
+		//COULD REMOVE 'if' BY CHANGING "BatchCalculatorAnalyzer" -> pImpl strategy pattern (does nothing if set to no-analysis strategy)
+		//NOTE:: CHANGE ANALYZER --> allow ONLY non-quartet analysis to occur when quartets not generated
+		if(this->GetCalculatorFlags()->generate_analysis)
+		{
+			this->poBatchAnalyzer->batch_analyze_sequence_set(sequence_set_names, batch_id, this->GetCalculatorFlags()->generate_quartets); 
+		}
 	}
 
+
+
+	
 	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 	{
 		DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
@@ -73,12 +83,14 @@ namespace distanceMeasure
 			//totalCalculationTime += this->calculators[i]->LogTotalCalculationTime();
 		}
 	}
+	
+	//CALLED BY: DistanceMatrixObject
 	//composite pattern --> tell all derived calcs...
 	void BatchDistanceCalculators::LogTotalCalculationTime()
 	{
 		//TODO:: must revise... top allow for unordered SequenceList.txt?
 		//last sequence_set must be written to file + file close
-		BatchCalculatorsAnalyzer::WriteAnalysisTables();
+		this->poBatchAnalyzer->WriteAnalysisTables();
 		
 		for (int i = 0; i < this->calculator_count; i++)
 		{
@@ -91,48 +103,50 @@ namespace distanceMeasure
 
 	distanceMeasure::BatchDistanceCalculators::~BatchDistanceCalculators()
 	{
+		delete this->poBatchAnalyzer;
+		
 		for (int i = 0; i < this->calculator_count; i++)
 		{
 			delete this->calculators[i];
 		}
 	}
 
-	DistanceMeasureCalculator* distanceMeasure::BatchDistanceCalculators::GetCalculator(int i)
-	{
-		DistanceMeasureCalculator* dmc = nullptr;
+	//DistanceMeasureCalculator* distanceMeasure::BatchDistanceCalculators::GetCalculator(int i)
+	//{
+	//	DistanceMeasureCalculator* dmc = nullptr;
 
-		switch (i)
-		{
-		case 0:
-			dmc = new LcsDistanceCalculator(this->pFlags);
-			break;
-		case 1:
-			dmc = new PValueDistanceCalculator(this->pFlags);
-			break;
-		case 2:
-			dmc = new MrBayesDistanceCalculator(this->pFlags);
-			break;
-		case 3:
-			//7zip
-			dmc = new NcdDistanceCalculator(this->pFlags, 1);
-			break;
-		case 4:
-			//mfc1
-			dmc = new NcdDistanceCalculator(this->pFlags, 2);
-			break;
-		case 5:
-			//mfc2
-			dmc = new NcdDistanceCalculator(this->pFlags, 3);
-			break;
-		case 6:
-			//mfc3
-			dmc = new NcdDistanceCalculator(this->pFlags, 4);
-			break;
-		default:
-			break;
-		}
-		return dmc;
-	}
+	//	switch (i)
+	//	{
+	//	case 0:
+	//		dmc = new LcsDistanceCalculator(this->pFlags);
+	//		break;
+	//	case 1:
+	//		dmc = new PValueDistanceCalculator(this->pFlags);
+	//		break;
+	//	case 2:
+	//		dmc = new MrBayesDistanceCalculator(this->pFlags);
+	//		break;
+	//	case 3:
+	//		//7zip
+	//		dmc = new NcdDistanceCalculator(this->pFlags, 1);
+	//		break;
+	//	case 4:
+	//		//mfc1
+	//		dmc = new NcdDistanceCalculator(this->pFlags, 2);
+	//		break;
+	//	case 5:
+	//		//mfc2
+	//		dmc = new NcdDistanceCalculator(this->pFlags, 3);
+	//		break;
+	//	case 6:
+	//		//mfc3
+	//		dmc = new NcdDistanceCalculator(this->pFlags, 4);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	return dmc;
+	//}
 
 
 	//internal calc specific function -- NOT NEEDED

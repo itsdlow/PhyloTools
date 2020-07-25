@@ -1,6 +1,8 @@
 #
-# Student makefile for Cache Lab
+# makefile for PhyloTools
+# ---> TODO:: CREATE A PERL SCRIPT TO CREATE MAKEFILE -- includes and sources...
 # 
+
 CC = g++
 CFLAGS = -g -Wall
 
@@ -39,7 +41,16 @@ phylotools_SOURCES = \
 	SequenceNamesDescriptionStrategy.cpp	SequenceNamesDescriptionStrategy.h	\
 	SequenceNamesOrderedCustomStrategy.cpp	SequenceNamesOrderedCustomStrategy.h\
 	SequenceNamesUnorderedFastaStrategy.cpp	SequenceNamesUnorderedFastaStrategy.h\
-
+											CalculatorsWrapper.h				\
+	TreeAnalyzer.cpp 						TreeAnalyzer.h						\
+	CalculatorFactory.cpp					CalculatorFactory.h					\
+	CalculatorType.cpp						CalculatorType.h					\
+	AnalyzerFactory.cpp						AnalyzerFactory.h					\
+	AnalyzerType.cpp						AnalyzerType.h						\
+	CompleteTreeAnalyzer.cpp 				CompleteTreeAnalyzer.h				\
+	LargeTreeAnalyzer.cpp 					LargeTreeAnalyzer.h					\
+	NullBatchCalculatorsAnalyzer.cpp 		NullBatchCalculatorsAnalyzer.h		\
+	DynamicSizedArray.cpp 					DynamicSizedArray.h
 
 INCLUDES = \
 	ForestTools.cpp							\
@@ -70,8 +81,17 @@ INCLUDES = \
 	SequenceNamesIDStrategy.cpp				\
 	SequenceNamesDescriptionStrategy.cpp	\
 	SequenceNamesOrderedCustomStrategy.cpp	\
-	SequenceNamesUnorderedFastaStrategy.cpp
-	
+	SequenceNamesUnorderedFastaStrategy.cpp	\
+	CalculatorFactory.cpp					\
+	AnalyzerFactory.cpp						\
+	AnalyzerType.cpp						\
+	CalculatorType.cpp						\
+	TreeAnalyzer.cpp 						\
+	CompleteTreeAnalyzer.cpp 				\
+	LargeTreeAnalyzer.cpp 					\
+	NullBatchCalculatorsAnalyzer.cpp 		\
+	DynamicSizedArray.cpp
+
 phylotools: $(phylotools_SOURCES)    
 	$(CC) $(CFLAGS) -o $(PROGRAM) $(INCLUDES)
 	

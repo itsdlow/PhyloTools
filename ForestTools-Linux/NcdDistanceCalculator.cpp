@@ -15,50 +15,52 @@ January 3 2020
 
 namespace distanceMeasure
 {
-	distanceMeasure::NcdDistanceCalculator::NcdDistanceCalculator(RunFlags* flags, const int compressor_flag):
-	Unaligned_InternalDMCalculator(flags)
+	distanceMeasure::NcdDistanceCalculator::NcdDistanceCalculator(RunFlags* flags, const std::string& name, const std::string& extension, const std::string& compress_command_format_string):
+	Unaligned_InternalDMCalculator(flags, name),
+	extension(extension),
+	compress_command_format_string(compress_command_format_string)
 	{
-		this->SetCompressorType(compressor_flag);
+		//this->SetCompressorType(compressor_flag);
 	}
+	
+	////TODO:: CREATE DERIVED NCD CALCULATORS
+	//	//i.e. "Ncd7ZipCalculator"
+	//void distanceMeasure::NcdDistanceCalculator::SetCompressorType(const int compressor_flag)
+	//{
+	//	//TODO:: extract to system parameters???
+	//	switch (compressor_flag)
+	//	{
+	//	case 0:
+	//		//all compressors
+	//		break;
+	//	case 1:
+	//		//7zip
+	//		this->extension = "7z";
 
-	//TODO:: CREATE DERIVED NCD CALCULATORS
-		//i.e. "Ncd7ZipCalculator"
-	void distanceMeasure::NcdDistanceCalculator::SetCompressorType(const int compressor_flag)
-	{
-		//TODO:: extract to system parameters???
-		switch (compressor_flag)
-		{
-		case 0:
-			//all compressors
-			break;
-		case 1:
-			//7zip
-			this->extension = "7z";
-
-			this->compress_command_format_string = SystemParameters::Get7ZipCommandString();
-			break;
-		case 2:
-			//mfcompress1
-			this->extension = "mfc1";
-			this->compress_command_format_string = SystemParameters::GetMFC1CommandString();
-			break;
-		case 3:
-			//mfcompress2
-			this->extension = "mfc2";
-			this->compress_command_format_string = SystemParameters::GetMFC2CommandString();
-			break;
-		case 4:
-			//mfcompress3
-			this->extension = "mfc3";
-			this->compress_command_format_string = SystemParameters::GetMFC3CommandString();
-			break;
-		case 5:
-			//winzip
-			break;
-		default:
-			break;
-		}
-	}
+	//		this->compress_command_format_string = SystemParameters::Get7ZipCommandString();
+	//		break;
+	//	case 2:
+	//		//mfcompress1
+	//		this->extension = "mfc1";
+	//		this->compress_command_format_string = SystemParameters::GetMFC1CommandString();
+	//		break;
+	//	case 3:
+	//		//mfcompress2
+	//		this->extension = "mfc2";
+	//		this->compress_command_format_string = SystemParameters::GetMFC2CommandString();
+	//		break;
+	//	case 4:
+	//		//mfcompress3
+	//		this->extension = "mfc3";
+	//		this->compress_command_format_string = SystemParameters::GetMFC3CommandString();
+	//		break;
+	//	case 5:
+	//		//winzip
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
 	
 	//driving method
 	void distanceMeasure::NcdDistanceCalculator::calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id)
@@ -79,10 +81,10 @@ namespace distanceMeasure
 		this->StopCalculationTimer(batch_id, sequence_set);
 	}
 
-	std::string distanceMeasure::NcdDistanceCalculator::GetCalculatorName() const
-	{
-		return this->extension;
-	}
+	//std::string distanceMeasure::NcdDistanceCalculator::GetCalculatorName() const
+	//{
+	//	return this->extension;
+	//}
 
 	float NcdDistanceCalculator::calculate_normalized_distance(const FileObject& file1, const FileObject& file2) const
 	{

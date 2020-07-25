@@ -10,23 +10,15 @@ January 24 2020
 
 #include "SystemParameters.h"
 #include <ctime>
+#include "DynamicSizedArray.h"
 
 
-////only implemented by BatchDistanceCalculators
-//void distanceMeasure::DistanceMeasureCalculator::batch_analyze_sequence_set(const std::vector<std::string>& sequence_set_names, const int batch_id)
-//{
-//	//do nothing -- cannot analyze sequence_set on 1 method -- use BatchCalculators
-//}
-
-distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags):
-pFlags(flags)
+distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags, const std::string& name):
+pFlags(flags),
+name(name)
 {
 }
 
-distanceMeasure::DistanceMeasureCalculator::~DistanceMeasureCalculator()
-{
-	delete this->pFlags;
-}
 
 //Sequence_set_size (N) Choose (4) --> number of quartet matrices 
 int distanceMeasure::DistanceMeasureCalculator::GetQuartetCombinations(int n)
@@ -180,15 +172,14 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 	if(this->pTimingsLogFile)
 	{
 		//ugly dynamic buffer...
-		const int sequence_timing_format_string_size = 75;
-		const int time_log_line_size = static_cast<int>(sequenceSet.size()) + sequence_timing_format_string_size;
-		char* const time_log_line = new char[time_log_line_size];
-
-		//sprintf_s(time_log_line, time_log_line_size, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
-		SystemParameters::GetSequenceSetTimingString(time_log_line, batchID, calculationTime, sequenceSet.c_str());
-		const std::string timingLine(time_log_line);
+		const int format_param_size = 100;
+		const int size = static_cast<int>(sequenceSet.size()) + format_param_size;
+		const DynamicSizedArray time_log_line(size);
 		
-		delete[] time_log_line;
+		//sprintf_s(time_log_line, time_log_line_size, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
+		SystemParameters::GetSequenceSetTimingString(time_log_line.array, batchID, calculationTime, sequenceSet.c_str());
+		const std::string timingLine(time_log_line.array);
+		
 		
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
 		fflush(this->pTimingsLogFile);

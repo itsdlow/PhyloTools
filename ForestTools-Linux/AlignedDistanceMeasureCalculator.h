@@ -17,7 +17,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		AlignedDistanceMeasureCalculator() = delete;
-		AlignedDistanceMeasureCalculator(RunFlags* flags);
+		AlignedDistanceMeasureCalculator(RunFlags* flags, const std::string& name);
 		
 		AlignedDistanceMeasureCalculator(const AlignedDistanceMeasureCalculator&) = delete;
 		AlignedDistanceMeasureCalculator& operator=(const AlignedDistanceMeasureCalculator&) = delete;

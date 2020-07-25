@@ -16,7 +16,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		PValueDistanceCalculator() = delete;
-		PValueDistanceCalculator(RunFlags* flags);
+		PValueDistanceCalculator(RunFlags* flags, const std::string& name);
 		
 		PValueDistanceCalculator(const PValueDistanceCalculator&) = delete;
 		PValueDistanceCalculator& operator=(const PValueDistanceCalculator&) = delete;
@@ -27,7 +27,7 @@ namespace distanceMeasure
 
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override;
 
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 	private:
 

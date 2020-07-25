@@ -8,14 +8,14 @@ March 27 2020
 
 #include <ctime>
 #include "SystemParameters.h"
-
+#include "DynamicSizedArray.h"
 
 /***************************************************************
  *						Timing functions
  ***************************************************************/
 
-distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags):
-DistanceMeasureCalculator(flags)
+distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags, const std::string& name):
+DistanceMeasureCalculator(flags, name)
 {
 }
 
@@ -46,10 +46,14 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 		//write to log file
 		if (this->pAlignmentTimingsLogFile)
 		{
+			const int format_param_size = 100;
+			const int size = static_cast<int>(sequenceSet.size()) + format_param_size;
+			const DynamicSizedArray time_log_line(size);
+			// TODO: BUFFER OVERRUN INVALIDATING DMC...
 			//NOTE:: Probably should (somehow) dynamically determine size
-			char time_log_line[1000];
-			SystemParameters::GetSequenceSetAlignmentTimingString(time_log_line, batchID, calculationTime, sequenceSet.c_str());
-			const std::string timingLine(time_log_line);
+			//char time_log_line[1000];
+			SystemParameters::GetSequenceSetAlignmentTimingString(time_log_line.array, batchID, calculationTime, sequenceSet.c_str());
+			const std::string timingLine(time_log_line.array);
 
 			size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
 			fflush(this->pAlignmentTimingsLogFile);
@@ -61,7 +65,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 void distanceMeasure::AlignedDistanceMeasureCalculator::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 {
 	DistanceMeasureCalculator::InitializeSequenceSetTimingsLog(total_sequence_count);
-	char alignment_log_file_path[100];
+	char alignment_log_file_path[500];
 	//sprintf_s(alignment_log_file_path, SystemParameters::GetAlignmentTimingsLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), total_sequence_count);
 	SystemParameters::GetAlignmentTimingsLogFileString(alignment_log_file_path, this->GetCalculatorName().c_str(), total_sequence_count);
 	//open file

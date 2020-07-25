@@ -30,17 +30,18 @@ namespace distanceMeasure
 	DistanceMatrixObject::~DistanceMatrixObject()
 	{
 		//this->writeResults();
-		
 		delete this->distanceMeasureFunc;
+		delete this->poRunFlags;
 	}
 
 	DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc):
 	//pResults(nullptr),
 	//pQuartetResults(nullptr),
 	//pTimesLogFile(nullptr),
-	fileObjectManager(names_strategy, sequences_dir),
+	distanceMeasureFunc(dmc),
+	poRunFlags(dmc->GetCalculatorFlags()),
+	fileObjectManager(names_strategy, sequences_dir)
 	//results(std::to_string(sequenceCount).append("\n")),
-	distanceMeasureFunc(dmc)
 	{
 		//printf("dmo constructed\n");
 	}
@@ -54,7 +55,7 @@ namespace distanceMeasure
 
 		if (!fastaInput.is_open())
 		{
-			printf("File at path: %s - could not be opened\nBatch matrix creation can not be executed\n", sequences_list_dir.c_str());
+			printf("SequenceList File at path: %s - could not be opened\nBatch matrix creation can not be executed\n", sequences_list_dir.c_str());
 		}
 		else
 		{

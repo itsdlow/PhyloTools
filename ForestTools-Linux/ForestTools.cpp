@@ -12,14 +12,7 @@ January 3 2020
 #include <fstream>
 
 #include "DistanceMatrixObject.h"
-
-#include "DistanceMeasureCalculator.h"
-#include "PValueDistanceCalculator.h"
-#include "LcsDistanceCalculator.h"
-#include "MrBayesDistanceCalculator.h"
-#include "NcdDistanceCalculator.h"
-#include "BatchDistanceCalculators.h"
-
+#include "RunFlags.h"
 #include "SequenceListsGenerator.h"
 
 #include "SequenceNamesStrategy.h"
@@ -28,13 +21,24 @@ January 3 2020
 #include "SequenceNamesDescriptionStrategy.h"
 #include "SequenceNamesIDStrategy.h"
 
+//singletons...
 #include "SystemParameters.h"
+#include "CalculatorFactory.h"
+//#include "DistanceMeasureCalculator.h"
+//#include "PValueDistanceCalculator.h"
+//#include "LcsDistanceCalculator.h"
+//#include "MrBayesDistanceCalculator.h"
+//#include "NcdDistanceCalculator.h"
+//#include "BatchDistanceCalculators.h"
 
 
+constexpr auto ASCII_INTEGER_DIFFERENCE = 48;
 
 //forward decl
 void TryClearingTempFiles();
-distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator();
+distanceMeasure::DistanceMeasureCalculator* CreateDistanceCalculator();
+void InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags, const int batch_calculator_index);
+void SetRunFlags(distanceMeasure::RunFlags* flags);
 std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo);
 distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
 
@@ -69,7 +73,7 @@ int main()
 	//set sequenceNames strategy --> pass to dmo -> fom (instead of sequence_names path)
     distanceMeasure::SequenceNamesStrategy* name_strategy = GetNamingStrategy();
 
-	distanceMeasure::DistanceMeasureCalculator* dmc = GetDistanceCalculator();
+	distanceMeasure::DistanceMeasureCalculator* dmc = CreateDistanceCalculator();
 
 	//get sequenceList type
     int batch_flag;
@@ -104,9 +108,10 @@ int main()
         for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix + TREES...
   *********************************************************************************************/
     dmo.batch_matrix_calculation(tree_sequences_list);
-
-	    /******   (batch) ANALYZE CREATED TREES!!!!     *******/
-	    //-----> only analyzed for BatchDistanceCalculator
+	/*
+	 *  Trees calculated + analyzed...
+	 */
+    SystemParameters::Terminate();
 }
 
 
@@ -215,44 +220,128 @@ std::string GetOriginalFastaInputPath()
     return sequence_dir;
 }
 
-distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()
+distanceMeasure::DistanceMeasureCalculator* CreateDistanceCalculator()
 {
     int calc_method;
-
-    //recieve matrix_calculation method (LCS, P-Value, MrBayes, NCD)
-    printf("All Methods (0), LCS (1), P_Value (2), MrBayes (3), NCD (4)\n");
-    printf("Matrix Calculation Method Number: ");
-	//NOTE IMPLEMENTED :: batch calculator bitmask -- allow for entering all '#' for calculators to analyze (1234 == 0 --> all calcs)
+    distanceMeasure::RunFlags* flags = new distanceMeasure::RunFlags();
+	//NOTE:: SHOULD SET FLAG PARAMETERS THROUGH USER INPUT...
+		//quartets? calc type bitmask, clustering?
+    //Sets the Quartet gen flag + clustering flag
+		//NOTE:: moved before Calc_Method input --> allows for MrBayes input prompt, immediately after calc selection
+	SetRunFlags(flags);
+	
+    distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
+    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump().c_str());
     std::cin >> calc_method;
 
-	//NOTE:: --> ASSUMPTION TAKEN --> (otherwise must check flag in BatchCalculatorAnalyzer)
+    int batch_calculator_index;
+	distanceMeasure::CalculatorFactory::GetBatchCalculatorIndex(batch_calculator_index);
+	//check if bitmask should be set
+	if(calc_method == batch_calculator_index)
+    {
+		//note:: could move to BatchCalculators constructor (like MrBayes) --> forces delayed init of member vars
+        InitializeBatchCalculatorFlags(flags, batch_calculator_index);
+    }
+
+	
+	//NOTE:: CANNOT CREATE CALCULATOR UNTIL ALL --RUN FLAGS-- received --> NEEDED FOR CONSTRUCTION SET***
+    dmc = distanceMeasure::CalculatorFactory::Create(calc_method, flags);
+    printf("=============================================================================\n");
+
+    return dmc;
+	
+}
+
+
+void InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags, const int batch_calculator_index)
+{
+    printf("==============================================================\n");
+    //determine calculators to use
+        //NOTE:: type of analysis determined by batch calc + quartet generation
+    ////BATCH NCD (multiple NCD calculations)
+    //---> adjust BatchCalculators to be able to run just_all types of NCD
+    std::string batch_methods;
+    unsigned int bitmask = 0;
+
+    printf("Enter each method number that you would like to generate a tree with.\n");
+    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump().c_str());
+
+    std::cin >> batch_methods;
+    for (auto it = batch_methods.begin(); it != batch_methods.end(); it++)
+    {
+        //for each char set corresponding bit position
+            //convert calc number/name ==> calc bitmask (find calc -> get bitmask)
+        const int index = *it - ASCII_INTEGER_DIFFERENCE;
+        if (index == batch_calculator_index)
+        {
+            //BITMASK FOR ALL CALCULATORS...
+            bitmask |= SystemParameters::GetAllCalculatorsMask();
+        }
+        else
+        {
+            //bit mask for given-current (*it) calculator
+            bitmask |= SystemParameters::GetCalculatorMask(index);
+        }
+    }
+    //calc count == size of batch_method string (unless all methods...)
+    //  || total number of bits set in mask
+    unsigned int mask = bitmask;
+    int bit_count = 0;
+    while (mask != 0)
+    {
+        const unsigned int bit = mask & 1;
+        if (bit == 1)
+        {
+            bit_count++;
+        }
+        mask >>= 1;
+    }
+
+    //get calculator count...
+    flags->calculators_bitmask = bitmask;
+    //set after checking bit mask
+
+    if (bit_count < 1)
+    {
+        //batch calc needs 2+ calcs for analysis
+        printf("ERROR --> Switching to defaults\n");
+        //===> TODO:: Give option to turn off analysis
+        exit(0);
+    }
+    //get number of methods included in bitmask
+    flags->calculator_count = bit_count;
+}
+
+void SetRunFlags(distanceMeasure::RunFlags* flags)
+{
+
     int quartets_gen_flag = 1;
-    //if batch calculator must calculate quartets as well...
-	if(calc_method != 0)
-	{
-		printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
-	    printf("No (0), Yes (1)\n");
-	    std::cin >> quartets_gen_flag;
-	}
+    printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
+    printf("No (0), Yes (1)\n");
+    std::cin >> quartets_gen_flag;
+
     bool generate_quartets = true;
-	if(quartets_gen_flag < 1)
-	{
+    if (quartets_gen_flag < 1)
+    {
         generate_quartets = false;
-	}//ew
+    }//ew
+    //set calc run flags blackboard
+    flags->generate_quartets = quartets_gen_flag;
+
 
     //CLUSTERING???
     int clustering_flag;
     printf("Would you like to an additional tree with clustered like sequences?\n");
-	//NOTE:: CANNOT PERFORM ANALYSIS ON TREEs that have been clustered -- clusters can vary from method to method...
+    //NOTE:: CANNOT PERFORM ANALYSIS ON TREEs that have been clustered -- clusters can vary from method to method...
     printf("None (0), Strict/Less clusters (1), Loose/More clusters (2)\n");
     std::cin >> clustering_flag;
     float closeness_limit = 0.0f;
-    switch(clustering_flag)
+    switch (clustering_flag)
     {
-    //case 0:
-    //	//identical sequences are grouped into single cluster
-    //    closeness_limit = 0.0f;
-    //    break;
+        //case 0:
+        //	//identical sequences are grouped into single cluster
+        //    closeness_limit = 0.0f;
+        //    break;
     case 1:
         //sequences that are nearly identical grouped into  single cluster
         closeness_limit = 0.1f;
@@ -264,49 +353,10 @@ distanceMeasure::DistanceMeasureCalculator* GetDistanceCalculator()
     default:
         break;
     }
-	
-	
-    distanceMeasure::RunFlags* flags = new distanceMeasure::RunFlags(generate_quartets, closeness_limit);
-	
-	//TODO:: if more than 1 calculator given --> pass bitmask to Batch calculator
-		//calc_method == 0 (give bitmask)
-	//
-	distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
-    switch (calc_method)
-    {
-    case 0:
-        //get calculator count...
-            //use bitmasking?
-         //TODO:: flags->calculators_bitmask = mask;
-        flags->calculator_count = SystemParameters::GetCalculatorsCount();
-        dmc = new distanceMeasure::BatchDistanceCalculators(flags);
-        break;
-    case 1:
-        dmc = new distanceMeasure::LcsDistanceCalculator(flags);
-        break;
-    case 2:
-        dmc = new distanceMeasure::PValueDistanceCalculator(flags);
-        break;
-    case 3:
-        dmc = new distanceMeasure::MrBayesDistanceCalculator(flags);
-        break;
-    case 4:
-        int compressor_flag;
-        printf("Compressor Flag Method: 7Zip (1), MFC1 (2), MFC2 (3), MFC3 (4), Winzip (5)\n");
-        //get compressor to use for calculation
-        std::cin >> compressor_flag;
-        dmc = new distanceMeasure::NcdDistanceCalculator(flags, compressor_flag);
-        break;
-    // case 5:
-          ////BATCH NCD (multiple NCD calculations)
-          //---> adjust BatchCalculators to be able to run just_all types of NCD
-    default:
-        break;
-    }
-	
-    return dmc;
-	
+    //set calc run flags blackboard
+    flags->closeness_factor = closeness_limit;
 }
+
 
 std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo)
 {

@@ -17,7 +17,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		MrBayesDistanceCalculator() = delete;
-		MrBayesDistanceCalculator(RunFlags* flags);
+		MrBayesDistanceCalculator(RunFlags* flags, const std::string& name);
 		
 		MrBayesDistanceCalculator(const MrBayesDistanceCalculator&) = delete;
 		MrBayesDistanceCalculator& operator=(const MrBayesDistanceCalculator&) = delete;
@@ -31,17 +31,20 @@ namespace distanceMeasure
 		void write_quartet_matrix(FileObjectManager& fileObjectManager, const std::vector<int>& speciesSequenceSetIndexes, const std::vector<std::string>& sequence_set_names, const int fileCount, const int quartet_count) override;
 
 
-
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 	private:
+
 		//batch running command creation func
 		std::string create_mrbayes_default_command_block_file(const std::string& relative_nxs_path) const;
+		//get user input for mrbayes run parameters
+		void prepare_mrbayes_params();
+		void GetMrBayesBatchCommand(char* buffer, const std::string batch_block_file_path) const;
+
+
 		void calculate_quartet_trees(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
 		void calculate_large_list_tree(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int batch_id);
 
-		void GetMrBayesBatchCommand(char* buffer, const std::string batch_block_file_path) const;
-		
 		//given mrbayes_output_filename --> extract last gen'ed tree 
 		static std::string ExtractMrBayesNewick(const std::string& t_file_name);//use r-value???
 		static std::string GetMrBayesTFileName(const std::string& relative_nxs_path);

@@ -24,9 +24,9 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		NcdDistanceCalculator(RunFlags* flags, const int compressor_flag);
-		
 		NcdDistanceCalculator() = delete;
+		NcdDistanceCalculator(RunFlags* flags, const std::string& name, const std::string& extension, const std::string& compress_command_format_string);
+		
 		NcdDistanceCalculator(const NcdDistanceCalculator&) = delete;
 		NcdDistanceCalculator& operator=(const NcdDistanceCalculator&) = delete;
 		virtual ~NcdDistanceCalculator() = default;
@@ -36,7 +36,7 @@ namespace distanceMeasure
 
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override;
 
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 	private:
 		//CompressorType type;
@@ -45,7 +45,7 @@ namespace distanceMeasure
 
 		//st
 
-		void SetCompressorType(const int compressor_flag);
+		//void SetCompressorType(const int compressor_flag);
 		static float computeNCDistance(int size_ij, int size_i, int size_j);
 	};
 

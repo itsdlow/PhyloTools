@@ -12,8 +12,8 @@ January 18 2020
 namespace distanceMeasure
 {
 
-	distanceMeasure::Unaligned_InternalDMCalculator::Unaligned_InternalDMCalculator(RunFlags* flags):
-	DistanceMeasureCalculator(flags)
+	distanceMeasure::Unaligned_InternalDMCalculator::Unaligned_InternalDMCalculator(RunFlags* flags, const std::string& name):
+	DistanceMeasureCalculator(flags, name)
 	{
 	}
 	

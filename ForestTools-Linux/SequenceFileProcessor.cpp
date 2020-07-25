@@ -14,6 +14,12 @@ January 3 2020*
 #include <fstream>
 #include <cstring>
 
+/*ASSUMPIONS:
+ *
+ * File given in FASTA format
+ * ==> Set of whole sequences -- NOT sequence sets for each species...
+ *
+*/
 namespace distanceMeasure
 {
 	//given a single Fasta File as "fastaInput" -- containing "fileCount" many sequences --> writes to FileObjectsBuffer
@@ -73,6 +79,7 @@ namespace distanceMeasure
 		//note:: could change this to just accension number
 		
 		//put together species_sequence --- 1 - ??? lines long
+		//TODO:: '>' ==> SequenceFileProcess->object(species)_separator
 		while (std::getline(fasta_input, line) && (line.empty() || line.front() != '>') )//if empty line -- dont check for new org line ( '>' )
 		{
 			speciesSequence.append(line);	

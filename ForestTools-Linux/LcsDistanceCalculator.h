@@ -16,7 +16,7 @@ namespace distanceMeasure
 	public:
 		//BIG 4
 		LcsDistanceCalculator() = delete;
-		LcsDistanceCalculator(RunFlags* flags);
+		LcsDistanceCalculator(RunFlags* flags, const std::string& name);
 		
 		LcsDistanceCalculator(const LcsDistanceCalculator&) = delete;
 		LcsDistanceCalculator& operator=(const LcsDistanceCalculator&) = delete;
@@ -27,7 +27,7 @@ namespace distanceMeasure
 
 		void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) override;
 
-		std::string GetCalculatorName() const override;
+		//std::string GetCalculatorName() const override;
 
 	private:
 		//helper funcs

@@ -24,18 +24,20 @@ namespace distanceMeasure
 	{
 	public:
 		//BIG 4
-		DistanceMeasureCalculator() = delete;
-		DistanceMeasureCalculator(RunFlags* flags);
+		//DistanceMeasureCalculator() = delete;
+		//DistanceMeasureCalculator();
+		DistanceMeasureCalculator(RunFlags* flags, const std::string& name);
 		
 		DistanceMeasureCalculator(const DistanceMeasureCalculator&) = delete;
 		DistanceMeasureCalculator& operator=(const DistanceMeasureCalculator&) = delete;
-		virtual ~DistanceMeasureCalculator();
+		virtual ~DistanceMeasureCalculator() = default;
 
 		//main calculator driver func -- output matrix as text-file
 			//calculate_sequence_set_trees()
 		virtual void calculate_and_output_matrix(FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const std::string& sequence_set, const int batch_id) = 0;
 		//called by Get_Matrix/Tree_FileNames + BatchCalculatorsAnalyzer
-		virtual std::string GetCalculatorName() const = 0;
+		//virtual std::string GetCalculatorName() const = 0;
+		std::string GetCalculatorName() const { return this->name; };
 
 
 		//internal calc specific
@@ -78,7 +80,9 @@ namespace distanceMeasure
 		static void swap_space_with_underscores(std::string& description_string);
 
 		const RunFlags* GetCalculatorFlags() const { return this->pFlags; };
-
+		bool GenerateQuartetsFlag() const { return this->pFlags->generate_quartets; };
+		float GetClosenessFactor() const { return this->pFlags->closeness_factor; };
+		
 	protected:
 		FILE* pTimingsLogFile = nullptr;
 
@@ -92,6 +96,7 @@ namespace distanceMeasure
 		double calculationTime = 0;
 		double totalCalculationTime = 0;
 
+		std::string name;
 		
 		//helpers
 		static std::vector<std::string> CreateSubsequenceSet(const std::vector<std::string>& sequence_set_names, const std::vector<int>& subSequenceSetIndexes);
