@@ -15,9 +15,10 @@ SystemParameters* SystemParameters::pInstance = nullptr;
 
 void SystemParameters::InitializeSystemDependentCommands()
 {
-	#ifdef _WIN32
-	SystemParameters::Instance().OS_WINDOWS = true;
-	
+	//#ifdef _WIN32 -- not defined on POSIX systems... (Cygwin, mingw32)
+	#ifdef __linux__
+		SystemParameters::Instance().OS_WINDOWS = true;
+		printf("linux...\n");
 	#endif
 
 	//INITIALIZE UNIX VERSUS WINDOWS COMMANDS
@@ -95,7 +96,7 @@ void SystemParameters::Initialize(int sequence_count, float sequenceListsSizeFra
 }
 
 SystemParameters::SystemParameters():
-OS_WINDOWS(false),
+OS_WINDOWS(true),
 max_sequence_list_size(0),
 subset_size_small(0),
 subset_size_large(0),
