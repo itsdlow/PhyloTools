@@ -13,7 +13,6 @@ namespace distanceMeasure
 	//forward declarations
 	class DistanceMeasureCalculator;
 	class BatchCalculatorsAnalyzer;
-
 }
 
 //used to create analyzer in batchCalculators
@@ -21,7 +20,6 @@ namespace phylo
 {
 	//forward declarations
 	class TreeAnalyzer;
-	struct RunFlags;
 
 	//singleton class holds all meta data on calculators... (commands, extensions, index, calculator return (Create) )
 	class AnalyzerFactory

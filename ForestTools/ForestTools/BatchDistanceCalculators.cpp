@@ -18,6 +18,7 @@ namespace distanceMeasure
 
 	distanceMeasure::BatchDistanceCalculators::BatchDistanceCalculators(RunFlags* flags, const std::string& name):
 	DistanceMeasureCalculator(flags, name),
+	//TODO:: MOVE INITIALIZATION OF MEMBER VARS TO body ---> get batch calc params (bitmask, count) before, in constructor
 	calculator_count(flags->calculator_count),
 	calculators(new DistanceMeasureCalculator* [this->calculator_count]),
 	//poBatchAnalyzer(new BatchCalculatorsAnalyzer(this->calculators, flags->calculator_count, flags->generate_analysis, flags->generate_quartets))

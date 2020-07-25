@@ -38,9 +38,13 @@ public:
 	char privGetNexusMissingChar() const { return nexus_missing_char; };
 	static int GetMrBayesNRuns() { return SystemParameters::Instance().mrbayes_nruns; };
 	static int GetMrBayesNChains() { return SystemParameters::Instance().mrbayes_nchains; };
+	static int GetMrBayesNGen() { return SystemParameters::Instance().mrbayes_ngen; };
 
+	
 	static const std::string& GetNexusDataTypeString() { return SystemParameters::Instance().nexus_data_type_string; };
+	static void SetNexusDataTypeString(const char* data_type) { SystemParameters::Instance().nexus_data_type_string = data_type; };
 
+	
 	static void GetMrBayesCommand(char* buffer, const char* batch_block_file_path);
 	const std::string& privGetMrBayesCommandString() const { return mrbayes_command_string; };
 	
@@ -240,15 +244,21 @@ private:
 	
 	//MRBAYES
 	const char nexus_gap_char = '-';
-	const char nexus_missing_char = '?';
-	const int mrbayes_nruns = 1;
-	const int mrbayes_nchains = 1;
+	//NOTE:: CAN ONLY SPECIFY 1 'missing' char --->
+		//TODO:: create a ambigious character swap function --> clean sequences (IF NEEDED)
+	//ASK FOR AMBIGUOUS CHARs...
+	const char nexus_missing_char = 'B';
+	const int mrbayes_nruns = 2;
+	const int mrbayes_nchains = 4;
+	const int mrbayes_ngen = 20000;
+	//ASK USER FOR SEQ TYPE (RNA/DNA/Protein) (allow mixed?...)
+	std::string nexus_data_type_string;// = "protein";
 
-	const std::string nexus_data_type_string = "DNA";
+	
 	//TODO:: add batch number to nexus_file format string??? -- allow user to supply directory of tempfiles
 	std::string mrbayes_files_dir;// = "ForestFiles/TempFiles/MrBayes";
 
-	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";//TODO:: fix to use mrbayes_file_dir...
+	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";//TODO:: fix to use mrbayes_file_dir VARIABLE...
 	const std::string nexus_header_format_string = "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = %s GAP = %c MISSING = %c;\n\tMATRIX\n";
 	
 	std::string mrbayes_command_string;// = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
