@@ -55,6 +55,9 @@
     <Filter Include="Source Files\ResourceManager">
       <UniqueIdentifier>{685e94cb-5d5e-4e9c-90c4-b762d536928a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SystemParameters">
+      <UniqueIdentifier>{25f4aa2b-8e95-4f27-a339-188e7efe47e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -104,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="CalculatorFastaFormatter.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
-    </ClCompile>
-    <ClCompile Include="SystemParameters.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DistanceMeasureCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
@@ -174,6 +174,9 @@
     <ClCompile Include="DynamicSizedArray.cpp">
       <Filter>Source Files\ResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="SystemParameters.cpp">
+      <Filter>Source Files\SystemParameters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -229,9 +232,6 @@
     </ClInclude>
     <ClInclude Include="CalculatorFastaFormatter.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemParameters.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="BatchDistanceCalculators.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
@@ -307,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="DynamicSizedArray.h">
       <Filter>Source Files\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemParameters.h">
+      <Filter>Source Files\SystemParameters</Filter>
+    </ClInclude>
+    <ClInclude Include="OSParameters.h">
+      <Filter>Source Files\SystemParameters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

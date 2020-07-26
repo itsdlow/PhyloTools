@@ -16,7 +16,7 @@ January 3 2020
 
 #include "SequenceNamesStrategy.h"
 
-#include <cstring>
+//#include <cstring>
 
 	//TODO
 	/*************************************************************

@@ -20,9 +20,10 @@ public:
 	//API interface
 	
 	static void Terminate();
+	static void Initialize();
 	static void InitializeSystemDependentCommands();
 	static void InitializeCalculatorFactory();
-	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
+	static void InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
 	
 	//used by PhyloTools

@@ -62,7 +62,9 @@ std::string GetOriginalFastaInputPath();
 int main()
 {
     std::cout << "Hello World!\n";
-    SystemParameters::InitializeSystemDependentCommands();
+    //SystemParameters::InitializeSystemDependentCommands();
+    SystemParameters::Initialize();
+
 	
     TryClearingTempFiles();
 	
@@ -98,7 +100,7 @@ int main()
     distanceMeasure::DistanceMatrixObject dmo(name_strategy, sequence_dir, dmc);
 	
     //CREATE SEQUENCE LISTS FILE
-    SystemParameters::Initialize(dmo.getFileObjectManager().get_file_count());
+    SystemParameters::InitializeSequenceSetParameters(dmo.getFileObjectManager().get_file_count());
     if(batch_flag != 1)
     {
 	    tree_sequences_list = SetSequenceListsFile(batch_flag, dmo);

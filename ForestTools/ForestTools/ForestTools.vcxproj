@@ -212,6 +212,7 @@
     <ClInclude Include="MrBayesDistanceCalculator.h" />
     <ClInclude Include="NcdDistanceCalculator.h" />
     <ClInclude Include="NullBatchCalculatorsAnalyzer.h" />
+    <ClInclude Include="OSParameters.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />
     <ClInclude Include="PValueDistanceCalculator.h" />

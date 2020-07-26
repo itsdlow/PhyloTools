@@ -13,6 +13,14 @@ February 15 2020
 
 SystemParameters* SystemParameters::pInstance = nullptr;
 
+void SystemParameters::Initialize()
+{
+	//set current OS
+	SystemParameters::InitializeSystemDependentCommands();
+	//Set strategy OsParameters...
+		//give working directory --> to create ForestFiles at...
+}
+
 void SystemParameters::InitializeSystemDependentCommands()
 {
 	//#ifdef _WIN32 -- not defined on POSIX systems... (Cygwin, mingw32)
@@ -81,7 +89,7 @@ void SystemParameters::Terminate()
 	delete SystemParameters::pInstance;
 }
 
-void SystemParameters::Initialize(int sequence_count, float sequenceListsSizeFractionLarge, float sequenceListsSizeFractionSmall, float sequenceListsCountFractionLarge, float sequenceListsCountFractionSmall)
+void SystemParameters::InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge, float sequenceListsSizeFractionSmall, float sequenceListsCountFractionLarge, float sequenceListsCountFractionSmall)
 {
 	SystemParameters::Instance().max_sequence_list_size = sequence_count;
 	SystemParameters::Instance().subset_size_small = static_cast<int>(static_cast<float>(sequence_count) * sequenceListsSizeFractionSmall);
