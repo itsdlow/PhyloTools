@@ -17,6 +17,9 @@ January 24 2020
 class SystemParameters
 {
 public:
+	~SystemParameters() = default;
+	SystemParameters(const SystemParameters&) = delete;
+	SystemParameters& operator=(const SystemParameters&) = delete;
 	//API interface
 	
 	static void Terminate();

@@ -235,6 +235,7 @@ namespace distanceMeasure
 	{
 		delete[] this->pFileObjectsBuffer;
 		delete[] this->pSequenceSetFileObjectBuffer;
+		delete this->sp;
 		delete this->pNameStrategy;
 	}
 }

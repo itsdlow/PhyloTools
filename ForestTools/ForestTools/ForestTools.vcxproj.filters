@@ -177,6 +177,9 @@
     <ClCompile Include="SystemParameters.cpp">
       <Filter>Source Files\SystemParameters</Filter>
     </ClCompile>
+    <ClCompile Include="ForestPlug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -313,6 +316,15 @@
     </ClInclude>
     <ClInclude Include="OSParameters.h">
       <Filter>Source Files\SystemParameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Framework\Framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Framework\ProjectSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ForestPlug.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

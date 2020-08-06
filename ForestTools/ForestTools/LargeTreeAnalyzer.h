@@ -40,13 +40,13 @@ namespace phylo
 		std::vector<float> compatibilityTable_LtoL;
 		//std::vector<float> compatibilityTable_IQtoQ;
 		//std::vector<float> compatibilityTable_QtoQ;
-		std::vector<float> compatibilityTable_IQtoIQ;
+		//std::vector<float> compatibilityTable_IQtoIQ;
 
 		//new analysis measure vectors
 		std::vector<float> compatibilityTable_LtoL_;
 		//std::vector<float> compatibilityTable_IQtoQ_;
 		//std::vector<float> compatibilityTable_QtoQ_;
-		std::vector<float> compatibilityTable_IQtoIQ_;
+		//std::vector<float> compatibilityTable_IQtoIQ_;
 	};
 }
 

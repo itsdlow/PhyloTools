@@ -86,6 +86,7 @@ void SystemParameters::InitializeCalculatorFactory()
 
 void SystemParameters::Terminate()
 {
+	distanceMeasure::CalculatorFactory::Terminate();
 	delete SystemParameters::pInstance;
 }
 

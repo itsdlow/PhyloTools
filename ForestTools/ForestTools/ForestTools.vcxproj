@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -102,8 +102,10 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;WINDOWS_TARGET_PLATFORM="$(TargetPlatformVersion)";MEMORY_LOGS_DIR=R"($(SolutionDir))";TOOLS_VERSION=R"($(VCToolsVersion))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Framework</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>Framework.h%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +166,7 @@
     <ClCompile Include="DynamicSizedArray.cpp" />
     <ClCompile Include="FileObject.cpp" />
     <ClCompile Include="FileObjectManager.cpp" />
+    <ClCompile Include="ForestPlug.cpp" />
     <ClCompile Include="ForestTools.cpp" />
     <ClCompile Include="InternalCalculatorTools.cpp" />
     <ClCompile Include="LargeTreeAnalyzer.cpp" />
@@ -188,6 +191,8 @@
     <ClCompile Include="Unaligned_InternalDMCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Framework\Framework.h" />
+    <ClInclude Include="..\Framework\ProjectSettings.h" />
     <ClInclude Include="AlignedDistanceMeasureCalculator.h" />
     <ClInclude Include="Aligned_InternalDMCalculator.h" />
     <ClInclude Include="AnalyzerType.h" />
@@ -206,6 +211,7 @@
     <ClInclude Include="DynamicSizedArray.h" />
     <ClInclude Include="FileObject.h" />
     <ClInclude Include="FileObjectManager.h" />
+    <ClInclude Include="ForestPlug.h" />
     <ClInclude Include="InternalCalculatorTools.h" />
     <ClInclude Include="LargeTreeAnalyzer.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
