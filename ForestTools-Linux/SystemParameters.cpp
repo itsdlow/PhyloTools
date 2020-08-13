@@ -25,7 +25,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 {
 	//#ifdef _WIN32 -- not defined on POSIX systems... (Cygwin, mingw32)
 	#ifdef __linux__
-		SystemParameters::Instance().OS_WINDOWS = true;
+		SystemParameters::Instance().OS_WINDOWS = false;
 		printf("linux...\n");
 	#endif
 
