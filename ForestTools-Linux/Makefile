@@ -50,7 +50,9 @@ phylotools_SOURCES = \
 	CompleteTreeAnalyzer.cpp 				CompleteTreeAnalyzer.h				\
 	LargeTreeAnalyzer.cpp 					LargeTreeAnalyzer.h					\
 	NullBatchCalculatorsAnalyzer.cpp 		NullBatchCalculatorsAnalyzer.h		\
-	DynamicSizedArray.cpp 					DynamicSizedArray.h
+	DynamicSizedArray.cpp 					DynamicSizedArray.h					\
+	ForestPlug.cpp 							ForestPlug.h						\
+	MrBayesDataType.cpp 					MrBayesDataType.h					
 
 INCLUDES = \
 	ForestTools.cpp							\
@@ -90,7 +92,9 @@ INCLUDES = \
 	CompleteTreeAnalyzer.cpp 				\
 	LargeTreeAnalyzer.cpp 					\
 	NullBatchCalculatorsAnalyzer.cpp 		\
-	DynamicSizedArray.cpp
+	DynamicSizedArray.cpp 					\
+	ForestPlug.cpp 							\
+	MrBayesDataType.cpp 					
 
 phylotools: $(phylotools_SOURCES)    
 	$(CC) $(CFLAGS) -o $(PROGRAM) $(INCLUDES)

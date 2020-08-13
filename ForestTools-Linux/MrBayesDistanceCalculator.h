@@ -12,6 +12,7 @@ January 3 2020
 
 namespace distanceMeasure
 {
+	
 	class MrBayesDistanceCalculator : public AlignedDistanceMeasureCalculator, private CalculatorNexusFormatter
 	{
 	public:

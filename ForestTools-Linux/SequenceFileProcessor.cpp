@@ -96,8 +96,14 @@ namespace distanceMeasure
 		}
 
 		printf("SpeciesName::%s\n", speciesIdentifier.c_str());
+
+		#pragma warning( push )
+	    #undef new
+
 		//create file object with file name and sequence string
 		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesIdentifier);//...not really const function... FileObjectManager:: unsafe pointer 
+
+		#pragma warning( pop )
 		printf("created FileObject\n");
 
 		return more_sequences_status;

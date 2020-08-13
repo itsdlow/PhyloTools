@@ -109,6 +109,7 @@ namespace distanceMeasure
 		{
 			delete this->calculators[i];
 		}
+		delete[] this->calculators;
 	}
 
 	//DistanceMeasureCalculator* distanceMeasure::BatchDistanceCalculators::GetCalculator(int i)

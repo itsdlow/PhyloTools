@@ -14,20 +14,33 @@ January 24 2020
 
 #include <string>
 
+
+//forward decls
+namespace distanceMeasure
+{
+	class MrBayesDataType;
+}
+
 class SystemParameters
 {
 public:
+	~SystemParameters() = default;
+	SystemParameters(const SystemParameters&) = delete;
+	SystemParameters& operator=(const SystemParameters&) = delete;
 	//API interface
 	
 	static void Terminate();
+	static void Initialize();
 	static void InitializeSystemDependentCommands();
 	static void InitializeCalculatorFactory();
-	static void Initialize(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
+	static void InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
 	
 	//used by PhyloTools
 	static const std::string& GetCleanNewickRegEx() { return SystemParameters::Instance().clean_newick_regex; };
-	
+	static const std::string& GetCleanFastaDescriptionRegEx() { return SystemParameters::Instance().clean_description_regex; };
+
+
 	//std::string GetFileFormatString() { return SystemParameters::Instance().format_string; };
 	static void GetNexusFileString(char* buffer, const size_t sequence_count);
 	const std::string& privGetNexusFileFormatString() const { return nexus_path_format_string; };
@@ -41,9 +54,10 @@ public:
 	static int GetMrBayesNGen() { return SystemParameters::Instance().mrbayes_ngen; };
 
 	
-	static const std::string& GetNexusDataTypeString() { return SystemParameters::Instance().nexus_data_type_string; };
-	static void SetNexusDataTypeString(const char* data_type) { SystemParameters::Instance().nexus_data_type_string = data_type; };
-
+	static const std::string GetNexusDataTypeString();// { return SystemParameters::Instance().nexus_data_type_string; };
+	static void SetNexusDataType(int data_type);// { SystemParameters::Instance().nexus_data_type_string = data_type; };
+	static std::string GetNexusDataTypeAlphabet();
+	static char GetNexusDataTypeUnknownChar();
 	
 	static void GetMrBayesCommand(char* buffer, const char* batch_block_file_path);
 	const std::string& privGetMrBayesCommandString() const { return mrbayes_command_string; };
@@ -247,13 +261,13 @@ private:
 	//NOTE:: CAN ONLY SPECIFY 1 'missing' char --->
 		//TODO:: create a ambigious character swap function --> clean sequences (IF NEEDED)
 	//ASK FOR AMBIGUOUS CHARs...
-	const char nexus_missing_char = 'B';
+	const char nexus_missing_char = '?';
 	const int mrbayes_nruns = 2;
 	const int mrbayes_nchains = 4;
 	const int mrbayes_ngen = 20000;
 	//ASK USER FOR SEQ TYPE (RNA/DNA/Protein) (allow mixed?...)
-	std::string nexus_data_type_string;// = "protein";
-
+	//std::string nexus_data_type_string;// = "protein";
+	distanceMeasure::MrBayesDataType* mrbayes_data_type;
 	
 	//TODO:: add batch number to nexus_file format string??? -- allow user to supply directory of tempfiles
 	std::string mrbayes_files_dir;// = "ForestFiles/TempFiles/MrBayes";
@@ -264,6 +278,8 @@ private:
 	std::string mrbayes_command_string;// = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
 	const std::string mrbayes_block_string = "ForestFiles/TempFiles/MrBayes/mrbayes_block.nxs";
 
+	//sequencenames description strategy
+	std::string clean_description_regex;
 	//Phylotools
 	std::string clean_newick_regex;
 };

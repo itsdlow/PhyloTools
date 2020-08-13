@@ -16,7 +16,7 @@ January 3 2020
 
 #include "SequenceNamesStrategy.h"
 
-#include <cstring>
+//#include <cstring>
 
 	//TODO
 	/*************************************************************
@@ -36,14 +36,18 @@ namespace distanceMeasure
 	//pFileObjectsBuffer(new FileObject[sequenceCount]),
 	pFileObjectsBuffer(nullptr),
 	pSequenceSetFileObjectBuffer(nullptr),
-	sp(nullptr),
+	sp(new SequenceFileProcessor()),
 	pNameStrategy(strategy),
 	sequenceSetCount(0),
 	filePath(path),
 	sequencesPath(path)
 	{
 		// NOTE :: dir processing if given a set of sequence sets.... (protein analysis)
-		this->sp = new SequenceFileProcessor();
+		//this->sp = new SequenceFileProcessor();
+	}
+
+	void distanceMeasure::FileObjectManager::InitializeFileObjects()
+	{
 		/*
 		 * 			this->fileCount = count;
 			this->sequenceSetCount = this->fileCount;
@@ -68,6 +72,7 @@ namespace distanceMeasure
 		this->currentSequenceNames = this->sequenceNames;
 	}
 
+	
 	//NOTE:: FOR UNALIGNED DMC's --> sequence set duplicated (shouldnt be needed... but is)
 	//used to create sub-fileObject_sets (sequence Set file objects -- for batch run)
 	void FileObjectManager::RefillFileObjectsBuffer(const std::vector<std::string>& sequence_set_names, const std::string& new_sequences_path)
@@ -235,6 +240,7 @@ namespace distanceMeasure
 	{
 		delete[] this->pFileObjectsBuffer;
 		delete[] this->pSequenceSetFileObjectBuffer;
+		delete this->sp;
 		delete this->pNameStrategy;
 	}
 }

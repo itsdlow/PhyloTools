@@ -27,19 +27,13 @@ namespace distanceMeasure
 	void distanceMeasure::MrBayesDistanceCalculator::prepare_mrbayes_params()
 	{
 		//hard coding cuz lazy
+		//NOTE:: MOVE TO SYSTEM PARAMTERS 9similar to calcualtorTypes..........................
 		const char* datatype  [3]  = {"DNA", "RNA", "protein"};
 		//create MrBayes block and command....
 		int index;
 		printf("%s (0), %s (1), %s (2)\nData type Number: ", datatype[0], datatype[1], datatype[2]);
 		std::cin >> index;
-		if(index < 3 && index >=0)
-		{
-			SystemParameters::SetNexusDataTypeString(datatype[index]);
-		}
-		else
-		{
-			exit(0);
-		}
+		SystemParameters::SetNexusDataType(index);
 	}
 
 	//main driver
@@ -194,6 +188,8 @@ namespace distanceMeasure
 		}
 		//gets latest "tree gen" (newick) line from .t file -- cleans/parses newick
 		std::string newick = MrBayesDistanceCalculator::ParseTreeGenLine(key, MrBayesDistanceCalculator::GetTreeGenLine(tFile));
+		//newicks end with semi colon...
+		newick.append(";");
 		
 		printf("finished processing tFile\n");
 		tFile.close();

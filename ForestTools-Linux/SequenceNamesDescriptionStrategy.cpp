@@ -7,6 +7,8 @@ April 16 2020
 
 #include "SequenceNamesDescriptionStrategy.h"
 
+#include "SystemParameters.h"
+
 #include "FileObjectManager.h"
 #include "FileObject.h"
 
@@ -40,15 +42,11 @@ namespace distanceMeasure
 		//remove '>' char from FASTA description
 		description_string.erase(0, 1);
 
-		//replace all spaces w/ "__underscores__"
-		for (auto i = 0u; i < description_string.size(); i++)
+		const std::string invalid_descriptor_chars = SystemParameters::GetCleanFastaDescriptionRegEx();
+		// find the position of each occurence of the characters in the string
+		for (size_t pos = 0; (pos = description_string.find_first_of(invalid_descriptor_chars, pos)) != std::string::npos; ++pos)
 		{
-			//TODO:: clean up
-			//remove underscores and commas
-			if (description_string.at(i) == '_' || description_string.at(i) == ',' || description_string.at(i) == ':' || description_string.at(i) == '(' || description_string.at(i) == ')')
-			{
-				description_string.replace(i, 1u, 1u, ' ');
-			}
+			description_string.replace(pos, 1u, 1u, ' ');
 		}
 	}
 }

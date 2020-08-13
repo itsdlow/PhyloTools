@@ -19,6 +19,9 @@ January 3 2020*
 //#include <time.h>
 #include <ctime>
 
+//needed for Sequence list file generation 
+#include "ForestPlug.h"
+
 namespace distanceMeasure
 {
 	//DistanceMatrixObject::DistanceMatrixObject()
@@ -31,7 +34,7 @@ namespace distanceMeasure
 	{
 		//this->writeResults();
 		delete this->distanceMeasureFunc;
-		delete this->poRunFlags;
+		//delete this->poRunFlags;
 	}
 
 	DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc):
@@ -39,13 +42,24 @@ namespace distanceMeasure
 	//pQuartetResults(nullptr),
 	//pTimesLogFile(nullptr),
 	distanceMeasureFunc(dmc),
-	poRunFlags(dmc->GetCalculatorFlags()),
+	//poRunFlags(dmc->GetCalculatorFlags()),
 	fileObjectManager(names_strategy, sequences_dir)
 	//results(std::to_string(sequenceCount).append("\n")),
 	{
 		//printf("dmo constructed\n");
 	}
 
+	void distanceMeasure::DistanceMatrixObject::run(const int batch_flag, std::string& sequences_list_dir)
+	{
+		this->fileObjectManager.InitializeFileObjects();
+
+		//Create sequence list file (if needed)
+		ForestPlug::SetSequenceListsFile(batch_flag, *this, sequences_list_dir);
+		
+		//driver function of DMO
+		this->batch_matrix_calculation(sequences_list_dir);
+	}
+	
 	//legacy:: name --> batch_calculation.. (computes matrix --> tree) on all sets of 'sequenceLists' file
 	void DistanceMatrixObject::batch_matrix_calculation(const std::string& sequences_list_dir)
 	{

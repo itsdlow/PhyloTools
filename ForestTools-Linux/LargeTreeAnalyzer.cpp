@@ -37,16 +37,14 @@ namespace phylo
 		this->compatibilityTable_LtoL.at(pos) += PhyloAnalysis::
 			computeSymmetricDifference(largeListTreeFilename1, largeListTreeFilename2);
 
-		this->compatibilityTable_IQtoIQ.at(pos) += PhyloAnalysis::
-			computeInducedQuartetAgreement(largeListTreeFilename1, largeListTreeFilename2);
+		//this->compatibilityTable_IQtoIQ.at(pos) += PhyloAnalysis::computeInducedQuartetAgreement(largeListTreeFilename1, largeListTreeFilename2);
 
 		//calculate all 4_NEW_compatibilities -- push to vectors
 		//SYMMETRIC
 		this->compatibilityTable_LtoL_.at(pos) += PhyloAnalysis::
 			computeCompatibilityMetric_LtoL(largeListTreeFilename1, largeListTreeFilename2);
 
-		this->compatibilityTable_IQtoIQ_.at(pos) += PhyloAnalysis::
-			computeCompatibilityMetric_IQtoIQ(largeListTreeFilename1, largeListTreeFilename2);
+		//his->compatibilityTable_IQtoIQ_.at(pos) += PhyloAnalysis::computeCompatibilityMetric_IQtoIQ(largeListTreeFilename1, largeListTreeFilename2);
 	}
 	void LargeTreeAnalyzer::InitializeCompatibilityVectors(const int table_dimensions)
 	{
@@ -55,9 +53,9 @@ namespace phylo
 			for (int j = 0; j < table_dimensions; j++)
 			{
 				this->compatibilityTable_LtoL.push_back(0);
-				this->compatibilityTable_IQtoIQ.push_back(0);
+				//this->compatibilityTable_IQtoIQ.push_back(0);
 				this->compatibilityTable_LtoL_.push_back(0);
-				this->compatibilityTable_IQtoIQ_.push_back(0);
+				//this->compatibilityTable_IQtoIQ_.push_back(0);
 			}
 
 		}
@@ -67,10 +65,10 @@ namespace phylo
 	{
 		//write each different anlysis measure table, to same file
 		this->WriteAnalysisTable(this->compatibilityTable_LtoL, std::string("compatibilityTable_LtoL\n"), ss_size_count);
-		this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ, std::string("compatibilityTable_IQtoIQ\n"), ss_size_count);
+		//this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ, std::string("compatibilityTable_IQtoIQ\n"), ss_size_count);
 		//new measures
 		this->WriteAnalysisTable(this->compatibilityTable_LtoL_, std::string("new_compatibilityTable_LtoL\n"), ss_size_count);
-		this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ_, std::string("new_compatibilityTable_IQtoIQ\n"), ss_size_count);
+		//this->WriteAnalysisTable(this->compatibilityTable_IQtoIQ_, std::string("new_compatibilityTable_IQtoIQ\n"), ss_size_count);
 
 		//open + write to file
 		char analysis_table_file_path[100];

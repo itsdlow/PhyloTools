@@ -9,9 +9,17 @@ February 15 2020
 
 #include "DistanceMeasureCalculator.h"
 #include "CalculatorFactory.h"
-
+#include "MrBayesDataType.h"
 
 SystemParameters* SystemParameters::pInstance = nullptr;
+
+void SystemParameters::Initialize()
+{
+	//set current OS
+	SystemParameters::InitializeSystemDependentCommands();
+	//Set strategy OsParameters...
+		//give working directory --> to create ForestFiles at...
+}
 
 void SystemParameters::InitializeSystemDependentCommands()
 {
@@ -41,6 +49,8 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().clean_dir_format_string = "del \"%s\\*\"";
 		//
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles\\TempFiles\\MrBayes";
+		//
+		SystemParameters::Instance().clean_description_regex = "_,:()/";
 
 	}
 	else
@@ -62,9 +72,11 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\.?[0-9]+[e\-+]*[0-9]*";
 		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";
 
-		
 		// directories... use os_slash variable to create rather than seperate windows/unix commands...
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
+
+		//
+		SystemParameters::Instance().clean_description_regex = "_,:()/";
 	}
 
 	//INITIALIZE CALCULATOR FACTORY
@@ -78,10 +90,11 @@ void SystemParameters::InitializeCalculatorFactory()
 
 void SystemParameters::Terminate()
 {
+	distanceMeasure::CalculatorFactory::Terminate();
 	delete SystemParameters::pInstance;
 }
 
-void SystemParameters::Initialize(int sequence_count, float sequenceListsSizeFractionLarge, float sequenceListsSizeFractionSmall, float sequenceListsCountFractionLarge, float sequenceListsCountFractionSmall)
+void SystemParameters::InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge, float sequenceListsSizeFractionSmall, float sequenceListsCountFractionLarge, float sequenceListsCountFractionSmall)
 {
 	SystemParameters::Instance().max_sequence_list_size = sequence_count;
 	SystemParameters::Instance().subset_size_small = static_cast<int>(static_cast<float>(sequence_count) * sequenceListsSizeFractionSmall);
@@ -170,6 +183,39 @@ void SystemParameters::GetMrBayesCommand(char* buffer, const char* batch_block_f
 	sprintf(buffer, SystemParameters::Instance().privGetMrBayesCommandString().c_str(), batch_block_file_path);
 
 }
+const std::string SystemParameters::GetNexusDataTypeString()
+{
+	return SystemParameters::Instance().mrbayes_data_type->GetDataType();
+}
+
+void SystemParameters::SetNexusDataType(int data_type)
+{
+	switch(data_type)
+	{
+		case 0:
+			SystemParameters::Instance().mrbayes_data_type = new distanceMeasure::MrBayesDNADataType;
+			break;
+		case 1:
+			SystemParameters::Instance().mrbayes_data_type = new distanceMeasure::MrBayesRNADataType;
+			break;
+		case 2:
+			SystemParameters::Instance().mrbayes_data_type = new distanceMeasure::MrBayesProteinDataType;
+			break;
+		default:
+			printf("Invalid Nexus data type index\n");
+			exit(0);
+	}
+}
+std::string SystemParameters::GetNexusDataTypeAlphabet()
+{
+	return SystemParameters::Instance().mrbayes_data_type->GetAlphabet();
+}
+char SystemParameters::GetNexusDataTypeUnknownChar()
+{
+	return SystemParameters::Instance().mrbayes_data_type->GetUnknownChar();
+}
+
+
 
 void SystemParameters::GetAnalysisTableFilePath(char* buffer, const int sequence_count)
 {
