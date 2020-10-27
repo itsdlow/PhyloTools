@@ -16,10 +16,10 @@ January 18 2020
 
 const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligned_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int total_sequence_count, const int hash_id) const
 {
-	//char aligned_file_path[150];
+	char aligned_file_path[150];
 	//sprintf_s(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), hash_id);
-	//SystemParameters::GetAlignedFileString(aligned_file_path, total_sequence_count, sequence_set_names.size(), hash_id);
-	char aligned_file_path[150] = "chloroplast_alignment.fasta";
+	SystemParameters::GetAlignedFileString(aligned_file_path, total_sequence_count, sequence_set_names.size(), hash_id);
+	
 	//TODO::...check if .afa file already created + size != 0
 	FILE* aligned_file = fopen(aligned_file_path, "rb");
 	//NOTE:: ASSUMPTION:: NO incomplete .afa files (if .afa exists -- is correct)
@@ -49,6 +49,7 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 	}
 	else
 	{
+		//printf("Aligned file exists...\n");
 		//close existing .afa file
 		fclose(aligned_file);
 	}

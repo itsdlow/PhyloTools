@@ -171,6 +171,7 @@
     <ClCompile Include="InternalCalculatorTools.cpp" />
     <ClCompile Include="LargeTreeAnalyzer.cpp" />
     <ClCompile Include="LcsDistanceCalculator.cpp" />
+    <ClCompile Include="MrBayesDataType.cpp" />
     <ClCompile Include="MrBayesDistanceCalculator.cpp" />
     <ClCompile Include="NcdDistanceCalculator.cpp" />
     <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="InternalCalculatorTools.h" />
     <ClInclude Include="LargeTreeAnalyzer.h" />
     <ClInclude Include="LcsDistanceCalculator.h" />
+    <ClInclude Include="MrBayesDataType.h" />
     <ClInclude Include="MrBayesDistanceCalculator.h" />
     <ClInclude Include="NcdDistanceCalculator.h" />
     <ClInclude Include="NullBatchCalculatorsAnalyzer.h" />

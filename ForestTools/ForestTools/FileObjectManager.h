@@ -36,6 +36,7 @@ January 3 2020*
 			//FileObjectManager(const std::string& sequence_names_path, const std::string& path);
 			FileObjectManager(SequenceNamesStrategy* name_strategy, const std::string& path);
 
+			void InitializeFileObjects();
 			
 			//helper functions
 			std::string CheckForSequenceName(const std::string& line) const;

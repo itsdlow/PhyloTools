@@ -58,6 +58,9 @@
     <Filter Include="Source Files\SystemParameters">
       <UniqueIdentifier>{25f4aa2b-8e95-4f27-a339-188e7efe47e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes">
+      <UniqueIdentifier>{8fa0b34c-4ecf-4d1a-a9ba-9db8b602e732}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -86,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="FileObject.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
-    </ClCompile>
-    <ClCompile Include="CalculatorNexusFormatter.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClCompile>
     <ClCompile Include="CalculatorAligner.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
@@ -180,6 +180,12 @@
     <ClCompile Include="ForestPlug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CalculatorNexusFormatter.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
+    </ClCompile>
+    <ClCompile Include="MrBayesDataType.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -211,9 +217,6 @@
     </ClInclude>
     <ClInclude Include="FileObject.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="CalculatorNexusFormatter.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
     <ClInclude Include="CalculatorAligner.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
@@ -325,6 +328,12 @@
     </ClInclude>
     <ClInclude Include="ForestPlug.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculatorNexusFormatter.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
+    </ClInclude>
+    <ClInclude Include="MrBayesDataType.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

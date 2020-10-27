@@ -49,6 +49,7 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 	}
 	else
 	{
+		//printf("Aligned file exists...\n");
 		//close existing .afa file
 		fclose(aligned_file);
 	}

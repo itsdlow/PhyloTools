@@ -63,7 +63,24 @@ std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus
 		
 		sequence_set_nexus_string.append(sequenceName);
 		sequence_set_nexus_string.append("\t");
-		sequence_set_nexus_string.append(pFileObject->GetSequenceString());
+
+
+
+		//Must ensure all sequence chars are apart of mrBayes alphabet...
+		std::string sequence_string(pFileObject->GetSequenceString());
+		//Set all non alphabet characters to 'X'
+		std::string valid_sequence_chars(SystemParameters::GetNexusDataTypeAlphabet());
+		// find the position of each occurence of the characters in the string
+		for (size_t pos = 0; (pos = sequence_string.find_first_not_of(valid_sequence_chars, pos)) != std::string::npos; ++pos)
+		{
+			sequence_string.replace(pos, 1u, 1u, SystemParameters::GetNexusDataTypeUnknownChar());
+		}
+
+		
+		//
+		//sequence_set_nexus_string.append(pFileObject->GetSequenceString());
+		sequence_set_nexus_string.append(sequence_string);
+		//
 		sequence_set_nexus_string.append("\n");
 		//write to file
 		size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
@@ -98,7 +115,7 @@ void distanceMeasure::CalculatorNexusFormatter::clean_sequence_description(std::
 	//replace all spaces w/ "__underscores__"
 	for (auto i = 0u; i < description_string.size(); i++)
 	{
-		if (isspace(description_string.at(i)) || description_string.at(i) == ',')
+		if (isspace(description_string.at(i)) || description_string.at(i) == ',' || description_string.at(i) == '/')
 		{
 			description_string.replace(i, 1u, 1u, '_');
 		}

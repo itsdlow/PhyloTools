@@ -1,0 +1,127 @@
+
+****************************************
+
+  MemTrackerLog 
+
+       Aug 21 2020  
+       11:09:26  
+
+****************************************
+
+External Libs: 
+
+Leak(0)  16 bytes ref:500 
+Leak(1)  16 bytes ref:501 
+Leak(2)  16 bytes ref:502 
+Leak(3)  16 bytes ref:503 
+Leak(4)  16 bytes ref:504 
+Leak(5)  16 bytes ref:505 
+Leak(6)  16 bytes ref:506 
+Leak(7)  16 bytes ref:507 
+Leak(8)  16 bytes ref:508 
+Leak(9)  16 bytes ref:509 
+Leak(10)  16 bytes ref:510 
+Leak(11)  16 bytes ref:511 
+Leak(12)  16 bytes ref:512 
+Leak(13)  16 bytes ref:513 
+Leak(14)  16 bytes ref:514 
+Leak(15)  16 bytes ref:515 
+Leak(16)  16 bytes ref:516 
+Leak(17)  16 bytes ref:517 
+Leak(18)  16 bytes ref:518 
+Leak(19)  16 bytes ref:519 
+Leak(20)  16 bytes ref:520 
+Leak(21)  16 bytes ref:521 
+Leak(22)  16 bytes ref:522 
+Leak(23)  16 bytes ref:523 
+Leak(24)  16 bytes ref:524 
+Leak(25)  16 bytes ref:525 
+Leak(26)  16 bytes ref:526 
+Leak(27)  16 bytes ref:527 
+Leak(28)  16 bytes ref:528 
+Leak(29)  16 bytes ref:529 
+Leak(30)  16 bytes ref:530 
+Leak(31)  16 bytes ref:531 
+Leak(32)  16 bytes ref:532 
+Leak(33)  16 bytes ref:533 
+Leak(34)  16 bytes ref:534 
+Leak(35)  16 bytes ref:535 
+Leak(36)  16 bytes ref:536 
+Leak(37)  16 bytes ref:537 
+Leak(38)  16 bytes ref:538 
+Leak(39)  16 bytes ref:539 
+Leak(40)  16 bytes ref:540 
+Leak(41)  16 bytes ref:541 
+Leak(42)  16 bytes ref:542 
+Leak(43)  16 bytes ref:543 
+Leak(44)  16 bytes ref:544 
+Leak(45)  16 bytes ref:545 
+Leak(46)  16 bytes ref:546 
+Leak(47)  16 bytes ref:547 
+Leak(48)  16 bytes ref:578 
+Leak(49)  16 bytes ref:579 
+Leak(50)  16 bytes ref:580 
+Leak(51)  16 bytes ref:581 
+Leak(52)  16 bytes ref:582 
+Leak(53)  16 bytes ref:583 
+Leak(54)  16 bytes ref:584 
+Leak(55)  16 bytes ref:585 
+Leak(56)  16 bytes ref:586 
+Leak(57)  16 bytes ref:587 
+Leak(58)  16 bytes ref:588 
+Leak(59)  16 bytes ref:589 
+Leak(60)  16 bytes ref:590 
+Leak(61)  16 bytes ref:591 
+Leak(62)  16 bytes ref:592 
+Leak(63)  16 bytes ref:593 
+Leak(64)  16 bytes ref:594 
+Leak(65)  16 bytes ref:595 
+Leak(66)  16 bytes ref:596 
+Leak(67)  16 bytes ref:597 
+Leak(68)  16 bytes ref:598 
+Leak(69)  16 bytes ref:599 
+Leak(70)  16 bytes ref:600 
+Leak(71)  16 bytes ref:601 
+Leak(72)  16 bytes ref:602 
+Leak(73)  16 bytes ref:603 
+Leak(74)  16 bytes ref:604 
+Leak(75)  16 bytes ref:605 
+Leak(76)  16 bytes ref:606 
+Leak(77)  16 bytes ref:607 
+Leak(78)  16 bytes ref:608 
+Leak(79)  16 bytes ref:609 
+Leak(80)  16 bytes ref:610 
+Leak(81)  16 bytes ref:611 
+Leak(82)  16 bytes ref:612 
+Leak(83)  16 bytes ref:613 
+Leak(84)  16 bytes ref:614 
+Leak(85)  16 bytes ref:615 
+Leak(86)  16 bytes ref:616 
+Leak(87)  16 bytes ref:617 
+Leak(88)  16 bytes ref:618 
+Leak(89)  16 bytes ref:619 
+Leak(90)  16 bytes ref:620 
+Leak(91)  16 bytes ref:621 
+Leak(92)  16 bytes ref:622 
+Leak(93)  16 bytes ref:623 
+Leak(94)  16 bytes ref:624 
+Leak(95)  16 bytes ref:625 
+
+Memory Tracking Stats:
+
+     Application files: 
+                num of leaks: 0 
+          total bytes leaked: 0 
+
+     External Libs: 
+                num of leaks: 96 
+          total bytes leaked: 1536 
+          largest individual: Leak(0) size: 16 
+
+CRT Debug Stats: 
+
+    0 bytes in 0 Free Blocks 
+    1536 bytes in 96 Normal Blocks 
+    32454 bytes in 121 CRT Blocks 
+    0 bytes in 0 Ignore Blocks 
+    0 bytes in 0 Client Blocks 

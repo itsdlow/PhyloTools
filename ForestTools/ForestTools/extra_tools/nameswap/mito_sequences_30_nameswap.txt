@@ -1,4 +1,10 @@
 #_NOTE:_SHOULD_NOT_BE_LOCATED_IN_PHYLOTOOL_DIRECTORY..._(along_with_all_user_data...)
+#FORMATTING:
+#--newick_expression_taxon_name, swap_name
+#--NEWICK TAXON NAMES --> restricted to chacrters a-Z, '_'
+
+#NOTE: 59 names with 1 duplicate => "tree shrew"
+#MISSING: Glis glis (fat dormouse) + Vombatus ursinus (Wombat)
 
 Orycteropus_afer, aardvark
 Loxodonta_africana, African elephant
@@ -30,3 +36,32 @@ Mouse, mouse
 Homo_sapiens, human
 Artibeus_jamaicensis, Jamaican fruit bat
 Pteropus_scapulatus, little red flying fox
+Manis_tetradactyla, pangolin
+Chalinolobus_tuberculatus, NZ long-tailed bat
+Dasypus_novemcinctus, armadillo
+Didelphis_virginiana, opossum
+Isoodon_macrourus, bandicoot
+Tupaia_belangeri_A, tree shrew_A
+Tupaia_belangeri_B, tree shrew_B
+Rattus_norvegicus, brown rat
+Ochotona_collaris, pika
+Sus_scrofa, echidna
+Ornithorhynchus_anatinus, platypus
+Ursus_maritimus, polar bear
+Oryctolagus_cuniculus, rabbit
+Lemur_catta, ring-tailed lemur
+Ovis_aries, sheep
+Macroscelides_proboscideus, elephant schrew
+Nycticebus_coucang, slow loris
+Echinops_telfairi, hedgehog tenrec
+Tamandua_tetradactyla, anteater
+Physeter_macrocephalus, sperm whale
+Eumetopias_jubatus, sea lion
+Pongo_abelii, orangutan
+Cynocephalus_variegatus, flying lemur
+Soriculus_fumidus, aslatic shrew
+Microtus_kikuchii, Taiwan vole
+Erinaceus_europaeus, hedgehog
+Gorilla_gorilla_gorilla, gorilla
+Ceratotherium_simum, white rhinoceros
+Cebus_albifrons, capuchin

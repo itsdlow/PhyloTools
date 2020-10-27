@@ -42,6 +42,8 @@ namespace distanceMeasure
 		
 		//custom constructor	
 		explicit DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc);
+
+		void run(const int batch_flag, std::string& sequences_list_dir);
 		
 		//helper functions
 		//
@@ -74,7 +76,7 @@ namespace distanceMeasure
 		//FILE* pTimesLogFile;
 		DistanceMeasureCalculator* distanceMeasureFunc;
 		// Run flags (global blackboard) between dmc's... owned by DMO (this)
-		const RunFlags* poRunFlags;
+		//const RunFlags* poRunFlags;
 		
 		FileObjectManager fileObjectManager;
 

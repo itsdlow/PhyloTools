@@ -10,12 +10,15 @@ August 5 2020
 #ifndef _ForestPlug
 #define _ForestPlug
 
+#include <string>
+#include <vector>
+
 namespace distanceMeasure
 {
 	class DistanceMatrixObject;
 	class DistanceMeasureCalculator;
 	class SequenceNamesStrategy;
-	class RunFlags;
+	struct RunFlags;
 }
 
 class ForestPlug
@@ -23,6 +26,8 @@ class ForestPlug
 private:
 	const int ASCII_INTEGER_DIFFERENCE = 48;
 
+	// Run flags (global blackboard) between dmc's... owned by DMO (this)
+	distanceMeasure::RunFlags* poRunFlags;
 public:
 	ForestPlug();
 	ForestPlug(const ForestPlug&) = delete;
@@ -32,16 +37,30 @@ public:
 
 	void run();
 
-private:
-	void TryClearingTempFiles();
-	distanceMeasure::DistanceMeasureCalculator* CreateDistanceCalculator();
-	void InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags, const int batch_calculator_index);
-	void SetRunFlags(distanceMeasure::RunFlags* flags);
-	std::string SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo);
-	distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
+	//use by DMO -- NOTE:: so ugly
+	static void SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo, std::string& sequence_lists_file);
 
+private:
+	//Sets (this) run flags...
+	distanceMeasure::DistanceMeasureCalculator* CreateDistanceCalculator() const;
+
+	void InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags, const int batch_calculator_index) const;
+
+	//static helpers
+	static void split(const std::string& s, char delim, std::vector<std::string>& result);
+	static void TryClearingTempFiles();
+	static void SetRunFlags(distanceMeasure::RunFlags* flags);
+	static distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
 	//returns path to initial-full FASTA file
 	std::string GetOriginalFastaInputPath();
+
+	//private function -- helpers functions
+	std::string GetSingleFastaFilePath();
+	std::string CombineMultipleFastaFileInputs();
+	std::string CombineMultipleChromosomalFastaInputs();
+
+
+
 };
 
 

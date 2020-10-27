@@ -41,9 +41,9 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//MrBayes
 		SystemParameters::Instance().mrbayes_command_string = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
 		//Muscle -- sequence alignment
-		//SystemParameters::Instance().muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
+		SystemParameters::Instance().muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
 		//Clustal-Omega
-		SystemParameters::Instance().muscle_command_string = "extra_tools\\clustal-omega-1.2.2-win64\\clustalo.exe -i %s -o %s --outfmt=fasta";
+		//SystemParameters::Instance().muscle_command_string = "extra_tools\\clustal-omega-1.2.2-win64\\clustalo.exe -i %s -o %s --outfmt=fasta -v -v";
 
 
 		//fastME
@@ -97,6 +97,11 @@ void SystemParameters::Terminate()
 	distanceMeasure::CalculatorFactory::Terminate();
 	delete SystemParameters::pInstance;
 }
+SystemParameters::~SystemParameters()
+{
+	delete this->mrbayes_data_type;
+}
+
 
 void SystemParameters::InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge, float sequenceListsSizeFractionSmall, float sequenceListsCountFractionLarge, float sequenceListsCountFractionSmall)
 {
@@ -120,7 +125,8 @@ subset_size_large(0),
 subset_count_large(0),
 subset_count_small(0),
 subset_count_fraction_large(0),
-subset_count_fraction_small(0)
+subset_count_fraction_small(0),
+mrbayes_data_type(nullptr)
 {
 	
 }

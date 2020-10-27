@@ -11,6 +11,7 @@ August 5 2020
 #define _ForestPlug
 
 #include <string>
+#include <vector>
 
 namespace distanceMeasure
 {
@@ -46,11 +47,19 @@ private:
 	void InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags, const int batch_calculator_index) const;
 
 	//static helpers
+	static void split(const std::string& s, char delim, std::vector<std::string>& result);
 	static void TryClearingTempFiles();
 	static void SetRunFlags(distanceMeasure::RunFlags* flags);
 	static distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
 	//returns path to initial-full FASTA file
-	static std::string GetOriginalFastaInputPath();
+	std::string GetOriginalFastaInputPath();
+
+	//private function -- helpers functions
+	std::string GetSingleFastaFilePath();
+	std::string CombineMultipleFastaFileInputs();
+	std::string CombineMultipleChromosomalFastaInputs();
+
+
 
 };
 

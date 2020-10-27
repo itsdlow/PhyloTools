@@ -24,7 +24,7 @@ namespace distanceMeasure
 class SystemParameters
 {
 public:
-	~SystemParameters() = default;
+	~SystemParameters();
 	SystemParameters(const SystemParameters&) = delete;
 	SystemParameters& operator=(const SystemParameters&) = delete;
 	//API interface

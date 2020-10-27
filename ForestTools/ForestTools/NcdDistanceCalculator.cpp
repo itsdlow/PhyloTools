@@ -114,7 +114,7 @@ namespace distanceMeasure
 		//get species 2 size
 		auto speciesEntry2 = std::find_if(CalculatorFastaCompressor::species_compressed_fasta_sizes.begin(), CalculatorFastaCompressor::species_compressed_fasta_sizes.end(), pred2);
 
-		return this->computeNCDistance(pair_size, speciesEntry1->second, speciesEntry2->second);;
+		return NcdDistanceCalculator::computeNCDistance(pair_size, speciesEntry1->second, speciesEntry2->second);;
 	}
 
 
