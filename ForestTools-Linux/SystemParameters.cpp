@@ -10,6 +10,7 @@ February 15 2020
 #include "DistanceMeasureCalculator.h"
 #include "CalculatorFactory.h"
 #include "MrBayesDataType.h"
+#include <algorithm>
 
 SystemParameters* SystemParameters::pInstance = nullptr;
 
@@ -130,6 +131,23 @@ mrbayes_data_type(nullptr)
 {
 	
 }
+
+
+std::string SystemParameters::Trim(const std::string s)
+{
+	auto start = s.begin();
+	while (start != s.end() && std::isspace(*start)) {
+		start++;
+	}
+
+	auto end = s.end();
+	do {
+		end--;
+	} while (std::distance(start, end) > 0 && std::isspace(*end));
+
+	return std::string(start, end + 1);
+}
+
 
 int SystemParameters::privGetCalculatorTypeCount()
 {

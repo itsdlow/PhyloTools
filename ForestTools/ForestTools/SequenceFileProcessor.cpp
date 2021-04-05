@@ -69,7 +69,7 @@ namespace distanceMeasure
 		SequencesProcessingStatus more_sequences_status = SequencesProcessingStatus::MORE_SEQUENCES;
 		std::string line(annotation_line);
 		std::string speciesSequence;
-		speciesSequence.reserve(10000);
+		speciesSequence.reserve(1000);
 
 		//get species name from File_Object_Manager
 		//const std::string speciesName(pFOM->CheckForSequenceName(line));

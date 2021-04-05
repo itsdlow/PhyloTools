@@ -155,6 +155,10 @@ public:
 	static int GetSubsetCountRatioSmall() { return static_cast<int>(SystemParameters::Instance().subset_count_fraction_small * 100); };
 	
 	static const std::string& GetSequenceListsFileString() { return SystemParameters::Instance().sequence_lists_filepath; };
+
+	//Helper methods
+	static std::string Trim(const std::string s);
+	
 	
 private:
 	SystemParameters();

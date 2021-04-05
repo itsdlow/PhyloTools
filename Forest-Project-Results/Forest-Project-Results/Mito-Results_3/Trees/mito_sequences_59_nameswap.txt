@@ -1,0 +1,67 @@
+#_NOTE:_SHOULD_NOT_BE_LOCATED_IN_PHYLOTOOL_DIRECTORY..._(along_with_all_user_data...)
+#FORMATTING:
+#newick_expression_taxon_name, swap_name
+
+
+#NOTE: 59 names with 1 duplicate => "tree shrew"
+#MISSING: Glis glis (fat dormouse) + Vombatus ursinus (Wombat)
+
+Orycteropus_afer, aardvark
+Loxodonta_africana, African elephant
+Lama_pacos,alpaca
+Equus_asinus,donkey
+Odobenus_rosmarus_rosmarus, walrus
+Tachyglossus_aculeatus, echidna
+Bos_taurus,cow
+Trichosurus_vulpecula, brushtailed possum
+Hylobates_lar, gibbon
+Macropus_robustus, wallaroo
+Canis_familiaris, dog
+Felis_catus, cat
+Cavia_porcellus, guinea pig
+Dugong_dugon, dugong
+Echinosorex_gymnura, moon rat
+Sciurus_vulgaris, squirrel
+Lepus_europaeus, brown hare
+Talpa_europaea, European mole
+Balaenoptera_physalus, blue whale
+Halichoerus_grypus, grey seal
+Thryonomys_swinderianus, cane rat 
+Rhinoceros_unicornis, Indian rhinoceros
+Papio_hamadryas, baboon
+Hippopotamus_amphibius, hippopotamus
+Equus_caballus, horse
+Cephalopachus_bancanus, tarsier
+Mouse, mouse
+Homo_sapiens, human
+Artibeus_jamaicensis, Jamaican fruit bat
+Pteropus_scapulatus, little red flying fox
+Manis_tetradactyla, pangolin
+Chalinolobus_tuberculatus, NZ long-tailed bat
+Dasypus_novemcinctus, armadillo
+Didelphis_virginiana, opossum
+Isoodon_macrourus, bandicoot
+Tupaia_belangeri_A, tupaia_A
+Tupaia_belangeri_B, tupaia_B
+Rattus_norvegicus, brown rat
+Ochotona_collaris, pika
+Sus_scrofa, pig
+Ornithorhynchus_anatinus, platypus
+Ursus_maritimus, polar bear
+Oryctolagus_cuniculus, rabbit
+Lemur_catta, ring-tailed lemur
+Ovis_aries, sheep
+Macroscelides_proboscideus, elephant schrew
+Nycticebus_coucang, slow loris
+Echinops_telfairi, tenrec
+Tamandua_tetradactyla, anteater
+Physeter_macrocephalus, sperm whale
+Eumetopias_jubatus, sea lion
+Pongo_abelii, orangutan
+Cynocephalus_variegatus, flying lemur
+Soriculus_fumidus, aslatic shrew
+Microtus_kikuchii, Taiwan vole
+Erinaceus_europaeus, hedgehog
+Gorilla_gorilla_gorilla, gorilla
+Ceratotherium_simum, white rhinoceros
+Cebus_albifrons, capuchin

@@ -359,7 +359,7 @@ std::string ForestPlug::GetOriginalFastaInputPath()
     default:
         //throw std::exception("Invalid FASTA input type");
         printf("Invalid FASTA input type\n");
-	    exit(0);
+	exit(0);
     }
 	
     return sequence_dir;

@@ -35,6 +35,10 @@ public:
 	static void InitializeCalculatorFactory();
 	static void InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
+	//
+	static int GetCurrentFileSetBatchNumber() { return SystemParameters::Instance().fileSetBatchNumber; };
+	static void IncrementCurrentFileSetBatchNumber() { SystemParameters::Instance().fileSetBatchNumber++; };
+
 	
 	//used by PhyloTools
 	static const std::string& GetCleanNewickRegEx() { return SystemParameters::Instance().clean_newick_regex; };
@@ -114,7 +118,7 @@ public:
 	static void GetAnalysisTableFilePath(char* buffer, const int sequence_count);
 	const std::string& privGetAnalysisTableFileFormatString() const { return analysis_table_filepath; };
 	
-	static const std::string& GetBatchAnalysisTableFileFormatString() { return SystemParameters::Instance().batch_analysis_table_filepath; };
+	//static const std::string& GetBatchAnalysisTableFileFormatString() { return SystemParameters::Instance().batch_analysis_table_filepath; };
 
 	//buffer sizes
 	//static const int GetTreeFilePathSize() { return SystemParameters::Instance().tree_file_path_size; };
@@ -131,6 +135,8 @@ public:
 	static const std::string& GetMFC3CommandString() { return SystemParameters::Instance().mfc3_command_string; };
 
 	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
+
+	static const std::string& GetGecoCommandString() { return SystemParameters::Instance().geco1_command_string; };
 
 	
 	//***
@@ -155,6 +161,10 @@ public:
 	static int GetSubsetCountRatioSmall() { return static_cast<int>(SystemParameters::Instance().subset_count_fraction_small * 100); };
 	
 	static const std::string& GetSequenceListsFileString() { return SystemParameters::Instance().sequence_lists_filepath; };
+
+	//Helper methods
+	static std::string Trim(const std::string& s);
+	
 	
 private:
 	SystemParameters();
@@ -171,7 +181,8 @@ private:
 
 	//private members
 	bool OS_WINDOWS;
-	
+
+	int fileSetBatchNumber;
 	//const int CALCULATOR_COUNT = 5;
 
 	
@@ -196,32 +207,32 @@ private:
 		//create sub folders? i.e. 'Analysis'
 			//use getter + setter to update to non-default...
 	//const std::string default_analysis_tables_path = "ForestFiles/Analysis/";
-	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d.txt";
-	const std::string batch_analysis_table_filepath = "ForestFiles/Analysis/BatchAnalysisTables_%d.txt";
+	const std::string analysis_table_filepath = "ForestFiles/Analysis/AnalysisTables_%d_%d.txt";
+	//const std::string batch_analysis_table_filepath = "ForestFiles/Analysis/BatchAnalysisTables_%d_%d.txt";
 
 	
 	//DEBUG -- timings log
-	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s_%d.txt";
+	const std::string timings_log_path_format_string = "ForestFiles/Logs/TimingsLog%s_%d_%d.txt";
 	const std::string sequence_set_timing_format_string = "Calculation Time For Sequence Set[%d]: %f minutes\n\t%s\n";
 	const std::string alignment_timings_log_path_format_string = "ForestFiles/Logs/AlignmentTimingsLog%s_d.txt";
 	const std::string sequence_set_alignment_timing_format_string = "Alignment Time For Sequence Set[%d]: %f minutes\n\t%s\n";
 
-	const std::string closeness_limit_log_format_string = "ForestFiles/Logs/ClosenessLimitLog%s_%zu_%d.txt";
+	const std::string closeness_limit_log_format_string = "ForestFiles/Logs/ClosenessLimitLog%s_%zu_%d_%d.txt";
 	
 	//Tree strings
 	//const int tree_file_path_size = 150;
-	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d.newick";
-	const std::string quartet_trees_path_format_string = "ForestFiles/Trees/QuartetTrees%s_%zu_%d.newick";
-	const std::string clustered_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d_clustered.newick";
+	const std::string large_list_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d_%d.newick";
+	const std::string quartet_trees_path_format_string = "ForestFiles/Trees/QuartetTrees%s_%zu_%d_%d.newick";
+	const std::string clustered_tree_path_format_string = "ForestFiles/Trees/LargeListTree%s_%zu_%d_%d_clustered.newick";
 	//const int 
 	std::string fastme_command_string;// = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 
 	
 	//internal (distance matrix)
 	//const int matrix_file_path_size = 150;
-	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d.txt";
-	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d.txt";
-	const std::string clustered_matrix_path_format_string = "ForestFiles/Matrices/ClusteredMatrix%s_%zu_%d_clustered.txt";
+	const std::string large_list_matrix_path_format_string = "ForestFiles/Matrices/LargeListMatrix%s_%zu_%d_%d.txt";
+	const std::string quartet_matrices_path_format_string = "ForestFiles/Matrices/QuartetMatrices%s_%zu_%d_%d.txt";
+	const std::string clustered_matrix_path_format_string = "ForestFiles/Matrices/ClusteredMatrix%s_%zu_%d_%d_clustered.txt";
 	
 	// -- allow user to supply directory of tempfiles
 	const std::string temp_files_dir = "ForestFiles/TempFiles";
@@ -255,6 +266,7 @@ private:
 	std::string zip7_command_string;// = "extra_tools\\7-Zip\\7z.exe a %s %s > nul";
 	//const std::string zip7_command_string_unix = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
 
+	std::string geco1_command_string;
 	
 	//MRBAYES
 	const char nexus_gap_char = '-';

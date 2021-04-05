@@ -10,6 +10,7 @@ February 15 2020
 #include "DistanceMeasureCalculator.h"
 #include "CalculatorFactory.h"
 #include "MrBayesDataType.h"
+#include <algorithm>
 
 SystemParameters* SystemParameters::pInstance = nullptr;
 
@@ -50,7 +51,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 		//phylotools --
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "del \"%s\\*\"";
+		SystemParameters::Instance().clean_dir_format_string = "del /Q \"%s\\*\"";
 		//
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles\\TempFiles\\MrBayes";
 		//
@@ -65,6 +66,9 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().mfc1_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -1 -o %s %s";
 		SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -2 -o %s %s";
 		SystemParameters::Instance().mfc3_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
+		//
+		//
+		
 		//MrBayes
 		SystemParameters::Instance().mrbayes_command_string = "./extra_tools/MrBayes-3.2.7a/MrBayes-3.2.7a/src/mb %s";
 		//Muscle -- sequence alignment
@@ -73,8 +77,8 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/binaries/fastme-2.1.5-linux64 -i %s -D %d -o %s";
 		SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/src/fastme -i %s -D %d -o %s";
 		//phylotools -- TODO:: CHECK IF PROPER REGEX FOR LINUX...
-		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\.?[0-9]+[e\-+]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";
+		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\.?[0-9]+[e+-]*[0-9]*";
+		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";//NOTE:: Should not prompt user...
 
 		// directories... use os_slash variable to create rather than seperate windows/unix commands...
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
@@ -119,6 +123,7 @@ void SystemParameters::InitializeSequenceSetParameters(int sequence_count, float
 
 SystemParameters::SystemParameters():
 OS_WINDOWS(true),
+fileSetBatchNumber(0),
 max_sequence_list_size(0),
 subset_size_small(0),
 subset_size_large(0),
@@ -130,6 +135,23 @@ mrbayes_data_type(nullptr)
 {
 	
 }
+
+
+std::string SystemParameters::Trim(const std::string& s)
+{
+	auto start = s.begin();
+	while (start != s.end() && std::isspace(*start)) {
+		start++;
+	}
+
+	auto end = s.end();
+	do {
+		end--;
+	} while (std::distance(start, end) > 0 && std::isspace(*end));
+
+	return std::string(start, end + 1);
+}
+
 
 int SystemParameters::privGetCalculatorTypeCount()
 {
@@ -160,7 +182,7 @@ void SystemParameters::GetSequenceSetTimingString(char* buffer, int batch_id, do
 }
 void SystemParameters::GetTimingsLogFileString(char* buffer, const char* calculator_name, int total_sequence_count)
 {
-	sprintf(buffer, SystemParameters::Instance().privGetTimingsLogFileFormatString().c_str(), calculator_name, total_sequence_count);
+	sprintf(buffer, SystemParameters::Instance().privGetTimingsLogFileFormatString().c_str(), calculator_name, total_sequence_count, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 
 void SystemParameters::GetFastaFileString(char* buffer, const size_t sequence_count, const int hash_id)
@@ -229,7 +251,7 @@ char SystemParameters::GetNexusDataTypeUnknownChar()
 
 void SystemParameters::GetAnalysisTableFilePath(char* buffer, const int sequence_count)
 {
-	sprintf(buffer, SystemParameters::Instance().privGetAnalysisTableFileFormatString().c_str(), sequence_count);
+	sprintf(buffer, SystemParameters::Instance().privGetAnalysisTableFileFormatString().c_str(), sequence_count, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 
 void SystemParameters::GetCompressedFastaFileString(char* buffer, const int file_count)

@@ -61,6 +61,9 @@
     <Filter Include="Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes">
       <UniqueIdentifier>{8fa0b34c-4ecf-4d1a-a9ba-9db8b602e732}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor">
+      <UniqueIdentifier>{cbf545cc-a258-4a50-89cc-f114d77b0473}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -80,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="FileObjectManager.cpp">
       <Filter>Source Files\To-Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="SequenceFileProcessor.cpp">
-      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClCompile>
     <ClCompile Include="SequenceDirectoryProcessor.cpp">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
@@ -186,6 +186,15 @@
     <ClCompile Include="MrBayesDataType.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
     </ClCompile>
+    <ClCompile Include="SequenceFileProcessor.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusFormatProcessor.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="SequenceNamesNexusStrategy.cpp">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -207,9 +216,6 @@
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClInclude>
     <ClInclude Include="SequenceProcessor.h">
-      <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="SequenceFileProcessor.h">
       <Filter>Source Files\To-Matrix\Sequence_Data_Processing</Filter>
     </ClInclude>
     <ClInclude Include="SequenceDirectoryProcessor.h">
@@ -334,6 +340,18 @@
     </ClInclude>
     <ClInclude Include="MrBayesDataType.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools\MrBayes</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceFileProcessor.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusFormatProcessor.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceNamesNexusStrategy.h">
+      <Filter>Source Files\To-Matrix\Sequence_Data_Processing\NamingStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSequenceFileSet.h">
+      <Filter>Source Files\SystemParameters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

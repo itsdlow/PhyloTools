@@ -239,6 +239,32 @@ namespace distanceMeasure
 
 	};
 
+
+	class Ncd_Geco1CalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_Geco1CalculatorType();
+
+		static Ncd_Geco1CalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_Geco1CalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_Geco1CalculatorType* pInstance;
+	public:
+		virtual ~Ncd_Geco1CalculatorType() = default;
+		Ncd_Geco1CalculatorType(const Ncd_Geco1CalculatorType&) = delete;
+		Ncd_Geco1CalculatorType& operator=(const Ncd_Geco1CalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_Geco1CalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_Geco1CalculatorType::pInstance; };
+
+	};
+
 }
 
 #endif

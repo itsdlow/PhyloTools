@@ -15,6 +15,12 @@ namespace distanceMeasure
 		//Directory Processing -- all sequences ins seperate files within the same, given directory
 	enum class SequenceProcessorType {FileProcessor, DirectoryProcessor};
 
+	enum class InputSequencesFormatType
+	{
+		FASTA,
+		NEXUS
+	};
+
 }
 
 #endif // !_SequenceProcessorType

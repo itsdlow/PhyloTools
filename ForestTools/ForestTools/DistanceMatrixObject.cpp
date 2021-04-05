@@ -21,6 +21,7 @@ January 3 2020*
 
 //needed for Sequence list file generation 
 #include "ForestPlug.h"
+#include "SystemParameters.h"
 
 namespace distanceMeasure
 {
@@ -37,27 +38,48 @@ namespace distanceMeasure
 		//delete this->poRunFlags;
 	}
 
-	DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc):
-	//pResults(nullptr),
-	//pQuartetResults(nullptr),
-	//pTimesLogFile(nullptr),
-	distanceMeasureFunc(dmc),
-	//poRunFlags(dmc->GetCalculatorFlags()),
-	fileObjectManager(names_strategy, sequences_dir)
-	//results(std::to_string(sequenceCount).append("\n")),
+	//DistanceMatrixObject::DistanceMatrixObject(SequenceNamesStrategy* names_strategy, InputSequencesFormatType format, std::string sequences_dir, DistanceMeasureCalculator* dmc):
+	////pResults(nullptr),
+	////pQuartetResults(nullptr),
+	////pTimesLogFile(nullptr),
+	//distanceMeasureFunc(dmc),
+	////poRunFlags(dmc->GetCalculatorFlags()),
+	//fileObjectManager(names_strategy, format, sequences_dir)//TODO:: tell FOM format of "sequences_dir"... (FASTA || NEXUS)
+	////results(std::to_string(sequenceCount).append("\n")),
+	//{
+	//	//printf("dmo constructed\n");
+	//}
+	
+	distanceMeasure::DistanceMatrixObject::DistanceMatrixObject(DistanceMeasureCalculator* dmc):
+		distanceMeasureFunc(dmc),
+		fileObjectManager()
 	{
-		//printf("dmo constructed\n");
 	}
 
-	void distanceMeasure::DistanceMatrixObject::run(const int batch_flag, std::string& sequences_list_dir)
-	{
-		this->fileObjectManager.InitializeFileObjects();
-
-		//Create sequence list file (if needed)
-		ForestPlug::SetSequenceListsFile(batch_flag, *this, sequences_list_dir);
+	
+	void distanceMeasure::DistanceMatrixObject::run(std::vector<InputSequenceFileSet> batch_files)
+	{		
+		for (InputSequenceFileSet inputFileSet: batch_files)
+		{
+			this->fileObjectManager.Initialize(inputFileSet.namesStrategy, inputFileSet.formatting, inputFileSet.path);
 		
-		//driver function of DMO
-		this->batch_matrix_calculation(sequences_list_dir);
+			this->fileObjectManager.InitializeFileObjects();
+
+			//Create sequence list file (if needed)
+			ForestPlug::SetSequenceListsFile(inputFileSet.sequenceListBatchFlag, *this, inputFileSet.sequenceListPath);
+			
+			//driver function of DMO
+			this->batch_matrix_calculation(inputFileSet.sequenceListPath);
+
+			//clean FOM resources...
+			this->fileObjectManager.Terminate();
+
+			//update current batch number
+			SystemParameters::IncrementCurrentFileSetBatchNumber();
+			//clear temp files...
+			ForestPlug::ClearTempFiles();
+		}
+
 	}
 	
 	//legacy:: name --> batch_calculation.. (computes matrix --> tree) on all sets of 'sequenceLists' file
