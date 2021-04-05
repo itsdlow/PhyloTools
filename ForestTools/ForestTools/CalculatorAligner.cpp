@@ -19,10 +19,10 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 	char aligned_file_path[150];
 	//sprintf_s(aligned_file_path, SystemParameters::GetAlignedFileFormatString().c_str(), sequence_set_names.size(), hash_id);
 	SystemParameters::GetAlignedFileString(aligned_file_path, total_sequence_count, sequence_set_names.size(), hash_id);
-	
-	//TODO::...check if .afa file already created + size != 0
+
+	//NOTE:: could re-enable optimization --> Must clear TempFiles on each FileSet BatchRun (in DMO)
 	FILE* aligned_file = fopen(aligned_file_path, "rb");
-	//NOTE:: ASSUMPTION:: NO incomplete .afa files (if .afa exists -- is correct)
+	////NOTE:: ASSUMPTION:: NO incomplete .afa files (if .afa exists -- is correct)
 	if(!aligned_file)
 	{
 		//TIME ALIGNMENT

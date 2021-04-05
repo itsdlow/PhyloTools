@@ -76,6 +76,8 @@ namespace distanceMeasure
 
 			//update current batch number
 			SystemParameters::IncrementCurrentFileSetBatchNumber();
+			//clear temp files...
+			ForestPlug::ClearTempFiles();
 		}
 
 	}

@@ -91,18 +91,22 @@ void ForestPlug::TryClearingTempFiles()
 
     if (clear_temp_files_flag)
     {
-        char clean_mrbayes_dir_cmd[200];
-        char clean_temp_dir_cmd[200];
-
-        //note:: extract to system paramters...
-        sprintf(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
-        sprintf(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
-
-        //remove files from MrBayes + TempFiles
-        system(clean_mrbayes_dir_cmd);
-        system(clean_temp_dir_cmd);
-
+        ForestPlug::ClearTempFiles();
     }
+}
+
+void ForestPlug::ClearTempFiles()
+{
+    char clean_mrbayes_dir_cmd[200];
+    char clean_temp_dir_cmd[200];
+
+    //note:: extract to system paramters...
+    sprintf(clean_mrbayes_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetMrBayesFilesDirectory().c_str());
+    sprintf(clean_temp_dir_cmd, SystemParameters::GetCleanDirectoryCommandString().c_str(), SystemParameters::GetTempFilesDirectory().c_str());
+
+    //remove files from MrBayes + TempFiles
+    system(clean_mrbayes_dir_cmd);
+    system(clean_temp_dir_cmd);
 }
 
 distanceMeasure::DistanceMeasureCalculator* ForestPlug::CreateDistanceCalculator() const

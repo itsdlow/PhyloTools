@@ -41,7 +41,8 @@ public:
 
 	//use by DMO -- NOTE:: so ugly
 	static void SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo, std::string& sequence_lists_file);
-	
+	static void ClearTempFiles();
+
 private:
 	
 	//Sets (this) run flags...

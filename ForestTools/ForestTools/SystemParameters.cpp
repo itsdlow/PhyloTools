@@ -51,7 +51,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
 		//phylotools --
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "del \"%s\\*\"";
+		SystemParameters::Instance().clean_dir_format_string = "del /Q \"%s\\*\"";
 		//
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles\\TempFiles\\MrBayes";
 		//
@@ -78,7 +78,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/src/fastme -i %s -D %d -o %s";
 		//phylotools -- TODO:: CHECK IF PROPER REGEX FOR LINUX...
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\.?[0-9]+[e+-]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";
+		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";//NOTE:: Should not prompt user...
 
 		// directories... use os_slash variable to create rather than seperate windows/unix commands...
 		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
