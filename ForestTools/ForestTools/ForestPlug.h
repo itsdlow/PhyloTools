@@ -12,6 +12,8 @@ August 5 2020
 
 #include <string>
 #include <vector>
+#include "SequenceProcessorType.h"
+#include "InputSequenceFileSet.h"
 
 namespace distanceMeasure
 {
@@ -39,8 +41,9 @@ public:
 
 	//use by DMO -- NOTE:: so ugly
 	static void SetSequenceListsFile(int batch_flag, const distanceMeasure::DistanceMatrixObject& dmo, std::string& sequence_lists_file);
-
+	
 private:
+	
 	//Sets (this) run flags...
 	distanceMeasure::DistanceMeasureCalculator* CreateDistanceCalculator() const;
 
@@ -50,15 +53,18 @@ private:
 	static void split(const std::string& s, char delim, std::vector<std::string>& result);
 	static void TryClearingTempFiles();
 	static void SetRunFlags(distanceMeasure::RunFlags* flags);
-	static distanceMeasure::SequenceNamesStrategy* GetNamingStrategy();
+	static void GetNamingStrategy(InputSequenceFileSet& inputFileSet);
+	static void GetSequenceListStrategy(InputSequenceFileSet& inputFileSet);
+
 	//returns path to initial-full FASTA file
-	std::string GetOriginalFastaInputPath();
+	void GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet);
 
 	//private function -- helpers functions
-	std::string GetSingleFastaFilePath();
-	std::string CombineMultipleFastaFileInputs();
-	std::string CombineMultipleChromosomalFastaInputs();
-
+	
+	void GetSingleInputSequencesFilePath(InputSequenceFileSet& inputFileSet);
+	void CombineMultipleFastaFileInputs(InputSequenceFileSet& inputFileSet);
+	void CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inputFileSet);
+	//std::string CombineMultipleGeneFastaInputs();
 
 
 };

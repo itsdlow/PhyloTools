@@ -10,6 +10,7 @@ April 16 2020
 #include <fstream>
 #include "FileObjectManager.h"
 #include "FileObject.h"
+#include "SystemParameters.h"
 
 namespace distanceMeasure
 {
@@ -32,7 +33,7 @@ namespace distanceMeasure
 			while (std::getline(sequenceNamesInput, line))
 			{
 				//add name ("line") to vector
-				sequenceNames.push_back(line);
+				sequenceNames.push_back(SystemParameters::Trim(line));
 				count++;
 			}
 			//SET FILE COUNT BASED OFF sequence names count

@@ -1,0 +1,14 @@
+compatibilityTable_LtoL
+          PValue   MrBaye   7Zip    
+ PValue  0.000000 2160.000000 1638.000000 
+ MrBaye  2160.000000 0.000000 2166.000000 
+ 7Zip    1638.000000 2166.000000 0.000000 
+
+
+new_compatibilityTable_LtoL
+          PValue   MrBaye   7Zip    
+ PValue  0.000000 0.931035 0.706034 
+ MrBaye  0.931035 0.000000 0.933621 
+ 7Zip    0.706034 0.933621 0.000000 
+
+

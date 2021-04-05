@@ -63,7 +63,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		system(compress_command);
 
 		////read file for size
-		const int size = GetCompressedFileSize(output_filename, fasta_filename);
+		const int size = GetCompressedFileSize_NCD(output_filename, fasta_filename);
 		//store size
 		this->species_compressed_fasta_sizes.emplace_back(pFileObject->GetSequenceName(), size);
 		printf("Calculating compressed Sequence Set: %d/%d\r", count++, sequence_set_size);
@@ -122,10 +122,10 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	system(compress_command);
 
 	//read file for size
-	return GetCompressedFileSize(output_filename, fasta_filename);
+	return GetCompressedFileSize_NCD(output_filename, fasta_filename);
 }
 
-int distanceMeasure::CalculatorFastaCompressor::GetCompressedFileSize(char* output_filename, char* fasta_filename)
+int distanceMeasure::CalculatorFastaCompressor::GetCompressedFileSize_NCD(char* output_filename, char* fasta_filename)
 {
 	//read file for size
 	std::ifstream compressedFile(output_filename, std::ios::binary);

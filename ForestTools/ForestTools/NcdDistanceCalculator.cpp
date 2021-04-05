@@ -137,7 +137,7 @@ namespace distanceMeasure
 		if(ret > 1.0f)
 		{
 			printf("Huh?\n");
-			exit(0);
+			//exit(0);
 		}
 		//Measure::
 			//normalize(count) == 1 --> MAXIMALLY DIFFERENT sequences

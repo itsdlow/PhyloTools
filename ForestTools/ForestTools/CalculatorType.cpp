@@ -30,6 +30,8 @@ namespace distanceMeasure
 	Ncd_Mfc1CalculatorType* Ncd_Mfc1CalculatorType::pInstance = nullptr;
 	Ncd_Mfc2CalculatorType* Ncd_Mfc2CalculatorType::pInstance = nullptr;
 
+	Ncd_Geco1CalculatorType* Ncd_Geco1CalculatorType::pInstance = nullptr;
+
 }
 
 unsigned int distanceMeasure::CalculatorType::GetBitmask() const
@@ -90,6 +92,10 @@ distanceMeasure::Ncd_Mfc2CalculatorType::Ncd_Mfc2CalculatorType() :
 	NcdCalculatorType("Mfc2", "mfc2", SystemParameters::GetMFC2CommandString())
 {
 }
+distanceMeasure::Ncd_Geco1CalculatorType::Ncd_Geco1CalculatorType() :
+	NcdCalculatorType("Geco", "co", SystemParameters::GetMFC2CommandString())
+{
+}
 
 /*
  * CALCULATOR TYPE visitors...
@@ -121,6 +127,11 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc1CalculatorT
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc2CalculatorType::visit(RunFlags* pFlags)
+{
+	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Geco1CalculatorType::visit(RunFlags* pFlags)
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }
