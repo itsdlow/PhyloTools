@@ -15,9 +15,11 @@ August 5 2020
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <cassert>
 
 #include "DistanceMatrixObject.h"
 #include "RunFlags.h"
+
 
 ForestPlug::ForestPlug():
 poRunFlags(new distanceMeasure::RunFlags())
@@ -40,37 +42,40 @@ void ForestPlug::run()
 
     TryClearingTempFiles();
 
-    const std::string sequence_dir = this->GetOriginalFastaInputPath();
+    std::vector<InputSequenceFileSet> batch_files;
+    int batch_files_flag = 1;
+    while(batch_files_flag)
+    {
+        InputSequenceFileSet inputFileSet;
+    	this->GetOriginalFastaInputPath(inputFileSet);//can convert to static...
+	    ForestPlug::GetNamingStrategy(inputFileSet);
+        ForestPlug::GetSequenceListStrategy(inputFileSet);
 
-    //set sequenceNames strategy --> pass to dmo -> fom (instead of sequence_names path)
-    distanceMeasure::SequenceNamesStrategy* name_strategy = GetNamingStrategy();
+    	
+    	batch_files.push_back(inputFileSet);
 
+        std::string input;
+    	//continue (batch?)
+        printf("\n");
+        printf("Do you have more files for analysis? No (0), Yes (1)\n");
+        std::getline(std::cin, input, '\n');
+        batch_files_flag = std::stoi(input);
+    }
+	
+
+	
     distanceMeasure::DistanceMeasureCalculator* dmc = CreateDistanceCalculator();
 
 	//Construct DMO and FileObjectManager -- (NOTE:: file-objects initialized in DistanceMatrixObject::run)
-    distanceMeasure::DistanceMatrixObject dmo(name_strategy, sequence_dir, dmc);
+    distanceMeasure::DistanceMatrixObject dmo(dmc);
 
-	//get sequenceList type
-	int batch_flag;
-    printf("Batch Run (0), Give SequenceLists File (1), Single Tree on a all sequences (2)\n");
-    printf("Sequence Lists Method Number: ");
-    std::cin >> batch_flag;
-	
-    std::string tree_sequences_list;
 
-	if(batch_flag == 1)
-	{
-
-	    printf("Enter path to Sequence List file:");
-        //file:: string of all sequence set combinations --> matrices to create
-        std::cin >> tree_sequences_list;
-	}
 
 
     /*********************************************************************************************
           for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix + TREES...
     *********************************************************************************************/
-    dmo.run(batch_flag, tree_sequences_list);
+    dmo.run(batch_files);
     /*
      *  Trees calculated + analyzed...
      */	
@@ -87,6 +92,12 @@ void ForestPlug::TryClearingTempFiles()
 
     if (clear_temp_files_flag)
     {
+        ForestPlug::ClearTempFiles();
+    }
+}
+
+void ForestPlug::ClearTempFiles()
+{
         char clean_mrbayes_dir_cmd[200];
         char clean_temp_dir_cmd[200];
 
@@ -97,8 +108,6 @@ void ForestPlug::TryClearingTempFiles()
         //remove files from MrBayes + TempFiles
         system(clean_mrbayes_dir_cmd);
         system(clean_temp_dir_cmd);
-
-    }
 }
 
 distanceMeasure::DistanceMeasureCalculator* ForestPlug::CreateDistanceCalculator() const
@@ -236,6 +245,30 @@ void ForestPlug::SetRunFlags(distanceMeasure::RunFlags* flags)
     flags->closeness_factor = closeness_limit;
 }
 
+
+void ForestPlug::GetSequenceListStrategy(InputSequenceFileSet& inputFileSet)
+{
+    //get sequenceList type
+    std::string input;
+    printf("Batch Run (0), Give SequenceLists File (1), Single Tree on a all sequences (2)\n");
+    printf("Sequence Lists Method Number: ");
+    std::getline(std::cin, input, '\n');
+    int batch_flag = std::stoi(input);
+	
+    std::string tree_sequences_list;
+
+    if (batch_flag == 1)
+    {
+
+        printf("Enter path to Sequence List file:");
+        //file:: string of all sequence set combinations --> matrices to create
+        std::getline(std::cin, tree_sequences_list, '\n');
+    }
+    inputFileSet.sequenceListBatchFlag = batch_flag;
+    inputFileSet.sequenceListPath = tree_sequences_list;
+}
+
+
 //TODO:: move this somewhere???
 #include "SequenceListsGenerator.h"
 
@@ -273,7 +306,8 @@ void ForestPlug::SetSequenceListsFile(int batch_flag, const distanceMeasure::Dis
 #include "SequenceNamesOrderedCustomStrategy.h"
 #include "SequenceNamesDescriptionStrategy.h"
 #include "SequenceNamesIDStrategy.h"
-distanceMeasure::SequenceNamesStrategy* ForestPlug::GetNamingStrategy()
+#include "SequenceNamesNexusStrategy.h"
+void ForestPlug::GetNamingStrategy(InputSequenceFileSet& inputFileSet)
 {
     //TODO:: allow multiple ways
     /*
@@ -281,7 +315,17 @@ distanceMeasure::SequenceNamesStrategy* ForestPlug::GetNamingStrategy()
      * (2) Use accenssion number
      * (3) supply SequenceNames file
      * (4) supply ordered alternative names
+     * (5) use supplied TaxaNames in Nexus file
      */
+
+	//NOTE:: nexus format has single Naming strategy...
+    if(inputFileSet.formatting == distanceMeasure::InputSequencesFormatType::NEXUS)
+    {
+        inputFileSet.namesStrategy = new distanceMeasure::SequenceNamesNexusStrategy(inputFileSet.path);
+    }
+    else
+    {
+
     int names_type;
 
     printf("Description Line (0), Accession ID (1), Input FASTA Sequence Names file (2), Input Ordered Alternative Names (3)\n");
@@ -289,7 +333,8 @@ distanceMeasure::SequenceNamesStrategy* ForestPlug::GetNamingStrategy()
     std::cin >> names_type;
     std::string path;
     int count;
-
+        std::string input;
+    	
     distanceMeasure::SequenceNamesStrategy* strategy = nullptr;
     switch (names_type)
     {
@@ -298,40 +343,43 @@ distanceMeasure::SequenceNamesStrategy* ForestPlug::GetNamingStrategy()
         strategy = new distanceMeasure::SequenceNamesDescriptionStrategy();
 
         printf("Total number of sequences: ");
-        std::cin >> count;
+            //std::cin >> count;
+            std::getline(std::cin, input, '\n');
+            count = std::stoi(input);
         strategy->SetSequenceCount(count);
         break;
     case 1:
         strategy = new distanceMeasure::SequenceNamesIDStrategy();
 
         printf("Total number of sequences: ");
-        std::cin >> count;
+            std::getline(std::cin, input, '\n');
+            count = std::stoi(input);
         strategy->SetSequenceCount(count);
         break;
     case 2:
         strategy = new distanceMeasure::SequenceNamesUnorderedFastaStrategy();
 
         printf("Path to sequence names file: ");
-        std::cin >> path;
+            std::getline(std::cin, path, '\n');
         strategy->SetSequenceNamesPath(path);
         break;
     case 3:
         strategy = new distanceMeasure::SequenceNamesOrderedCustomStrategy();
 
         printf("Path to sequence names file: ");
-        std::cin >> path;
+            std::getline(std::cin, path, '\n');
         strategy->SetSequenceNamesPath(path);
         break;
     default:
         break;
     }
 
-    return strategy;
+        inputFileSet.namesStrategy = strategy;
+    }
 }
 
-std::string ForestPlug::GetOriginalFastaInputPath()
+void ForestPlug::GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet)
 {
-    std::string sequence_dir;
     //receive relative/absolute path of file or directory of sequences to analyze
     //TODO:: REASLISTICALLy --  Use absolute path of directory (allow for changing of default directory?
     //
@@ -340,7 +388,7 @@ std::string ForestPlug::GetOriginalFastaInputPath()
     std::string input;
     //printf("Is your FASTA data in 1 file? No (0), Yes (1)\n");
 
-    printf("FASTA input types:\n\t 1 FASTA input (0)\n\t Multiple FASTA input files (1)\n\t Multiple Chromosomal FASTA input files (2)\n");
+    printf("Input Sequences types:\n\t Single Input Sequence File (0)\n\t Multiple FASTA input files (1)\n\t Multiple Chromosomal FASTA input files (2)\n");
     //std::cin >> fasta_input_flag;
     std::getline(std::cin, input, '\n');
     const int fasta_input_flag = std::stoi(input);
@@ -348,33 +396,56 @@ std::string ForestPlug::GetOriginalFastaInputPath()
 	switch(fasta_input_flag)
 	{
     case 0:
-        sequence_dir = GetSingleFastaFilePath();
+        this->GetSingleInputSequencesFilePath(inputFileSet);
+        //pre process Nexus formatted file?
+		
         break;
     case 1:
-        sequence_dir = CombineMultipleFastaFileInputs();
+        this->CombineMultipleFastaFileInputs(inputFileSet);
         break;
     case 2:
-        sequence_dir = CombineMultipleChromosomalFastaInputs();
+        this->CombineMultipleChromosomalFastaInputs(inputFileSet);
         break;
+    //case 3:
+    //    sequence_dir = CombineMultipleGeneFastaInputs();
+    //    break;
     default:
         //throw std::exception("Invalid FASTA input type");
         printf("Invalid FASTA input type\n");
 	exit(0);
     }
-	
-    return sequence_dir;
 }
 
-std::string ForestPlug::GetSingleFastaFilePath()
+void ForestPlug::GetSingleInputSequencesFilePath(InputSequenceFileSet& inputFileSet)
 {
-    printf("Path to FASTA file: ");
-    std::string path;
-    std::cin >> path;
+    printf("Input Sequences Format Types:\n\t FASTA (0)\n\t NEXUS (1)\n");
+    std::string format;
+    std::getline(std::cin, format, '\n');
+    const int input_formatting_flag = std::stoi(format);
+
+    distanceMeasure::InputSequencesFormatType formatting = distanceMeasure::InputSequencesFormatType::FASTA;
+    switch(input_formatting_flag)
+    {
+    case 0:
+        formatting = distanceMeasure::InputSequencesFormatType::FASTA;
+        break;
+    case 1:
+        formatting = distanceMeasure::InputSequencesFormatType::NEXUS;
+        break;
+    default:
+        printf("Invalid Sequence Format type\n");
+        assert(false);
+    }
 	
-	return path;
+    printf("Path to Input file: ");
+    std::string path;
+    std::getline(std::cin, path, '\n');
+
+    inputFileSet.path = path;
+    inputFileSet.formatting = formatting;
 }
 
-std::string ForestPlug::CombineMultipleFastaFileInputs()
+void ForestPlug::CombineMultipleFastaFileInputs(InputSequenceFileSet& inputFileSet)
 {
     printf("Please enter, separated by spaces, all your FASTA file paths:\n");
 	std::string fasta_paths, sequence_dir;
@@ -437,10 +508,11 @@ std::string ForestPlug::CombineMultipleFastaFileInputs()
    }
     	original_fasta_file.close();
 
-	return original_fasta_path;
+    inputFileSet.path = original_fasta_path;
+    inputFileSet.formatting = distanceMeasure::InputSequencesFormatType::FASTA;
 }
 
-std::string ForestPlug::CombineMultipleChromosomalFastaInputs()
+void ForestPlug::CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inputFileSet)
 {
     printf("Please enter, separated by spaces, all your FASTA file paths:\n");
     std::string fasta_paths, sequence_dir;
@@ -493,8 +565,67 @@ std::string ForestPlug::CombineMultipleChromosomalFastaInputs()
     }
     original_fasta_file.close();
 	
-    return original_fasta_path;
+    inputFileSet.path = original_fasta_path;
+    inputFileSet.formatting = distanceMeasure::InputSequencesFormatType::FASTA;
 }
+
+
+
+//std::string ForestPlug::CombineMultipleGeneFastaInputs()
+//{
+//    printf("Please enter, separated by spaces, all your FASTA file paths:\n");
+//    std::string fasta_paths, sequence_dir;
+//    //ask user for file name
+//    //std::cin >> fasta_paths;
+//    std::getline(std::cin, fasta_paths, '\n');
+//
+//    //iterate over all given paths
+//    std::vector<std::string> inputs;
+//    ForestPlug::split(fasta_paths, ' ', inputs);
+//
+//    //create original fasta file for appending each input file to
+//    std::string original_fasta_path(SystemParameters::GetTempFilesDirectory());
+//    original_fasta_path.append("/original.fasta");
+//    //open file to append
+//    std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
+//
+//
+//    //for each input file -- 
+//    for (std::string path : inputs)
+//    {
+//        //if invalid path
+//        if (path.size() < 2)
+//        {
+//            continue;
+//        }
+//
+//        std::ifstream input_file(path);
+//        //for each file -- remove all fasta descriptors and combine sequences into one large genome per file
+//        if (input_file.is_open())
+//        {
+//            std::string fasta_descriptor = ">" + path + "\n";
+//            //append name of file sequences to original file as fasta descriptor
+//            original_fasta_file << fasta_descriptor;
+//
+//            std::string line;
+//            while (std::getline(input_file, line))
+//            {
+//                //if not a sequence descriptor append to original FASTA file
+//                if (line.at(0) != '>')
+//                {
+//                    original_fasta_file << line;
+//                }
+//            }
+//            original_fasta_file << "\n";
+//            input_file.close();
+//        }
+//        else printf("The file: %s could not be opened", path.c_str());
+//
+//    }
+//    original_fasta_file.close();
+//
+//    return original_fasta_path;
+//}
 
 void ForestPlug::split(const std::string& s, char delim, std::vector<std::string>& result) {
     std::istringstream iss(s);

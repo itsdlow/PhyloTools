@@ -6,6 +6,7 @@ January 3 2020
 ******************************************************************************/
 
 //#include <windows.h>
+#include <cassert>
 
 #include "FileObjectManager.h"
 

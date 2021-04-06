@@ -106,36 +106,37 @@ std::string distanceMeasure::DistanceMeasureCalculator::CreateSubsequenceSetStri
 //fills given buffer
 void distanceMeasure::DistanceMeasureCalculator::GetClosenessLimitLogFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetClosenessLimitLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetClosenessLimitLogFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 
 }
 void distanceMeasure::DistanceMeasureCalculator::GetClusteredMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
 
-	sprintf(buffer,  SystemParameters::GetClusteredMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer,  SystemParameters::GetClusteredMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 void distanceMeasure::DistanceMeasureCalculator::GetClusteredTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetClusteredTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetClusteredTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetLargeListMatrixFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 void distanceMeasure::DistanceMeasureCalculator::GetLargeListTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetLargeListTreeFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 }
 void distanceMeasure::DistanceMeasureCalculator::GetQuartetsMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetQuartetMatricesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 
 }
 void distanceMeasure::DistanceMeasureCalculator::GetQuartetsTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const
 {
-	sprintf(buffer, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number);
+	sprintf(buffer, SystemParameters::GetQuartetTreesFileFormatString().c_str(), this->GetCalculatorName().c_str(), sequence_count, batch_number, SystemParameters::GetCurrentFileSetBatchNumber());
 }
+
 void distanceMeasure::DistanceMeasureCalculator::GetFastMECommand(char* buffer, char* input, int count, char* output) const
 {
 	//"extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s"

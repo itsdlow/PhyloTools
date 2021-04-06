@@ -9,7 +9,7 @@ January 3 2020*
 #ifndef _FileObjectManager
 #define _FileObjectManager
 
-	//#include "SequenceProcessorType.h"
+	#include "SequenceProcessorType.h"
 
 	#include <string>
 	#include <vector>
@@ -27,15 +27,19 @@ January 3 2020*
 		{
 		public:
 			//BIG 4
-			FileObjectManager() = delete;
+			//FileObjectManager() = delete;
 			~FileObjectManager();
 			FileObjectManager(const FileObjectManager& tmp) = delete;
 			FileObjectManager& operator=(const FileObjectManager& tmp) = delete;
 
 			//custom constructor
 			//FileObjectManager(const std::string& sequence_names_path, const std::string& path);
-			FileObjectManager(SequenceNamesStrategy* name_strategy, const std::string& path);
+			//FileObjectManager(SequenceNamesStrategy* name_strategy, InputSequencesFormatType format, const std::string& path);
+			FileObjectManager();
 
+			void Initialize(SequenceNamesStrategy* name_strategy, InputSequencesFormatType format, const std::string& path);
+			void Terminate();
+			
 			void InitializeFileObjects();
 			
 			//helper functions
@@ -63,12 +67,17 @@ January 3 2020*
 			std::vector<std::string> GetCurrentSetNames() const { return this->currentSequenceNames; };
 			
 			int GetCurrentSetSequenceLength() const;
+
+			//hack...
+			void SetSequenceProcessingToDefault();
+			
 		private:
 			int fileCount;
 
 			FileObject* pFileObjectsBuffer;
 
 			FileObject* pSequenceSetFileObjectBuffer;
+			
 			//object that interacts with windows directory || given file -- of sequences
 			SequenceProcessor* sp;
 
@@ -87,8 +96,8 @@ January 3 2020*
 			
 			//private helpers
 			const std::vector<std::string> FillSequenceNamesVector(const std::string& sequence_names_path);
-			void SetSequencesPath();
-			void SetSequenceSetCount();
+			//void SetSequencesPath();
+			//void SetSequenceSetCount();
 		};
 
 	}

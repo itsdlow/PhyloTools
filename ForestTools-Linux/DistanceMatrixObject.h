@@ -14,12 +14,15 @@ January 3 2020*
 	//#include DMOfwd.h;
 #include "FileObjectManager.h"
 
+#include "InputSequenceFileSet.h"
+#include "SequenceProcessorType.h"
 //#include "DistanceMeasureCalculator.h"
 //all calc's need to be available...************************************
 	//#include "FileObject.h"
 
 #include <vector>
 #include <string>
+
 
 namespace distanceMeasure
 {
@@ -41,9 +44,11 @@ namespace distanceMeasure
 		
 		
 		//custom constructor	
-		explicit DistanceMatrixObject(SequenceNamesStrategy* names_strategy, std::string sequences_dir, DistanceMeasureCalculator* dmc);
+		//explicit DistanceMatrixObject(SequenceNamesStrategy* names_strategy, InputSequencesFormatType format, std::string sequences_dir, DistanceMeasureCalculator* dmc);
+		explicit DistanceMatrixObject(DistanceMeasureCalculator* dmc);
 
-		void run(const int batch_flag, std::string& sequences_list_dir);
+		void run(std::vector<InputSequenceFileSet> batch_files);
+		//void run(const int batch_flag, std::string& sequences_list_dir);
 		
 		//helper functions
 		//

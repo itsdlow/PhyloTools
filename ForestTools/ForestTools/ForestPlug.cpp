@@ -15,6 +15,7 @@ August 5 2020
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <cassert>
 
 #include "DistanceMatrixObject.h"
 #include "RunFlags.h"

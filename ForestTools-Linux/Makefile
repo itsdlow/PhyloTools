@@ -52,7 +52,10 @@ phylotools_SOURCES = \
 	NullBatchCalculatorsAnalyzer.cpp 		NullBatchCalculatorsAnalyzer.h		\
 	DynamicSizedArray.cpp 					DynamicSizedArray.h					\
 	ForestPlug.cpp 							ForestPlug.h						\
-	MrBayesDataType.cpp 					MrBayesDataType.h					
+	MrBayesDataType.cpp 					MrBayesDataType.h					\
+											InputSequenceFileSet.h				\
+	SequenceNamesNexusStrategy.cpp  		SequenceNamesNexusStrategy.h		\
+	NexusFormatProcessor.cpp 				NexusFormatProcessor.h
 
 INCLUDES = \
 	ForestTools.cpp							\
@@ -94,7 +97,9 @@ INCLUDES = \
 	NullBatchCalculatorsAnalyzer.cpp 		\
 	DynamicSizedArray.cpp 					\
 	ForestPlug.cpp 							\
-	MrBayesDataType.cpp 					
+	MrBayesDataType.cpp 					\
+	SequenceNamesNexusStrategy.cpp  		\
+	NexusFormatProcessor.cpp 	
 
 phylotools: $(phylotools_SOURCES)    
 	$(CC) $(CFLAGS) -o $(PROGRAM) $(INCLUDES)
