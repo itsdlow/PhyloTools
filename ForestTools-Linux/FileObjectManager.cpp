@@ -6,15 +6,18 @@ January 3 2020
 ******************************************************************************/
 
 //#include <windows.h>
+#include <cassert>
 
 #include "FileObjectManager.h"
 
 #include "FileObject.h"
 
 //#include "SequenceDirectoryProcessor.h"
+#include "NexusFormatProcessor.h"
 #include "SequenceFileProcessor.h"
 
 #include "SequenceNamesStrategy.h"
+#include "SequenceNamesDescriptionStrategy.h"
 
 //#include <cstring>
 
@@ -31,33 +34,85 @@ January 3 2020
 
 namespace distanceMeasure
 { 
-	FileObjectManager::FileObjectManager(SequenceNamesStrategy* strategy, const std::string& path):
+	//FileObjectManager::FileObjectManager(SequenceNamesStrategy* strategy, InputSequencesFormatType format, const std::string& path):
+	//fileCount(0),
+	////pFileObjectsBuffer(new FileObject[sequenceCount]),
+	//pFileObjectsBuffer(nullptr),
+	//pSequenceSetFileObjectBuffer(nullptr),
+	//sp(nullptr),
+	//pNameStrategy(strategy),
+	//sequenceSetCount(0),
+	//filePath(path),
+	//sequencesPath(path)
+	//{
+	//	switch(format)
+	//	{
+	//	case InputSequencesFormatType::FASTA:
+	//		this->sp = new SequenceFileProcessor();
+	//		break;
+	//	case InputSequencesFormatType::NEXUS:
+	//		this->sp = new NexusFormatProcessor();
+	//		break;
+	//	default:
+	//		assert(false);
+	//		break;
+	//	}
+	//	// NOTE :: dir processing if given a set of sequence sets.... (protein analysis)
+	//	//this->sp = new SequenceFileProcessor();
+	//}
+
+	FileObjectManager::FileObjectManager() :
 	fileCount(0),
-	//pFileObjectsBuffer(new FileObject[sequenceCount]),
 	pFileObjectsBuffer(nullptr),
 	pSequenceSetFileObjectBuffer(nullptr),
-	sp(new SequenceFileProcessor()),
-	pNameStrategy(strategy),
+		sp(nullptr),
+		pNameStrategy(nullptr),
 	sequenceSetCount(0),
-	filePath(path),
-	sequencesPath(path)
+		filePath(),
+		sequencesPath()
 	{
-		// NOTE :: dir processing if given a set of sequence sets.... (protein analysis)
-		//this->sp = new SequenceFileProcessor();
 	}
 
+	void distanceMeasure::FileObjectManager::Initialize(SequenceNamesStrategy* strategy, InputSequencesFormatType format, const std::string& path)
+	{
+		this->fileCount = 0;
+		this->pFileObjectsBuffer = nullptr;
+		this->pSequenceSetFileObjectBuffer = nullptr;
+		this->pNameStrategy = strategy;
+		this->sequenceSetCount = 0;
+		this->filePath = path;
+		this->sequencesPath = path;
+
+		
+		switch (format)
+		{
+		case InputSequencesFormatType::FASTA:
+			this->sp = new SequenceFileProcessor();
+			break;
+		case InputSequencesFormatType::NEXUS:
+			this->sp = new NexusFormatProcessor();
+			//Initial Processing helpers :: NexusFormatProcessor() + Nexus-NameStrategy
+			//default (sequence Set) processing helpers:: SequenceFileProcessor() + Description-NamesStrategy
+			break;
+		default:
+			assert(false);
+			break;
+		}
+	}
+
+	//NOTE: ...
+	void distanceMeasure::FileObjectManager::Terminate()
+	{
+		delete[] this->pFileObjectsBuffer;
+		delete[] this->pSequenceSetFileObjectBuffer;
+
+		delete this->sp;
+		delete this->pNameStrategy;
+	}
+	
 	void distanceMeasure::FileObjectManager::InitializeFileObjects()
 	{
-		/*
-		 * 			this->fileCount = count;
-			this->sequenceSetCount = this->fileCount;
-			this->pFileObjectsBuffer = new FileObject[this->fileCount];
-			this->pSequenceSetFileObjectBuffer = new FileObject[this->fileCount];
-		}
-		return this->sequenceNames;
-		 */
 		//get all sequence names
-		//this->currentSequenceNames = this->FillSequenceNamesVector(sequence_names_path);
 		this->pNameStrategy->FillSequenceNamesVector(this->sequenceNames, this->currentSequenceNames, this->fileCount, this->pFileObjectsBuffer);
 		this->pSequenceSetFileObjectBuffer = new FileObject[this->fileCount];
 		//used in createFileObjects
@@ -66,10 +121,21 @@ namespace distanceMeasure
 		printf("Filling FileObjectBuffer with %d sequences\n", this->fileCount);
 		//creates Sequence_File_Objects and fills array
 		this->sp->CreateFileObjects(this, this->pFileObjectsBuffer);
+		this->sp->InitializationComplete(this);
 		
 		//"sequenceNames" can be set in "FillSequenceNameVector" || "CreateFileObjects" -- must be initialized after...
 			//NOTE:: Needed by SequenceListGenerator...
 		this->currentSequenceNames = this->sequenceNames;
+	}
+	
+	void distanceMeasure::FileObjectManager::SetSequenceProcessingToDefault()
+	{
+		delete this->sp;
+		this->sp = new SequenceFileProcessor();
+
+		delete this->pNameStrategy;
+		this->pNameStrategy = new SequenceNamesDescriptionStrategy();
+		this->pNameStrategy->SetSequenceCount(this->fileCount);//unecessary
 	}
 
 	
@@ -142,6 +208,10 @@ namespace distanceMeasure
 		{
 			this->sequenceNames.push_back(id);
 		}
+		//else//check if "id" is in "sequenceNames"
+		//{
+		//	printf("FileObjectManager:: Failed to add sequence Identifier\n");
+		//}
 	}
 	
 	std::string distanceMeasure::FileObjectManager::CheckForSequenceName(const std::string& line) const
@@ -238,9 +308,11 @@ namespace distanceMeasure
 
 	FileObjectManager::~FileObjectManager()
 	{
-		delete[] this->pFileObjectsBuffer;
-		delete[] this->pSequenceSetFileObjectBuffer;
-		delete this->sp;
-		delete this->pNameStrategy;
+		//NOTE:: allocated memory freed by batch in FileObjectManager::Terminate()
+		//
+		//delete[] this->pFileObjectsBuffer;
+		//delete[] this->pSequenceSetFileObjectBuffer;
+		//delete this->sp;
+		//delete this->pNameStrategy;
 	}
 }

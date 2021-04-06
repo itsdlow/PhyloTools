@@ -22,6 +22,9 @@ namespace distanceMeasure
 	{
 	public:
 
+		enum class SequencesInputFormat { FASTA, NEXUS };
+
+		
 		//BIG 4
 		SequenceProcessor() = default;
 		SequenceProcessor(const SequenceProcessor&) = delete;
@@ -31,6 +34,7 @@ namespace distanceMeasure
 		//helper functions
 		//virtual void CreateFileObjects(FileObject* pCurrentFileObject, const std::string& dir, const int sequenceCount) = 0;
 		virtual void CreateFileObjects(FileObjectManager* pFOM, FileObject* const pCurrentFileObject) = 0;
+		virtual void InitializationComplete(FileObjectManager* pFOM) {}
 
 	private:
 
