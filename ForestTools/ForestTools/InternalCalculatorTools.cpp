@@ -91,9 +91,17 @@ void distanceMeasure::InternalCalculatorTools::create_large_tree(DistanceMeasure
 
 	//TODO:: store return value of system call --> check if command was sucessful
 		//==> IF NOT -> try re-execute once?
-	system(fastme_command);
+	int retCode = system(fastme_command);
+	if(retCode == 0)
+	{
+		printf("FastME command executed -- Large Tree Generated\n");
 
-	printf("FastME command executed -- Large Tree Generated\n");
+	}
+	else
+	{
+		printf("FastME command executed -- FAILED... %d\n", retCode);
+		exit(0);
+	}
 }
 void distanceMeasure::InternalCalculatorTools::create_quartet_trees(DistanceMeasureCalculator* dmc, const std::vector<std::string>& sequence_set_names, const int batch_id)
 {

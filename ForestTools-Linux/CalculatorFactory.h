@@ -64,9 +64,11 @@ namespace distanceMeasure
 		static unsigned int GetCalculatorBitmask(int id) { return CalculatorFactory::Instance().privGetCalculatorBitmask(id); };
 		//returns batch calc index || -1 --> 'index' treated as OUT var
 		static void GetBatchCalculatorIndex(int& index);
+		static void GetCompareTreeCalculatorIndex(int& index);
 
 		
 		static std::string Dump();
+		static std::string Dump_NonBatch();
 
 	private:
 		DistanceMeasureCalculator* privCreate(int index, RunFlags* pFlags) const;

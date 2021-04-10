@@ -146,7 +146,7 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Geco1Calculator
 
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::CompareTreeCalculatorType::visit(RunFlags* pFlags)
 {
-	return nullptr;//new CompareTreeCalculator(pFlags, this->name, pFlags->compareTreeFileName);
+	return new CompareTreeCalculator(pFlags, this->name);
 }
 
 

@@ -61,7 +61,7 @@ namespace distanceMeasure
 		
 		
 		void GetLargeListMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
-		void GetLargeListTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
+		virtual void GetLargeListTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
 		void GetClusteredMatrixFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
 		void GetClusteredTreeFileName(char* buffer, const int batch_number, const size_t sequence_count) const;
 

@@ -10,6 +10,7 @@ February 15 2020
 #include "DistanceMeasureCalculator.h"
 #include "CalculatorFactory.h"
 #include "MrBayesDataType.h"
+#include "InputSequenceFileSet.h"
 #include <algorithm>
 
 SystemParameters* SystemParameters::pInstance = nullptr;
@@ -48,7 +49,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 
 
 		//fastME
-		SystemParameters::Instance().fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -i %s -D %d -o %s";
+		SystemParameters::Instance().fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -v 3 -i %s -D %d -o %s";
 		//phylotools --
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*";
 		SystemParameters::Instance().clean_dir_format_string = "del /Q \"%s\\*\"";
@@ -124,6 +125,7 @@ void SystemParameters::InitializeSequenceSetParameters(int sequence_count, float
 SystemParameters::SystemParameters():
 OS_WINDOWS(true),
 fileSetBatchNumber(0),
+pCurrentFileSet(nullptr),
 max_sequence_list_size(0),
 subset_size_small(0),
 subset_size_large(0),
@@ -265,4 +267,15 @@ void SystemParameters::GetCompressedFilename(char* buffer, const char* extension
 void SystemParameters::GetCompressionCommand(char* buffer, const char* derived_command, const char* out_file, const char* in_file)
 {
 	sprintf(buffer, derived_command, out_file, in_file);
+}
+
+void SystemParameters::GetCurrentFileSetCompareTreePath(std::string& path)
+{
+	InputSequenceFileSet* pFileSet = SystemParameters::Instance().pCurrentFileSet;
+	assert(pFileSet);
+	
+	if(pFileSet != nullptr)
+	{
+		path = pFileSet->compareTreePath;
+	}
 }

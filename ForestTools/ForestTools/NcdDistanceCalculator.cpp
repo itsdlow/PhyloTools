@@ -96,10 +96,10 @@ namespace distanceMeasure
 
 		//NOTE:: removed optimization...
 		//if same sequence -- do not create pair
-		//if (species1 == species2)
-		//{
-		//	return 0.0f;
-		//}
+		if (species1 == species2)
+		{
+			return 0.0f;
+		}
 		
 		//CREATE CONCATENATED compressed file on fileobjects
 			//create fasta file for both fileobjects ==> concatenate

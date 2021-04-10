@@ -18,8 +18,9 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	std::size_t sequence_count = sequence_set_names.size();
 	//sprintf_s(fasta_filename, SystemParameters::GetFastaFileFormatString().c_str(), sequence_count, hash_id);
 	SystemParameters::GetFastaFileString(fasta_filename, sequence_count, hash_id);
-	
-	//try to open file
+
+	//NOTE:: could re-enable optimization --> Must clear TempFiles on each FileSet BatchRun (in DMO)
+	////try to open file
 	FILE* existing_fasta_file = fopen(fasta_filename, "rb");
 	//NOTE:: ASSUMPTION:: NO incomplete .fasta files (if .fasta exists -- is correct)
 	if (!existing_fasta_file)

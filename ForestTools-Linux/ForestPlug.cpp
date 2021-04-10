@@ -41,6 +41,12 @@ void ForestPlug::run()
     std::cout << "Hello World!\n";
 
     TryClearingTempFiles();
+	
+    distanceMeasure::DistanceMeasureCalculator* dmc = CreateDistanceCalculator();//can convert to static...
+
+	//Construct DMO and FileObjectManager -- (NOTE:: file-objects and manager initialized in DistanceMatrixObject::run)
+    distanceMeasure::DistanceMatrixObject dmo(dmc);
+
 
     std::vector<InputSequenceFileSet> batch_files;
     int batch_files_flag = 1;
@@ -49,6 +55,9 @@ void ForestPlug::run()
         InputSequenceFileSet inputFileSet;
     	this->GetOriginalFastaInputPath(inputFileSet);//can convert to static...
 	    ForestPlug::GetNamingStrategy(inputFileSet);
+
+    	//NOTE:: mutually exclusive
+    	ForestPlug::GetCompareTreePath(inputFileSet);
         ForestPlug::GetSequenceListStrategy(inputFileSet);
 
     	
@@ -61,16 +70,6 @@ void ForestPlug::run()
         std::getline(std::cin, input, '\n');
         batch_files_flag = std::stoi(input);
     }
-	
-
-	
-    distanceMeasure::DistanceMeasureCalculator* dmc = CreateDistanceCalculator();
-
-	//Construct DMO and FileObjectManager -- (NOTE:: file-objects initialized in DistanceMatrixObject::run)
-    distanceMeasure::DistanceMatrixObject dmo(dmc);
-
-
-
 
     /*********************************************************************************************
           for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix + TREES...
@@ -112,18 +111,19 @@ void ForestPlug::ClearTempFiles()
 
 distanceMeasure::DistanceMeasureCalculator* ForestPlug::CreateDistanceCalculator() const
 {
-    int calc_method;
-    //distanceMeasure::RunFlags* flags = new distanceMeasure::RunFlags();
-    //NOTE:: SHOULD SET FLAG PARAMETERS THROUGH USER INPUT...
-        //quartets? calc type bitmask, clustering?
+    std::string input;
     //Sets the Quartet gen flag + clustering flag
         //NOTE:: moved before Calc_Method input --> allows for MrBayes input prompt, immediately after calc selection
     SetRunFlags(this->poRunFlags);
 
     distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
-    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump().c_str());
-    std::cin >> calc_method;
+    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump_NonBatch().c_str());
+    //std::cin >> calc_method;
+    std::getline(std::cin, input, '\n');
+    const int calc_method = std::stoi(input);
 
+    //TODO:: assert that calc_method is a "legal" NonBatch Method (NOT CompareTree)
+	
     int batch_calculator_index;
     distanceMeasure::CalculatorFactory::GetBatchCalculatorIndex(batch_calculator_index);
     //check if bitmask should be set
@@ -154,7 +154,12 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
     printf("Enter each method number that you would like to generate a tree with.\n");
     printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump().c_str());
 
-    std::cin >> batch_methods;
+    std::getline(std::cin, batch_methods, '\n');
+
+    //NOTE:: if user selects CompareTree --> must set RunFlags...
+    int compare_calculator_index;
+    distanceMeasure::CalculatorFactory::GetCompareTreeCalculatorIndex(compare_calculator_index);
+	
     for (auto it = batch_methods.begin(); it != batch_methods.end(); it++)
     {
         //for each char set corresponding bit position
@@ -164,6 +169,16 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
         {
             //BITMASK FOR ALL CALCULATORS...
             bitmask |= SystemParameters::GetAllCalculatorsMask();
+        }
+        else if (index == compare_calculator_index)
+        {
+        	//NOTE:: there can only be 1 CompareTree Calculator (guaranteed by bitmask calc creation)
+        	
+            //bit mask for given-current (*it) calculator
+            bitmask |= SystemParameters::GetCalculatorMask(index);
+        	
+            //NOTE:: mutually exclusive with SequenceList generation...
+            flags->SetCompareTreeCalculator();
         }
         else
         {
@@ -202,11 +217,13 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
 
 void ForestPlug::SetRunFlags(distanceMeasure::RunFlags* flags)
 {
-
+    std::string input;
     int quartets_gen_flag = 1;
     printf("Would you like to generate All quartet trees on the Sequence Sets?\n");
     printf("No (0), Yes (1)\n");
-    std::cin >> quartets_gen_flag;
+    //std::cin >> quartets_gen_flag;
+    std::getline(std::cin, input, '\n');
+    quartets_gen_flag = std::stoi(input);
 
     bool generate_quartets = true;
     if (quartets_gen_flag < 1)
@@ -218,11 +235,13 @@ void ForestPlug::SetRunFlags(distanceMeasure::RunFlags* flags)
 
 
     //CLUSTERING???
-    int clustering_flag;
     printf("Would you like to an additional tree with clustered like sequences?\n");
     //NOTE:: CANNOT PERFORM ANALYSIS ON TREEs that have been clustered -- clusters can vary from method to method...
     printf("None (0), Strict/Less clusters (1), Loose/More clusters (2)\n");
-    std::cin >> clustering_flag;
+    //std::cin >> clustering_flag;
+    std::getline(std::cin, input, '\n');
+    const int clustering_flag = std::stoi(input);
+
     float closeness_limit = 0.0f;
     switch (clustering_flag)
     {
@@ -246,16 +265,34 @@ void ForestPlug::SetRunFlags(distanceMeasure::RunFlags* flags)
 }
 
 
+void ForestPlug::GetCompareTreePath(InputSequenceFileSet& inputFileSet)
+{
+    //todo:: convert to state pattern...
+	if(this->poRunFlags->compare_tree_calculator)
+	{
+		printf("Path to CompareTree Newick file: ");
+		std::string path;
+		std::getline(std::cin, path, '\n');
+
+		inputFileSet.compareTreePath = path;
+	}
+
+}
+
 void ForestPlug::GetSequenceListStrategy(InputSequenceFileSet& inputFileSet)
 {
+    int batch_flag = 2;
+	std::string tree_sequences_list;
+
+	if(this->poRunFlags->compare_tree_calculator == false)
+	{
     //get sequenceList type
     std::string input;
     printf("Batch Run (0), Give SequenceLists File (1), Single Tree on a all sequences (2)\n");
     printf("Sequence Lists Method Number: ");
     std::getline(std::cin, input, '\n');
-    int batch_flag = std::stoi(input);
+	    batch_flag = std::stoi(input);
 	
-    std::string tree_sequences_list;
 
     if (batch_flag == 1)
     {
@@ -264,8 +301,12 @@ void ForestPlug::GetSequenceListStrategy(InputSequenceFileSet& inputFileSet)
         //file:: string of all sequence set combinations --> matrices to create
         std::getline(std::cin, tree_sequences_list, '\n');
     }
+
+	}
+	
     inputFileSet.sequenceListBatchFlag = batch_flag;
     inputFileSet.sequenceListPath = tree_sequences_list;
+
 }
 
 
@@ -326,14 +367,16 @@ void ForestPlug::GetNamingStrategy(InputSequenceFileSet& inputFileSet)
     else
     {
 
-    int names_type;
-
+       
+        std::string input;
     printf("Description Line (0), Accession ID (1), Input FASTA Sequence Names file (2), Input Ordered Alternative Names (3)\n");
     printf("Sequence Names Type Number: ");
-    std::cin >> names_type;
+        //std::cin >> names_type;
+        std::getline(std::cin, input, '\n');
+        const int names_type = std::stoi(input);
+
     std::string path;
     int count;
-        std::string input;
     	
     distanceMeasure::SequenceNamesStrategy* strategy = nullptr;
     switch (names_type)

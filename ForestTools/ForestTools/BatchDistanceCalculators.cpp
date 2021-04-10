@@ -71,7 +71,6 @@ namespace distanceMeasure
 	}
 
 
-
 	
 	void BatchDistanceCalculators::InitializeSequenceSetTimingsLog(const int total_sequence_count)
 	{

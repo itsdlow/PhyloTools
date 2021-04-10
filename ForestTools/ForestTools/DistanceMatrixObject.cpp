@@ -61,6 +61,9 @@ namespace distanceMeasure
 	{		
 		for (InputSequenceFileSet inputFileSet: batch_files)
 		{
+			//Used to access current CompareTreeCalculator tree_path
+			SystemParameters::SetCurrentFileSet(&inputFileSet);
+			
 			this->fileObjectManager.Initialize(inputFileSet.namesStrategy, inputFileSet.formatting, inputFileSet.path);
 		
 			this->fileObjectManager.InitializeFileObjects();

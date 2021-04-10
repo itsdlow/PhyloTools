@@ -55,7 +55,9 @@ private:
 	static void TryClearingTempFiles();
 	static void SetRunFlags(distanceMeasure::RunFlags* flags);
 	static void GetNamingStrategy(InputSequenceFileSet& inputFileSet);
-	static void GetSequenceListStrategy(InputSequenceFileSet& inputFileSet);
+
+	void GetCompareTreePath(InputSequenceFileSet& inputFileSet);
+	void GetSequenceListStrategy(InputSequenceFileSet& inputFileSet);
 
 	//returns path to initial-full FASTA file
 	void GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet);

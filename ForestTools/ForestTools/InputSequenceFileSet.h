@@ -30,6 +30,8 @@ struct InputSequenceFileSet
 	distanceMeasure::SequenceNamesStrategy* namesStrategy;
 	int sequenceListBatchFlag;
 	std::string sequenceListPath;
+	std::string compareTreePath;
+
 };
 
 

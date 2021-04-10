@@ -90,6 +90,19 @@ namespace distanceMeasure
 		}
 	}
 
+	void distanceMeasure::CalculatorFactory::GetCompareTreeCalculatorIndex(int& index)
+	{
+		CalculatorType* pType = nullptr;
+		if ((pType = CalculatorFactory::GetCalculatorType("CompareTree")))
+		{
+			index = pType->index;
+		}
+		else
+		{
+			index = -1;
+		}
+	}
+
 	
 	DistanceMeasureCalculator* distanceMeasure::CalculatorFactory::privCreate(int index, RunFlags* pFlags) const
 	{
@@ -153,6 +166,33 @@ namespace distanceMeasure
 		const std::string a = calcType->name + " (" + std::to_string(calcType->index) + ")";
 		ret.append(a);
 
+		return ret;
+	}
+
+	//HACK... compare tree should not be shown unless batch calculation
+	std::string distanceMeasure::CalculatorFactory::Dump_NonBatch()
+	{
+		//HACK:: TODO:: create array of illegal calcs...
+		//Get illegal calculator (CompareTree) --> can only be instantiated for BatchCalculation
+		int illegal_index;
+		CalculatorFactory::GetCompareTreeCalculatorIndex(illegal_index);
+		
+		
+		const int max_loop_index = CalculatorFactory::GetCalculatorTypeCount();
+		std::string ret;
+		for (int i = 0; i < max_loop_index; i++)
+		{
+			if(i != illegal_index)
+			{
+				CalculatorType* calcType = CalculatorFactory::GetCalculatorType(i);
+				const std::string a = calcType->name + " (" + std::to_string(calcType->index) + "), ";
+				ret.append(a);
+			}
+		}
+		assert(ret.size() > 2);
+		ret.pop_back();
+		ret.pop_back();
+		
 		return ret;
 	}
 }

@@ -55,7 +55,9 @@ phylotools_SOURCES = \
 	MrBayesDataType.cpp 					MrBayesDataType.h					\
 											InputSequenceFileSet.h				\
 	SequenceNamesNexusStrategy.cpp  		SequenceNamesNexusStrategy.h		\
-	NexusFormatProcessor.cpp 				NexusFormatProcessor.h
+	NexusFormatProcessor.cpp 				NexusFormatProcessor.h				\
+	CompareTreeCalculator.cpp				CompareTreeCalculator.h				\
+	NullDistanceMeasureCalculator.cpp		NullDistanceMeasureCalculator.h 	
 
 INCLUDES = \
 	ForestTools.cpp							\
@@ -99,7 +101,9 @@ INCLUDES = \
 	ForestPlug.cpp 							\
 	MrBayesDataType.cpp 					\
 	SequenceNamesNexusStrategy.cpp  		\
-	NexusFormatProcessor.cpp 	
+	NexusFormatProcessor.cpp 				\
+	CompareTreeCalculator.cpp				\
+    NullDistanceMeasureCalculator.cpp
 
 phylotools: $(phylotools_SOURCES)    
 	$(CC) $(CFLAGS) -o $(PROGRAM) $(INCLUDES)

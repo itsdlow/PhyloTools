@@ -61,14 +61,14 @@ namespace distanceMeasure
 		}
 		this->StopCalculationTimer(batch_id, sequence_set);
 
-		//COULD REMOVE 'if' BY CHANGING "BatchCalculatorAnalyzer" -> pImpl strategy pattern (does nothing if set to no-analysis strategy)
-		//NOTE:: CHANGE ANALYZER --> allow ONLY non-quartet analysis to occur when quartets not generated
-		if(this->GetCalculatorFlags()->generate_analysis)
-		{
-			this->poBatchAnalyzer->batch_analyze_sequence_set(sequence_set_names, batch_id, this->GetCalculatorFlags()->generate_quartets); 
-		}
+		//NOTE:: strategy pattern (does nothing if set to no-analysis strategy (NullBatchCalculatorAnalyzer)
+		//TODO:: CHANGE ANALYZER --> allow ONLY non-quartet analysis to occur when quartets not generated
+		//if(this->GetCalculatorFlags()->generate_analysis)
+		//{
+			this->poBatchAnalyzer->batch_analyze_sequence_set(sequence_set_names, batch_id, this->GetCalculatorFlags()->generate_quartets);
+				//TODO:: Add state pattern to batchAnalyzer --> when created set state to "generateQuartet" analysis or NOT
+		//}
 	}
-
 
 
 	

@@ -265,6 +265,31 @@ namespace distanceMeasure
 
 	};
 
+	class CompareTreeCalculatorType : public CalculatorType
+	{
+	private:
+		CompareTreeCalculatorType();
+
+		static CompareTreeCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new CompareTreeCalculatorType();
+			}
+			return *pInstance;
+		}
+		static CompareTreeCalculatorType* pInstance;
+	public:
+		virtual ~CompareTreeCalculatorType() override = default;
+		CompareTreeCalculatorType(const CompareTreeCalculatorType&) = delete;
+		CompareTreeCalculatorType& operator=(const CompareTreeCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { CompareTreeCalculatorType::Instance(); };
+		static void Terminate() { delete CompareTreeCalculatorType::pInstance; };
+
+	};
+
 }
 
 #endif
