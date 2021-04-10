@@ -161,6 +161,7 @@
     <ClCompile Include="CalculatorFastaFormatter.cpp" />
     <ClCompile Include="CalculatorNexusFormatter.cpp" />
     <ClCompile Include="CalculatorType.cpp" />
+    <ClCompile Include="CompareTreeCalculator.cpp" />
     <ClCompile Include="DistanceMatrixObject.cpp" />
     <ClCompile Include="DistanceMeasureCalculator.cpp" />
     <ClCompile Include="DynamicSizedArray.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="NcdDistanceCalculator.cpp" />
     <ClCompile Include="NexusFormatProcessor.cpp" />
     <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp" />
+    <ClCompile Include="NullDistanceMeasureCalculator.cpp" />
     <ClCompile Include="PhyloAnalysis.cpp" />
     <ClCompile Include="PhyloTools.cpp" />
     <ClCompile Include="PValueDistanceCalculator.cpp" />
@@ -209,6 +211,7 @@
     <ClInclude Include="CalculatorNexusFormatter.h" />
     <ClInclude Include="CalculatorsWrapper.h" />
     <ClInclude Include="CalculatorType.h" />
+    <ClInclude Include="CompareTreeCalculator.h" />
     <ClInclude Include="DistanceMatrixObject.h" />
     <ClInclude Include="DistanceMeasureCalculator.h" />
     <ClInclude Include="DynamicSizedArray.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="NcdDistanceCalculator.h" />
     <ClInclude Include="NexusFormatProcessor.h" />
     <ClInclude Include="NullBatchCalculatorsAnalyzer.h" />
+    <ClInclude Include="NullDistanceMeasureCalculator.h" />
     <ClInclude Include="OSParameters.h" />
     <ClInclude Include="PhyloAnalysis.h" />
     <ClInclude Include="PhyloTools.h" />

@@ -27,6 +27,7 @@ namespace distanceMeasure
 		Ncd_7ZipCalculatorType::Initialize();
 		Ncd_Mfc1CalculatorType::Initialize();
 		Ncd_Mfc2CalculatorType::Initialize();
+		CompareTreeCalculatorType::Initialize();
 	}
 
 
@@ -47,7 +48,7 @@ namespace distanceMeasure
 		Ncd_7ZipCalculatorType::Terminate();
 		Ncd_Mfc1CalculatorType::Terminate();
 		Ncd_Mfc2CalculatorType::Terminate();
-
+		CompareTreeCalculatorType::Terminate();
 	}
 	
 	void distanceMeasure::CalculatorFactory::PushCalculatorType(CalculatorType* pType)

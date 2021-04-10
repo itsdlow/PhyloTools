@@ -50,7 +50,7 @@ void ForestPlug::run()
     	this->GetOriginalFastaInputPath(inputFileSet);//can convert to static...
 	    ForestPlug::GetNamingStrategy(inputFileSet);
         ForestPlug::GetSequenceListStrategy(inputFileSet);
-
+        
     	
     	batch_files.push_back(inputFileSet);
 
@@ -169,6 +169,10 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
         {
             //bit mask for given-current (*it) calculator
             bitmask |= SystemParameters::GetCalculatorMask(index);
+
+        	//TODO:: if index == "CompareTreeCalculator" ==> Prompt user for filename...
+        		//add file name to RunFlags::CompareTrees (std::vector<>)
+        	//NOTE:: mutually exclusive with SequenceList generation...
         }
     }
     //calc count == size of batch_method string (unless all methods...)

@@ -89,6 +89,8 @@ void distanceMeasure::InternalCalculatorTools::create_large_tree(DistanceMeasure
 	char fastme_command[200];
 	dmc->GetFastMECommand(fastme_command, largelist_matrix_file_path, 1, large_tree_file_path);
 
+	//TODO:: store return value of system call --> check if command was sucessful
+		//==> IF NOT -> try re-execute once?
 	system(fastme_command);
 
 	printf("FastME command executed -- Large Tree Generated\n");
@@ -171,6 +173,8 @@ void distanceMeasure::InternalCalculatorTools::CalculateLargeTreeDistanceMeasure
 		this->results.append("\n");
 		//NOTE:: CHANGE TO '\r' when other debug print statements removed
 		printf("\t%zu %s matrix distances calculated -- %d/%zu row calculations performed...\n", fileCount, dmc->GetCalculatorName().c_str(), static_cast<int>(i) + 1, fileCount);
+
+		//TODO:: (IF NCDCalculator --> NORMALIZE ENTIRE MATRIX BASED ON Min-max values...)
 	}
 }
 

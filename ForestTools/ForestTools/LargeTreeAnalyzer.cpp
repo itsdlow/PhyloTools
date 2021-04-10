@@ -60,7 +60,7 @@ namespace phylo
 
 		}
 	}
-	//TODO:: change to a for loop???
+
 	void LargeTreeAnalyzer::WriteAnalysisTables(const int ss_size_count, const int ss_size)
 	{
 		//write each different anlysis measure table, to same file

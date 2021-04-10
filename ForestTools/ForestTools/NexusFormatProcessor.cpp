@@ -14,6 +14,8 @@ January 3 2020*
 #include <fstream>
 #include <cstring>
 
+#include "SystemParameters.h"
+
 /*ASSUMPIONS:
  *
  * File given in NEXUS format
@@ -43,7 +45,8 @@ namespace distanceMeasure
 		//read line 2 pass sequence (line) to FileObject()
 
 		//open file
-		std::ifstream nexusInput(pFOM->get_sequence_set_path());
+		std::string clean_path = SystemParameters::Trim(pFOM->get_sequence_set_path());
+		std::ifstream nexusInput(clean_path);
 
 		if (!nexusInput.is_open())
 		{

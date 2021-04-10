@@ -32,6 +32,8 @@ namespace distanceMeasure
 
 	Ncd_Geco1CalculatorType* Ncd_Geco1CalculatorType::pInstance = nullptr;
 
+	CompareTreeCalculatorType* CompareTreeCalculatorType::pInstance = nullptr;
+
 }
 
 unsigned int distanceMeasure::CalculatorType::GetBitmask() const
@@ -97,6 +99,11 @@ distanceMeasure::Ncd_Geco1CalculatorType::Ncd_Geco1CalculatorType() :
 {
 }
 
+distanceMeasure::CompareTreeCalculatorType::CompareTreeCalculatorType() :
+	CalculatorType("CompareTree")
+{
+}
+
 /*
  * CALCULATOR TYPE visitors...
  */
@@ -134,6 +141,12 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc2CalculatorT
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Geco1CalculatorType::visit(RunFlags* pFlags)
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+
+
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::CompareTreeCalculatorType::visit(RunFlags* pFlags)
+{
+	return nullptr;//new CompareTreeCalculator(pFlags, this->name, pFlags->compareTreeFileName);
 }
 
 
