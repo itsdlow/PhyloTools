@@ -1,5 +1,9 @@
 0
 0
+0
+0
+456
+0
 1
 C:/Users/ItsDLow/Downloads/model.10.1800000.0.000000111/1/relabeled_shortened_combined_10_subset_100.nex 
 2
@@ -1499,7 +1503,3 @@ C:/Users/ItsDLow/Downloads/model.10.1800000.0.000000111/50/relabeled_shortened_c
 C:/Users/ItsDLow/Downloads/model.10.1800000.0.000000111/50/relabeled_shortened_combined_200_subset_1000.nex 
 2
 0
-0
-0
-0
-456
