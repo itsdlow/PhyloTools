@@ -27,7 +27,8 @@ namespace distanceMeasure
 	{
 		//open file and read nTax
 				//open file
-		std::ifstream nexusInput(this->path);
+		std::string clean_path = SystemParameters::Trim(this->path);
+		std::ifstream nexusInput(clean_path);
 
 		if (!nexusInput.is_open())
 		{

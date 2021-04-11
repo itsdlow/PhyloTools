@@ -22,7 +22,7 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	//NOTE:: could re-enable optimization --> Must clear TempFiles on each FileSet BatchRun (in DMO)
 	////try to open file
 	FILE* existing_fasta_file = fopen(fasta_filename, "rb");
-	////NOTE:: ASSUMPTION:: NO incomplete .fasta files (if .fasta exists -- is correct)
+	//NOTE:: ASSUMPTION:: NO incomplete .fasta files (if .fasta exists -- is correct)
 	if (!existing_fasta_file)
 	{
 		//create FASTA file string

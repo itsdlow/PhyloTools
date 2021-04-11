@@ -15,6 +15,8 @@ January 24 2020
 #include <string>
 
 
+struct InputSequenceFileSet;
+
 //forward decls
 namespace distanceMeasure
 {
@@ -38,7 +40,8 @@ public:
 	//
 	static int GetCurrentFileSetBatchNumber() { return SystemParameters::Instance().fileSetBatchNumber; };
 	static void IncrementCurrentFileSetBatchNumber() { SystemParameters::Instance().fileSetBatchNumber++; };
-
+	static void SetCurrentFileSet(InputSequenceFileSet* pFileSet) { SystemParameters::Instance().pCurrentFileSet = pFileSet; };
+	static void GetCurrentFileSetCompareTreePath(std::string& path);
 	
 	//used by PhyloTools
 	static const std::string& GetCleanNewickRegEx() { return SystemParameters::Instance().clean_newick_regex; };
@@ -183,6 +186,7 @@ private:
 	bool OS_WINDOWS;
 
 	int fileSetBatchNumber;
+	InputSequenceFileSet* pCurrentFileSet;
 	//const int CALCULATOR_COUNT = 5;
 
 	

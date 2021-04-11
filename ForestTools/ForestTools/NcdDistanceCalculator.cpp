@@ -94,11 +94,13 @@ namespace distanceMeasure
 		const std::string species1 = file1.GetSequenceName();
 		const std::string species2 = file2.GetSequenceName();
 
+		//NOTE:: removed optimization...
 		//if same sequence -- do not create pair
 		if (species1 == species2)
 		{
 			return 0.0f;
 		}
+		
 		//CREATE CONCATENATED compressed file on fileobjects
 			//create fasta file for both fileobjects ==> concatenate
 		int pair_size = CalculatorFastaCompressor::get_compressed_sequences_pair_size(file1, file2, this->extension, this->compress_command_format_string);
@@ -133,12 +135,18 @@ namespace distanceMeasure
 		}
 
 
-		const float ret = static_cast<float>(size_ij - min_size) / static_cast<float>(max_size);
+		float ret = static_cast<float>(size_ij - min_size) / static_cast<float>(max_size);
 		if(ret > 1.0f)
 		{
 			printf("Huh?\n");
 			//exit(0);
 		}
+		if(ret < 0.0f)
+		{
+			printf("What?\n");
+			ret = 0.0f;
+		}
+		
 		//Measure::
 			//normalize(count) == 1 --> MAXIMALLY DIFFERENT sequences
 			//normalize(count) == 0 --> IDENTICAL SEQUENCES

@@ -9,5 +9,6 @@
 #include "MrBayesDistanceCalculator.h"
 #include "NcdDistanceCalculator.h"
 
+#include "CompareTreeCalculator.h"
 
 #endif
