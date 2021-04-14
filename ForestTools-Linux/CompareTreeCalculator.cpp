@@ -1,7 +1,7 @@
 #include "CompareTreeCalculator.h"
 
 #include "SystemParameters.h"
-
+#include <cstring>
 
 distanceMeasure::CompareTreeCalculator::CompareTreeCalculator(RunFlags* flags, const std::string& name)
 	:NullDistanceMeasureCalculator(flags, name)

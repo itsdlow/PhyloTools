@@ -1,0 +1,4 @@
+Calculation Time For Sequence Set[0]: 40.304317 minutes
+	5	Camelus_bactrianus Elephantulus_sp. Hippopotamus_amphibius Mazama_gouazoupira Oryx_dammah
+
+Calculation Time For Sequence Set Lists: 40.304317 minutes

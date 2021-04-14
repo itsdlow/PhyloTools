@@ -12,6 +12,7 @@ February 15 2020
 #include "MrBayesDataType.h"
 #include "InputSequenceFileSet.h"
 #include <algorithm>
+#include <cassert>
 
 SystemParameters* SystemParameters::pInstance = nullptr;
 

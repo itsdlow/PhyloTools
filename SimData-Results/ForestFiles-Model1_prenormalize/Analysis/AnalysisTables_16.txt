@@ -1,0 +1,56 @@
+compatibilityTable_LtoL
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+compatibilityTable_QtoQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+compatibilityTable_IQtoIQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+compatibilityTable_IQtoQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+new_compatibilityTable_LtoL
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+new_compatibilityTable_QtoQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+new_compatibilityTable_IQtoIQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
+new_compatibilityTable_IQtoQ
+          LCS      PValue   MrBaye  
+ LCS     0.000000 0.000000 0.000000 
+ PValue  0.000000 0.000000 0.000000 
+ MrBaye  0.000000 0.000000 0.000000 
+
+
