@@ -155,7 +155,8 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
     printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump().c_str());
 
     std::getline(std::cin, batch_methods, '\n');
-
+    batch_methods = SystemParameters::Trim(batch_methods);
+	
     //NOTE:: if user selects CompareTree --> must set RunFlags...
     int compare_calculator_index;
     distanceMeasure::CalculatorFactory::GetCompareTreeCalculatorIndex(compare_calculator_index);
@@ -274,7 +275,7 @@ void ForestPlug::GetCompareTreePath(InputSequenceFileSet& inputFileSet)
 		std::string path;
 		std::getline(std::cin, path, '\n');
 
-		inputFileSet.compareTreePath = path;
+		inputFileSet.compareTreePath = SystemParameters::Trim(path);
 	}
 
 }

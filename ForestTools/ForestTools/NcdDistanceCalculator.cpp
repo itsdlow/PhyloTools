@@ -98,7 +98,8 @@ namespace distanceMeasure
 		//if same sequence -- do not create pair
 		if (species1 == species2)
 		{
-			return 0.0f;
+			printf("");
+		//	return 0.0f;
 		}
 		
 		//CREATE CONCATENATED compressed file on fileobjects
@@ -119,7 +120,7 @@ namespace distanceMeasure
 		return NcdDistanceCalculator::computeNCDistance(pair_size, speciesEntry1->second, speciesEntry2->second);;
 	}
 
-
+	
 	float distanceMeasure::NcdDistanceCalculator::computeNCDistance(int size_ij, int size_i, int size_j)
 	{
 		int max_size, min_size;
