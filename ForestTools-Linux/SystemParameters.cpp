@@ -44,9 +44,9 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//MrBayes
 		SystemParameters::Instance().mrbayes_command_string = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
 		//Muscle -- sequence alignment
-		SystemParameters::Instance().muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
+		//SystemParameters::Instance().muscle_command_string = "extra_tools\\muscle.exe -in %s -out %s";
 		//Clustal-Omega
-		//SystemParameters::Instance().muscle_command_string = "extra_tools\\clustal-omega-1.2.2-win64\\clustalo.exe -i %s -o %s --outfmt=fasta -v -v";
+		SystemParameters::Instance().muscle_command_string = "extra_tools\\clustal-omega-1.2.2-win64\\clustalo.exe -i %s -o %s --outfmt=fasta -v -v";
 
 
 		//fastME
@@ -74,7 +74,9 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//MrBayes
 		SystemParameters::Instance().mrbayes_command_string = "./extra_tools/MrBayes-3.2.7a/MrBayes-3.2.7a/src/mb %s";
 		//Muscle -- sequence alignment
-		SystemParameters::Instance().muscle_command_string = "./extra_tools/muscle -in %s -out %s";
+		//SystemParameters::Instance().muscle_command_string = "./extra_tools/muscle -in %s -out %s";
+		SystemParameters::Instance().muscle_command_string = "./extra_tools/clustal-omega-1.2.2-win64/clustalo -i %s -o %s --outfmt=fasta -v -v";
+
 		//fastME
 		//SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/binaries/fastme-2.1.5-linux64 -i %s -D %d -o %s";
 		SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/src/fastme -i %s -D %d -o %s";
