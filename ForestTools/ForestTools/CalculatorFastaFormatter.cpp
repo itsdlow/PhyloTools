@@ -56,7 +56,6 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	}
 	else
 	{
-		//printf("FASTA file exists...\n");
 		//close existing fasta file
 		fclose(existing_fasta_file);
 	}
