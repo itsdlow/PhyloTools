@@ -14,6 +14,8 @@ January 3 2020*
 #include <fstream>
 #include <cstring>
 
+#include "SystemParameters.h"
+
 /*ASSUMPIONS:
  *
  * File given in FASTA format
@@ -67,7 +69,7 @@ namespace distanceMeasure
 	SequenceFileProcessor::SequencesProcessingStatus distanceMeasure::SequenceFileProcessor::create_file_object(std::ifstream& fasta_input, std::string& annotation_line, FileObjectManager* pFOM, FileObject* const pFileObject, const int index) const
 	{
 		SequencesProcessingStatus more_sequences_status = SequencesProcessingStatus::MORE_SEQUENCES;
-		std::string line(annotation_line);
+		std::string line(SystemParameters::Trim(annotation_line));
 		std::string speciesSequence;
 		speciesSequence.reserve(1000);
 

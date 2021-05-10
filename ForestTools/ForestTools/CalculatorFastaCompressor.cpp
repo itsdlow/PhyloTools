@@ -63,7 +63,7 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		//create compressor - system call
 		char compress_command[200];
 		//sprintf_s(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
-		SystemParameters::GetCompressionCommand(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+		SystemParameters::GetCompressionCommand(extension, compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
 		system(compress_command);
 
 		////read file for size
@@ -122,7 +122,7 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	//create compressor - system call
 	char compress_command[200];
 	//sprintf_s(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
-	SystemParameters::GetCompressionCommand(compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
+	SystemParameters::GetCompressionCommand(extension, compress_command, compress_command_format_string.c_str(), output_filename, fasta_filename);
 	system(compress_command);
 
 	//read file for size

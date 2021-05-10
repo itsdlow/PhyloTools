@@ -181,6 +181,8 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
             //NOTE:: mutually exclusive with SequenceList generation...
             flags->SetCompareTreeCalculator();
         }
+    	//TODO:: else if(index == pvalue_calculator_index) ==> ask user if they need to align sequences
+    	
         else
         {
             //bit mask for given-current (*it) calculator

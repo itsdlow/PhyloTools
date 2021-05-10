@@ -9,6 +9,8 @@ July 20 2020
 #include "CalculatorType.h"
 #include <cassert>
 
+#include "SystemParameters.h"
+
 namespace distanceMeasure
 {
 	CalculatorFactory* CalculatorFactory::pInstance = nullptr;
@@ -27,7 +29,16 @@ namespace distanceMeasure
 		Ncd_7ZipCalculatorType::Initialize();
 		Ncd_Mfc1CalculatorType::Initialize();
 		Ncd_Mfc2CalculatorType::Initialize();
+		
 		CompareTreeCalculatorType::Initialize();
+
+		//NOTE:: hack -- should be moved to SystemParameters...
+		if (SystemParameters::isOSWindows() == false)
+		{
+			Ncd_Bzip2CalculatorType::Initialize();
+			Ncd_PpmzCalculatorType::Initialize();
+		}
+		
 	}
 
 
@@ -48,7 +59,15 @@ namespace distanceMeasure
 		Ncd_7ZipCalculatorType::Terminate();
 		Ncd_Mfc1CalculatorType::Terminate();
 		Ncd_Mfc2CalculatorType::Terminate();
+		
 		CompareTreeCalculatorType::Terminate();
+
+		//NOTE:: hack -- should be moved to SystemParameters...
+		if (SystemParameters::isOSWindows() == false)
+		{
+			Ncd_Bzip2CalculatorType::Terminate();
+			Ncd_PpmzCalculatorType::Terminate();
+		}
 	}
 	
 	void distanceMeasure::CalculatorFactory::PushCalculatorType(CalculatorType* pType)
@@ -132,10 +151,32 @@ namespace distanceMeasure
 		assert(pType);
 		return pType;
 	}
+	NcdCalculatorType* distanceMeasure::CalculatorFactory::privGetNcdCalculatorType(const std::string& ext) const
+	{
+		NcdCalculatorType* pType = nullptr;
+		
+		for (auto it = this->calculator_types.begin(); it != this->calculator_types.end(); it++)
+		{
+			//calculator type
+			if ((*it)->type == CalculatorType::Type::NCD)
+			{
+				NcdCalculatorType* pTmp = static_cast<NcdCalculatorType*>(*it);
+				if(pTmp->extension == ext)
+				{
+					pType = pTmp;
+					break;
+				}
+
+			}
+		}
+		assert(pType);
+		return pType;
+	}
+	
 	CalculatorType* distanceMeasure::CalculatorFactory::privGetCalculatorType(const std::string& name) const
 	{
 		CalculatorType* pType = nullptr;
-		
+
 		for (auto it = this->calculator_types.begin(); it != this->calculator_types.end(); it++)
 		{
 			//calculator type

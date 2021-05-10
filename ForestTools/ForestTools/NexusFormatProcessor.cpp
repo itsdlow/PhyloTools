@@ -98,6 +98,7 @@ namespace distanceMeasure
 		}
 		else
 		{
+			line = SystemParameters::Trim(line);
 			const std::string speciesIdentifier(pFOM->GetSpeciesIdentifier(line, index));
 
 			
