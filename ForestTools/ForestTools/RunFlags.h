@@ -19,14 +19,16 @@ namespace distanceMeasure
 		bool generate_quartets;
 		bool generate_analysis;
 		bool compare_tree_calculator;//set true if using compare tree calc in analaysis --> CANNOT do Batch Sequence Listing (only FileSet)
-
+		bool align_sequences;
+		
 		RunFlags():
 		calculators_bitmask(0),
 		calculator_count(0),
 		closeness_factor(0.0f),
 		generate_quartets(false),
 		generate_analysis(true),
-		compare_tree_calculator(false)
+		compare_tree_calculator(false),
+		align_sequences(false)
 		{
 		}
 		
@@ -36,7 +38,9 @@ namespace distanceMeasure
 		closeness_factor(closeness_limit),
 		generate_quartets(genQuartets),
 		generate_analysis(true),
-		compare_tree_calculator(false)
+		compare_tree_calculator(false),
+		align_sequences(false)
+
 		{
 		}
 		RunFlags(bool genQuartets, float closeness_limit, unsigned int calculators_bitmask, int calculator_count) :
@@ -45,7 +49,8 @@ namespace distanceMeasure
 		closeness_factor(closeness_limit),
 		generate_quartets(genQuartets),
 		generate_analysis(true),
-		compare_tree_calculator(false)
+		compare_tree_calculator(false),
+		align_sequences(false)
 		{
 		}
 		

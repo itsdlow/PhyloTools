@@ -14,6 +14,8 @@ February 15 2020
 #include <algorithm>
 #include <cassert>
 
+#include "CalculatorType.h"
+
 SystemParameters* SystemParameters::pInstance = nullptr;
 
 void SystemParameters::Initialize()
@@ -41,6 +43,14 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().mfc1_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
 		SystemParameters::Instance().mfc2_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
 		SystemParameters::Instance().mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
+
+		//bzip2
+		SystemParameters::Instance().bzip2_command_string = "";
+
+		//ppmz
+		SystemParameters::Instance().ppmz_command_string = "";
+
+		
 		//MrBayes
 		SystemParameters::Instance().mrbayes_command_string = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
 		//Muscle -- sequence alignment
@@ -69,6 +79,14 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -2 -o %s %s";
 		SystemParameters::Instance().mfc3_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
 		//
+
+		//bzip2
+		SystemParameters::Instance().bzip2_command_string = "bzip2 -c %s > %s";
+
+		//ppmz
+		SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz %s %s";
+
+
 		//
 		
 		//MrBayes
@@ -267,9 +285,18 @@ void SystemParameters::GetCompressedFilename(char* buffer, const char* extension
 {
 	sprintf(buffer, SystemParameters::Instance().privGetCompressedFilenameFormat().c_str(), extension);
 }
-void SystemParameters::GetCompressionCommand(char* buffer, const char* derived_command, const char* out_file, const char* in_file)
+void SystemParameters::GetCompressionCommand(std::string ext, char* buffer, const char* derived_command, const char* out_file, const char* in_file)
 {
+	//TODO:: clean up
+	distanceMeasure::NcdCalculatorType* pType = distanceMeasure::CalculatorFactory::GetNcdCalculatorType(ext);
+	if (pType->command_in_out_order == true)
+	{
+		sprintf(buffer, derived_command, in_file, out_file);
+	}
+	else
+        {
 	sprintf(buffer, derived_command, out_file, in_file);
+        }
 }
 
 void SystemParameters::GetCurrentFileSetCompareTreePath(std::string& path)

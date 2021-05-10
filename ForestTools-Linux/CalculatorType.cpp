@@ -32,6 +32,10 @@ namespace distanceMeasure
 
 	Ncd_Geco1CalculatorType* Ncd_Geco1CalculatorType::pInstance = nullptr;
 
+	Ncd_PpmzCalculatorType* Ncd_PpmzCalculatorType::pInstance = nullptr;
+	Ncd_Bzip2CalculatorType* Ncd_Bzip2CalculatorType::pInstance = nullptr;
+
+	
 	CompareTreeCalculatorType* CompareTreeCalculatorType::pInstance = nullptr;
 
 }
@@ -46,16 +50,17 @@ unsigned int distanceMeasure::CalculatorType::GetBitmask() const
 	return static_cast<unsigned int>(pow(2, this->index));
 }
 
-distanceMeasure::CalculatorType::CalculatorType(std::string name)
-:name(std::move(name)), index(CalculatorFactory::GetCalculatorTypeCount())
+distanceMeasure::CalculatorType::CalculatorType(std::string name, Type type)
+:name(std::move(name)), index(CalculatorFactory::GetCalculatorTypeCount()), type(type)
 {
 	//push to type array...
 	CalculatorFactory::PushCalculatorType(this);
 };
-distanceMeasure::NcdCalculatorType::NcdCalculatorType(std::string name, std::string extension, std::string compress_command_format_string)
-	:CalculatorType(std::move(name)),
+distanceMeasure::NcdCalculatorType::NcdCalculatorType(std::string name, std::string extension, std::string compress_command_format_string, bool inout)
+	:CalculatorType(std::move(name), Type::NCD),
 extension(std::move(extension)),
-compress_command_format_string(std::move(compress_command_format_string))
+compress_command_format_string(std::move(compress_command_format_string)),
+command_in_out_order(inout)
 {};
 
 
@@ -83,21 +88,30 @@ CalculatorType("MrBayes")
 }
 
 distanceMeasure::Ncd_7ZipCalculatorType::Ncd_7ZipCalculatorType():
-NcdCalculatorType("7Zip", "7z", SystemParameters::Get7ZipCommandString())
+NcdCalculatorType("7Zip", "7z", SystemParameters::Get7ZipCommandString(), false)
 {
 }
 distanceMeasure::Ncd_Mfc1CalculatorType::Ncd_Mfc1CalculatorType() :
-NcdCalculatorType("Mfc1", "mfc1", SystemParameters::GetMFC1CommandString())
+NcdCalculatorType("Mfc1", "mfc1", SystemParameters::GetMFC1CommandString(), false)
 {
 }
 distanceMeasure::Ncd_Mfc2CalculatorType::Ncd_Mfc2CalculatorType() :
-	NcdCalculatorType("Mfc2", "mfc2", SystemParameters::GetMFC2CommandString())
+	NcdCalculatorType("Mfc2", "mfc2", SystemParameters::GetMFC2CommandString(), false)
 {
 }
 distanceMeasure::Ncd_Geco1CalculatorType::Ncd_Geco1CalculatorType() :
-	NcdCalculatorType("Geco", "co", SystemParameters::GetMFC2CommandString())
+	NcdCalculatorType("Geco", "co", SystemParameters::GetMFC2CommandString(), false)
 {
 }
+distanceMeasure::Ncd_PpmzCalculatorType::Ncd_PpmzCalculatorType() :
+	NcdCalculatorType("Ppmz", "ppmz", SystemParameters::GetPpmzCommandString(), true)
+{
+}
+distanceMeasure::Ncd_Bzip2CalculatorType::Ncd_Bzip2CalculatorType() :
+	NcdCalculatorType("Bzip2", "bz", SystemParameters::GetBzip2CommandString(), true)
+{
+}
+
 
 distanceMeasure::CompareTreeCalculatorType::CompareTreeCalculatorType() :
 	CalculatorType("CompareTree")
@@ -139,6 +153,16 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc2CalculatorT
 }
 
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Geco1CalculatorType::visit(RunFlags* pFlags)
+{
+	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_PpmzCalculatorType::visit(RunFlags* pFlags)
+{
+	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Bzip2CalculatorType::visit(RunFlags* pFlags)
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }

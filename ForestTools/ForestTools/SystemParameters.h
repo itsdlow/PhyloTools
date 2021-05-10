@@ -130,8 +130,8 @@ public:
 	//
 	static void GetCompressedFilename(char* buffer, const char* extension);
 	const std::string& privGetCompressedFilenameFormat() const { return compressed_file_format_string; };
-	static void GetCompressionCommand(char* buffer, const char* derived_command, const char* out_file, const char* in_file);
-
+	static void GetCompressionCommand(std::string ext, char* buffer, const char* derived_command, const char* out_file, const char* in_file);
+	
 	//static const std::string& GetMFCompressCommandString() { return SystemParameters::Instance().mfcompress_command_string; };
 	static const std::string& GetMFC1CommandString() { return SystemParameters::Instance().mfc1_command_string; };
 	static const std::string& GetMFC2CommandString() { return SystemParameters::Instance().mfc2_command_string; };
@@ -140,6 +140,8 @@ public:
 	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
 
 	static const std::string& GetGecoCommandString() { return SystemParameters::Instance().geco1_command_string; };
+	static const std::string& GetBzip2CommandString() { return SystemParameters::Instance().bzip2_command_string; };
+	static const std::string& GetPpmzCommandString() { return SystemParameters::Instance().ppmz_command_string; };
 
 	
 	//***
@@ -167,7 +169,7 @@ public:
 
 	//Helper methods
 	static std::string Trim(const std::string& s);
-	
+	static bool isOSWindows() { return SystemParameters::Instance().OS_WINDOWS; };
 	
 private:
 	SystemParameters();
@@ -271,7 +273,11 @@ private:
 	//const std::string zip7_command_string_unix = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
 
 	std::string geco1_command_string;
-	
+
+	std::string bzip2_command_string;
+
+	std::string ppmz_command_string;
+
 	//MRBAYES
 	const char nexus_gap_char = '-';
 	//NOTE:: CAN ONLY SPECIFY 1 'missing' char --->

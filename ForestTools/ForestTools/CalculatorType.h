@@ -32,8 +32,15 @@ namespace distanceMeasure
 	class CalculatorType
 	{
 	public:
+		enum class Type
+		{
+			DEFAULT,
+			NCD
+		};
+		
+	public:
 
-		CalculatorType(std::string name);
+		CalculatorType(std::string name, Type type = Type::DEFAULT);
 		virtual ~CalculatorType() = default;
 		CalculatorType(const CalculatorType&) = delete;
 		CalculatorType& operator=(const CalculatorType&) = delete;
@@ -43,6 +50,7 @@ namespace distanceMeasure
 		
 		std::string name;
 		int index;
+		Type type;
 		//unsigned int bitmask;
 		//command string
 	};
@@ -156,13 +164,15 @@ namespace distanceMeasure
 	class NcdCalculatorType: public CalculatorType
 	{
 	public:
-		NcdCalculatorType(std::string name, std::string extension, std::string compress_command_format_string);
+		NcdCalculatorType(std::string name, std::string extension, std::string compress_command_format_string, bool inout);
 		virtual ~NcdCalculatorType() = default;
 		NcdCalculatorType(const NcdCalculatorType&) = delete;
 		NcdCalculatorType& operator=(const NcdCalculatorType&) = delete;
 
 		std::string extension;
 		std::string compress_command_format_string;
+		//TRUE:: in-out ---- FALSE:: out-in
+		bool command_in_out_order;
 	};
 	
 	class Ncd_7ZipCalculatorType : public NcdCalculatorType
@@ -265,6 +275,59 @@ namespace distanceMeasure
 
 	};
 
+	class Ncd_PpmzCalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_PpmzCalculatorType();
+
+		static Ncd_PpmzCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_PpmzCalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_PpmzCalculatorType* pInstance;
+	public:
+		virtual ~Ncd_PpmzCalculatorType() = default;
+		Ncd_PpmzCalculatorType(const Ncd_PpmzCalculatorType&) = delete;
+		Ncd_PpmzCalculatorType& operator=(const Ncd_PpmzCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_PpmzCalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_PpmzCalculatorType::pInstance; };
+
+	};
+
+
+	class Ncd_Bzip2CalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_Bzip2CalculatorType();
+
+		static Ncd_Bzip2CalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_Bzip2CalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_Bzip2CalculatorType* pInstance;
+	public:
+		virtual ~Ncd_Bzip2CalculatorType() = default;
+		Ncd_Bzip2CalculatorType(const Ncd_Bzip2CalculatorType&) = delete;
+		Ncd_Bzip2CalculatorType& operator=(const Ncd_Bzip2CalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_Bzip2CalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_Bzip2CalculatorType::pInstance; };
+
+	};
+
+
+	
 	class CompareTreeCalculatorType : public CalculatorType
 	{
 	private:

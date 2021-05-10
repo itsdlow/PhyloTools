@@ -20,6 +20,7 @@ namespace distanceMeasure
 	//forward declarations
 	class DistanceMeasureCalculator;
 	class CalculatorType;
+	class NcdCalculatorType;
 	struct RunFlags;
 
 	//singleton class holds all meta data on calculators... (commands, extensions, index, calculator return (Create) )
@@ -59,7 +60,7 @@ namespace distanceMeasure
 
 		static CalculatorType* GetCalculatorType(int id) { return CalculatorFactory::Instance().privGetCalculatorType(id); };
 		static CalculatorType* GetCalculatorType(const std::string& name) { return CalculatorFactory::Instance().privGetCalculatorType(name); };
-
+		static NcdCalculatorType* GetNcdCalculatorType(const std::string& ext) { return CalculatorFactory::Instance().privGetNcdCalculatorType(ext); };
 		static unsigned int GetAllCalculatorsBitmask() { return CalculatorFactory::Instance().privGetAllCalculatorsBitmask(); };
 		static unsigned int GetCalculatorBitmask(int id) { return CalculatorFactory::Instance().privGetCalculatorBitmask(id); };
 		//returns batch calc index || -1 --> 'index' treated as OUT var
@@ -72,6 +73,7 @@ namespace distanceMeasure
 
 	private:
 		DistanceMeasureCalculator* privCreate(int index, RunFlags* pFlags) const;
+		NcdCalculatorType* privGetNcdCalculatorType(const std::string& ext) const;
 		CalculatorType* privGetCalculatorType(const std::string& name) const;
 		CalculatorType* privGetCalculatorType(int id)  const;
 		unsigned int privGetCalculatorBitmask(int id) const;

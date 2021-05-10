@@ -1,4 +1,0 @@
-Calculation Time For Sequence Set[0]: 0.009384 minutes
-	11 1 2 3 4 5 6 7 8 9 10 11
-
-Calculation Time For Sequence Set Lists: 0.352330 minutes
