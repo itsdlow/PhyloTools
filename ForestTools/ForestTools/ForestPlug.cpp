@@ -576,7 +576,7 @@ void ForestPlug::CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inp
     //open file to append
     std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
 
-
+    //TODO:: should be done "asynchronously" ==> do this after user gives all inputs...
 	//for each input file -- 
     for (std::string path : inputs)
     {
