@@ -1,0 +1,30 @@
+Orycteropus afer
+Loxodonta africana
+Lama pacos
+Equus asinus
+Odobenus rosmarus rosmarus
+Tachyglossus aculeatus
+Bos taurus
+Trichosurus vulpecula
+Hylobates lar
+Macropus robustus
+Canis familiaris
+Felis catus
+Cavia porcellus
+Dugong dugon
+Echinosorex gymnura
+Sciurus vulgaris
+Lepus europaeus
+Talpa europaea
+Balaenoptera physalus
+Halichoerus grypus
+Thryonomys swinderianus
+Rhinoceros unicornis
+Papio hamadryas
+Hippopotamus amphibius
+Equus caballus
+Cephalopachus bancanus
+Mouse
+Homo sapiens
+Artibeus jamaicensis
+Pteropus scapulatus
