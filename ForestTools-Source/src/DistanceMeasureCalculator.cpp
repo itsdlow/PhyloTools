@@ -187,6 +187,8 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 		
 		
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		fflush(this->pTimingsLogFile);
 	}
 }
@@ -214,6 +216,8 @@ void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		fclose(this->pTimingsLogFile);
 	}
 }

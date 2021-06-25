@@ -9,6 +9,8 @@ January 3 2020
 #include "PhyloTools.h"
 #include "Tree.h"
 
+#include "SystemParameters.h" // included for AZUL_UNUSED_VAR() macro
+
 namespace PhyloAnalysis
 {
     //...lazy
@@ -79,6 +81,7 @@ namespace PhyloAnalysis
         //lists of all possible combinations of 4 of leafs
         std::vector<std::vector<std::string> > largeQuartetSequenceList;
         int largeListSequenceCount = ptools.comboFourOf(largeListTree1, largeQuartetSequenceList);
+        AZUL_UNUSED_VAR(largeListSequenceCount);
         //assumes both trees are on same sequence set
         //std::vector<const std::vector<std::string> > largeQuartetSequenceList2(largeQuartetSequenceList1);
 
@@ -283,6 +286,7 @@ namespace PhyloAnalysis
         //lists of all possible combinations of 4 of leafs
         std::vector<std::vector<std::string> > largeQuartetSequenceList;
         int largeListSequenceCount = ptools.comboFourOf(largeListTree1, largeQuartetSequenceList);
+        AZUL_UNUSED_VAR(largeListSequenceCount);
         //assumes both trees are on same sequence set
         //std::vector<const std::vector<std::string> > largeQuartetSequenceList2(largeQuartetSequenceList1);
 

@@ -14,6 +14,8 @@ January 24 2020
 
 #include <string>
 
+#define AZUL_UNUSED_VAR(x) (void(x))
+
 
 struct InputSequenceFileSet;
 

@@ -56,7 +56,6 @@ namespace distanceMeasure
 		else
 		{
 			const int sequenceCount = pFOM->get_sequence_set_count();
-			int count = 0;
 			//read file
 			std::string line;
 			//clear FileObjectBuffer
@@ -125,10 +124,10 @@ namespace distanceMeasure
 
 			//create file object with file name and sequence string
 			FileObject* tmp = new(pFileObject) FileObject(speciesFastaDescription, speciesSequence, speciesIdentifier);//...not really const function... FileObjectManager:: unsafe pointer 
+			AZUL_UNUSED_VAR(tmp);
 
 		#pragma warning( pop )
 			printf("created FileObject\n");
-
 		}
 		
 

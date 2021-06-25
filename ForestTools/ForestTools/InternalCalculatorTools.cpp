@@ -180,7 +180,7 @@ void distanceMeasure::InternalCalculatorTools::CalculateLargeTreeDistanceMeasure
 
 		this->results.append("\n");
 		//NOTE:: CHANGE TO '\r' when other debug print statements removed
-		printf("\t%zu %s matrix distances calculated -- %d/%zu row calculations performed...\n", fileCount, dmc->GetCalculatorName().c_str(), static_cast<int>(i) + 1, fileCount);
+		printf("\t%d %s matrix distances calculated -- %d/%d row calculations performed...\n", static_cast<int>(fileCount), dmc->GetCalculatorName().c_str(), static_cast<int>(i) + 1, static_cast<int>(fileCount));
 
 		//TODO:: (IF NCDCalculator --> NORMALIZE ENTIRE MATRIX BASED ON Min-max values...)
 	}
@@ -374,6 +374,8 @@ void distanceMeasure::InternalCalculatorTools::WriteClosenessLimitLog(DistanceMe
 	if (pLog != nullptr)
 	{
 		size_t numBytesWritten = fwrite(this->closeness_limit_log.c_str(), this->closeness_limit_log.length(), 1, pLog);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		printf("%s written...\n", closeness_limit_file_path);
 		fclose(pLog);
 		//reset string for next batch
@@ -394,6 +396,8 @@ void distanceMeasure::InternalCalculatorTools::write_large_tree_results(Distance
 	if (this->pResults != nullptr)
 	{
 		size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, this->pResults);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		printf("%s written...\n", largelist_matrix_file_path);
 		fclose(this->pResults);
 		//reset string for next batch
@@ -413,7 +417,9 @@ void distanceMeasure::InternalCalculatorTools::write_quartets_results(DistanceMe
 
 	if (this->pQuartetResults != nullptr)
 	{
-		size_t numBytesWritten2 = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
+		size_t numBytesWritten = fwrite(this->quartetResults.c_str(), this->quartetResults.length(), 1, this->pQuartetResults);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		printf("%s written...\n", quartet_matrices_file_path);
 		fclose(this->pQuartetResults);
 		//reset string for next batch
@@ -433,6 +439,8 @@ void distanceMeasure::InternalCalculatorTools::write_clustered_tree_results(Dist
 	if (this->pClusteredResults != nullptr)
 	{
 		size_t numBytesWritten = fwrite(this->clusteredResults.c_str(), this->clusteredResults.length(), 1, this->pClusteredResults);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		printf("%s written...\n", clustered_matrix_file_path);
 		fclose(this->pClusteredResults);
 		//reset string for next batch

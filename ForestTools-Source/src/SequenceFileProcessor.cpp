@@ -104,6 +104,7 @@ namespace distanceMeasure
 
 		//create file object with file name and sequence string
 		FileObject* tmp = new(pFileObject) FileObject(fastaIDLine, speciesSequence, speciesIdentifier);//...not really const function... FileObjectManager:: unsafe pointer 
+			AZUL_UNUSED_VAR(tmp);
 
 		#pragma warning( pop )
 		printf("created FileObject\n");

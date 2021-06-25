@@ -45,7 +45,9 @@ namespace phylo
 	std::string TreeAnalyzer::GetStandardizedCalculatorLabels() const
 	{
 		std::string label;
-		const int columnOffset = this->standard_label_size + 2 + 1;
+		//const int columnOffset = this->standard_label_size + 2 + 1;
+		//AZUL_UNUSED_VAR(columnOffset);
+
 		//add tab to skip 1st column
 		//label.append(" ", columnOffset);
 		//BAD -- static offset for first column (9 spaces)

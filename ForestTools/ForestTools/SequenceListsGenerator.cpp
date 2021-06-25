@@ -123,6 +123,8 @@ std::string distanceMeasure::SequenceListsGenerator::WriteSequenceListsFile(cons
 	if (pSequenceLists != nullptr)
 	{
 		size_t numBytesWritten = fwrite(str.c_str(), str.length(), 1, pSequenceLists);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		fclose(pSequenceLists);
 		//reset string for next batch
 		//this->results.clear();

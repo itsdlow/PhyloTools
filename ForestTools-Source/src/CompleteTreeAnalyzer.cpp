@@ -108,6 +108,8 @@ namespace phylo
 		if (pResults != nullptr)
 		{
 			size_t numBytesWritten = fwrite(this->results.c_str(), this->results.length(), 1, pResults);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			printf("%s written...\n", analysis_table_file_path);
 			fclose(pResults);
 			//reset string for next batch
