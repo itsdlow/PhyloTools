@@ -76,7 +76,8 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().zip7_command_string = "./extra_tools/p7zip_16.02/bin/7z a %s %s > /dev/null";//'> nul' ignores system() output
 		//MFC
 		SystemParameters::Instance().mfc1_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -1 -o %s %s";
-		SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -2 -o %s %s";
+		//SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -2 -o %s %s";
+		SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
 		SystemParameters::Instance().mfc3_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
 		//
 
@@ -84,7 +85,8 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().bzip2_command_string = "bzip2 -c %s > %s";
 
 		//ppmz
-		SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz %s %s";
+		//SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz %s %s";
+		SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz -c9 %s %s";
 
 
 		//
