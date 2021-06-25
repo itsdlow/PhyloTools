@@ -40,6 +40,8 @@ std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus
 	if (nexusFile)
 	{
 		size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		sequence_set_nexus_string.clear();
 	}
 	else
@@ -84,11 +86,15 @@ std::string distanceMeasure::CalculatorNexusFormatter::create_sequence_set_nexus
 		sequence_set_nexus_string.append("\n");
 		//write to file
 		size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		sequence_set_nexus_string.clear();
 	}
 	//NEXUS FOOTER???
 	sequence_set_nexus_string.append(";end;");
 	size_t numBytesWritten = fwrite(sequence_set_nexus_string.c_str(), sequence_set_nexus_string.length(), 1, nexusFile);
+	AZUL_UNUSED_VAR(numBytesWritten);
+
 
 	fclose(nexusFile);
 	//return new .nxs (nexus format file on aligned sequences) filename

@@ -81,6 +81,8 @@ namespace distanceMeasure
 			//extract tree from created file (nexusfilepath.run[nRun].t)
 			std::string newick = ExtractMrBayesNewick(GetMrBayesTFileName(nexus_file_path));
 			size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, largeTreeFile);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			fclose(largeTreeFile);
 		}
 		else
@@ -157,6 +159,8 @@ namespace distanceMeasure
 
 						//CREATE TREES_FILE FOR QUARTETS.. append all quartet newicks to same file...
 						size_t numBytesWritten = fwrite(newick.c_str(), newick.length(), 1, quartetsFile);
+						AZUL_UNUSED_VAR(numBytesWritten);
+
 						//"writes" as quartets extarcted
 						fflush(quartetsFile);
 					}
@@ -396,6 +400,8 @@ namespace distanceMeasure
 		if (nexusFile)
 		{
 			size_t numBytesWritten = fwrite(mrbayes_block_string.c_str(), mrbayes_block_string.length(), 1, nexusFile);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			fclose(nexusFile);
 		}
 		else

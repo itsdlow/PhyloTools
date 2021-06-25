@@ -46,6 +46,8 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 		if(fastaFile)
 		{
 			size_t numBytesWritten = fwrite(sequence_set_fasta_string.c_str(), sequence_set_fasta_string.length(), 1, fastaFile);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			fclose(fastaFile);
 		}
 		else
@@ -115,6 +117,8 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	if (fastaFile)
 	{
 		size_t numBytesWritten = fwrite(sequence_set_fasta_string.c_str(), sequence_set_fasta_string.length(), 1, fastaFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+
 		fclose(fastaFile);
 	}
 	else

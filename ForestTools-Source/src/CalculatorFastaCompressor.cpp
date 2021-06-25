@@ -46,6 +46,8 @@ void distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_sizes(
 		if (fastaFile)
 		{
 			size_t numBytesWritten = fwrite(file_object_fasta_string.c_str(), file_object_fasta_string.length(), 1, fastaFile);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			fclose(fastaFile);
 			file_object_fasta_string.clear();
 		}
@@ -103,6 +105,8 @@ int distanceMeasure::CalculatorFastaCompressor::get_compressed_sequences_pair_si
 	if (fastaFile)
 	{
 		size_t numBytesWritten = fwrite(file_object_pair_fasta_string.c_str(), file_object_pair_fasta_string.length(), 1, fastaFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+		
 		fclose(fastaFile);
 		//file_object_pair_fasta_string.clear();
 	}

@@ -61,6 +61,8 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 			const std::string timingLine(time_log_line.array);
 
 			size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
+			AZUL_UNUSED_VAR(numBytesWritten);
+
 			fflush(this->pAlignmentTimingsLogFile);
 		}
 	}
@@ -92,6 +94,8 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogTotalCalculationTime(
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
+		AZUL_UNUSED_VAR(numBytesWritten);
+		
 		fclose(this->pAlignmentTimingsLogFile);
 	}
 }
