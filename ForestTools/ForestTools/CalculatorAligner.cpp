@@ -8,10 +8,9 @@ January 18 2020
 #include "CalculatorAligner.h"
 
 #include "SystemParameters.h"
-#include <functional>
+//#include <functional>
 
 //alignment timing includes
-#include <ctime>
 #include "AlignedDistanceMeasureCalculator.h"
 
 const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligned_file(AlignedDistanceMeasureCalculator* dmc, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int total_sequence_count, const int hash_id) const
@@ -27,7 +26,8 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 	if(!aligned_file)
 	{
 		//TIME ALIGNMENT
-		double startTime = clock();
+		//double startTime = clock();
+		std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
 
 		const bool alignment_flag = dmc->GetCalculatorFlags()->align_sequences;
 		//use orignal Fileobjects to create fasta file, on sequence_set_names
@@ -53,8 +53,9 @@ const std::string distanceMeasure::CalculatorAligner::create_sequence_set_aligne
 			//stop time
 				//write timings for sequence set to file	
 				//add to total
-			const double alignmentTimeInMinutes = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
-			dmc->AddAlignmentTime(alignmentTimeInMinutes);
+			//const double alignmentTimeInMinutes = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
+			const std::chrono::duration<double> alignmentTimeInSeconds = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - startTime);
+			dmc->AddAlignmentTime(alignmentTimeInSeconds);
 
 			path = aligned_file_path;
 		}

@@ -30,9 +30,13 @@ namespace distanceMeasure
 		//NOTE:: MOVE TO SYSTEM PARAMTERS 9similar to calcualtorTypes..........................
 		const char* datatype  [3]  = {"DNA", "RNA", "protein"};
 		//create MrBayes block and command....
-		int index;
+		std::string input;
 		printf("%s (0), %s (1), %s (2)\nData type Number: ", datatype[0], datatype[1], datatype[2]);
-		std::cin >> index;
+
+		//std::cin >> index;
+		std::getline(std::cin, input, '\n');
+		const int index = std::stoi(input);
+
 		SystemParameters::SetNexusDataType(index);
 	}
 

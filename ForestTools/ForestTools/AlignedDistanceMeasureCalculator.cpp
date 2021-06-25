@@ -6,7 +6,7 @@ March 27 2020
 ******************************************************************************/
 #include "AlignedDistanceMeasureCalculator.h"
 
-#include <ctime>
+//#include <ctime>
 #include "SystemParameters.h"
 #include "DynamicSizedArray.h"
 
@@ -15,7 +15,9 @@ March 27 2020
  ***************************************************************/
 
 distanceMeasure::AlignedDistanceMeasureCalculator::AlignedDistanceMeasureCalculator(RunFlags* flags, const std::string& name):
-DistanceMeasureCalculator(flags, name)
+DistanceMeasureCalculator(flags, name),
+alignmentOffsetTime(std::chrono::duration<double>::zero()),
+totalAlignmentTime(std::chrono::duration<double>::zero())
 {
 }
 
@@ -27,16 +29,19 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::StartCalculationTimer()
 	//resets...
 	this->ResetAlignmentTime();
 }
+//TODO:: refactor... timings w/ alignment && w/o alignment should be in same file....
 void distanceMeasure::AlignedDistanceMeasureCalculator::StopCalculationTimer(int batchID, const std::string& sequenceSet)
 {
 	//get calculation time in minutes
-	const double totalSequenceSetCalculationTime = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
+	//const double totalSequenceSetCalculationTime = ((clock() - startTime) / CLOCKS_PER_SEC) / 60;
+	const std::chrono::duration<double> totalSequenceSetCalculationTime = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - this->startTime);
+
 	this->calculationTime = totalSequenceSetCalculationTime - this->alignmentOffsetTime;
 	this->totalCalculationTime += this->calculationTime;
-	this->LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);
+	this->LogSequenceSetTiming(batchID, this->calculationTime.count(), sequenceSet);
 
 	this->totalAlignmentTime += this->alignmentOffsetTime;
-	this->LogSequenceSetAlignmentTiming(batchID, this->alignmentOffsetTime, sequenceSet);
+	this->LogSequenceSetAlignmentTiming(batchID, this->alignmentOffsetTime.count(), sequenceSet);
 }
 void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentTiming(int batchID, double calculationTime, const std::string& sequenceSet) const
 {
@@ -52,7 +57,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogSequenceSetAlignmentT
 			// TODO: BUFFER OVERRUN INVALIDATING DMC...
 			//NOTE:: Probably should (somehow) dynamically determine size
 			//char time_log_line[1000];
-			SystemParameters::GetSequenceSetAlignmentTimingString(time_log_line.array, batchID, calculationTime, sequenceSet.c_str());
+			SystemParameters::GetSequenceSetAlignmentTimingString(time_log_line.array, batchID, calculationTime / 60, sequenceSet.c_str());
 			const std::string timingLine(time_log_line.array);
 
 			size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);
@@ -83,7 +88,7 @@ void distanceMeasure::AlignedDistanceMeasureCalculator::LogTotalCalculationTime(
 	{
 		char time_log_line[100];
 		//ToDO::extract to system parameters...
-		sprintf(time_log_line, "\nAlignment Time For Sequence Set Lists: %f minutes\n", this->totalAlignmentTime);
+		sprintf(time_log_line, "\nAlignment Time For Sequence Set Lists: %f minutes\n", this->totalAlignmentTime.count() / 60);
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pAlignmentTimingsLogFile);

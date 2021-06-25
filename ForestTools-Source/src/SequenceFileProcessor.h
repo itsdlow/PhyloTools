@@ -22,7 +22,7 @@ namespace distanceMeasure
 		SequenceFileProcessor() = default;
 		SequenceFileProcessor(const SequenceFileProcessor&) = delete;
 		SequenceFileProcessor& operator=(const SequenceFileProcessor&) = delete;
-		~SequenceFileProcessor() = default;
+		~SequenceFileProcessor() override = default;
 
 
 		//helper functions

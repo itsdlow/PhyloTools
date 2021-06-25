@@ -3,8 +3,10 @@
 # ---> TODO:: CREATE A PERL SCRIPT TO CREATE MAKEFILE -- includes and sources...
 # 
 
+# Requires G++/GCC version 4.8 or later [C++ 11 <chrono> used]
+
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -std=c++11 -g -Wall
 
 PROGRAM = ../phylotools
 phylotools_SOURCES = \

@@ -97,6 +97,7 @@ namespace distanceMeasure
 			this->calculators[i]->LogTotalCalculationTime();
 		}
 
+		//call base-method implementation
 		DistanceMeasureCalculator::LogTotalCalculationTime();
 	}
 

@@ -9,12 +9,14 @@ January 24 2020
 #include "DistanceMeasureCalculator.h"
 
 #include "SystemParameters.h"
-#include <ctime>
 #include "DynamicSizedArray.h"
 
 
 distanceMeasure::DistanceMeasureCalculator::DistanceMeasureCalculator(RunFlags* flags, const std::string& name):
 pFlags(flags),
+startTime(),
+calculationTime(std::chrono::duration<double>::zero()),
+totalCalculationTime(std::chrono::duration<double>::zero()),
 name(name)
 {
 }
@@ -151,20 +153,22 @@ void distanceMeasure::DistanceMeasureCalculator::GetFastMECommand(char* buffer, 
 //times calculation for - 1 - SEQUENCE SET
 void distanceMeasure::DistanceMeasureCalculator::StartCalculationTimer()
 {
-	this->startTime = clock();
+	//this->startTime = clock();
+	this->startTime = std::chrono::high_resolution_clock::now();
 }
 void distanceMeasure::DistanceMeasureCalculator::StopCalculationTimer(int batchID, const std::string& sequenceSet)
 {
 	//TODO:: IMPL TIMER LIB---
 	//get calculation time in minutes
-	//this->calculationTime = (static_cast<float>((clock() - this->startTime)) / CLOCKS_PER_SEC) / 60.0;
-	this->calculationTime = ((clock() - this->startTime) / CLOCKS_PER_SEC) / 60;
+	//this->calculationTime = ((clock() - this->startTime) / CLOCKS_PER_SEC) / 60;
+	this->calculationTime = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - this->startTime);
+
 
 	//if calculator had to align -- include time it takes to align
 	
 	this->totalCalculationTime += this->calculationTime;
 
-	this->LogSequenceSetTiming(batchID, this->calculationTime, sequenceSet);
+	this->LogSequenceSetTiming(batchID, this->calculationTime.count(), sequenceSet);
 }
 
 void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchID, double calculationTime, const std::string& sequenceSet) const
@@ -178,7 +182,7 @@ void distanceMeasure::DistanceMeasureCalculator::LogSequenceSetTiming(int batchI
 		const DynamicSizedArray time_log_line(size);
 		
 		//sprintf_s(time_log_line, time_log_line_size, SystemParameters::GetSequenceSetTimingFormatString().c_str(), batchID, calculationTime, sequenceSet.c_str());
-		SystemParameters::GetSequenceSetTimingString(time_log_line.array, batchID, calculationTime, sequenceSet.c_str());
+		SystemParameters::GetSequenceSetTimingString(time_log_line.array, batchID, calculationTime / 60, sequenceSet.c_str());
 		const std::string timingLine(time_log_line.array);
 		
 		
@@ -206,7 +210,7 @@ void distanceMeasure::DistanceMeasureCalculator::LogTotalCalculationTime()
 	{
 		char time_log_line[100];
 		//TODO:: extract to system parameters...
-		sprintf(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime);
+		sprintf(time_log_line, "\nCalculation Time For Sequence Set Lists: %f minutes\n", this->totalCalculationTime.count() / 60);
 		std::string timingLine(time_log_line);
 
 		size_t numBytesWritten = fwrite(timingLine.c_str(), timingLine.length(), 1, this->pTimingsLogFile);

@@ -67,6 +67,7 @@ const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set
 	return std::string(fasta_filename);
 }
 
+
 //TODO:: (also for aligner...) Prevent re-creation of temp_files by giving them HASH_ID --> compute hash based of sequence set!!!
 const std::string distanceMeasure::CalculatorFastaFormatter::create_sequence_set_fasta_file_for_aligner(bool alignment_check_flag, FileObjectManager& fileObjectManager, const std::vector<std::string>& sequence_set_names, const int hash_id) const
 {
