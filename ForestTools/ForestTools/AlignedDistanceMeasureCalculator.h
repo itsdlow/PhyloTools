@@ -35,14 +35,18 @@ namespace distanceMeasure
 		//write total calc time to log FILE --> closes file
 		void LogTotalCalculationTime() override;
 
-		void AddAlignmentTime(double offset) { this->alignmentOffsetTime += offset; };
-		void ResetAlignmentTime() { this->alignmentOffsetTime = 0; };
+		//void AddAlignmentTime(double offset) { this->alignmentOffsetTime += offset; };
+		//void ResetAlignmentTime() { this->alignmentOffsetTime = 0; };
+		void AddAlignmentTime(std::chrono::duration<double> offset) { this->alignmentOffsetTime += offset; };
+		void ResetAlignmentTime() { this->alignmentOffsetTime = std::chrono::duration<double>::zero(); };
+		
 	protected:
 		FILE* pAlignmentTimingsLogFile = nullptr;
+		
 		//alignment time for entire sequence set + quartet combinations of SS
-		double alignmentOffsetTime = 0;
+		std::chrono::duration<double> alignmentOffsetTime;
 		//total alignment time
-		double totalAlignmentTime = 0;
+		std::chrono::duration<double> totalAlignmentTime;
 
 
 		//debug - timings helpers

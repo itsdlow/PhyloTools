@@ -12,7 +12,8 @@ January 3 2020
 #include <string>
 #include <vector>
 #include "RunFlags.h"
-#include <ctime>
+//#include <ctime>
+#include <chrono>
 
 namespace distanceMeasure
 {
@@ -54,8 +55,8 @@ namespace distanceMeasure
 
 		
 		//PRIVATE???
-		double GetCalculationTime() const { return this->calculationTime; };
-		double GetTotalCalculationTime() const { return this->totalCalculationTime; };
+		double GetCalculationTime() const { return this->calculationTime.count(); };
+		double GetTotalCalculationTime() const { return this->totalCalculationTime.count(); };
 
 
 		
@@ -91,11 +92,14 @@ namespace distanceMeasure
 		
 		//debug timing things
 		//clock_t startTime = 0;
-		double startTime = 0;
-
-		double calculationTime = 0;
-		double totalCalculationTime = 0;
-
+		//double startTime = 0;
+		std::chrono::high_resolution_clock::time_point startTime;
+		
+		//double calculationTime = 0;
+		//double totalCalculationTime = 0;
+		std::chrono::duration<double> calculationTime;
+		std::chrono::duration<double> totalCalculationTime;
+		
 		std::string name;
 		
 		//helpers
