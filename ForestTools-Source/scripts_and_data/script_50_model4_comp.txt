@@ -2,7 +2,7 @@
 0
 0
 0
-4567
+45679
 0
 1
 /sequence/data/simulated_sequence_data/model.4/1/relabeled_shortened_combined_10_subset_100.nex 
