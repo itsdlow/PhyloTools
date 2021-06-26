@@ -12,7 +12,6 @@ August 5 2020
 
 #include <string>
 #include <vector>
-#include "SequenceProcessorType.h"
 #include "InputSequenceFileSet.h"
 
 namespace distanceMeasure
@@ -28,8 +27,7 @@ class ForestPlug
 private:
 	const int ASCII_INTEGER_DIFFERENCE = 48;
 
-	// Run flags (global blackboard) between dmc's... owned by DMO (this)
-	distanceMeasure::RunFlags* poRunFlags;
+
 public:
 	ForestPlug();
 	ForestPlug(const ForestPlug&) = delete;
@@ -56,17 +54,17 @@ private:
 	static void SetRunFlags(distanceMeasure::RunFlags* flags);
 	static void GetNamingStrategy(InputSequenceFileSet& inputFileSet);
 
-	void GetCompareTreePath(InputSequenceFileSet& inputFileSet);
-	void GetSequenceListStrategy(InputSequenceFileSet& inputFileSet);
+	static void GetCompareTreePath(InputSequenceFileSet& inputFileSet);
+	static void GetSequenceListStrategy(InputSequenceFileSet& inputFileSet);
 
 	//returns path to initial-full FASTA file
-	void GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet);
+	static void GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet);
 
 	//private function -- helpers functions
 	
-	void GetSingleInputSequencesFilePath(InputSequenceFileSet& inputFileSet);
-	void CombineMultipleFastaFileInputs(InputSequenceFileSet& inputFileSet);
-	void CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inputFileSet);
+	static void GetSingleInputSequencesFilePath(InputSequenceFileSet& inputFileSet);
+	static void CombineMultipleFastaFileInputs(InputSequenceFileSet& inputFileSet);
+	static void CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inputFileSet);
 	//std::string CombineMultipleGeneFastaInputs();
 
 

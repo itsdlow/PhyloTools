@@ -56,7 +56,7 @@ namespace distanceMeasure
 		static int GetCalculatorTypeCount() { return static_cast<int>(CalculatorFactory::Instance().calculator_types.size()); };
 		static void PushCalculatorType(CalculatorType* pType);
 		
-		static DistanceMeasureCalculator* Create(int index, RunFlags* pFlags) { return CalculatorFactory::Instance().privCreate(index, pFlags); };
+		static DistanceMeasureCalculator* Create(int index) { return CalculatorFactory::Instance().privCreate(index); };
 
 		static CalculatorType* GetCalculatorType(int id) { return CalculatorFactory::Instance().privGetCalculatorType(id); };
 		static CalculatorType* GetCalculatorType(const std::string& name) { return CalculatorFactory::Instance().privGetCalculatorType(name); };
@@ -72,7 +72,7 @@ namespace distanceMeasure
 		static std::string Dump_NonBatch();
 
 	private:
-		DistanceMeasureCalculator* privCreate(int index, RunFlags* pFlags) const;
+		DistanceMeasureCalculator* privCreate(int index) const;
 		NcdCalculatorType* privGetNcdCalculatorType(const std::string& ext) const;
 		CalculatorType* privGetCalculatorType(const std::string& name) const;
 		CalculatorType* privGetCalculatorType(int id)  const;

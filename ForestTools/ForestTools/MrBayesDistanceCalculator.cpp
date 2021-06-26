@@ -23,17 +23,15 @@ namespace distanceMeasure
 		this->prepare_mrbayes_params();
 	}
 
-	//TODO:: ----------------------------------------------------------------------------------*
 	void distanceMeasure::MrBayesDistanceCalculator::prepare_mrbayes_params()
 	{
 		//hard coding cuz lazy
 		//NOTE:: MOVE TO SYSTEM PARAMTERS 9similar to calcualtorTypes..........................
 		const char* datatype  [3]  = {"DNA", "RNA", "protein"};
+
 		//create MrBayes block and command....
 		std::string input;
-		printf("%s (0), %s (1), %s (2)\nData type Number: ", datatype[0], datatype[1], datatype[2]);
-
-		//std::cin >> index;
+		printf("Set MrBayes Parameters:\n\t%s (0), %s (1), %s (2)\nData type Number: ", datatype[0], datatype[1], datatype[2]);
 		std::getline(std::cin, input, '\n');
 		const int index = std::stoi(input);
 

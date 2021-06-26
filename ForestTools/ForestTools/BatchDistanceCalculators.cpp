@@ -37,7 +37,7 @@ namespace distanceMeasure
 			const unsigned int bit = bitmask & 1;
 			if (bit == 1)
 			{
-				this->calculators[index] = CalculatorFactory::Create(count, flags);
+				this->calculators[index] = CalculatorFactory::Create(count);
 				index++;
 			}
 			//else //zero

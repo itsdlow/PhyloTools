@@ -21,26 +21,28 @@ August 5 2020
 #include "RunFlags.h"
 
 
-ForestPlug::ForestPlug():
-poRunFlags(new distanceMeasure::RunFlags())
+ForestPlug::ForestPlug()
 {
-	SystemParameters::Initialize();
-	//SystemParameters::InitializeSystemDependentCommands();
 }
 
 ForestPlug::~ForestPlug()
 {
-	delete this->poRunFlags;
-
     SystemParameters::Terminate();
-
 }
 
 void ForestPlug::run()
 {
     std::cout << "Hello World!\n";
 
+    std::string workingDir;
+    printf("What is the path to the working directory?\n");
+    std::getline(std::cin, workingDir, '\n');
+	SystemParameters::Initialize(workingDir);
+
     TryClearingTempFiles();
+
+	//request output directory
+
 	
     distanceMeasure::DistanceMeasureCalculator* dmc = CreateDistanceCalculator();//can convert to static...
 
@@ -70,6 +72,11 @@ void ForestPlug::run()
         std::getline(std::cin, input, '\n');
         batch_files_flag = std::stoi(input);
     }
+
+	//---------------------------------------------------------------------------------------------------------
+	//TODO:: give summary of analysis settings -- if interactive prompt user whether to continue
+	//---------------------------------------------------------------------------------------------------------
+	
 
     /*********************************************************************************************
           for each entry in tree_sequence_list -- calculateDistanceMeasures + AllQuartetsMatrix + TREES...
@@ -114,28 +121,36 @@ distanceMeasure::DistanceMeasureCalculator* ForestPlug::CreateDistanceCalculator
     std::string input;
     //Sets the Quartet gen flag + clustering flag
         //NOTE:: moved before Calc_Method input --> allows for MrBayes input prompt, immediately after calc selection
-    SetRunFlags(this->poRunFlags);
+    SetRunFlags(SystemParameters::GetRunFlags());//TODO:: first thing to make into command-line flags --> set to false by default...
 
     distanceMeasure::DistanceMeasureCalculator* dmc = nullptr;
-    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump_NonBatch().c_str());
-    //std::cin >> calc_method;
-    std::getline(std::cin, input, '\n');
-    const int calc_method = std::stoi(input);
+	while(dmc == nullptr)
+	{
+	    printf("%s\nMatrix Calculation Method Number: ", distanceMeasure::CalculatorFactory::Dump_NonBatch().c_str());
+	    //std::cin >> calc_method;
+	    std::getline(std::cin, input, '\n');
+	    const int calc_method = std::stoi(input);
 
-    //TODO:: assert that calc_method is a "legal" NonBatch Method (NOT CompareTree)
-	
-    int batch_calculator_index;
-    distanceMeasure::CalculatorFactory::GetBatchCalculatorIndex(batch_calculator_index);
-    //check if bitmask should be set
-    if (calc_method == batch_calculator_index)
-    {
-        //note:: could move to BatchCalculators constructor (like MrBayes) --> forces delayed init of member vars
-        InitializeBatchCalculatorFlags(this->poRunFlags, batch_calculator_index);
+
+	    int batch_calculator_index;
+	    distanceMeasure::CalculatorFactory::GetBatchCalculatorIndex(batch_calculator_index);
+	    //check if bitmask should be set
+	    if (calc_method == batch_calculator_index)
+	    {
+	        //note:: could move to BatchCalculators constructor (like MrBayes) --> forces delayed init of member vars
+	        InitializeBatchCalculatorFlags(SystemParameters::GetRunFlags(), batch_calculator_index);
+	    }
+
+
+	    //NOTE:: CANNOT CREATE CALCULATOR UNTIL ALL --RUN FLAGS-- received --> NEEDED FOR CONSTRUCTION SET***
+	    dmc = distanceMeasure::CalculatorFactory::Create(calc_method);
+			//Create can return nullptr => assert that calc_method is a "legal" NonBatch Method (NOT CompareTree)
+        if(dmc == nullptr)
+        {
+            printf("You entered an invalid Calculation Method Number, try again....\n");
+        }
+		
     }
-
-
-    //NOTE:: CANNOT CREATE CALCULATOR UNTIL ALL --RUN FLAGS-- received --> NEEDED FOR CONSTRUCTION SET***
-    dmc = distanceMeasure::CalculatorFactory::Create(calc_method, this->poRunFlags);
     printf("=============================================================================\n");
 
     return dmc;
@@ -185,8 +200,16 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
     	
         else
         {
-            //bit mask for given-current (*it) calculator
-            bitmask |= SystemParameters::GetCalculatorMask(index);
+        	//Validate the input is valid: corresponds to a calculator type index
+            if (index >= 0 && index < distanceMeasure::CalculatorFactory::GetCalculatorTypeCount())
+            {
+                //bit mask for given-current (*it) calculator
+                bitmask |= SystemParameters::GetCalculatorMask(index);
+            }
+            else
+            {
+                printf("Invalid matrix method index given, %d, does not correspond to a Calculator.\n\t ignoring index...", index);
+            }
         }
     }
     //calc count == size of batch_method string (unless all methods...)
@@ -210,7 +233,7 @@ void ForestPlug::InitializeBatchCalculatorFlags(distanceMeasure::RunFlags* flags
     if (bit_count < 1)
     {
         //batch calc needs 2+ calcs for analysis
-        printf("ERROR --> Switching to defaults\n");
+        printf("ERROR:: BatchCalculator requires 2+ calculators for analysis.\n\t prompt...[Switching to defaults?/Restart?]\n");
         //===> TODO:: Give option to turn off analysis
         exit(0);
     }
@@ -271,7 +294,7 @@ void ForestPlug::SetRunFlags(distanceMeasure::RunFlags* flags)
 void ForestPlug::GetCompareTreePath(InputSequenceFileSet& inputFileSet)
 {
     //todo:: convert to state pattern...
-	if(this->poRunFlags->compare_tree_calculator)
+	if(SystemParameters::GetRunFlags()->compare_tree_calculator == true)
 	{
 		printf("Path to CompareTree Newick file: ");
 		std::string path;
@@ -287,7 +310,7 @@ void ForestPlug::GetSequenceListStrategy(InputSequenceFileSet& inputFileSet)
     int batch_flag = 2;
 	std::string tree_sequences_list;
 
-	if(this->poRunFlags->compare_tree_calculator == false)
+	if(SystemParameters::GetRunFlags()->compare_tree_calculator == false)
 	{
 		//get sequenceList type
 	    std::string input;
@@ -442,15 +465,15 @@ void ForestPlug::GetOriginalFastaInputPath(InputSequenceFileSet& inputFileSet)
 	switch(fasta_input_flag)
 	{
     case 0:
-        this->GetSingleInputSequencesFilePath(inputFileSet);
+        ForestPlug::GetSingleInputSequencesFilePath(inputFileSet);
         //pre process Nexus formatted file?
 		
         break;
     case 1:
-        this->CombineMultipleFastaFileInputs(inputFileSet);
+        ForestPlug::CombineMultipleFastaFileInputs(inputFileSet);
         break;
     case 2:
-        this->CombineMultipleChromosomalFastaInputs(inputFileSet);
+        ForestPlug::CombineMultipleChromosomalFastaInputs(inputFileSet);
         break;
     //case 3:
     //    sequence_dir = CombineMultipleGeneFastaInputs();
@@ -572,7 +595,7 @@ void ForestPlug::CombineMultipleChromosomalFastaInputs(InputSequenceFileSet& inp
 
 	//create original fasta file for appending each input file to
     std::string original_fasta_path(SystemParameters::GetTempFilesDirectory());
-    original_fasta_path.append("/original.fasta");
+    original_fasta_path.append("original.fasta");
     //open file to append
     std::ofstream original_fasta_file(original_fasta_path, std::ios_base::binary);
 

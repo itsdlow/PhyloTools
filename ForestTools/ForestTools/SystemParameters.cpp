@@ -18,8 +18,13 @@ February 15 2020
 
 SystemParameters* SystemParameters::pInstance = nullptr;
 
-void SystemParameters::Initialize()
+void SystemParameters::Initialize(const std::string& workingDir)
 {
+	assert(pInstance == nullptr);
+	SystemParameters& pSP = SystemParameters::Instance();
+	pSP.working_directory = SystemParameters::Trim(workingDir);
+	//todo:? validate working directory here...
+	
 	//set current OS
 	SystemParameters::InitializeSystemDependentCommands();
 	//Set strategy OsParameters...
@@ -45,10 +50,10 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
 
 		//bzip2
-		SystemParameters::Instance().bzip2_command_string = "";
+		SystemParameters::Instance().bzip2_command_string = "echo bzip2 not available for WindowsOS";
 
 		//ppmz
-		SystemParameters::Instance().ppmz_command_string = "";
+		SystemParameters::Instance().ppmz9_command_string = "echo PPMZ not available for WindowsOS";
 
 		
 		//MrBayes
@@ -63,9 +68,9 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().fastme_command_string = "extra_tools\\fastme-2.1.5\\binaries\\fastme.exe -v 3 -i %s -D %d -o %s";
 		//phylotools --
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\\.?[0-9]+[e\\-+]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "del /Q \"%s\\*\"";
+		SystemParameters::Instance().clean_dir_format_string = "del /Q \"%s*\"";
 		//
-		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles\\TempFiles\\MrBayes";
+		//SystemParameters::Instance().mrbayes_files_dir = "ForestFiles\\TempFiles\\MrBayes";
 		//
 		SystemParameters::Instance().clean_description_regex = "_,:()/";
 
@@ -86,7 +91,7 @@ void SystemParameters::InitializeSystemDependentCommands()
 
 		//ppmz
 		//SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz %s %s";
-		SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz -c9 %s %s";
+		SystemParameters::Instance().ppmz9_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz -c9 %s %s";
 
 
 		//
@@ -102,10 +107,10 @@ void SystemParameters::InitializeSystemDependentCommands()
 		SystemParameters::Instance().fastme_command_string = "./extra_tools/fastme-2.1.5/src/fastme -i %s -D %d -o %s";
 		//phylotools -- TODO:: CHECK IF PROPER REGEX FOR LINUX...
 		SystemParameters::Instance().clean_newick_regex = ":[0-9]+\.?[0-9]+[e+-]*[0-9]*";
-		SystemParameters::Instance().clean_dir_format_string = "rm -v %s/*";//NOTE:: Should not prompt user...
+		SystemParameters::Instance().clean_dir_format_string = "rm -v %s*";//NOTE:: Should not prompt user...
 
 		// directories... use os_slash variable to create rather than seperate windows/unix commands...
-		SystemParameters::Instance().mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
+		//SystemParameters::Instance().mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
 
 		//
 		SystemParameters::Instance().clean_description_regex = "_,:()/";
@@ -123,10 +128,13 @@ void SystemParameters::InitializeCalculatorFactory()
 void SystemParameters::Terminate()
 {
 	distanceMeasure::CalculatorFactory::Terminate();
+
 	delete SystemParameters::pInstance;
+	SystemParameters::pInstance = nullptr;
 }
 SystemParameters::~SystemParameters()
 {
+	delete this->poRunFlags;
 	delete this->mrbayes_data_type;
 }
 
@@ -149,6 +157,7 @@ SystemParameters::SystemParameters():
 OS_WINDOWS(true),
 fileSetBatchNumber(0),
 pCurrentFileSet(nullptr),
+poRunFlags(new distanceMeasure::RunFlags()),
 max_sequence_list_size(0),
 subset_size_small(0),
 subset_size_large(0),
@@ -156,7 +165,8 @@ subset_count_large(0),
 subset_count_small(0),
 subset_count_fraction_large(0),
 subset_count_fraction_small(0),
-mrbayes_data_type(nullptr)
+mrbayes_data_type(nullptr),
+working_directory()
 {
 	
 }

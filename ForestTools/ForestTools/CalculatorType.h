@@ -199,6 +199,33 @@ namespace distanceMeasure
 		static void Terminate() { delete Ncd_7ZipCalculatorType::pInstance; };
 
 	};
+
+	class Ncd_MfcCalculatorType : public NcdCalculatorType
+	{
+	private:
+		Ncd_MfcCalculatorType();
+
+		static Ncd_MfcCalculatorType& Instance()
+		{
+			if (!pInstance)
+			{
+				pInstance = new Ncd_MfcCalculatorType();
+			}
+			return *pInstance;
+		}
+		static Ncd_MfcCalculatorType* pInstance;
+
+		std::string formatName;
+	public:
+		virtual ~Ncd_MfcCalculatorType() = default;
+		Ncd_MfcCalculatorType(const Ncd_MfcCalculatorType&) = delete;
+		Ncd_MfcCalculatorType& operator=(const Ncd_MfcCalculatorType&) = delete;
+
+		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
+		static void Initialize() { Ncd_MfcCalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_MfcCalculatorType::pInstance; };
+
+	};
 	class Ncd_Mfc1CalculatorType : public NcdCalculatorType
 	{
 	private:
@@ -223,7 +250,6 @@ namespace distanceMeasure
 		static void Terminate() { delete Ncd_Mfc1CalculatorType::pInstance; };
 
 	};
-
 	class Ncd_Mfc2CalculatorType : public NcdCalculatorType
 	{
 	private:

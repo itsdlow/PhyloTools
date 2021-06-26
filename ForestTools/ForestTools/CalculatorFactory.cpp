@@ -27,6 +27,7 @@ namespace distanceMeasure
 		PValueCalculatorType::Initialize();
 		MrBayesCalculatorType::Initialize();
 		Ncd_7ZipCalculatorType::Initialize();
+		Ncd_MfcCalculatorType::Initialize();
 		Ncd_Mfc1CalculatorType::Initialize();
 		Ncd_Mfc2CalculatorType::Initialize();
 		
@@ -57,6 +58,7 @@ namespace distanceMeasure
 		PValueCalculatorType::Terminate();
 		MrBayesCalculatorType::Terminate();
 		Ncd_7ZipCalculatorType::Terminate();
+		Ncd_MfcCalculatorType::Terminate();
 		Ncd_Mfc1CalculatorType::Terminate();
 		Ncd_Mfc2CalculatorType::Terminate();
 		
@@ -123,14 +125,14 @@ namespace distanceMeasure
 	}
 
 	
-	DistanceMeasureCalculator* distanceMeasure::CalculatorFactory::privCreate(int index, RunFlags* pFlags) const
+	DistanceMeasureCalculator* distanceMeasure::CalculatorFactory::privCreate(int index) const
 	{
 		DistanceMeasureCalculator* pDMC = nullptr;
 		//check index within bounds
 		if(index >= 0 && index < CalculatorFactory::GetCalculatorTypeCount())
 		{
 			//creates new DMC...
-			pDMC = this->calculator_types[index]->visit(pFlags);
+			pDMC = this->calculator_types[index]->visit(SystemParameters::GetRunFlags());
 		}
 		return pDMC;
 	}

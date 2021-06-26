@@ -8,6 +8,7 @@
 #include "PValueDistanceCalculator.h"
 #include "MrBayesDistanceCalculator.h"
 #include "NcdDistanceCalculator.h"
+#include "Ncd_MfcDistanceCalculator.h"
 
 #include "CompareTreeCalculator.h"
 

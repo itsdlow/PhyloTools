@@ -11,7 +11,8 @@ July 20 2020
 #include "SystemParameters.h"
 #include "CalculatorFactory.h"
 
-#include <math.h>
+//#include <math.h>
+
 
 //ADDING NEW CALCULATOR STEPS:
 //#1 - create calc type -- Constructor and Visit
@@ -26,7 +27,10 @@ namespace distanceMeasure
 	LcsCalculatorType* LcsCalculatorType::pInstance = nullptr;
 	PValueCalculatorType* PValueCalculatorType::pInstance = nullptr;
 	MrBayesCalculatorType* MrBayesCalculatorType::pInstance = nullptr;
+	
 	Ncd_7ZipCalculatorType* Ncd_7ZipCalculatorType::pInstance = nullptr;
+	
+	Ncd_MfcCalculatorType* Ncd_MfcCalculatorType::pInstance = nullptr;
 	Ncd_Mfc1CalculatorType* Ncd_Mfc1CalculatorType::pInstance = nullptr;
 	Ncd_Mfc2CalculatorType* Ncd_Mfc2CalculatorType::pInstance = nullptr;
 
@@ -91,6 +95,11 @@ distanceMeasure::Ncd_7ZipCalculatorType::Ncd_7ZipCalculatorType():
 NcdCalculatorType("7Zip", "7z", SystemParameters::Get7ZipCommandString(), false)
 {
 }
+distanceMeasure::Ncd_MfcCalculatorType::Ncd_MfcCalculatorType() :
+	NcdCalculatorType("Mfc", "mfc%d", SystemParameters::GetMFCompressCommandString(), false),
+	formatName("Mfc%d")
+{
+}
 distanceMeasure::Ncd_Mfc1CalculatorType::Ncd_Mfc1CalculatorType() :
 NcdCalculatorType("Mfc1", "mfc1", SystemParameters::GetMFC1CommandString(), false)
 {
@@ -142,6 +151,10 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::MrBayesCalculatorTy
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_7ZipCalculatorType::visit(RunFlags* pFlags)
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+}
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_MfcCalculatorType::visit(RunFlags* pFlags)
+{
+	return new Ncd_MfcDistanceCalculator(pFlags, this->formatName, this->extension, this->compress_command_format_string);
 }
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc1CalculatorType::visit(RunFlags* pFlags)
 {

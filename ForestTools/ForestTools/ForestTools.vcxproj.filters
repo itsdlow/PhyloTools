@@ -64,6 +64,9 @@
     <Filter Include="Source Files\To-Matrix\Sequence_Data_Processing\InputFormatProcessor">
       <UniqueIdentifier>{cbf545cc-a258-4a50-89cc-f114d77b0473}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\To-Matrix\DistanceCalculator\DerivedCalculators\NcdCalculators">
+      <UniqueIdentifier>{e24944ed-35f4-49dc-8646-96c70e190ecf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestTools.cpp">
@@ -125,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="AlignedDistanceMeasureCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
-    </ClCompile>
-    <ClCompile Include="NcdDistanceCalculator.cpp">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClCompile>
     <ClCompile Include="InternalCalculatorTools.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
@@ -201,6 +201,15 @@
     <ClCompile Include="NullDistanceMeasureCalculator.cpp">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
     </ClCompile>
+    <ClCompile Include="SequenceNamesStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NcdDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators\NcdCalculators</Filter>
+    </ClCompile>
+    <ClCompile Include="Ncd_MfcDistanceCalculator.cpp">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators\NcdCalculators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tree.h">
@@ -252,9 +261,6 @@
       <Filter>Source Files\To-Matrix\DistanceCalculator\CalculatorTools</Filter>
     </ClInclude>
     <ClInclude Include="BatchDistanceCalculators.h">
-      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
-    </ClInclude>
-    <ClInclude Include="NcdDistanceCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators</Filter>
     </ClInclude>
     <ClInclude Include="CalculatorFastaCompressor.h">
@@ -364,6 +370,12 @@
     </ClInclude>
     <ClInclude Include="NullDistanceMeasureCalculator.h">
       <Filter>Source Files\To-Matrix\DistanceCalculator\BaseCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="NcdDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators\NcdCalculators</Filter>
+    </ClInclude>
+    <ClInclude Include="Ncd_MfcDistanceCalculator.h">
+      <Filter>Source Files\To-Matrix\DistanceCalculator\DerivedCalculators\NcdCalculators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

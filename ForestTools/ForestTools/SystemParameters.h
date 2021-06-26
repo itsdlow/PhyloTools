@@ -22,6 +22,7 @@ struct InputSequenceFileSet;
 //forward decls
 namespace distanceMeasure
 {
+	struct RunFlags;
 	class MrBayesDataType;
 }
 
@@ -34,11 +35,14 @@ public:
 	//API interface
 	
 	static void Terminate();
-	static void Initialize();
+	static void Initialize(const std::string& workingDir);
 	static void InitializeSystemDependentCommands();
 	static void InitializeCalculatorFactory();
 	static void InitializeSequenceSetParameters(int sequence_count, float sequenceListsSizeFractionLarge = .75f, float sequenceListsSizeFractionSmall = .5f, float sequenceListsCountFractionLarge = 0.1f, float sequenceListsCountFractionSmall = 0.1f);
 
+	//
+	static distanceMeasure::RunFlags* GetRunFlags() { return SystemParameters::Instance().poRunFlags; }
+	
 	//
 	static int GetCurrentFileSetBatchNumber() { return SystemParameters::Instance().fileSetBatchNumber; };
 	static void IncrementCurrentFileSetBatchNumber() { SystemParameters::Instance().fileSetBatchNumber++; };
@@ -134,7 +138,7 @@ public:
 	const std::string& privGetCompressedFilenameFormat() const { return compressed_file_format_string; };
 	static void GetCompressionCommand(std::string ext, char* buffer, const char* derived_command, const char* out_file, const char* in_file);
 	
-	//static const std::string& GetMFCompressCommandString() { return SystemParameters::Instance().mfcompress_command_string; };
+	static const std::string& GetMFCompressCommandString() { return SystemParameters::Instance().mfcompress_command_string; };
 	static const std::string& GetMFC1CommandString() { return SystemParameters::Instance().mfc1_command_string; };
 	static const std::string& GetMFC2CommandString() { return SystemParameters::Instance().mfc2_command_string; };
 	static const std::string& GetMFC3CommandString() { return SystemParameters::Instance().mfc3_command_string; };
@@ -143,7 +147,7 @@ public:
 
 	static const std::string& GetGecoCommandString() { return SystemParameters::Instance().geco1_command_string; };
 	static const std::string& GetBzip2CommandString() { return SystemParameters::Instance().bzip2_command_string; };
-	static const std::string& GetPpmzCommandString() { return SystemParameters::Instance().ppmz_command_string; };
+	static const std::string& GetPpmzCommandString() { return SystemParameters::Instance().ppmz9_command_string; };
 
 	
 	//***
@@ -191,8 +195,10 @@ private:
 
 	int fileSetBatchNumber;
 	InputSequenceFileSet* pCurrentFileSet;
-	//const int CALCULATOR_COUNT = 5;
 
+	// Run flags (global blackboard) between dmc's... controls global analysis-parameters
+	distanceMeasure::RunFlags* poRunFlags;
+	
 	
 	/***************************************************
 	 *				Sequence Generator Parameters
@@ -208,6 +214,27 @@ private:
 		// + all quartets
 	float subset_count_fraction_large;
 	float subset_count_fraction_small;
+
+	//----------------------------------------------------------------------------
+	//MRBAYES
+	//----------------------------------------------------------------------------
+	const char nexus_gap_char = '-';
+	//NOTE:: CAN ONLY SPECIFY 1 'missing' char --->
+		//TODO:: create a ambigious character swap function --> clean sequences (IF NEEDED)
+	//ASK FOR AMBIGUOUS CHARs...
+	const char nexus_missing_char = '?';
+	const int mrbayes_nruns = 2;
+	const int mrbayes_nchains = 4;
+	const int mrbayes_ngen = 20000;
+	//ASK USER FOR SEQ TYPE (RNA/DNA/Protein) (allow mixed?...)
+	//std::string nexus_data_type_string;// = "protein";
+	distanceMeasure::MrBayesDataType* mrbayes_data_type;
+
+
+	//----------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------
+	std::string working_directory;
 	
 	const std::string sequence_lists_filepath = "ForestFiles/SequenceLists.txt";
 	
@@ -243,7 +270,7 @@ private:
 	const std::string clustered_matrix_path_format_string = "ForestFiles/Matrices/ClusteredMatrix%s_%zu_%d_%d_clustered.txt";
 	
 	// -- allow user to supply directory of tempfiles
-	const std::string temp_files_dir = "ForestFiles/TempFiles";
+	const std::string temp_files_dir = "ForestFiles/TempFiles/";
 	//fasta
 	const std::string fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu_%d.fasta";
 	const std::string compressed_fasta_path_format_string = "ForestFiles/TempFiles/temp_%zu.fasta";
@@ -261,10 +288,14 @@ private:
 	//NCD
 	const std::string compressed_file_format_string = "ForestFiles/TempFiles/CompressedFile.%s";
 
+	//----------------------------------------------------------------------------
+	// Compressor Command Strings
+	//----------------------------------------------------------------------------
+	
 	//MFCompress
 	//NOTE::could merge to 1 command and create derived MFC command by asking USER which...
 	//takes as parameters - compression_type (1-3) + output filename + Original Input FASTA Filename
-	//const std::string mfcompress_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
+	std::string mfcompress_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
 	std::string mfc1_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
 	std::string mfc2_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
 	std::string mfc3_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
@@ -278,23 +309,24 @@ private:
 
 	std::string bzip2_command_string;
 
-	std::string ppmz_command_string;
+	std::string ppmz9_command_string;
 
-	//MRBAYES
-	const char nexus_gap_char = '-';
-	//NOTE:: CAN ONLY SPECIFY 1 'missing' char --->
-		//TODO:: create a ambigious character swap function --> clean sequences (IF NEEDED)
-	//ASK FOR AMBIGUOUS CHARs...
-	const char nexus_missing_char = '?';
-	const int mrbayes_nruns = 2;
-	const int mrbayes_nchains = 4;
-	const int mrbayes_ngen = 20000;
-	//ASK USER FOR SEQ TYPE (RNA/DNA/Protein) (allow mixed?...)
-	//std::string nexus_data_type_string;// = "protein";
-	distanceMeasure::MrBayesDataType* mrbayes_data_type;
+	//----------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------
+	
+	//sequencenames description strategy
+	std::string clean_description_regex;
+	//Phylotools
+	std::string clean_newick_regex;
+
+
+	//--------------------------------------------------
+	// MR BAYES
+	//--------------------------------------------------
 	
 	//TODO:: add batch number to nexus_file format string??? -- allow user to supply directory of tempfiles
-	std::string mrbayes_files_dir;// = "ForestFiles/TempFiles/MrBayes";
+	std::string mrbayes_files_dir = "ForestFiles/TempFiles/MrBayes";
 
 	const std::string nexus_path_format_string = "ForestFiles/TempFiles/MrBayes/temp_%zu.nxs";//TODO:: fix to use mrbayes_file_dir VARIABLE...
 	const std::string nexus_header_format_string = "#NEXUS\n[comment... data, etc....]\n\n\nBEGIN data;\n\tDIMENSIONS NTAX=%zu NCHAR=%d;\n\tFORMAT DATATYPE = %s GAP = %c MISSING = %c;\n\tMATRIX\n";
@@ -302,10 +334,7 @@ private:
 	std::string mrbayes_command_string;// = "extra_tools\\MrBayes-3.2.7-WIN\\bin\\mb.3.2.7-win64.exe %s";
 	const std::string mrbayes_block_string = "ForestFiles/TempFiles/MrBayes/mrbayes_block.nxs";
 
-	//sequencenames description strategy
-	std::string clean_description_regex;
-	//Phylotools
-	std::string clean_newick_regex;
+
 };
 
 
