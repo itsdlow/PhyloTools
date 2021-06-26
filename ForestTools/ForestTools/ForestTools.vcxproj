@@ -176,6 +176,7 @@
     <ClCompile Include="MrBayesDistanceCalculator.cpp" />
     <ClCompile Include="NcdDistanceCalculator.cpp" />
     <ClCompile Include="Ncd_MfcDistanceCalculator.cpp" />
+    <ClCompile Include="Ncd_PpmzDistanceCalculator.cpp" />
     <ClCompile Include="NexusFormatProcessor.cpp" />
     <ClCompile Include="NullBatchCalculatorsAnalyzer.cpp" />
     <ClCompile Include="NullDistanceMeasureCalculator.cpp" />
@@ -189,7 +190,6 @@
     <ClCompile Include="SequenceNamesIDStrategy.cpp" />
     <ClCompile Include="SequenceNamesNexusStrategy.cpp" />
     <ClCompile Include="SequenceNamesOrderedCustomStrategy.cpp" />
-    <ClCompile Include="SequenceNamesStrategy.cpp" />
     <ClCompile Include="SequenceNamesUnorderedFastaStrategy.cpp" />
     <ClCompile Include="SystemParameters.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -228,6 +228,7 @@
     <ClInclude Include="MrBayesDistanceCalculator.h" />
     <ClInclude Include="NcdDistanceCalculator.h" />
     <ClInclude Include="Ncd_MfcDistanceCalculator.h" />
+    <ClInclude Include="Ncd_PpmzDistanceCalculator.h" />
     <ClInclude Include="NexusFormatProcessor.h" />
     <ClInclude Include="NullBatchCalculatorsAnalyzer.h" />
     <ClInclude Include="NullDistanceMeasureCalculator.h" />

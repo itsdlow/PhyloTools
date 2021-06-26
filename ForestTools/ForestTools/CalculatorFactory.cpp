@@ -28,12 +28,10 @@ namespace distanceMeasure
 		MrBayesCalculatorType::Initialize();
 		Ncd_7ZipCalculatorType::Initialize();
 		Ncd_MfcCalculatorType::Initialize();
-		Ncd_Mfc1CalculatorType::Initialize();
-		Ncd_Mfc2CalculatorType::Initialize();
-		
+
 		CompareTreeCalculatorType::Initialize();
 
-		//NOTE:: hack -- should be moved to SystemParameters...
+		//NOTE:: hack -- should be moved to SystemParameters... add states? SystemParameters creates factory with OS state?
 		if (SystemParameters::isOSWindows() == false)
 		{
 			Ncd_Bzip2CalculatorType::Initialize();
@@ -59,8 +57,6 @@ namespace distanceMeasure
 		MrBayesCalculatorType::Terminate();
 		Ncd_7ZipCalculatorType::Terminate();
 		Ncd_MfcCalculatorType::Terminate();
-		Ncd_Mfc1CalculatorType::Terminate();
-		Ncd_Mfc2CalculatorType::Terminate();
 		
 		CompareTreeCalculatorType::Terminate();
 

@@ -139,15 +139,13 @@ public:
 	static void GetCompressionCommand(std::string ext, char* buffer, const char* derived_command, const char* out_file, const char* in_file);
 	
 	static const std::string& GetMFCompressCommandString() { return SystemParameters::Instance().mfcompress_command_string; };
-	static const std::string& GetMFC1CommandString() { return SystemParameters::Instance().mfc1_command_string; };
-	static const std::string& GetMFC2CommandString() { return SystemParameters::Instance().mfc2_command_string; };
-	static const std::string& GetMFC3CommandString() { return SystemParameters::Instance().mfc3_command_string; };
+
 
 	static const std::string& Get7ZipCommandString() { return SystemParameters::Instance().zip7_command_string; };
 
-	static const std::string& GetGecoCommandString() { return SystemParameters::Instance().geco1_command_string; };
+	static const std::string& GetGecoCommandString() { return SystemParameters::Instance().geco_command_string; };
 	static const std::string& GetBzip2CommandString() { return SystemParameters::Instance().bzip2_command_string; };
-	static const std::string& GetPpmzCommandString() { return SystemParameters::Instance().ppmz9_command_string; };
+	static const std::string& GetPpmzCommandString() { return SystemParameters::Instance().ppmz_command_string; };
 
 	
 	//***
@@ -295,21 +293,21 @@ private:
 	//MFCompress
 	//NOTE::could merge to 1 command and create derived MFC command by asking USER which...
 	//takes as parameters - compression_type (1-3) + output filename + Original Input FASTA Filename
-	std::string mfcompress_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
-	std::string mfc1_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
-	std::string mfc2_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
-	std::string mfc3_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
+	std::string mfcompress_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
+	//std::string mfc1_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
+	//std::string mfc2_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
+	//std::string mfc3_command_string;// = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
 
 	//TODO:: intiialize all unix/windows commands in SystemParameters::Initialize -- after System determined...
 	//params -- zipped_file_name input_file_path
 	std::string zip7_command_string;// = "extra_tools\\7-Zip\\7z.exe a %s %s > nul";
 	//const std::string zip7_command_string_unix = ".extra_tools/7-Zip/7z a %s %s > /dev/null";
 
-	std::string geco1_command_string;
+	std::string geco_command_string;
 
 	std::string bzip2_command_string;
 
-	std::string ppmz9_command_string;
+	std::string ppmz_command_string;
 
 	//----------------------------------------------------------------------------
 	//

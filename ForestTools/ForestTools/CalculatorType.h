@@ -226,78 +226,30 @@ namespace distanceMeasure
 		static void Terminate() { delete Ncd_MfcCalculatorType::pInstance; };
 
 	};
-	class Ncd_Mfc1CalculatorType : public NcdCalculatorType
+	
+
+	class Ncd_GecoCalculatorType : public NcdCalculatorType
 	{
 	private:
-		Ncd_Mfc1CalculatorType();
+		Ncd_GecoCalculatorType();
 
-		static Ncd_Mfc1CalculatorType& Instance()
+		static Ncd_GecoCalculatorType& Instance()
 		{
 			if (!pInstance)
 			{
-				pInstance = new Ncd_Mfc1CalculatorType();
+				pInstance = new Ncd_GecoCalculatorType();
 			}
 			return *pInstance;
 		}
-		static Ncd_Mfc1CalculatorType* pInstance;
+		static Ncd_GecoCalculatorType* pInstance;
 	public:
-		virtual ~Ncd_Mfc1CalculatorType() = default;
-		Ncd_Mfc1CalculatorType(const Ncd_Mfc1CalculatorType&) = delete;
-		Ncd_Mfc1CalculatorType& operator=(const Ncd_Mfc1CalculatorType&) = delete;
+		virtual ~Ncd_GecoCalculatorType() = default;
+		Ncd_GecoCalculatorType(const Ncd_GecoCalculatorType&) = delete;
+		Ncd_GecoCalculatorType& operator=(const Ncd_GecoCalculatorType&) = delete;
 
 		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
-		static void Initialize() { Ncd_Mfc1CalculatorType::Instance(); };
-		static void Terminate() { delete Ncd_Mfc1CalculatorType::pInstance; };
-
-	};
-	class Ncd_Mfc2CalculatorType : public NcdCalculatorType
-	{
-	private:
-		Ncd_Mfc2CalculatorType();
-
-		static Ncd_Mfc2CalculatorType& Instance()
-		{
-			if (!pInstance)
-			{
-				pInstance = new Ncd_Mfc2CalculatorType();
-			}
-			return *pInstance;
-		}
-		static Ncd_Mfc2CalculatorType* pInstance;
-	public:
-		virtual ~Ncd_Mfc2CalculatorType() = default;
-		Ncd_Mfc2CalculatorType(const Ncd_Mfc2CalculatorType&) = delete;
-		Ncd_Mfc2CalculatorType& operator=(const Ncd_Mfc2CalculatorType&) = delete;
-
-		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
-		static void Initialize() { Ncd_Mfc2CalculatorType::Instance(); };
-		static void Terminate() { delete Ncd_Mfc2CalculatorType::pInstance; };
-
-	};
-
-
-	class Ncd_Geco1CalculatorType : public NcdCalculatorType
-	{
-	private:
-		Ncd_Geco1CalculatorType();
-
-		static Ncd_Geco1CalculatorType& Instance()
-		{
-			if (!pInstance)
-			{
-				pInstance = new Ncd_Geco1CalculatorType();
-			}
-			return *pInstance;
-		}
-		static Ncd_Geco1CalculatorType* pInstance;
-	public:
-		virtual ~Ncd_Geco1CalculatorType() = default;
-		Ncd_Geco1CalculatorType(const Ncd_Geco1CalculatorType&) = delete;
-		Ncd_Geco1CalculatorType& operator=(const Ncd_Geco1CalculatorType&) = delete;
-
-		DistanceMeasureCalculator* visit(RunFlags* pFlags) override;
-		static void Initialize() { Ncd_Geco1CalculatorType::Instance(); };
-		static void Terminate() { delete Ncd_Geco1CalculatorType::pInstance; };
+		static void Initialize() { Ncd_GecoCalculatorType::Instance(); };
+		static void Terminate() { delete Ncd_GecoCalculatorType::pInstance; };
 
 	};
 
@@ -315,6 +267,8 @@ namespace distanceMeasure
 			return *pInstance;
 		}
 		static Ncd_PpmzCalculatorType* pInstance;
+
+		std::string formatName;
 	public:
 		virtual ~Ncd_PpmzCalculatorType() = default;
 		Ncd_PpmzCalculatorType(const Ncd_PpmzCalculatorType&) = delete;

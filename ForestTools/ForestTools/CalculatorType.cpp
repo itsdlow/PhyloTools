@@ -31,10 +31,8 @@ namespace distanceMeasure
 	Ncd_7ZipCalculatorType* Ncd_7ZipCalculatorType::pInstance = nullptr;
 	
 	Ncd_MfcCalculatorType* Ncd_MfcCalculatorType::pInstance = nullptr;
-	Ncd_Mfc1CalculatorType* Ncd_Mfc1CalculatorType::pInstance = nullptr;
-	Ncd_Mfc2CalculatorType* Ncd_Mfc2CalculatorType::pInstance = nullptr;
 
-	Ncd_Geco1CalculatorType* Ncd_Geco1CalculatorType::pInstance = nullptr;
+	Ncd_GecoCalculatorType* Ncd_GecoCalculatorType::pInstance = nullptr;
 
 	Ncd_PpmzCalculatorType* Ncd_PpmzCalculatorType::pInstance = nullptr;
 	Ncd_Bzip2CalculatorType* Ncd_Bzip2CalculatorType::pInstance = nullptr;
@@ -100,20 +98,15 @@ distanceMeasure::Ncd_MfcCalculatorType::Ncd_MfcCalculatorType() :
 	formatName("Mfc%d")
 {
 }
-distanceMeasure::Ncd_Mfc1CalculatorType::Ncd_Mfc1CalculatorType() :
-NcdCalculatorType("Mfc1", "mfc1", SystemParameters::GetMFC1CommandString(), false)
+
+distanceMeasure::Ncd_GecoCalculatorType::Ncd_GecoCalculatorType() :
+	NcdCalculatorType("Geco", "co", SystemParameters::GetGecoCommandString(), false)
 {
 }
-distanceMeasure::Ncd_Mfc2CalculatorType::Ncd_Mfc2CalculatorType() :
-	NcdCalculatorType("Mfc2", "mfc2", SystemParameters::GetMFC2CommandString(), false)
-{
-}
-distanceMeasure::Ncd_Geco1CalculatorType::Ncd_Geco1CalculatorType() :
-	NcdCalculatorType("Geco", "co", SystemParameters::GetMFC2CommandString(), false)
-{
-}
+
 distanceMeasure::Ncd_PpmzCalculatorType::Ncd_PpmzCalculatorType() :
-	NcdCalculatorType("Ppmz", "ppmz", SystemParameters::GetPpmzCommandString(), true)
+	NcdCalculatorType("Ppmz", "ppmz%d", SystemParameters::GetPpmzCommandString(), true),
+	formatName("Ppmz%d")
 {
 }
 distanceMeasure::Ncd_Bzip2CalculatorType::Ncd_Bzip2CalculatorType() :
@@ -152,27 +145,21 @@ distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_7ZipCalculatorT
 {
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }
+
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_MfcCalculatorType::visit(RunFlags* pFlags)
 {
 	return new Ncd_MfcDistanceCalculator(pFlags, this->formatName, this->extension, this->compress_command_format_string);
 }
-distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc1CalculatorType::visit(RunFlags* pFlags)
-{
-	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
-}
-distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Mfc2CalculatorType::visit(RunFlags* pFlags)
-{
-	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
-}
 
-distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Geco1CalculatorType::visit(RunFlags* pFlags)
+distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_GecoCalculatorType::visit(RunFlags* pFlags)
 {
+	//TODO:: create Geco derived NCD calc
 	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
 }
 
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_PpmzCalculatorType::visit(RunFlags* pFlags)
 {
-	return new NcdDistanceCalculator(pFlags, this->name, this->extension, this->compress_command_format_string);
+	return new Ncd_PpmzDistanceCalculator(pFlags, this->formatName, this->extension, this->compress_command_format_string);
 }
 
 distanceMeasure::DistanceMeasureCalculator* distanceMeasure::Ncd_Bzip2CalculatorType::visit(RunFlags* pFlags)

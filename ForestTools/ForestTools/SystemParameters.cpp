@@ -45,15 +45,11 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//7zip
 		SystemParameters::Instance().zip7_command_string = "extra_tools\\7-Zip\\7z.exe a %s %s > nul";//'> nul' ignores system() output
 		//MFC
-		SystemParameters::Instance().mfc1_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -1 -o %s %s";
-		SystemParameters::Instance().mfc2_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -2 -o %s %s";
-		SystemParameters::Instance().mfc3_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -3 -o %s %s";
-
+		SystemParameters::Instance().mfcompress_command_string = "extra_tools\\MFCompress-win64-1.01\\MFCompress-win64-1.01\\MFCompressC64.exe -%d -o %s %s";
 		//bzip2
 		SystemParameters::Instance().bzip2_command_string = "echo bzip2 not available for WindowsOS";
-
 		//ppmz
-		SystemParameters::Instance().ppmz9_command_string = "echo PPMZ not available for WindowsOS";
+		SystemParameters::Instance().ppmz_command_string = "echo PPMZ not available for WindowsOS";
 
 		
 		//MrBayes
@@ -80,18 +76,12 @@ void SystemParameters::InitializeSystemDependentCommands()
 		//7Zip
 		SystemParameters::Instance().zip7_command_string = "./extra_tools/p7zip_16.02/bin/7z a %s %s > /dev/null";//'> nul' ignores system() output
 		//MFC
-		SystemParameters::Instance().mfc1_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -1 -o %s %s";
-		//SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -2 -o %s %s";
-		SystemParameters::Instance().mfc2_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
-		SystemParameters::Instance().mfc3_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -3 -o %s %s";
-		//
-
+		SystemParameters::Instance().mfcompress_command_string = "./extra_tools/MFCompress-linux64-1.01/MFCompressC -%d -o %s %s";
 		//bzip2
 		SystemParameters::Instance().bzip2_command_string = "bzip2 -c %s > %s";
-
 		//ppmz
 		//SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz %s %s";
-		SystemParameters::Instance().ppmz9_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz -c9 %s %s";
+		SystemParameters::Instance().ppmz_command_string = "./extra_tools/ppmz-master/ppmz-master/ppmz/ppmz -c%d %s %s";
 
 
 		//
